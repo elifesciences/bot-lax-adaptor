@@ -1,0 +1,8 @@
+*.pyc
+.tox/
+*~
+*.orig
+*.log
+venv/*
+*.swp
+.coverage

@@ -1,0 +1,2 @@
+hg+https://bitbucket.org/lskibinski/et3/
+git+https://github.com/elifesciences/elife-tools.git@master#egg=elifetools
