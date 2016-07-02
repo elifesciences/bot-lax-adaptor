@@ -1,2 +1,3 @@
 hg+https://bitbucket.org/lskibinski/et3/
 git+https://github.com/elifesciences/elife-tools.git@master#egg=elifetools
+python-slugify==1.2.0
