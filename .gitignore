@@ -6,3 +6,5 @@
 venv/*
 *.swp
 .coverage
+article-xml/
+article-json/

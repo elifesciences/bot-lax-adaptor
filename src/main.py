@@ -11,6 +11,7 @@ import time
 from slugify import slugify
 
 LOG = logging.getLogger(__name__)
+LOG.addHandler(logging.FileHandler('scrape.log'))
 
 def article_list(doc):
     return [parseJATS.parse_document(doc)]
@@ -70,6 +71,11 @@ description = OrderedDict([
     ])
 )])
 
+def main(doc):
+    try:
+        print json.dumps(render(description, article_list(doc))[0], indent=4)
+    except Exception as err:
+        LOG.exception("failed to scrape article", extra={'doc': doc})
+
 if __name__ == '__main__':
-    doc = sys.argv[1]
-    print json.dumps(render(description, article_list(doc)), indent=4)
+    main(sys.argv[1])
