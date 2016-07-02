@@ -37,11 +37,12 @@ def category_codes(cat_list):
     return [slugify(cat, stopwords=['and']) for cat in cat_list]
 
 description = OrderedDict([
-    ('journal', {
-        'id': [jats('journal_id')],
-        'title': [jats('journal_title')],
-        'issn': [jats('journal_issn', 'electronic')],
-    }),
+    ('journal', OrderedDict([
+        ('id', [jats('journal_id')]),
+        ('title', [jats('journal_title')]),
+        ('issn', [jats('journal_issn', 'electronic')]),
+    ])
+    ),
     ('article', OrderedDict([
         ('id', [jats('publisher_id')]),
         ('version', [nonxml('version')]),
