@@ -66,6 +66,12 @@ def todo(msg):
 def category_codes(cat_list):
     return [slugify(cat, stopwords=['and']) for cat in cat_list]
 
+def to_volume(volume):
+    if not volume:
+        # No volume on unpublished PoA articles, calculate based on current year
+        volume = time.gmtime()[0] - 2011
+    return volume
+
 #
 # 
 #
@@ -84,7 +90,7 @@ description = OrderedDict([
         ('title', [jats('title')]),
         ('published', [jats('pub_date'), to_isoformat]),
         #('volume', [jats('volume'), int]),
-        ('volume', pipeline(jats('volume'), int)),
+        ('volume', pipeline(jats('volume'), to_volume)),
         ('issue', [nonxml('issue')]),
         ('elocationId', [jats('elocation_id')]),
         ('copyright', OrderedDict([
