@@ -12,7 +12,7 @@ from slugify import slugify
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.FileHandler('scrape.log'))
-LOG.level = logging.DEBUG
+LOG.level = logging.INFO
 
 #
 # utils
@@ -59,7 +59,7 @@ def jats(funcname, *args, **kwargs):
 
 def todo(msg):
     def fn(val):
-        LOG.info(msg, extra={'value': val})
+        LOG.debug(msg, extra={'value': val})
         return val
     return fn
 
@@ -96,8 +96,8 @@ description = OrderedDict([
         ('research-organisms', [jats('research_organism')]),
         ('related-articles', [jats('related_article')]),
         ('abstract', OrderedDict([
-            ('doi', [jats('doi'), lambda v: "%s.001" % v, todo\
-                 ("is abstract doi logic cleverer than this?")]),
+            ('doi', [jats('doi'), lambda v: "%s.001" % v, \
+                todo("is abstract doi logic cleverer than this?")]),
             ('content', [jats('abstract'), todo("paragraphize this")])
         ])),
     ])
