@@ -8,3 +8,4 @@ venv/*
 .coverage
 article-xml/
 article-json/
+api-raml/
