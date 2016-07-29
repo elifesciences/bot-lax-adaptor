@@ -89,8 +89,7 @@ description = OrderedDict([
         ('doi', [jats('doi')]),
         ('title', [jats('title')]),
         ('published', [jats('pub_date'), to_isoformat]),
-        #('volume', [jats('volume'), int]),
-        ('volume', pipeline(jats('volume'), to_volume)),
+        ('volume', [jats('volume'), to_volume]),
         ('issue', [nonxml('issue')]),
         ('elocationId', [jats('elocation_id')]),
         ('copyright', OrderedDict([
