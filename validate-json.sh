@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source download-elife-api.sh
+source download-api-raml.sh
 echo > validate.log
 
 # trap ctrl-c and call ctrl_c()
