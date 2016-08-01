@@ -39,13 +39,28 @@ def pipeline(*pline):
 def to_isoformat(time_struct):
     return datetime.fromtimestamp(time.mktime(time_struct)).isoformat()
 
-def nonxml(attr):
-    #LOG.debug("non-xml value %r" % attr)
-    return None
+def note(msg, level=logging.DEBUG):
+    "a note logs some message about the value but otherwise doesn't interrupt the pipeline"
+    # if this is handy, consider adding to et3?
+    def fn(val):
+        LOG.log(level, msg, extra={'value': val})
+        return val
+    return fn
+
+def todo(msg):
+    "this value requires more work"
+    return note("todo: %s" % msg, logging.INFO)
+
+def nonxml(msg):
+    "we're scraping a value that doesn't appear in the XML"
+    return note("nonxml: %s" % msg, logging.WARN)
 
 #
 #
 #
+
+def is_poa(xmldoc):
+    return False
 
 def article_list(doc):
     return [parseJATS.parse_document(doc)]
@@ -55,12 +70,6 @@ def jats(funcname, *args, **kwargs):
     @wraps(actual_func)
     def fn(soup):
         return actual_func(soup, *args, **kwargs)
-    return fn
-
-def todo(msg):
-    def fn(val):
-        LOG.debug(msg, extra={'value': val})
-        return val
     return fn
 
 def category_codes(cat_list):
@@ -76,7 +85,7 @@ def to_volume(volume):
 # 
 #
 
-description = OrderedDict([
+VOR = OrderedDict([
     ('journal', OrderedDict([
         ('id', [jats('journal_id')]),
         ('title', [jats('journal_title')]),
@@ -84,19 +93,14 @@ description = OrderedDict([
     ])),
     ('article', OrderedDict([
         ('id', [jats('publisher_id')]),
-        ('version', [nonxml('version')]),
+        ('version', [None, nonxml('version')]),
         ('type', [jats('article_type')]),
         ('doi', [jats('doi')]),
         ('title', [jats('title')]),
         ('published', [jats('pub_date'), to_isoformat]),
         ('volume', [jats('volume'), to_volume]),
-        ('issue', [nonxml('issue')]),
         ('elocationId', [jats('elocation_id')]),
-        ('copyright', OrderedDict([
-            ('licence', [jats('license'), todo('extract the licence code')]),
-            ('holder', [jats('copyright_holder')]),
-        ])),
-        ('pdf', [nonxml('pdf url')]),
+        ('pdf', [None, nonxml('pdf url')]),
         ('subjects', [jats('category'), category_codes]),
         ('research-organisms', [jats('research_organism')]),
         ('related-articles', [jats('related_article')]),
@@ -105,8 +109,19 @@ description = OrderedDict([
                 todo("is abstract doi logic cleverer than this?")]),
             ('content', [jats('abstract'), todo("paragraphize this")])
         ])),
+
+        # non-snippet values
+
+        ('issue', [None, nonxml('article issue')]),
+        ('copyright', OrderedDict([
+            ('licence', [jats('license'), todo('extract the licence code')]),
+            ('holder', [jats('copyright_holder')]),
+            ('statement', [None, todo('copyright statement')]),
+        ])),
     ])
 )])
+
+POA = VOR
 
 #
 # bootstrap
@@ -114,6 +129,7 @@ description = OrderedDict([
 
 def main(doc):
     try:
+        description = POA if is_poa(doc) else VOR
         print json.dumps(render(description, article_list(doc))[0], indent=4)
     except Exception as err:
         LOG.exception("failed to scrape article", extra={'doc': doc})
