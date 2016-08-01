@@ -1,4 +1,4 @@
-import sys, json
+import sys, json, copy
 from et3.extract import path as p
 from et3.render import render
 from et3 import utils
@@ -85,7 +85,7 @@ def to_volume(volume):
 # 
 #
 
-VOR = OrderedDict([
+POA = OrderedDict([
     ('journal', OrderedDict([
         ('id', [jats('journal_id')]),
         ('title', [jats('journal_title')]),
@@ -121,7 +121,38 @@ VOR = OrderedDict([
     ])
 )])
 
-POA = VOR
+
+VOR = copy.deepcopy(POA)
+VOR['article'].update(OrderedDict([
+        ('impactStatement', [None]),
+        ('keywords', [None]),
+        ('digest', OrderedDict([
+            ('doi', [None]),
+            ('content', [None]),
+        ])),
+        ('body', [None]), # ha! so easy ...
+]))
+
+# if has attached image ...
+VOR['article'].update(OrderedDict([
+    ('image', OrderedDict([
+        ('alt', [None]),
+        ('sizes', OrderedDict([
+            ("2:1", OrderedDict([
+                ("900", ["https://...", todo("vor article image sizes 2:1 900")]),
+                ("1800", ["https://...", todo("vor article image sizes 2:1 1800")]),
+            ])),
+            ("16:9", OrderedDict([
+                ("250", ["https://...", todo("vor article image sizes 16:9 250")]),
+                ("500", ["https://...", todo("vor article image sizes 16:9 500")]),
+            ])),
+            ("1:1", OrderedDict([
+                ("70", ["https://...", todo("vor article image sizes 1:1 70")]),
+                ("140", ["https://...", todo("vor article image sizes 1:1 140")]),
+            ])),
+        ])),
+    ]))
+]))
 
 #
 # bootstrap
