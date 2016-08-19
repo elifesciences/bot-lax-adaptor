@@ -14,6 +14,36 @@ LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.FileHandler('scrape.log'))
 LOG.level = logging.INFO
 
+placeholder_version = 1
+placeholder_pdf = "elife-00007-v1.pdf"
+placeholder_status = "vor"
+placeholder_related_articles = "10.7554/eLife.00240"
+placeholder_image_alt = ""
+placeholder_abstract = {
+        "doi": "10.7554/eLife.09560.001",
+        "content": [
+            {
+                "type": "paragraph",
+                "text": "Abstract"
+            }
+        ]
+    }
+placeholder_license = "CC-BY-4.0"
+placeholder_body = [{"type": "section",
+            "title": "Introduction",
+            "content": [
+                {
+                    "type": "paragraph",
+                    "text": "Introduction"
+                }]}]
+placeholder_digest = {
+        "doi": "10.7554/eLife.09560.002",
+        "content": [
+            {
+                "type": "paragraph",
+                "text": "Digest"
+            }]}
+
 #
 # utils
 #
@@ -79,7 +109,7 @@ def to_volume(volume):
     if not volume:
         # No volume on unpublished PoA articles, calculate based on current year
         volume = time.gmtime()[0] - 2011
-    return volume
+    return int(volume)
 
 #
 # 
@@ -92,31 +122,27 @@ POA = OrderedDict([
         ('issn', [jats('journal_issn', 'electronic')]),
     ])),
     ('article', OrderedDict([
+        ('status', [placeholder_status, todo('status')]),
         ('id', [jats('publisher_id')]),
-        ('version', [None, nonxml('version')]),
+        ('version', [placeholder_version, todo('version')]),
         ('type', [jats('article_type')]),
         ('doi', [jats('doi')]),
         ('title', [jats('title')]),
         ('published', [jats('pub_date'), to_isoformat]),
         ('volume', [jats('volume'), to_volume]),
         ('elocationId', [jats('elocation_id')]),
-        ('pdf', [None, nonxml('pdf url')]),
+        ('pdf', [placeholder_pdf, todo('pdf')]),
         ('subjects', [jats('category'), category_codes]),
         ('research-organisms', [jats('research_organism')]),
-        ('related-articles', [jats('related_article')]),
-        ('abstract', OrderedDict([
-            ('doi', [jats('doi'), lambda v: "%s.001" % v, \
-                todo("is abstract doi logic cleverer than this?")]),
-            ('content', [jats('abstract'), todo("paragraphize this")])
-        ])),
+        ('related-articles', [placeholder_related_articles, todo('related-articles')]),
+        ('abstract', [placeholder_abstract, todo('abstract')]),
 
         # non-snippet values
 
-        ('issue', [None, nonxml('article issue')]),
         ('copyright', OrderedDict([
-            ('licence', [jats('license'), todo('extract the licence code')]),
+            ('license', [placeholder_license, todo('extract the licence code')]),
             ('holder', [jats('copyright_holder')]),
-            ('statement', [None, todo('copyright statement')]),
+            ('statement', [jats('license')]),
         ])),
     ])
 )])
@@ -124,19 +150,16 @@ POA = OrderedDict([
 
 VOR = copy.deepcopy(POA)
 VOR['article'].update(OrderedDict([
-        ('impactStatement', [None]),
-        ('keywords', [None]),
-        ('digest', OrderedDict([
-            ('doi', [None]),
-            ('content', [None]),
-        ])),
-        ('body', [None]), # ha! so easy ...
+        ('impactStatement', [jats('impact_statement')]),
+        ('keywords', [jats('keywords')]),
+        ('digest', [placeholder_digest, todo('digest')]),
+        ('body', [placeholder_body, todo('jats to parse body')]), # ha! so easy ...
 ]))
 
 # if has attached image ...
 VOR['article'].update(OrderedDict([
     ('image', OrderedDict([
-        ('alt', [None]),
+        ('alt', [placeholder_image_alt, todo('image alt')]),
         ('sizes', OrderedDict([
             ("2:1", OrderedDict([
                 ("900", ["https://...", todo("vor article image sizes 2:1 900")]),
