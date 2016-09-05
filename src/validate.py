@@ -8,11 +8,9 @@ def json_load(fname):
 def is_poa(contents):
     # todo: test, may be able to switch to 'status' in near future
     try:
-        if contents["article"]["status"] == "poa":
-            return True
-    except:
+        return contents["article"]["status"] == "poa"
+    except KeyError:
         return False
-    #return contents.has_key('body')
 
 def main(article):
     poa_schema = json_load('api-raml/dist/model/article-poa.v1.json')
