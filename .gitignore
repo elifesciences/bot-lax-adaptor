@@ -9,6 +9,6 @@ venv/*
 article-xml/
 article-json/
 api-raml/
-
+htmlcov/
 elife-tools/
 src/elifetools

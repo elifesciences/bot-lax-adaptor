@@ -15,18 +15,16 @@ module=""
 if [ ! -z "$args" ]; then
     module=".$args"
 fi
-green src"$module"
-
-coverage report
+green src"$module" --run-coverage
 
 # run coverage test
 # only report coverage if we're running a complete set of tests
 if [ -z "$module" ]; then
     # is only run if tests pass
     covered=$(coverage report | grep TOTAL | awk '{print $6}' | sed 's/%//')
-    if [ $covered -lt 90 ]; then
+    if [ $covered -lt 97 ]; then
         echo
-        echo "FAILED this project requires at least 90% coverage"
+        echo "FAILED this project requires at least 97% coverage"
         echo
         exit 1
     fi
