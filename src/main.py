@@ -153,5 +153,5 @@ def main(doc):
         LOG.exception("failed to scrape article", extra={'doc': doc})
         raise
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     main(sys.argv[1]) # pragma: no cover
