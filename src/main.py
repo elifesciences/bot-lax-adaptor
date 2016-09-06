@@ -159,11 +159,11 @@ VOR['article'].update(OrderedDict([
 def render_single(doc):
     soup = to_soup(doc)
     description = POA if parseJATS.is_poa(soup) else VOR
-    return render(description, [soup])
+    return render(description, [soup])[0]
 
 def main(doc):
     try:
-        print json.dumps(render_single(doc)[0], indent=4)
+        print json.dumps(render_single(doc), indent=4)
     except Exception as err:
         LOG.exception("failed to scrape article", extra={'doc': doc})
         raise
