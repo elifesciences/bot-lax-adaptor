@@ -1,4 +1,5 @@
 import sys, json, copy
+import et3
 from et3.extract import path as p
 from et3.render import render
 from et3 import utils
@@ -18,7 +19,7 @@ LOG.level = logging.INFO
 # utils
 #
 
-def item_id(item):
+def doi(item):
     return parseJATS.doi(item)
 
 def pipeline(*pline):
@@ -32,7 +33,7 @@ def pipeline(*pline):
                     return 'fn:' + x.__name__
                 return str(x)
             msg = "pipeline %r failed with: %s" % (map(forn, pline), err)
-            LOG.error(item_id(item) + " - caught exception attempting to render: " + msg)
+            LOG.error(doi(item) + " - caught exception attempting to render: " + msg)
             raise
     return wrapper
 
@@ -59,11 +60,8 @@ def nonxml(msg):
 #
 #
 
-def is_poa(xmldoc):
-    return False
-
-def article_list(doc):
-    return [parseJATS.parse_document(doc)]
+def to_soup(doc):
+    return parseJATS.parse_document(doc)
 
 def jats(funcname, *args, **kwargs):
     actual_func = getattr(parseJATS, funcname)
@@ -107,7 +105,7 @@ POA = OrderedDict([
         ('abstract', OrderedDict([
             ('doi', [jats('doi'), lambda v: "%s.001" % v, \
                 todo("is abstract doi logic cleverer than this?")]),
-            ('content', [jats('abstract'), todo("paragraphize this")])
+            ('content', [jats('full_abstract'), todo("paragraphize this")])
         ])),
 
         # non-snippet values
@@ -124,7 +122,7 @@ POA = OrderedDict([
 
 VOR = copy.deepcopy(POA)
 VOR['article'].update(OrderedDict([
-        ('impactStatement', [None]),
+        ('impactStatement', [jats('impact_statement')]),
         ('keywords', [None]),
         ('digest', OrderedDict([
             ('doi', [None]),
@@ -158,10 +156,14 @@ VOR['article'].update(OrderedDict([
 # bootstrap
 #
 
+def render_single(doc):
+    soup = to_soup(doc)
+    description = POA if parseJATS.is_poa(soup) else VOR
+    return render(description, [soup])
+
 def main(doc):
     try:
-        description = POA if is_poa(doc) else VOR
-        print json.dumps(render(description, article_list(doc))[0], indent=4)
+        print json.dumps(render_single(doc)[0], indent=4)
     except Exception as err:
         LOG.exception("failed to scrape article", extra={'doc': doc})
         raise

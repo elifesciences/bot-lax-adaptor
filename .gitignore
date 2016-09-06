@@ -9,3 +9,6 @@ venv/*
 article-xml/
 article-json/
 api-raml/
+
+elife-tools/
+src/elifetools
