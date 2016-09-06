@@ -22,21 +22,6 @@ LOG.level = logging.INFO
 def doi(item):
     return parseJATS.doi(item)
 
-def pipeline(*pline):
-    "a wrapper around the typical list that helps with debugging"
-    def wrapper(processor, item):
-        try:
-            return processor(item, pline)
-        except Exception as err:
-            def forn(x):
-                if hasattr(x, '__name__'):
-                    return 'fn:' + x.__name__
-                return str(x)
-            msg = "pipeline %r failed with: %s" % (map(forn, pline), err)
-            LOG.error(doi(item) + " - caught exception attempting to render: " + msg)
-            raise
-    return wrapper
-
 def to_isoformat(time_struct):
     return datetime.fromtimestamp(time.mktime(time_struct)).isoformat()
 
@@ -169,4 +154,4 @@ def main(doc):
         raise
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main(sys.argv[1]) # pragma: no cover
