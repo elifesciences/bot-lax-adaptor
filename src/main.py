@@ -8,6 +8,7 @@ import logging
 from collections import OrderedDict
 from datetime import datetime
 import time
+import calendar
 from slugify import slugify
 
 LOG = logging.getLogger(__name__)
@@ -67,7 +68,7 @@ def pipeline(*pline):
     return wrapper
 
 def to_isoformat(time_struct):
-    return datetime.fromtimestamp(time.mktime(time_struct)).isoformat()
+    return datetime.utcfromtimestamp(calendar.timegm(time_struct)).isoformat()
 
 def note(msg, level=logging.DEBUG):
     "a note logs some message about the value but otherwise doesn't interrupt the pipeline"
