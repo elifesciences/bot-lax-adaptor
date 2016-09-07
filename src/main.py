@@ -154,6 +154,8 @@ VOR['article'].update(OrderedDict([
         ('keywords', [jats('keywords')]),
         ('digest', [placeholder_digest, todo('digest')]),
         ('body', [jats('body')]), # ha! so easy ...
+        ('decisionLetter', [jats('decision_letter')]),
+        ('authorResponse', [jats('author_response')]),
 ]))
 
 # if has attached image ...
