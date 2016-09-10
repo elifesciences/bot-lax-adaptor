@@ -86,6 +86,46 @@ def nonxml(msg):
     "we're scraping a value that doesn't appear in the XML"
     return note("nonxml: %s" % msg, logging.WARN)
 
+def body_rewrite(body):
+    body = image_uri_rewrite(body)
+    body = mathml_rewrite(body)
+    return body
+
+def image_uri_rewrite(body_json):
+    base_uri = "https://example.org/"
+    for element in body_json:
+        if "type" in element and element["type"] == "image":
+            if "uri" in element:
+                element["uri"] = base_uri + element["uri"]
+                # Add or edit file extension
+                # TODO!!
+
+        if "content" in element:
+            try:
+                image_uri_rewrite(element["content"])
+            except TypeError:
+                # not iterable
+                pass
+    return body_json
+
+
+def mathml_rewrite(body_json):
+    for element in body_json:
+        if "type" in element and element["type"] == "mathml":
+            if "mathml" in element:
+                # Quick edits to get mathml to comply with the json schema
+                mathml = "<math>" + element["mathml"] + "</math>"
+                mathml = mathml.replace("<mml:", "<").replace("</mml:", "</")
+                element["mathml"] = mathml
+
+        if "content" in element:
+            try:
+                mathml_rewrite(element["content"])
+            except TypeError:
+                # not iterable
+                pass
+    return body_json
+
 #
 #
 #
@@ -154,9 +194,9 @@ VOR['article'].update(OrderedDict([
         ('impactStatement', [jats('impact_statement')]),
         ('keywords', [jats('keywords')]),
         ('digest', [placeholder_digest, todo('digest')]),
-        ('body', [jats('body')]), # ha! so easy ...
-        ('decisionLetter', [jats('decision_letter')]),
-        ('authorResponse', [jats('author_response')]),
+        ('body', [jats('body'), body_rewrite]), # ha! so easy ...
+        ('decisionLetter', [jats('decision_letter'), body_rewrite]),
+        ('authorResponse', [jats('author_response'), body_rewrite]),
 ]))
 
 # if has attached image ...
