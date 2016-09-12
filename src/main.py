@@ -44,7 +44,33 @@ placeholder_digest = {
                 "type": "paragraph",
                 "text": "Digest"
             }]}
-
+placeholder_authorLine = "eLife et al"
+placeholder_authors = [{
+            "type": "person",
+            "name": {
+                "preferred": "Lee R Berger",
+                "index": "Berger, Lee R"
+            },
+            "affiliations": [
+                {
+                    "name": [
+                        "Evolutionary Studies Institute and Centre of Excellence in PalaeoSciences",
+                        "University of the Witwatersrand"
+                    ],
+                    "address": {
+                        "formatted": [
+                            "Johannesburg",
+                            "South Africa"
+                        ],
+                        "components": {
+                            "locality": [
+                                "Johannesburg"
+                            ],
+                            "country": "South Africa"
+                        }
+                    }
+                }]}
+                ]
 #
 # utils
 #
@@ -185,6 +211,9 @@ POA = OrderedDict([
             ('holder', [jats('copyright_holder')]),
             ('statement', [jats('license')]),
         ])),
+        ('authorLine', [placeholder_authorLine, todo('authorLine')]),
+        ('authors', [placeholder_authors, todo('format authors')])
+        
     ])
 )])
 
