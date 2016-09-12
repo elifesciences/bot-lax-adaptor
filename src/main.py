@@ -125,13 +125,14 @@ def image_uri_rewrite(body_json):
                 element["uri"] = base_uri + element["uri"]
                 # Add or edit file extension
                 # TODO!!
+        for content_index in ["content", "supplements"]:
+            if content_index in element:
+                try:
+                    image_uri_rewrite(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
 
-        if "content" in element:
-            try:
-                image_uri_rewrite(element["content"])
-            except TypeError:
-                # not iterable
-                pass
     return body_json
 
 
