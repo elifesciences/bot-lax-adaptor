@@ -16,9 +16,7 @@ LOG.addHandler(logging.FileHandler('scrape.log'))
 LOG.level = logging.INFO
 
 placeholder_version = 1
-placeholder_pdf = "elife-00007-v1.pdf"
-placeholder_status = "vor"
-placeholder_related_articles = "10.7554/eLife.00240"
+
 placeholder_image_alt = ""
 placeholder_abstract = {
         "doi": "10.7554/eLife.09560.001",
@@ -29,14 +27,6 @@ placeholder_abstract = {
             }
         ]
     }
-placeholder_license = "CC-BY-4.0"
-placeholder_body = [{"type": "section",
-            "title": "Introduction",
-            "content": [
-                {
-                    "type": "paragraph",
-                    "text": "Introduction"
-                }]}]
 placeholder_digest = {
         "doi": "10.7554/eLife.09560.002",
         "content": [
@@ -112,6 +102,67 @@ def nonxml(msg):
     "we're scraping a value that doesn't appear in the XML"
     return note("nonxml: %s" % msg, logging.WARN)
 
+def display_channel_to_article_type(display_channel_list):
+    types = {}
+    types["Correction"] = "correction"
+    types["Editorial"] = "editorial"
+    types["Feature Article"] = "feature"
+    types["Feature article"] = "feature"
+    types["Insight"] = "insight"
+    types["Registered Report"] = "registered-report"
+    types["Research Advance"] = "research-advance"
+    types["Research Article"] = "research-article"
+    types["Research article"] = "research-article"
+    types["Short report"] = "short-report"
+    types["Tools and Resources"] = "tools-resources"
+    # Note: have not seen the below ones yet, guessing
+    types["Research exchange"] = "research-exchange"
+    types["Retraction"] = "retraction"
+    types["Replication study"] = "replication-study"
+    if display_channel_list:
+        #try:
+        display_channel = display_channel_list[0]
+        #except KeyError:
+        #    display_channel = None
+        if display_channel:
+            for key, value in types.iteritems():
+                if display_channel == key:
+                    return value
+
+def license_url_to_license(license_url):
+    if license_url:
+        if license_url == "http://creativecommons.org/licenses/by/3.0/":
+            return "CC-BY-3.0"
+        if license_url == "http://creativecommons.org/licenses/by/4.0/":
+            return "CC-BY-4.0"
+        if license_url == "http://creativecommons.org/publicdomain/zero/1.0/":
+            return "CC0-1.0"
+
+def related_article_to_related_articles(related_article_list):
+    related_articles = []
+    if related_article_list:
+        for related in related_article_list:
+            try:
+                doi = related["xlink_href"]
+            except KeyError:
+                continue
+            if doi:
+                related_articles.append(doi.split('.')[-1])
+    if len(related_articles) <= 0:
+        return None
+    return related_articles
+
+def is_poa_to_status(is_poa):
+    if is_poa is True:
+        return "poa"
+    elif is_poa is False:
+        return "vor"
+    return None
+
+def self_uri_to_pdf(self_uri_list):
+    if self_uri_list:
+        return self_uri_list[0]["xlink_href"]
+
 def body_rewrite(body):
     body = image_uri_rewrite(body)
     body = mathml_rewrite(body)
@@ -180,6 +231,30 @@ def to_volume(volume):
         volume = time.gmtime()[0] - 2011
     return int(volume)
 
+def clean_json(article_json):
+    # Remove null or blank elements
+
+    remove_if_none = ["pdf", "relatedArticles"]
+    for remove_index in remove_if_none:
+        if article_json["article"][remove_index] is None:
+            del article_json["article"][remove_index]
+
+    remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse"]
+    for remove_index in remove_if_empty:
+        if (article_json["article"].get(remove_index) is not None
+            and (
+                article_json["article"].get(remove_index) == ""
+                or article_json["article"].get(remove_index) == []
+                or article_json["article"].get(remove_index) == {})):
+            del article_json["article"][remove_index]
+
+    remove_from_copyright_if_none = ["holder"]
+    for remove_index in remove_from_copyright_if_none:
+        if article_json["article"]["copyright"][remove_index] is None:
+            del article_json["article"]["copyright"][remove_index]
+
+    return article_json
+
 #
 # 
 #
@@ -191,25 +266,24 @@ POA = OrderedDict([
         ('issn', [jats('journal_issn', 'electronic')]),
     ])),
     ('article', OrderedDict([
-        ('status', [placeholder_status, todo('status')]),
+        ('status', [jats('is_poa'), is_poa_to_status]),
         ('id', [jats('publisher_id')]),
         ('version', [placeholder_version, todo('version')]),
-        ('type', [jats('article_type')]),
+        ('type', [jats('display_channel'), display_channel_to_article_type]),
         ('doi', [jats('doi')]),
         ('title', [jats('title')]),
         ('published', [jats('pub_date'), to_isoformat]),
         ('volume', [jats('volume'), to_volume]),
         ('elocationId', [jats('elocation_id')]),
-        ('pdf', [placeholder_pdf, todo('pdf')]),
+        ('pdf', [jats('self_uri'), self_uri_to_pdf]),
         ('subjects', [jats('category'), category_codes]),
         ('research-organisms', [jats('research_organism')]),
-        ('related-articles', [placeholder_related_articles, todo('related-articles')]),
         ('abstract', [placeholder_abstract, todo('abstract')]),
 
         # non-snippet values
 
         ('copyright', OrderedDict([
-            ('license', [placeholder_license, todo('extract the licence code')]),
+            ('license', [jats('license_url'), license_url_to_license]),
             ('holder', [jats('copyright_holder')]),
             ('statement', [jats('license')]),
         ])),
@@ -224,6 +298,7 @@ VOR = copy.deepcopy(POA)
 VOR['article'].update(OrderedDict([
         ('impactStatement', [jats('impact_statement')]),
         ('keywords', [jats('keywords')]),
+        ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
         ('digest', [placeholder_digest, todo('digest')]),
         ('body', [jats('body'), body_rewrite]), # ha! so easy ...
         ('decisionLetter', [jats('decision_letter'), body_rewrite]),
@@ -258,7 +333,8 @@ VOR['article'].update(OrderedDict([
 def main(doc):
     try:
         description = POA if is_poa(doc) else VOR
-        print json.dumps(render(description, article_list(doc))[0], indent=4)
+        article_json = clean_json(render(description, article_list(doc))[0])
+        print json.dumps(article_json, indent=4)
     except Exception as err:
         LOG.exception("failed to scrape article", extra={'doc': doc})
         raise
