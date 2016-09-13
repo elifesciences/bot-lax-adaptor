@@ -120,12 +120,13 @@ def body_rewrite(body):
 def image_uri_rewrite(body_json):
     base_uri = "https://example.org/"
     for element in body_json:
-        if "type" in element and element["type"] == "image":
+        if (("type" in element and element["type"] == "image") or
+            ("mediaType" in element)):
             if "uri" in element:
                 element["uri"] = base_uri + element["uri"]
                 # Add or edit file extension
                 # TODO!!
-        for content_index in ["content", "supplements"]:
+        for content_index in ["content", "supplements", "sourceData"]:
             if content_index in element:
                 try:
                     image_uri_rewrite(element[content_index])
