@@ -62,6 +62,7 @@ placeholder_authors = [{
                     }
                 }]}
                 ]
+placeholder_copyright_holder = "Copyright holder for CC0 license is blank, this is a placeholder waiting for a schema solution that validates"
 #
 # utils
 #
@@ -237,7 +238,8 @@ def clean_json(article_json):
 
     remove_if_none = ["pdf", "relatedArticles"]
     for remove_index in remove_if_none:
-        if article_json["article"][remove_index] is None:
+        if (remove_index in article_json["article"]
+            and article_json["article"][remove_index] is None):
             del article_json["article"][remove_index]
 
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse"]
@@ -252,7 +254,8 @@ def clean_json(article_json):
     remove_from_copyright_if_none = ["holder"]
     for remove_index in remove_from_copyright_if_none:
         if article_json["article"]["copyright"][remove_index] is None:
-            del article_json["article"]["copyright"][remove_index]
+            #del article_json["article"]["copyright"][remove_index]
+            article_json["article"]["copyright"]["holder"] = placeholder_copyright_holder
 
     return article_json
 
