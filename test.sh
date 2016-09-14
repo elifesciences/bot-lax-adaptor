@@ -8,6 +8,9 @@ set -e # everything must pass
 # activate venv
 . ./venv/bin/activate
 
+# lint
+. ./.lint.sh
+
 # run tests
 export PYTHONPATH="src"
 args="$@"

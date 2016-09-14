@@ -1,10 +1,7 @@
 import sys, json, copy
-import et3
-from et3.extract import path as p
 from et3.render import render
-from et3 import utils
 from elifetools import parseJATS
-from functools import partial, wraps
+from functools import wraps
 import logging
 from collections import OrderedDict
 from datetime import datetime
@@ -320,10 +317,9 @@ def render_single(doc):
 
 def main(doc):
     try:
-        description = POA if is_poa(doc) else VOR
-        article_json = clean_json(render(description, article_list(doc))[0])
+        article_json = clean_json(render_single(doc))
         print json.dumps(article_json, indent=4)
-    except Exception as err:
+    except Exception:
         LOG.exception("failed to scrape article", extra={'doc': doc})
         raise
 
