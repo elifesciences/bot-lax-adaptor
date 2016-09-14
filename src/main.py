@@ -320,8 +320,9 @@ def render_single(doc):
 
 def main(doc):
     try:
-        description = POA if is_poa(doc) else VOR
-        article_json = clean_json(render(description, article_list(doc))[0])
+        soup = to_soup(doc)
+        description = POA if parseJATS.is_poa(soup) else VOR
+        article_json = clean_json(render(description, [soup])[0])
         print json.dumps(article_json, indent=4)
     except Exception as err:
         LOG.exception("failed to scrape article", extra={'doc': doc})
