@@ -9,7 +9,14 @@ function ctrl_c() {
     exit 1
 }
 
-for i in `ls ./article-json/*.json | sort -r`; do 
+passed=0
+failed=0
+for i in `ls ./article-json/*.json | sort`; do 
     echo "validating" $(basename $i)
-    python ./src/validate.py $i
+    python ./src/validate.py $i >> validate.log 2>&1 && ((passed+=1)) || {
+        echo "failed to validate $(basename $i)"
+        ((failed+=1))
+    }
 done
+echo "passed: $passed"
+echo "failed: $failed"

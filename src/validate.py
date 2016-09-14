@@ -7,15 +7,18 @@ def json_load(fname):
 
 def is_poa(contents):
     # todo: test, may be able to switch to 'status' in near future
-    return contents.has_key('body')
+    try:
+        return contents["article"]["status"] == "poa"
+    except KeyError:
+        return False
 
 def main(article):
     poa_schema = json_load('api-raml/dist/model/article-poa.v1.json')
     vor_schema = json_load('api-raml/dist/model/article-vor.v1.json')
     contents = json_load(article)
 
-    schema = vor_schema if is_poa(contents) else poa_schema
-    validate(contents, schema)
+    schema = vor_schema if not is_poa(contents) else poa_schema
+    validate(contents["article"], schema)
 
     #print poa_schema
     #print vor_schema
