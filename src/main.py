@@ -1,4 +1,5 @@
 import sys, json, copy
+import et3
 from et3.extract import path as p
 from et3.render import render
 from et3 import utils
@@ -65,23 +66,8 @@ placeholder_authors = [{
 # utils
 #
 
-def item_id(item):
+def doi(item):
     return parseJATS.doi(item)
-
-def pipeline(*pline):
-    "a wrapper around the typical list that helps with debugging"
-    def wrapper(processor, item):
-        try:
-            return processor(item, pline)
-        except Exception as err:
-            def forn(x):
-                if hasattr(x, '__name__'):
-                    return 'fn:' + x.__name__
-                return str(x)
-            msg = "pipeline %r failed with: %s" % (map(forn, pline), err)
-            LOG.error(item_id(item) + " - caught exception attempting to render: " + msg)
-            raise
-    return wrapper
 
 def to_isoformat(time_struct):
     return datetime.utcfromtimestamp(calendar.timegm(time_struct)).isoformat()
@@ -209,11 +195,8 @@ def mathml_rewrite(body_json):
 #
 #
 
-def is_poa(xmldoc):
-    return False
-
-def article_list(doc):
-    return [parseJATS.parse_document(doc)]
+def to_soup(doc):
+    return parseJATS.parse_document(doc)
 
 def jats(funcname, *args, **kwargs):
     actual_func = getattr(parseJATS, funcname)
@@ -330,6 +313,11 @@ VOR['article'].update(OrderedDict([
 # bootstrap
 #
 
+def render_single(doc):
+    soup = to_soup(doc)
+    description = POA if parseJATS.is_poa(soup) else VOR
+    return render(description, [soup])[0]
+
 def main(doc):
     try:
         description = POA if is_poa(doc) else VOR
@@ -340,4 +328,4 @@ def main(doc):
         raise
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main(sys.argv[1]) # pragma: no cover
