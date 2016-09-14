@@ -154,6 +154,24 @@ def body_rewrite(body):
     body = mathml_rewrite(body)
     return body
 
+def wrap_body_rewrite(body):
+    """JSON schema requires body to be wrapped in a section even if not present"""
+
+    if body[0]["type"] != "section":
+        # Wrap this one
+        new_body_section = OrderedDict()
+        new_body_section["type"] = "section"
+        new_body_section["title"] = ""
+        new_body_section["content"] = []
+        for body_block in body:
+            new_body_section["content"].append(body_block)
+        new_body = []
+        new_body.append(new_body_section)
+        body = new_body
+
+    # Continue with rewriting
+    return body_rewrite(body)
+
 def image_uri_rewrite(body_json):
     base_uri = "https://example.org/"
     for element in body_json:
@@ -283,7 +301,7 @@ VOR['article'].update(OrderedDict([
         ('keywords', [jats('keywords')]),
         ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
         ('digest', [placeholder_digest, todo('digest')]),
-        ('body', [jats('body'), body_rewrite]), # ha! so easy ...
+        ('body', [jats('body'), wrap_body_rewrite]), # ha! so easy ...
         ('decisionLetter', [jats('decision_letter'), body_rewrite]),
         ('authorResponse', [jats('author_response'), body_rewrite]),
 ]))
