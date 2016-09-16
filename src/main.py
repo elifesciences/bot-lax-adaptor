@@ -46,7 +46,6 @@ placeholder_authors = [{
                     }
                 }]}
                 ]
-placeholder_copyright_holder = "Copyright holder for CC0 license is blank, this is a placeholder waiting for a schema solution that validates"
 placeholder_box_title_if_missing = "Placeholder box title because we must have one"
 #
 # utils
@@ -255,8 +254,7 @@ def clean_json(article_json):
     remove_from_copyright_if_none = ["holder"]
     for remove_index in remove_from_copyright_if_none:
         if article_json["article"]["copyright"][remove_index] is None:
-            #del article_json["article"]["copyright"][remove_index]
-            article_json["article"]["copyright"]["holder"] = placeholder_copyright_holder
+            del article_json["article"]["copyright"][remove_index]
 
     # If abstract has no DOI, turn it into an impact statement
     if "abstract" in article_json["article"] and "impactStatement" not in article_json["article"]:
