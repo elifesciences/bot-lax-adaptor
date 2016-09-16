@@ -1,5 +1,5 @@
 hg+https://bitbucket.org/lskibinski/et3/
 #git+https://github.com/elifesciences/elife-tools.git@master#egg=elifetools
-git+https://github.com/gnott/elife-tools.git@feature-body-back#egg=elifetools
+git+https://github.com/elifesciences/elife-tools.git@develop#egg=elifetools
 python-slugify==1.2.0
 jsonschema==2.5.1

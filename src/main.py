@@ -63,6 +63,7 @@ placeholder_authors = [{
                 }]}
                 ]
 placeholder_copyright_holder = "Copyright holder for CC0 license is blank, this is a placeholder waiting for a schema solution that validates"
+placeholder_box_title_if_missing = "Placeholder box title because we must have one"
 #
 # utils
 #
@@ -153,6 +154,7 @@ def self_uri_to_pdf(self_uri_list):
 def body_rewrite(body):
     body = image_uri_rewrite(body)
     body = mathml_rewrite(body)
+    body = fix_box_title_if_missing(body)
     return body
 
 def wrap_body_rewrite(body):
@@ -208,6 +210,21 @@ def mathml_rewrite(body_json):
             except TypeError:
                 # not iterable
                 pass
+    return body_json
+
+def fix_box_title_if_missing(body_json):
+    for element in body_json:
+        if "type" in element and element["type"] == "box":
+            if "title" not in element:
+                element["title"] = placeholder_box_title_if_missing
+        for content_index in ["content"]:
+            if content_index in element:
+                try:
+                    fix_box_title_if_missing(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
+
     return body_json
 
 #
