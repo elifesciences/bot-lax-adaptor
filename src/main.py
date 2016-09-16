@@ -19,22 +19,6 @@ LOG.level = logging.INFO
 placeholder_version = 1
 
 placeholder_image_alt = ""
-placeholder_abstract = {
-        "doi": "10.7554/eLife.09560.001",
-        "content": [
-            {
-                "type": "paragraph",
-                "text": "Abstract"
-            }
-        ]
-    }
-placeholder_digest = {
-        "doi": "10.7554/eLife.09560.002",
-        "content": [
-            {
-                "type": "paragraph",
-                "text": "Digest"
-            }]}
 placeholder_authorLine = "eLife et al"
 placeholder_authors = [{
             "type": "person",
@@ -253,7 +237,7 @@ def to_volume(volume):
 def clean_json(article_json):
     # Remove null or blank elements
 
-    remove_if_none = ["pdf", "relatedArticles"]
+    remove_if_none = ["pdf", "relatedArticles", "digest", "abstract"]
     for remove_index in remove_if_none:
         if (remove_index in article_json["article"]
             and article_json["article"][remove_index] is None):
@@ -273,6 +257,14 @@ def clean_json(article_json):
         if article_json["article"]["copyright"][remove_index] is None:
             #del article_json["article"]["copyright"][remove_index]
             article_json["article"]["copyright"]["holder"] = placeholder_copyright_holder
+
+    # If abstract has no DOI, turn it into an impact statement
+    if "abstract" in article_json["article"] and "impactStatement" not in article_json["article"]:
+        if "doi" not in article_json["article"]["abstract"]:
+            # Take the first paragraph text
+            abstract_text = article_json["article"]["abstract"]["content"][0]["text"]
+            article_json["article"]["impactStatement"] = abstract_text
+            del article_json["article"]["abstract"]
 
     return article_json
 
@@ -299,7 +291,7 @@ POA = OrderedDict([
         ('pdf', [jats('self_uri'), self_uri_to_pdf]),
         ('subjects', [jats('category'), category_codes]),
         ('research-organisms', [jats('research_organism')]),
-        ('abstract', [placeholder_abstract, todo('abstract')]),
+        ('abstract', [jats('abstract_json')]),
 
         # non-snippet values
 
@@ -320,7 +312,7 @@ VOR['article'].update(OrderedDict([
         ('impactStatement', [jats('impact_statement')]),
         ('keywords', [jats('keywords')]),
         ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
-        ('digest', [placeholder_digest, todo('digest')]),
+        ('digest', [jats('digest_json')]),
         ('body', [jats('body'), wrap_body_rewrite]), # ha! so easy ...
         ('decisionLetter', [jats('decision_letter'), body_rewrite]),
         ('authorResponse', [jats('author_response'), body_rewrite]),
