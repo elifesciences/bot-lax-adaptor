@@ -2,6 +2,8 @@
 
 set -e # everything must pass
 
+export PYTHONPATH="src"
+
 # ensure the venv is installed
 . ./install.sh &> /dev/null
 
@@ -12,13 +14,12 @@ set -e # everything must pass
 . ./.lint.sh
 
 # run tests
-export PYTHONPATH="src"
 args="$@"
 module=""
 if [ ! -z "$args" ]; then
     module=".$args"
 fi
-green src"$module" --run-coverage
+green src"$module" --run-coverage --failfast
 
 # run coverage test
 # only report coverage if we're running a complete set of tests
