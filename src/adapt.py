@@ -1,9 +1,12 @@
+import dateutil
+import subprocess
 import json
 from datetime import datetime
 import os
 from os.path import join
 import requests
-from . import main, fs_adaptor
+#from . import main, fs_adaptor
+import main, fs_adaptor
 from functools import partial
 from jsonschema import validate
 from jsonschema import ValidationError
@@ -14,37 +17,93 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
-PROJECT_DIR = os.path.basename(__name__)
+DEBUG = True
+PATHS_TO_LAX = [
+    '/srv/lax/',
+    '/home/luke/dev/python/lax/'
+]
+PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
-INVALID, ERROR = 'invalid', 'error'
+INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error'
 
-print PROJECT_DIR
-exit()
+def json_dumps(obj):
+    "drop-in for json.dumps that handles datetime objects."
+    def datetime_handler(obj):
+        if hasattr(obj, 'isoformat'):
+            return {"-val": obj.isoformat(), "-type": "datetime"}
+        else:
+            raise TypeError, 'Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj))
+    return json.dumps(obj, default=datetime_handler)
+
+def json_loads(string):
+    def datetime_handler(obj):
+        if not obj.get("-type"):
+            return obj
+        return dateutil.parser.parse
+    return json.loads(string, object_hook=datetime_handler)
 
 def doresponse(outgoing, response):
-    outgoing.write(response)
-    LOG.error(response)
+    json_response = json_dumps(response)
+    outgoing.write(json_response)
+    LOG.error(json_response)
     return response
 
-def call_lax(action, msid, version, force, article_json):
-    cmd = "./manage.sh ingest"
-    results = os.system(cmd)
-    if results.fail:
-        raise StateError("lax says no")
-    if results.error:
-        raise RuntimeError("somethign basdf happened")
-    return results
-    
-def download(location):
-    """
-    download file, convert and pipe content straight into lax with transparent cache?
+def _run_script(args, article_content):
+    try:
+        # https://docs.python.org/2/library/subprocess.html#subprocess.check_output
+        process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE) # returns stdout
+        stdout, stderr = process.communicate(article_content)
+        return stdout
+    except subprocess.CalledProcessError as err:
+        # non-zero response
+        retcode = err.returncode
+        LOG.error("got return code calling lax: %s", retcode)
+        raise
 
-    """
-    file_contents = requests.get(location)
+def get_exec():
+    dirname = filter(os.path.exists, PATHS_TO_LAX)
+    assert dirname, "could not find lax"
+    script = join(dirname[0], "manage.sh")
+    assert os.path.exists(script), "could not find lax's manage.sh script"
+    return script
+
+def call_lax(action, id, version, force, article_json):
+    cmd = [get_exec(), "ingest", "--" + action] #, article_json]
+    if force:
+        cmd += ["--force"]
+    raw_result = _run_script(cmd, article_json)
+    print raw_result
+    results = json_loads(raw_result)
+    status = results['status']
+    if status == INVALID:
+        raise StateError("lax says no")
+    if status == ERROR:
+        raise RuntimeError("something bad happened")
+    return {
+        "status": status,
+        "datetime": results['datetime']
+    }
+
+def file_handler(path):
+    assert path.startswith(PROJECT_DIR), \
+      "unsafe operation - refusing to read from a file location outside of project root. %r does not start with %r" % (path, PROJECT_DIR)
+    xml = open(path, 'r').read()
+    # write cache?
+    return xml
+
+def download(location):
+    "download file, convert and pipe content straight into lax + transparent cache"
+    protocol, path = location.split('://')
+    downloaderficationer = {
+        'https': lambda: requests.get(location).text,
+        # load files relative to adaptor root
+        'file': partial(file_handler, path)
+    }
+    file_contents = downloaderficationer[protocol]()
     return file_contents
 
 def subdict(data, *lst):
-    return {k:v for k,v in data if k in lst}
+    return {k:v for k,v in data.items() if k in lst}
 
 #
 #
@@ -54,14 +113,9 @@ def ingest(request):
     params = subdict(request, 'action', 'id', 'version')
     params.update({
         'force': request.get('force'),
-        'article_json': main.render_single(download(request['location']))
+        'article_json': json.dumps(main.render_single(download(request['location'])))
     })
-    results = call_lax(**params)
-    if results.fail:
-        raise StateError("lax says no")
-    if results.error:
-        raise RuntimeError("somethign basdf happened")
-    return results
+    return call_lax(**params)
 
 def publish(request):
     params = subdict(request, 'action', 'id', 'version')
@@ -85,14 +139,17 @@ def mkresponse(status, message=None, **kwargs):
 
 def validate_request(json_request):
     "validates incoming request"
+    request = json_loads(json_request)
+    schema = json.load(open(join(PROJECT_DIR, 'schema', 'request-schema.json'), 'r'))
     try:
-        request = json.loads(json_request)
-        schema = json.load(open(join(PROJECT_DIR, 'schema', 'request-schema.json')), 'r')
-        return validate(request, schema)
+        validate(request, schema)
+        LOG.info("request successfully validated")
+        valid_request = request
+        return valid_request
     
     except ValueError as err:
         # your json is broken
-        raise ValidationError(err.message)
+        raise ValidationError("validation error: '%s' for: %s" % (err.message, request))
     
     except ValidationError as err:
         # your json is incorrect
@@ -100,7 +157,7 @@ def validate_request(json_request):
         raise
 
 def handler(request, outgoing):
-    response = partial(doresponse, outgoing)    
+    response = partial(doresponse, outgoing)
     try:
         request = validate_request(request) # throws ValidationError
         actions = {
@@ -108,16 +165,23 @@ def handler(request, outgoing):
             INGEST_PUBLISH: ingest_publish,
             PUBLISH: publish
         }
-        return actions[request['action']]
+        results = response(actions[request['action']](request))
+        return response(mkresponse(**results))
 
     except StateError as err:
-        return response(mkresponse(INVALID, err.message()))
+        if DEBUG:
+            raise
+        return response(mkresponse(INVALID, err.message))
 
     except ValidationError as err:
-        return response(mkresponse(INVALID, "your request was incorrectly formed: %s" % err.message()))
+        if DEBUG:
+            raise
+        return response(mkresponse(INVALID, "your request was incorrectly formed: %s" % err.message))
 
     except Exception as err:
-        return response(mkresponse(ERROR, "an unhandled exception occured attempting to handle your request: %s" % err.message()))
+        if DEBUG:
+            raise
+        return response(mkresponse(ERROR, "an unhandled exception occured attempting to handle your request: %s" % err.message))
 
 #
 #
@@ -128,9 +192,9 @@ def read_from_sqs():
     incoming = outgoing = None
     return incoming, outgoing
 
-def read_from_fs():
+def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles')):
     "generates messages from a directory, writes responses to a log file"
-    incoming = fs_adaptor.IncomingQueue(join(PROJECT_DIR, 'article-xml'), INGEST_PUBLISH)
+    incoming = fs_adaptor.IncomingQueue(path, INGEST_PUBLISH)
     outgoing = fs_adaptor.OutgoingQueue() 
     return incoming, outgoing
 
