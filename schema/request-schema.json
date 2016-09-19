@@ -12,7 +12,7 @@
 		    "description": "the location of the article to ingest/publish",
 			"type": "string",
 			"format": "uri",
-			"pattern": "^https://"
+			"pattern": "^(https|file)://"
 		},
 		"id": {
 		    "description": "article identifier",
@@ -29,8 +29,8 @@
         },
 		"token": {
 			"description": "data to be returned to the sender once action complete",
-			"type": "string",
-		},
+			"type": "string"
+		}
 	},
 	"required": ["action", "location", "id", "version", "token"]
 }
