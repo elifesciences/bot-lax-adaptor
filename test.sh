@@ -27,7 +27,7 @@ if [ -z "$module" ]; then
     covered=$(coverage report | grep TOTAL | awk '{print $6}' | sed 's/%//')
     if [ $covered -lt 97 ]; then
         echo
-        echo "FAILED this project requires at least 97% coverage"
+        echo -e "\e[31mFAILED\e[0m this project requires at least 97% coverage"
         echo
         exit 1
     fi
