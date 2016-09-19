@@ -1,13 +1,8 @@
 import sys, StringIO
-import os, json
+import json
 from os.path import join
-from unittest import TestCase
+from .base import BaseCase
 import main
-
-class BaseCase(TestCase):
-    maxDiff = None
-    this_dir = os.path.realpath(os.path.dirname(__file__))
-    fixtures_dir = join(this_dir, 'fixtures')
 
 class TestArticleScrape(BaseCase):
     def setUp(self):
