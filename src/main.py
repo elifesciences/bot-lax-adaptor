@@ -1,4 +1,4 @@
-import sys, json, copy
+import os, sys, json, copy
 from et3.render import render
 from elifetools import parseJATS
 from functools import wraps
@@ -193,7 +193,9 @@ def mathml_rewrite(body_json):
 #
 
 def to_soup(doc):
-    return parseJATS.parse_document(doc)
+    if os.path.exists(doc):
+        return parseJATS.parse_document(doc)
+    return parseJATS.parse_xml(doc)
 
 def jats(funcname, *args, **kwargs):
     actual_func = getattr(parseJATS, funcname)
@@ -211,9 +213,9 @@ def to_volume(volume):
         volume = time.gmtime()[0] - 2011
     return int(volume)
 
-def clean_json(article_json):
+def clean(article_data):
     # Remove null or blank elements
-
+    article_json = article_data # we're dealing with json just yet ...
     remove_if_none = ["pdf", "relatedArticles"]
     for remove_index in remove_if_none:
         if article_json["article"][remove_index] is None:
@@ -313,11 +315,11 @@ VOR['article'].update(OrderedDict([
 def render_single(doc):
     soup = to_soup(doc)
     description = POA if parseJATS.is_poa(soup) else VOR
-    return render(description, [soup])[0]
+    return clean(render(description, [soup])[0])
 
 def main(doc):
     try:
-        article_json = clean_json(render_single(doc))
+        article_json = render_single(doc)
         print json.dumps(article_json, indent=4)
     except Exception:
         LOG.exception("failed to scrape article", extra={'doc': doc})
