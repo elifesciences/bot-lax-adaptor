@@ -21,32 +21,6 @@ placeholder_version = 1
 
 placeholder_image_alt = ""
 placeholder_authorLine = "eLife et al"
-placeholder_authors = [{
-            "type": "person",
-            "name": {
-                "preferred": "Lee R Berger",
-                "index": "Berger, Lee R"
-            },
-            "affiliations": [
-                {
-                    "name": [
-                        "Evolutionary Studies Institute and Centre of Excellence in PalaeoSciences",
-                        "University of the Witwatersrand"
-                    ],
-                    "address": {
-                        "formatted": [
-                            "Johannesburg",
-                            "South Africa"
-                        ],
-                        "components": {
-                            "locality": [
-                                "Johannesburg"
-                            ],
-                            "country": "South Africa"
-                        }
-                    }
-                }]}
-                ]
 placeholder_box_title_if_missing = "Placeholder box title because we must have one"
 #
 # utils
