@@ -11,6 +11,7 @@ from datetime import datetime
 import time
 import calendar
 from slugify import slugify
+import re
 
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.FileHandler('scrape.log'))
@@ -266,6 +267,15 @@ def clean_json(article_json):
 
     return article_json
 
+def authors_rewrite(authors):
+    # Clean up phone number format
+    for author in authors:
+        if "phoneNumbers" in author:
+            for i, phone in enumerate(author["phoneNumbers"]):
+                # Only one phone number so far, simple replace to validate
+                author["phoneNumbers"][i] = re.sub(r'[\(\) -]', '', phone)
+    return authors
+
 #
 # 
 #
@@ -299,7 +309,7 @@ POA = OrderedDict([
             ('statement', [jats('license')]),
         ])),
         ('authorLine', [placeholder_authorLine, todo('authorLine')]),
-        ('authors', [placeholder_authors, todo('format authors')])
+        ('authors', [jats('authors_json'), authors_rewrite])
         
     ])
 )])
