@@ -17,7 +17,7 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
-DEBUG = True
+DEBUG = False
 PATHS_TO_LAX = [
     '/srv/lax/',
     '/home/luke/dev/python/lax/'
@@ -42,23 +42,27 @@ def json_loads(string):
         return dateutil.parser.parse
     return json.loads(string, object_hook=datetime_handler)
 
+def run_script(args, user_input):
+    try:
+        process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        if user_input:
+            stdout, stderr = process.communicate(user_input)
+        else:
+            stdout, stderr = process.communicate()
+        return process.returncode, stdout
+    except IOError as err:
+        LOG.exception("unhandled I/O error attempting to call lax: %s" % err)
+        raise err
+
+#
+#
+#
+
 def doresponse(outgoing, response):
     json_response = json_dumps(response)
     outgoing.write(json_response)
     LOG.error(json_response)
     return response
-
-def _run_script(args, article_content):
-    try:
-        # https://docs.python.org/2/library/subprocess.html#subprocess.check_output
-        process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE) # returns stdout
-        stdout, stderr = process.communicate(article_content)
-        return stdout
-    except subprocess.CalledProcessError as err:
-        # non-zero response
-        retcode = err.returncode
-        LOG.error("got return code calling lax: %s", retcode)
-        raise
 
 def get_exec():
     dirname = filter(os.path.exists, PATHS_TO_LAX)
@@ -67,22 +71,37 @@ def get_exec():
     assert os.path.exists(script), "could not find lax's manage.sh script"
     return script
 
-def call_lax(action, id, version, force, article_json):
-    cmd = [get_exec(), "ingest", "--" + action] #, article_json]
+def call_lax(action, id, version, article_json=None, force=False, dry_run=True):
+    cmd = [
+        get_exec(),
+        "ingest",
+        "--" + action, # ll: --ingest+publish
+        "--id", str(id),
+        "--version", str(version),
+    ]
+    if dry_run:
+        cmd += ["--dry-run"]
     if force:
         cmd += ["--force"]
-    raw_result = _run_script(cmd, article_json)
-    print raw_result
-    results = json_loads(raw_result)
-    status = results['status']
-    if status == INVALID:
-        raise StateError("lax says no")
-    if status == ERROR:
-        raise RuntimeError("something bad happened")
-    return {
-        "status": status,
-        "datetime": results['datetime']
-    }
+    lax_stdout = None
+    try:
+        rc, lax_stdout = run_script(cmd, article_json)        
+        results = json_loads(lax_stdout)
+        status = results['status']
+        print results
+        if status == INVALID:
+            raise StateError("lax says no")
+        if status == ERROR:
+            raise RuntimeError("something bad happened")
+        
+        # successful response :)
+        return {
+            "status": status,
+            "datetime": results['datetime']
+        }
+    except ValueError as err:
+        # could not parse lax response. this is a lax error
+        raise RuntimeError("could not parse response from lax, expecting json, got error: %s" % err.message)
 
 def file_handler(path):
     assert path.startswith(PROJECT_DIR), \
@@ -108,23 +127,6 @@ def subdict(data, *lst):
 #
 #
 #
-
-def ingest(request):
-    params = subdict(request, 'action', 'id', 'version')
-    params.update({
-        'force': request.get('force'),
-        'article_json': json.dumps(main.render_single(download(request['location'])))
-    })
-    return call_lax(**params)
-
-def publish(request):
-    params = subdict(request, 'action', 'id', 'version')
-    params['force'] = request.get('force')
-    return call_lax(**params)
-
-def ingest_publish(request):
-    ingest(request)
-    return publish(request)
 
 def mkresponse(status, message=None, **kwargs):
     packet = {
@@ -160,12 +162,14 @@ def handler(request, outgoing):
     response = partial(doresponse, outgoing)
     try:
         request = validate_request(request) # throws ValidationError
-        actions = {
-            INGEST: ingest,
-            INGEST_PUBLISH: ingest_publish,
-            PUBLISH: publish
-        }
-        results = response(actions[request['action']](request))
+        params = subdict(request, 'action', 'id', 'version')
+        params['force'] = request.get('force')
+        if params['action'] in [INGEST, INGEST_PUBLISH]:
+            try:
+                params['article_json'] = json.dumps(main.render_single(download(request['location'])))
+            except:
+                raise RuntimeError("error parsing xml -> json")
+        results = call_lax(**params)
         return response(mkresponse(**results))
 
     except StateError as err:
