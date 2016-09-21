@@ -108,8 +108,18 @@ def self_uri_to_pdf(self_uri_list):
 def body_rewrite(body):
     body = image_uri_rewrite(body)
     body = mathml_rewrite(body)
+    body = fix_section_id_if_missing(body)
     body = fix_box_title_if_missing(body)
     return body
+
+def generate_section_id():
+    """section id attribute generator"""
+    global section_id_counter
+    try:
+        section_id_counter = section_id_counter + 1
+    except NameError:
+        section_id_counter = 1
+    return "phantom-s-" + str(section_id_counter)
 
 def wrap_body_rewrite(body):
     """JSON schema requires body to be wrapped in a section even if not present"""
@@ -118,7 +128,7 @@ def wrap_body_rewrite(body):
         # Wrap this one
         new_body_section = OrderedDict()
         new_body_section["type"] = "section"
-        new_body_section["id"] = "phantom-s-1"
+        new_body_section["id"] = generate_section_id()
         new_body_section["title"] = ""
         new_body_section["content"] = []
         for body_block in body:
@@ -176,6 +186,21 @@ def fix_box_title_if_missing(body_json):
             if content_index in element:
                 try:
                     fix_box_title_if_missing(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
+
+    return body_json
+
+def fix_section_id_if_missing(body_json):
+    for element in body_json:
+        if "type" in element and element["type"] == "section":
+            if "id" not in element:
+                element["id"] = generate_section_id()
+        for content_index in ["content"]:
+            if content_index in element:
+                try:
+                    fix_section_id_if_missing(element[content_index])
                 except TypeError:
                     # not iterable
                     pass
