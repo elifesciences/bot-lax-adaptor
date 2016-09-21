@@ -118,6 +118,7 @@ def wrap_body_rewrite(body):
         # Wrap this one
         new_body_section = OrderedDict()
         new_body_section["type"] = "section"
+        new_body_section["id"] = "phantom-s-1"
         new_body_section["title"] = ""
         new_body_section["content"] = []
         for body_block in body:
