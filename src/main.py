@@ -20,7 +20,6 @@ LOG.level = logging.INFO
 placeholder_version = 1
 
 placeholder_image_alt = ""
-placeholder_authorLine = "eLife et al"
 placeholder_box_title_if_missing = "Placeholder box title because we must have one"
 #
 # utils
@@ -282,7 +281,7 @@ POA = OrderedDict([
             ('holder', [jats('copyright_holder')]),
             ('statement', [jats('license')]),
         ])),
-        ('authorLine', [placeholder_authorLine, todo('authorLine')]),
+        ('authorLine', [jats('author_line')]),
         ('authors', [jats('authors_json'), authors_rewrite])
         
     ])
