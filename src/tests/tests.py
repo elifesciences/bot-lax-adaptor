@@ -1,13 +1,8 @@
 import sys, StringIO
-import os, json
+import json
 from os.path import join
-from unittest import TestCase
+from .base import BaseCase
 import main
-
-class BaseCase(TestCase):
-    maxDiff = None
-    this_dir = os.path.realpath(os.path.dirname(__file__))
-    fixtures_dir = join(this_dir, 'fixtures')
 
 class TestArticleScrape(BaseCase):
     def setUp(self):
@@ -23,8 +18,8 @@ class TestArticleScrape(BaseCase):
         self.assertEqual(main.doi(self.soup), expected_item_id)
 
     def test_to_volume(self):
-        this_year = 2016
-        expected_default = 2016 - 2011
+        this_year, first_year = 2016, 2011
+        expected_default = this_year - first_year
         cases = ["", {}, None, []]
         for case in cases:
             self.assertEqual(main.to_volume(case), expected_default)

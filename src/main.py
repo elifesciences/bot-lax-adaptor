@@ -1,10 +1,7 @@
-import sys, json, copy
-import et3
-from et3.extract import path as p
+import os, sys, json, copy
 from et3.render import render
-from et3 import utils
 from elifetools import parseJATS
-from functools import partial, wraps
+from functools import wraps
 import logging
 from collections import OrderedDict
 from datetime import datetime
@@ -189,7 +186,9 @@ def fix_box_title_if_missing(body_json):
 #
 
 def to_soup(doc):
-    return parseJATS.parse_document(doc)
+    if os.path.exists(doc):
+        return parseJATS.parse_document(doc)
+    return parseJATS.parse_xml(doc)
 
 def jats(funcname, *args, **kwargs):
     actual_func = getattr(parseJATS, funcname)
@@ -207,9 +206,9 @@ def to_volume(volume):
         volume = time.gmtime()[0] - 2011
     return int(volume)
 
-def clean_json(article_json):
+def clean(article_data):
     # Remove null or blank elements
-
+    article_json = article_data # we're dealing with json just yet ...
     remove_if_none = ["pdf", "relatedArticles", "digest", "abstract"]
     for remove_index in remove_if_none:
         if (remove_index in article_json["article"]
@@ -327,15 +326,12 @@ VOR['article'].update(OrderedDict([
 def render_single(doc):
     soup = to_soup(doc)
     description = POA if parseJATS.is_poa(soup) else VOR
-    return render(description, [soup])[0]
+    return clean(render(description, [soup])[0])
 
 def main(doc):
     try:
-        soup = to_soup(doc)
-        description = POA if parseJATS.is_poa(soup) else VOR
-        article_json = clean_json(render(description, [soup])[0])
-        print json.dumps(article_json, indent=4)
-    except Exception as err:
+        print json.dumps(render_single(doc), indent=4)
+    except Exception:
         LOG.exception("failed to scrape article", extra={'doc': doc})
         raise
 
