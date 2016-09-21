@@ -216,7 +216,8 @@ def clean(article_data):
             and article_json["article"][remove_index] is None):
             del article_json["article"][remove_index]
 
-    remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse"]
+    remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
+                       "researchOrganisms", "keywords"]
     for remove_index in remove_if_empty:
         if (article_json["article"].get(remove_index) is not None
             and (
@@ -271,7 +272,7 @@ POA = OrderedDict([
         ('elocationId', [jats('elocation_id')]),
         ('pdf', [jats('self_uri'), self_uri_to_pdf]),
         ('subjects', [jats('category'), category_codes]),
-        ('research-organisms', [jats('research_organism')]),
+        ('researchOrganisms', [jats('full_research_organism')]),
         ('abstract', [jats('abstract_json')]),
 
         # non-snippet values
@@ -291,7 +292,7 @@ POA = OrderedDict([
 VOR = copy.deepcopy(POA)
 VOR['article'].update(OrderedDict([
         ('impactStatement', [jats('impact_statement')]),
-        ('keywords', [jats('keywords')]),
+        ('keywords', [jats('full_keywords')]),
         ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
         ('digest', [jats('digest_json')]),
         ('body', [jats('body'), wrap_body_rewrite]), # ha! so easy ...
