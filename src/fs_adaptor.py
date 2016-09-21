@@ -30,9 +30,23 @@ class IncomingQueue(object):
     def close(self):
         pass
 
-class OutgoingQueue(object):    
+class OutgoingQueue(object):
+    def __init__(self):
+        self.passes = []
+        self.invalids = []
+        self.errors = []
+
     def write(self, string):
         LOG.info(string)
+        try:
+            struct = json.loads(string)
+            if struct['status'] in ['published', 'ingested']:
+                q = self.passes
+            else:
+                q = self.errors if struct['status'] == 'error' else self.invalids
+        except:
+            q = self.errors
+        q.append(string)
 
     def close(self):
         pass
