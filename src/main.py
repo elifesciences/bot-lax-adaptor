@@ -109,6 +109,7 @@ def body_rewrite(body):
     body = image_uri_rewrite(body)
     body = mathml_rewrite(body)
     body = fix_section_id_if_missing(body)
+    body = fix_paragraph_with_content(body)
     body = fix_box_title_if_missing(body)
     return body
 
@@ -124,7 +125,7 @@ def generate_section_id():
 def wrap_body_rewrite(body):
     """JSON schema requires body to be wrapped in a section even if not present"""
 
-    if body[0]["type"] != "section":
+    if "type" in body[0] and body[0]["type"] != "section":
         # Wrap this one
         new_body_section = OrderedDict()
         new_body_section["type"] = "section"
@@ -189,6 +190,26 @@ def fix_box_title_if_missing(body_json):
                 except TypeError:
                     # not iterable
                     pass
+
+    return body_json
+
+def fix_paragraph_with_content(body_json):
+    """
+    Hopefully a temporary fix, the parser is currently not handling
+    content inside a paragraph when the paragraph is just a wrapper
+    at the start of a body in an Insight article
+    This should take the content of a paragraph and add it to its parent
+    so the JSON has a chance to pass validation
+    """
+    for element in body_json:
+        if "type" in element and "content" in element:
+            for i, content_child in enumerate(element["content"]):
+                if ("type" in content_child
+                    and content_child["type"] == "paragraph"
+                    and "content" in content_child):
+                    for p_content in content_child["content"]:
+                        # Set its parent content to this content
+                        element["content"][i] = p_content
 
     return body_json
 
