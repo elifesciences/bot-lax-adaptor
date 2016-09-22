@@ -64,7 +64,7 @@ def doresponse(outgoing, response):
     LOG.error(json_response)
     return response
 
-def get_exec():
+def find_lax():
     dirname = filter(os.path.exists, PATHS_TO_LAX)
     assert dirname, "could not find lax"
     script = join(dirname[0], "manage.sh")
@@ -73,7 +73,7 @@ def get_exec():
 
 def call_lax(action, id, version, article_json=None, force=False, dry_run=True):
     cmd = [
-        get_exec(),
+        find_lax(),
         "ingest",
         "--" + action, # ll: --ingest+publish
         "--id", str(id),
