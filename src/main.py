@@ -15,50 +15,50 @@ LOG.level = logging.INFO
 
 placeholder_version = 1
 
-placeholder_image_alt = ""
 placeholder_abstract = {
-        "doi": "10.7554/eLife.09560.001",
-        "content": [
-            {
-                "type": "paragraph",
-                "text": "Abstract"
-            }
-        ]
-    }
+    "doi": "10.7554/eLife.09560.001",
+    "content": [{
+        "type": "paragraph",
+        "text": "Abstract"
+    }]
+}
+
 placeholder_digest = {
-        "doi": "10.7554/eLife.09560.002",
-        "content": [
-            {
-                "type": "paragraph",
-                "text": "Digest"
-            }]}
+    "doi": "10.7554/eLife.09560.002",
+    "content": [{
+        "type": "paragraph",
+        "text": "Digest"
+    }]
+}
+
 placeholder_authorLine = "eLife et al"
+
 placeholder_authors = [{
-            "type": "person",
-            "name": {
-                "preferred": "Lee R Berger",
-                "index": "Berger, Lee R"
-            },
-            "affiliations": [
-                {
-                    "name": [
-                        "Evolutionary Studies Institute and Centre of Excellence in PalaeoSciences",
-                        "University of the Witwatersrand"
-                    ],
-                    "address": {
-                        "formatted": [
-                            "Johannesburg",
-                            "South Africa"
-                        ],
-                        "components": {
-                            "locality": [
-                                "Johannesburg"
-                            ],
-                            "country": "South Africa"
-                        }
-                    }
-                }]}
-                ]
+    "type": "person",
+    "name": {
+        "preferred": "Lee R Berger",
+        "index": "Berger, Lee R"
+    },
+    "affiliations": [{
+        "name": [
+            "Evolutionary Studies Institute and Centre of Excellence in PalaeoSciences",
+            "University of the Witwatersrand"
+        ],
+        "address": {
+            "formatted": [
+                "Johannesburg",
+                "South Africa"
+            ],
+            "components": {
+                "locality": [
+                    "Johannesburg"
+                ],
+                "country": "South Africa"
+            }
+        }
+    }]
+}]
+
 #
 # utils
 #
@@ -85,41 +85,41 @@ def nonxml(msg):
     "we're scraping a value that doesn't appear in the XML"
     return note("nonxml: %s" % msg, logging.WARN)
 
+#
+#
+#
+
 def display_channel_to_article_type(display_channel_list):
-    types = {}
-    types["Correction"] = "correction"
-    types["Editorial"] = "editorial"
-    types["Feature Article"] = "feature"
-    types["Feature article"] = "feature"
-    types["Insight"] = "insight"
-    types["Registered Report"] = "registered-report"
-    types["Research Advance"] = "research-advance"
-    types["Research Article"] = "research-article"
-    types["Research article"] = "research-article"
-    types["Short report"] = "short-report"
-    types["Tools and Resources"] = "tools-resources"
-    # Note: have not seen the below ones yet, guessing
-    types["Research exchange"] = "research-exchange"
-    types["Retraction"] = "retraction"
-    types["Replication study"] = "replication-study"
-    if display_channel_list:
-        #try:
-        display_channel = display_channel_list[0]
-        #except KeyError:
-        #    display_channel = None
-        if display_channel:
-            for key, value in types.iteritems():
-                if display_channel == key:
-                    return value
+    if not display_channel_list:
+        return    
+    types = {
+        "Correction": "correction",
+        "Editorial": "editorial",
+        "Feature Article": "feature",
+        "Feature article": "feature",
+        "Insight": "insight",
+        "Registered Report": "registered-report",
+        "Research Advance": "research-advance",
+        "Research Article": "research-article",
+        "Research article": "research-article",
+        "Short report": "short-report",
+        "Tools and Resources": "tools-resources",
+        
+        # NOTE: have not seen the below ones yet, guessing
+        "Research exchange": "research-exchange",
+        "Retraction": "retraction",
+        "Replication study": "replication-study",
+    }
+    display_channel = display_channel_list[0]
+    return types.get(display_channel)
 
 def license_url_to_license(license_url):
-    if license_url:
-        if license_url == "http://creativecommons.org/licenses/by/3.0/":
-            return "CC-BY-3.0"
-        if license_url == "http://creativecommons.org/licenses/by/4.0/":
-            return "CC-BY-4.0"
-        if license_url == "http://creativecommons.org/publicdomain/zero/1.0/":
-            return "CC0-1.0"
+    idx = {
+        "http://creativecommons.org/licenses/by/3.0/": "CC-BY-3.0",
+        "http://creativecommons.org/licenses/by/4.0/": "CC-BY-4.0",
+        "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
+    }
+    return idx.get(license_url)
 
 def related_article_to_related_articles(related_article_list):
     related_articles = []
@@ -136,20 +136,11 @@ def related_article_to_related_articles(related_article_list):
     return related_articles
 
 def is_poa_to_status(is_poa):
-    if is_poa is True:
-        return "poa"
-    elif is_poa is False:
-        return "vor"
-    return None
+    return "poa" if is_poa else "vor"
 
 def self_uri_to_pdf(self_uri_list):
     if self_uri_list:
         return self_uri_list[0]["xlink_href"]
-
-def body_rewrite(body):
-    body = image_uri_rewrite(body)
-    body = mathml_rewrite(body)
-    return body
 
 def image_uri_rewrite(body_json):
     base_uri = "https://example.org/"
@@ -188,6 +179,12 @@ def mathml_rewrite(body_json):
                 pass
     return body_json
 
+def body_rewrite(body):
+    body = image_uri_rewrite(body)
+    body = mathml_rewrite(body)
+    return body
+
+
 #
 #
 #
@@ -207,19 +204,21 @@ def jats(funcname, *args, **kwargs):
 def category_codes(cat_list):
     return [slugify(cat, stopwords=['and']) for cat in cat_list]
 
+THIS_YEAR = time.gmtime()[0]
 def to_volume(volume):
     if not volume:
         # No volume on unpublished PoA articles, calculate based on current year
-        volume = time.gmtime()[0] - 2011
+        volume = THIS_YEAR - 2011
     return int(volume)
 
 def clean(article_data):
     # Remove null or blank elements
-    article_json = article_data # we're dealing with json just yet ...
+    article_json = article_data # we're not dealing with json just yet ...
     remove_if_none = ["pdf", "relatedArticles"]
     for remove_index in remove_if_none:
-        if article_json["article"][remove_index] is None:
-            del article_json["article"][remove_index]
+        if article_json["article"].has_key(remove_index):
+            if article_json["article"][remove_index] == None:
+                del article_json["article"][remove_index]
 
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse"]
     for remove_index in remove_if_empty:
@@ -232,8 +231,9 @@ def clean(article_data):
 
     remove_from_copyright_if_none = ["holder"]
     for remove_index in remove_from_copyright_if_none:
-        if article_json["article"]["copyright"][remove_index] is None:
-            del article_json["article"]["copyright"][remove_index]
+        if article_json["article"].get("copyright", {}).has_key(remove_index):
+            if article_json["article"]["copyright"][remove_index] is None:
+                del article_json["article"]["copyright"][remove_index]
 
     return article_json
 
@@ -276,7 +276,7 @@ POA.update(OrderedDict([
     ('authors', [placeholder_authors, todo('format authors')])
 ]))
 
-VOR_SNIPPET = copy.deepcopy(POA)
+VOR_SNIPPET = copy.deepcopy(POA_SNIPPET)
 VOR_SNIPPET.update(OrderedDict([
     ('impactStatement', [jats('impact_statement')]),    
 ]))
@@ -295,8 +295,7 @@ def mkdescription(poa=True):
     return OrderedDict([
         ('journal', JOURNAL),
         ('snippet', POA_SNIPPET if poa else VOR_SNIPPET),
-        ('article', POA if poa else VOR),
-      
+        ('article', POA if poa else VOR),      
     ])
 
 #

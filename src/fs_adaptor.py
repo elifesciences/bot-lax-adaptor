@@ -18,14 +18,15 @@ class IncomingQueue(object):
             _, msid, ver = os.path.split(path)[-1].split('-') # ll: ['elife', '09560', 'v1.xml']
             ver = int(ver[1]) # "v1.xml" -> 1
             LOG.debug("processing file: %s", path)
-            yield json.dumps({
+            request = {
                 'action': self.action,
                 'location': 'file://' + path,
                 'id': msid,
                 'version': ver,
                 'force': False,
                 'token': 'pants-party'
-            })
+            }
+            yield request
 
     def close(self):
         pass

@@ -1,65 +1,23 @@
-import dateutil
-import subprocess
+import copy
+from jsonschema import ValidationError
 import json
 from datetime import datetime
 import os
 from os.path import join
 import requests
-#from . import main, fs_adaptor
 import main, fs_adaptor
 from functools import partial
-from jsonschema import validate
-from jsonschema import ValidationError
+import utils
+from utils import StateError
+
+from conf import PATHS_TO_LAX, INVALID, ERROR, PROJECT_DIR, INGEST, INGEST_PUBLISH
 
 import logging
 LOG = logging.getLogger(__name__)
 
-class StateError(RuntimeError):
-    pass
-
-DEBUG = False
-PATHS_TO_LAX = [
-    '/srv/lax/',
-    '/home/luke/dev/python/lax/'
-]
-PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
-INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
-INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error'
-
-def json_dumps(obj):
-    "drop-in for json.dumps that handles datetime objects."
-    def datetime_handler(obj):
-        if hasattr(obj, 'isoformat'):
-            return {"-val": obj.isoformat(), "-type": "datetime"}
-        else:
-            raise TypeError, 'Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj))
-    return json.dumps(obj, default=datetime_handler)
-
-def json_loads(string):
-    def datetime_handler(obj):
-        if not obj.get("-type"):
-            return obj
-        return dateutil.parser.parse
-    return json.loads(string, object_hook=datetime_handler)
-
-def run_script(args, user_input):
-    try:
-        process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        if user_input:
-            stdout, stderr = process.communicate(user_input)
-        else:
-            stdout, stderr = process.communicate()
-        return process.returncode, stdout
-    except IOError as err:
-        LOG.exception("unhandled I/O error attempting to call lax: %s" % err)
-        raise err
-
-#
-#
-#
-
 def doresponse(outgoing, response):
-    json_response = json_dumps(response)
+    utils.validate_response(response)
+    json_response = utils.json_dumps(response)
     outgoing.write(json_response)
     LOG.error(json_response)
     return response
@@ -85,10 +43,9 @@ def call_lax(action, id, version, article_json=None, force=False, dry_run=True):
         cmd += ["--force"]
     lax_stdout = None
     try:
-        rc, lax_stdout = run_script(cmd, article_json)        
-        results = json_loads(lax_stdout)
+        rc, lax_stdout = utils.run_script(cmd, article_json)        
+        results = json.loads(lax_stdout)
         status = results['status']
-        print results
         if status == INVALID:
             raise StateError("lax says no")
         if status == ERROR:
@@ -124,11 +81,21 @@ def download(location):
 def subdict(data, *lst):
     return {k:v for k,v in data.items() if k in lst}
 
+def renkeys(data, pair_list):
+    data = copy.deepcopy(data)
+    for key, replacement in pair_list:
+        if data.has_key(key):
+            data[replacement] = data[key]
+            del data[key]
+    return data
+
 #
 #
 #
 
 def mkresponse(status, message=None, **kwargs):
+    request = kwargs.pop('request', {})
+    request = subdict(request, ['id', 'token'])
     packet = {
         "status": status,
         "message": message,
@@ -136,56 +103,71 @@ def mkresponse(status, message=None, **kwargs):
         "token": None,
         "datetime": datetime.now(),
     }
+    packet.update(request)
     packet.update(kwargs)
+    context = renkeys(packet, [("message", "status-message")])
+    LOG.error("returning an %s response", packet['status'], extra=context)
     return packet
 
-def validate_request(json_request):
-    "validates incoming request"
-    request = json_loads(json_request)
-    schema = json.load(open(join(PROJECT_DIR, 'schema', 'request-schema.json'), 'r'))
-    try:
-        validate(request, schema)
-        LOG.info("request successfully validated")
-        valid_request = request
-        return valid_request
-    
-    except ValueError as err:
-        # your json is broken
-        raise ValidationError("validation error: '%s' for: %s" % (err.message, request))
-    
-    except ValidationError as err:
-        # your json is incorrect
-        LOG.error("incoming message failed to validate against schema: %s" % err.message)
-        raise
-
-def handler(request, outgoing):
+def handler(json_request, outgoing):
     response = partial(doresponse, outgoing)
+    
     try:
-        request = validate_request(request) # throws ValidationError
-        params = subdict(request, 'action', 'id', 'version')
-        params['force'] = request.get('force')
-        if params['action'] in [INGEST, INGEST_PUBLISH]:
-            try:
-                params['article_json'] = json.dumps(main.render_single(download(request['location'])))
-            except:
-                raise RuntimeError("error parsing xml -> json")
-        results = call_lax(**params)
-        return response(mkresponse(**results))
-
-    except StateError as err:
-        if DEBUG:
-            raise
-        return response(mkresponse(INVALID, err.message))
-
+        request = utils.validate_request(json_request)
+    except ValueError as err:
+        # given bad data. who knows what it was. die
+        return response(mkresponse(ERROR, "request could not be parsed: %s" % json_request))
+    
     except ValidationError as err:
-        if DEBUG:
-            raise
-        return response(mkresponse(INVALID, "your request was incorrectly formed: %s" % err.message))
+        # data is readable, but it's in an unknown/invalid format. die
+        return response(mkresponse(ERROR, "request was incorrectly formed: %s" % err.message))
 
     except Exception as err:
-        if DEBUG:
-            raise
-        return response(mkresponse(ERROR, "an unhandled exception occured attempting to handle your request: %s" % err.message))
+        # die
+        msg = "unhandled error attempting to handle request: %s" % err.message
+        return response(mkresponse(ERROR, msg))
+
+    # we have a valid request :)
+
+    params = subdict(request, 'action', 'id', 'version')
+    params['force'] = request.get('force') # optional value
+    
+    # if we're to ingest/publish, then we expect a location to download article data
+    if params['action'] in [INGEST, INGEST_PUBLISH]:
+        try:
+            article_xml = download(request['location'])
+        except Exception as err:
+            msg = "failed to download article xml from %r: %s" % (request['location'], err.message)
+            return response(mkresponse(ERROR, msg, request=request))
+
+        try:
+            article_data = main.render_single(article_xml)
+        except Exception as err:
+            msg = "failed to render article-json from article-xml: %s" % err.message
+            return response(mkresponse(ERROR, msg, request=request))
+
+        try:
+            article_json = utils.json_dumps(article_data)
+        except ValueError as err:
+            msg = "failed to serialize article data to article-json: %s" % err.message
+            return response(mkresponse(ERROR, msg, request=request))
+
+        # phew! gauntlet ran, we're now confident of passing this article-json to lax
+        # lax may still reject the data as invalid, but we'll proxy that back if necessary
+        params['article_json'] = article_json
+
+    try:
+        lax_response = call_lax(**params)
+        return response(mkresponse(**lax_response))
+
+    except StateError as err:
+        # lax understood our request but rejected it :(
+        return response(mkresponse(INVALID, err.message, request=request))
+
+    except Exception as err:
+        # lax didn't understand us or broke
+        msg = "lax failed attempting to handle our request: %s"
+        return response(mkresponse(ERROR, msg, request=request))
 
 #
 #
