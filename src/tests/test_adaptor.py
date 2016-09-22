@@ -1,7 +1,16 @@
 import os
 from os.path import join
 from .base import BaseCase
+import adapt
 from adapt import read_from_fs, do
+import unittest
+
+def requires_lax(fn):
+    try:
+         adapt.find_lax()
+         return fn
+    except AssertionError:
+        return unittest.skip("missing lax")(fn)
 
 class Ingest(BaseCase):
     def setUp(self):
@@ -10,6 +19,7 @@ class Ingest(BaseCase):
     def tearDown(self):
         pass
 
+    @requires_lax
     def test_adaptor_v1(self):
         inc, out = read_from_fs(self.ingest_dir)
         do(inc, out)
