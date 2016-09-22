@@ -241,72 +241,63 @@ def clean(article_data):
 # 
 #
 
-POA = OrderedDict([
-    ('journal', OrderedDict([
-        ('id', [jats('journal_id')]),
-        ('title', [jats('journal_title')]),
-        ('issn', [jats('journal_issn', 'electronic')]),
+JOURNAL = OrderedDict([
+    ('id', [jats('journal_id')]),
+    ('title', [jats('journal_title')]),
+    ('issn', [jats('journal_issn', 'electronic')]),
+])
+
+SNIPPET = OrderedDict([
+    ('status', [jats('is_poa'), is_poa_to_status]), # shared by both POA and VOR snippets but not obvious in schema
+    ('id', [jats('publisher_id')]),
+    ('version', [placeholder_version, todo('version')]),
+    ('type', [jats('display_channel'), display_channel_to_article_type]),
+    ('doi', [jats('doi')]),
+    ('authorLine', [placeholder_authorLine, todo('authorLine')]),
+    ('title', [jats('title')]),
+    ('published', [jats('pub_date'), to_isoformat]),
+    ('volume', [jats('volume'), to_volume]),
+    ('elocationId', [jats('elocation_id')]),
+    ('pdf', [jats('self_uri'), self_uri_to_pdf]),
+    ('subjects', [jats('category'), category_codes]),
+    ('research-organisms', [jats('research_organism')]),
+    ('abstract', [placeholder_abstract, todo('abstract')]),
+])
+# https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-poa.v1.json#L689
+POA_SNIPPET = copy.deepcopy(SNIPPET)
+
+POA = copy.deepcopy(POA_SNIPPET)
+POA.update(OrderedDict([
+    ('copyright', OrderedDict([
+        ('license', [jats('license_url'), license_url_to_license]),
+        ('holder', [jats('copyright_holder')]),
+        ('statement', [jats('license')]),
     ])),
-    ('article', OrderedDict([
-        ('status', [jats('is_poa'), is_poa_to_status]),
-        ('id', [jats('publisher_id')]),
-        ('version', [placeholder_version, todo('version')]),
-        ('type', [jats('display_channel'), display_channel_to_article_type]),
-        ('doi', [jats('doi')]),
-        ('title', [jats('title')]),
-        ('published', [jats('pub_date'), to_isoformat]),
-        ('volume', [jats('volume'), to_volume]),
-        ('elocationId', [jats('elocation_id')]),
-        ('pdf', [jats('self_uri'), self_uri_to_pdf]),
-        ('subjects', [jats('category'), category_codes]),
-        ('research-organisms', [jats('research_organism')]),
-        ('abstract', [placeholder_abstract, todo('abstract')]),
+    ('authors', [placeholder_authors, todo('format authors')])
+]))
 
-        # non-snippet values
+VOR_SNIPPET = copy.deepcopy(POA)
+VOR_SNIPPET.update(OrderedDict([
+    ('impactStatement', [jats('impact_statement')]),    
+]))
 
-        ('copyright', OrderedDict([
-            ('license', [jats('license_url'), license_url_to_license]),
-            ('holder', [jats('copyright_holder')]),
-            ('statement', [jats('license')]),
-        ])),
-        ('authorLine', [placeholder_authorLine, todo('authorLine')]),
-        ('authors', [placeholder_authors, todo('format authors')])
-        
+VOR = copy.deepcopy(VOR_SNIPPET)
+VOR.update(OrderedDict([
+    ('keywords', [jats('keywords')]),
+    ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
+    ('digest', [placeholder_digest, todo('digest')]),
+    ('body', [jats('body'), body_rewrite]), # ha! so easy ...
+    ('decisionLetter', [jats('decision_letter'), body_rewrite]),
+    ('authorResponse', [jats('author_response'), body_rewrite]),
+]))
+
+def mkdescription(poa=True):
+    return OrderedDict([
+        ('journal', JOURNAL),
+        ('snippet', POA_SNIPPET if poa else VOR_SNIPPET),
+        ('article', POA if poa else VOR),
+      
     ])
-)])
-
-
-VOR = copy.deepcopy(POA)
-VOR['article'].update(OrderedDict([
-        ('impactStatement', [jats('impact_statement')]),
-        ('keywords', [jats('keywords')]),
-        ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
-        ('digest', [placeholder_digest, todo('digest')]),
-        ('body', [jats('body'), body_rewrite]), # ha! so easy ...
-        ('decisionLetter', [jats('decision_letter'), body_rewrite]),
-        ('authorResponse', [jats('author_response'), body_rewrite]),
-]))
-
-# if has attached image ...
-VOR['article'].update(OrderedDict([
-    ('image', OrderedDict([
-        ('alt', [placeholder_image_alt, todo('image alt')]),
-        ('sizes', OrderedDict([
-            ("2:1", OrderedDict([
-                ("900", ["https://...", todo("vor article image sizes 2:1 900")]),
-                ("1800", ["https://...", todo("vor article image sizes 2:1 1800")]),
-            ])),
-            ("16:9", OrderedDict([
-                ("250", ["https://...", todo("vor article image sizes 16:9 250")]),
-                ("500", ["https://...", todo("vor article image sizes 16:9 500")]),
-            ])),
-            ("1:1", OrderedDict([
-                ("70", ["https://...", todo("vor article image sizes 1:1 70")]),
-                ("140", ["https://...", todo("vor article image sizes 1:1 140")]),
-            ])),
-        ])),
-    ]))
-]))
 
 #
 # bootstrap
@@ -314,7 +305,7 @@ VOR['article'].update(OrderedDict([
 
 def render_single(doc):
     soup = to_soup(doc)
-    description = POA if parseJATS.is_poa(soup) else VOR
+    description = mkdescription(parseJATS.is_poa(soup))
     return clean(render(description, [soup])[0])
 
 def main(doc):
