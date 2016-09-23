@@ -27,6 +27,5 @@ class Ingest(BaseCase):
         self.assertEqual(len(out.invalids), 0)
         print 'errors::',out.errors
         self.assertEqual(len(out.errors), 0)
-        self.assertEqual(len(out.passes), len(os.listdir(self.ingest_dir)))
-        
-        
+        spanner = 1
+        self.assertEqual(len(out.passes), len(os.listdir(self.ingest_dir)) - spanner)

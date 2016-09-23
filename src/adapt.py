@@ -8,9 +8,8 @@ import requests
 import main, fs_adaptor
 from functools import partial
 import utils
-from utils import StateError
 
-from conf import PATHS_TO_LAX, INVALID, ERROR, PROJECT_DIR, INGEST, INGEST_PUBLISH
+from conf import PATHS_TO_LAX, ERROR, PROJECT_DIR, INGEST, INGEST_PUBLISH
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -20,10 +19,11 @@ def doresponse(outgoing, response):
         utils.validate_response(response)
         outgoing.write(utils.json_dumps(response))
         return response
-    except ValidationError:
+    except ValidationError as err:
         # response doesn't validate. this probably means
         # we had an error decoding request and have no id or token
         # because the message will not validate, we will not be sending it back
+        response['validation-error-msg'] = err.message
         outgoing.error(response)
         return response
 
@@ -34,7 +34,7 @@ def find_lax():
     assert os.path.exists(script), "could not find lax's manage.sh script"
     return script
 
-def call_lax(action, id, version, article_json=None, force=False, dry_run=True):
+def call_lax(action, id, version, token, article_json=None, force=False, dry_run=True):
     cmd = [
         find_lax(),
         "ingest",
@@ -50,15 +50,11 @@ def call_lax(action, id, version, article_json=None, force=False, dry_run=True):
     try:
         rc, lax_stdout = utils.run_script(cmd, article_json)        
         results = json.loads(lax_stdout)
-        status = results['status']
-        if status == INVALID:
-            raise StateError("lax says no")
-        if status == ERROR:
-            raise RuntimeError("something bad happened")
-        
-        # successful response :)
         return {
-            "status": status,
+            "id": id,
+            "requested-action": action,
+            "token": token,
+            "status": results['status'],
             "datetime": results['datetime']
         }
     except ValueError as err:
@@ -87,6 +83,7 @@ def subdict(data, *lst):
     return {k:v for k,v in data.items() if k in lst}
 
 def renkeys(data, pair_list):
+    "returns a copy of the given data with the list of oldkey->newkey pairs changes made"
     data = copy.deepcopy(data)
     for key, replacement in pair_list:
         if data.has_key(key):
@@ -98,9 +95,10 @@ def renkeys(data, pair_list):
 #
 #
 
-def mkresponse(status, message=None, **kwargs):
+def mkresponse(status, message=None, request={}, **kwargs):
     request = kwargs.pop('request', {})
-    request = subdict(request, ['id', 'token'])
+    request = subdict(request, ['id', 'token', 'action'])
+    request = renkeys(request, [("action", "requested-action")])
     packet = {
         "status": status,
         "message": message,
@@ -110,19 +108,26 @@ def mkresponse(status, message=None, **kwargs):
     }
     packet.update(request)
     packet.update(kwargs)
+    
+    # wrangle log context
     context = renkeys(packet, [("message", "status-message")])
     LOG.error("returning an %s response", packet['status'], extra=context)
+
+    # bit ick
+    if not packet['message']:
+        del packet['message']
+
     return packet
 
 def handler(json_request, outgoing):
     response = partial(doresponse, outgoing)
-    
+
     try:
         request = utils.validate_request(json_request)
     except ValueError as err:
         # given bad data. who knows what it was. die
         return response(mkresponse(ERROR, "request could not be parsed: %s" % json_request))
-    
+
     except ValidationError as err:
         # data is readable, but it's in an unknown/invalid format. die
         return response(mkresponse(ERROR, "request was incorrectly formed: %s" % err.message))
@@ -134,7 +139,7 @@ def handler(json_request, outgoing):
 
     # we have a valid request :)
 
-    params = subdict(request, 'action', 'id', 'version')
+    params = subdict(request, 'action', 'id', 'token', 'version')
     params['force'] = request.get('force') # optional value
     
     # if we're to ingest/publish, then we expect a location to download article data
@@ -165,13 +170,9 @@ def handler(json_request, outgoing):
         lax_response = call_lax(**params)
         return response(mkresponse(**lax_response))
 
-    except StateError as err:
-        # lax understood our request but rejected it :(
-        return response(mkresponse(INVALID, err.message, request=request))
-
     except Exception as err:
         # lax didn't understand us or broke
-        msg = "lax failed attempting to handle our request: %s"
+        msg = "lax failed attempting to handle our request: %s" % err.message
         return response(mkresponse(ERROR, msg, request=request))
 
 #
