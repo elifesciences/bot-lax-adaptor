@@ -3,7 +3,7 @@
     "xml": "https://foo/bar/baz",
     "token": "asdfasdfasdfsafsd",
     "version": 1,
-    "force": false,
+    "force": false
 }
 
 

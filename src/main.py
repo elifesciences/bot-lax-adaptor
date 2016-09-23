@@ -9,56 +9,59 @@ import time
 import calendar
 from slugify import slugify
 
+import conf
+conf.LOG
+
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.FileHandler('scrape.log'))
 LOG.level = logging.INFO
 
 placeholder_version = 1
 
-placeholder_image_alt = ""
 placeholder_abstract = {
-        "doi": "10.7554/eLife.09560.001",
-        "content": [
-            {
-                "type": "paragraph",
-                "text": "Abstract"
-            }
-        ]
-    }
+    "doi": "10.7554/eLife.09560.001",
+    "content": [{
+        "type": "paragraph",
+        "text": "Abstract"
+    }]
+}
+
 placeholder_digest = {
-        "doi": "10.7554/eLife.09560.002",
-        "content": [
-            {
-                "type": "paragraph",
-                "text": "Digest"
-            }]}
+    "doi": "10.7554/eLife.09560.002",
+    "content": [{
+        "type": "paragraph",
+        "text": "Digest"
+    }]
+}
+
 placeholder_authorLine = "eLife et al"
+
 placeholder_authors = [{
-            "type": "person",
-            "name": {
-                "preferred": "Lee R Berger",
-                "index": "Berger, Lee R"
-            },
-            "affiliations": [
-                {
-                    "name": [
-                        "Evolutionary Studies Institute and Centre of Excellence in PalaeoSciences",
-                        "University of the Witwatersrand"
-                    ],
-                    "address": {
-                        "formatted": [
-                            "Johannesburg",
-                            "South Africa"
-                        ],
-                        "components": {
-                            "locality": [
-                                "Johannesburg"
-                            ],
-                            "country": "South Africa"
-                        }
-                    }
-                }]}
-                ]
+    "type": "person",
+    "name": {
+        "preferred": "Lee R Berger",
+        "index": "Berger, Lee R"
+    },
+    "affiliations": [{
+        "name": [
+            "Evolutionary Studies Institute and Centre of Excellence in PalaeoSciences",
+            "University of the Witwatersrand"
+        ],
+        "address": {
+            "formatted": [
+                "Johannesburg",
+                "South Africa"
+            ],
+            "components": {
+                "locality": [
+                    "Johannesburg"
+                ],
+                "country": "South Africa"
+            }
+        }
+    }]
+}]
+
 #
 # utils
 #
@@ -85,41 +88,41 @@ def nonxml(msg):
     "we're scraping a value that doesn't appear in the XML"
     return note("nonxml: %s" % msg, logging.WARN)
 
+#
+#
+#
+
 def display_channel_to_article_type(display_channel_list):
-    types = {}
-    types["Correction"] = "correction"
-    types["Editorial"] = "editorial"
-    types["Feature Article"] = "feature"
-    types["Feature article"] = "feature"
-    types["Insight"] = "insight"
-    types["Registered Report"] = "registered-report"
-    types["Research Advance"] = "research-advance"
-    types["Research Article"] = "research-article"
-    types["Research article"] = "research-article"
-    types["Short report"] = "short-report"
-    types["Tools and Resources"] = "tools-resources"
-    # Note: have not seen the below ones yet, guessing
-    types["Research exchange"] = "research-exchange"
-    types["Retraction"] = "retraction"
-    types["Replication study"] = "replication-study"
-    if display_channel_list:
-        #try:
-        display_channel = display_channel_list[0]
-        #except KeyError:
-        #    display_channel = None
-        if display_channel:
-            for key, value in types.iteritems():
-                if display_channel == key:
-                    return value
+    if not display_channel_list:
+        return    
+    types = {
+        "Correction": "correction",
+        "Editorial": "editorial",
+        "Feature Article": "feature",
+        "Feature article": "feature",
+        "Insight": "insight",
+        "Registered Report": "registered-report",
+        "Research Advance": "research-advance",
+        "Research Article": "research-article",
+        "Research article": "research-article",
+        "Short report": "short-report",
+        "Tools and Resources": "tools-resources",
+        
+        # NOTE: have not seen the below ones yet, guessing
+        "Research exchange": "research-exchange",
+        "Retraction": "retraction",
+        "Replication study": "replication-study",
+    }
+    display_channel = display_channel_list[0]
+    return types.get(display_channel)
 
 def license_url_to_license(license_url):
-    if license_url:
-        if license_url == "http://creativecommons.org/licenses/by/3.0/":
-            return "CC-BY-3.0"
-        if license_url == "http://creativecommons.org/licenses/by/4.0/":
-            return "CC-BY-4.0"
-        if license_url == "http://creativecommons.org/publicdomain/zero/1.0/":
-            return "CC0-1.0"
+    idx = {
+        "http://creativecommons.org/licenses/by/3.0/": "CC-BY-3.0",
+        "http://creativecommons.org/licenses/by/4.0/": "CC-BY-4.0",
+        "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
+    }
+    return idx.get(license_url)
 
 def related_article_to_related_articles(related_article_list):
     related_articles = []
@@ -136,20 +139,11 @@ def related_article_to_related_articles(related_article_list):
     return related_articles
 
 def is_poa_to_status(is_poa):
-    if is_poa is True:
-        return "poa"
-    elif is_poa is False:
-        return "vor"
-    return None
+    return "poa" if is_poa else "vor"
 
 def self_uri_to_pdf(self_uri_list):
     if self_uri_list:
         return self_uri_list[0]["xlink_href"]
-
-def body_rewrite(body):
-    body = image_uri_rewrite(body)
-    body = mathml_rewrite(body)
-    return body
 
 def image_uri_rewrite(body_json):
     base_uri = "https://example.org/"
@@ -188,6 +182,12 @@ def mathml_rewrite(body_json):
                 pass
     return body_json
 
+def body_rewrite(body):
+    body = image_uri_rewrite(body)
+    body = mathml_rewrite(body)
+    return body
+
+
 #
 #
 #
@@ -207,19 +207,21 @@ def jats(funcname, *args, **kwargs):
 def category_codes(cat_list):
     return [slugify(cat, stopwords=['and']) for cat in cat_list]
 
+THIS_YEAR = time.gmtime()[0]
 def to_volume(volume):
     if not volume:
         # No volume on unpublished PoA articles, calculate based on current year
-        volume = time.gmtime()[0] - 2011
+        volume = THIS_YEAR - 2011
     return int(volume)
 
 def clean(article_data):
     # Remove null or blank elements
-    article_json = article_data # we're dealing with json just yet ...
+    article_json = article_data # we're not dealing with json just yet ...
     remove_if_none = ["pdf", "relatedArticles"]
     for remove_index in remove_if_none:
-        if article_json["article"][remove_index] is None:
-            del article_json["article"][remove_index]
+        if article_json["article"].has_key(remove_index):
+            if article_json["article"][remove_index] == None:
+                del article_json["article"][remove_index]
 
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse"]
     for remove_index in remove_if_empty:
@@ -232,8 +234,9 @@ def clean(article_data):
 
     remove_from_copyright_if_none = ["holder"]
     for remove_index in remove_from_copyright_if_none:
-        if article_json["article"]["copyright"][remove_index] is None:
-            del article_json["article"]["copyright"][remove_index]
+        if article_json["article"].get("copyright", {}).has_key(remove_index):
+            if article_json["article"]["copyright"][remove_index] is None:
+                del article_json["article"]["copyright"][remove_index]
 
     return article_json
 
@@ -241,72 +244,62 @@ def clean(article_data):
 # 
 #
 
-POA = OrderedDict([
-    ('journal', OrderedDict([
-        ('id', [jats('journal_id')]),
-        ('title', [jats('journal_title')]),
-        ('issn', [jats('journal_issn', 'electronic')]),
+JOURNAL = OrderedDict([
+    ('id', [jats('journal_id')]),
+    ('title', [jats('journal_title')]),
+    ('issn', [jats('journal_issn', 'electronic')]),
+])
+
+SNIPPET = OrderedDict([
+    ('status', [jats('is_poa'), is_poa_to_status]), # shared by both POA and VOR snippets but not obvious in schema
+    ('id', [jats('publisher_id')]),
+    ('version', [placeholder_version, todo('version')]),
+    ('type', [jats('display_channel'), display_channel_to_article_type]),
+    ('doi', [jats('doi')]),
+    ('authorLine', [placeholder_authorLine, todo('authorLine')]),
+    ('title', [jats('title')]),
+    ('published', [jats('pub_date'), to_isoformat]),
+    ('volume', [jats('volume'), to_volume]),
+    ('elocationId', [jats('elocation_id')]),
+    ('pdf', [jats('self_uri'), self_uri_to_pdf]),
+    ('subjects', [jats('category'), category_codes]),
+    ('research-organisms', [jats('research_organism')]),
+    ('abstract', [placeholder_abstract, todo('abstract')]),
+])
+# https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-poa.v1.json#L689
+POA_SNIPPET = copy.deepcopy(SNIPPET)
+
+POA = copy.deepcopy(POA_SNIPPET)
+POA.update(OrderedDict([
+    ('copyright', OrderedDict([
+        ('license', [jats('license_url'), license_url_to_license]),
+        ('holder', [jats('copyright_holder')]),
+        ('statement', [jats('license')]),
     ])),
-    ('article', OrderedDict([
-        ('status', [jats('is_poa'), is_poa_to_status]),
-        ('id', [jats('publisher_id')]),
-        ('version', [placeholder_version, todo('version')]),
-        ('type', [jats('display_channel'), display_channel_to_article_type]),
-        ('doi', [jats('doi')]),
-        ('title', [jats('title')]),
-        ('published', [jats('pub_date'), to_isoformat]),
-        ('volume', [jats('volume'), to_volume]),
-        ('elocationId', [jats('elocation_id')]),
-        ('pdf', [jats('self_uri'), self_uri_to_pdf]),
-        ('subjects', [jats('category'), category_codes]),
-        ('research-organisms', [jats('research_organism')]),
-        ('abstract', [placeholder_abstract, todo('abstract')]),
+    ('authors', [placeholder_authors, todo('format authors')])
+]))
 
-        # non-snippet values
+VOR_SNIPPET = copy.deepcopy(POA_SNIPPET)
+VOR_SNIPPET.update(OrderedDict([
+    ('impactStatement', [jats('impact_statement')]),    
+]))
 
-        ('copyright', OrderedDict([
-            ('license', [jats('license_url'), license_url_to_license]),
-            ('holder', [jats('copyright_holder')]),
-            ('statement', [jats('license')]),
-        ])),
-        ('authorLine', [placeholder_authorLine, todo('authorLine')]),
-        ('authors', [placeholder_authors, todo('format authors')])
-        
+VOR = copy.deepcopy(VOR_SNIPPET)
+VOR.update(OrderedDict([
+    ('keywords', [jats('keywords')]),
+    ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
+    ('digest', [placeholder_digest, todo('digest')]),
+    ('body', [jats('body'), body_rewrite]), # ha! so easy ...
+    ('decisionLetter', [jats('decision_letter'), body_rewrite]),
+    ('authorResponse', [jats('author_response'), body_rewrite]),
+]))
+
+def mkdescription(poa=True):
+    return OrderedDict([
+        ('journal', JOURNAL),
+        ('snippet', POA_SNIPPET if poa else VOR_SNIPPET),
+        ('article', POA if poa else VOR),      
     ])
-)])
-
-
-VOR = copy.deepcopy(POA)
-VOR['article'].update(OrderedDict([
-        ('impactStatement', [jats('impact_statement')]),
-        ('keywords', [jats('keywords')]),
-        ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
-        ('digest', [placeholder_digest, todo('digest')]),
-        ('body', [jats('body'), body_rewrite]), # ha! so easy ...
-        ('decisionLetter', [jats('decision_letter'), body_rewrite]),
-        ('authorResponse', [jats('author_response'), body_rewrite]),
-]))
-
-# if has attached image ...
-VOR['article'].update(OrderedDict([
-    ('image', OrderedDict([
-        ('alt', [placeholder_image_alt, todo('image alt')]),
-        ('sizes', OrderedDict([
-            ("2:1", OrderedDict([
-                ("900", ["https://...", todo("vor article image sizes 2:1 900")]),
-                ("1800", ["https://...", todo("vor article image sizes 2:1 1800")]),
-            ])),
-            ("16:9", OrderedDict([
-                ("250", ["https://...", todo("vor article image sizes 16:9 250")]),
-                ("500", ["https://...", todo("vor article image sizes 16:9 500")]),
-            ])),
-            ("1:1", OrderedDict([
-                ("70", ["https://...", todo("vor article image sizes 1:1 70")]),
-                ("140", ["https://...", todo("vor article image sizes 1:1 140")]),
-            ])),
-        ])),
-    ]))
-]))
 
 #
 # bootstrap
@@ -314,7 +307,7 @@ VOR['article'].update(OrderedDict([
 
 def render_single(doc):
     soup = to_soup(doc)
-    description = POA if parseJATS.is_poa(soup) else VOR
+    description = mkdescription(parseJATS.is_poa(soup))
     return clean(render(description, [soup])[0])
 
 def main(doc):
@@ -326,4 +319,8 @@ def main(doc):
         raise
 
 if __name__ == '__main__':  # pragma: no cover
+    args = sys.argv[1:]
+    if len(args) == 0:
+        print "path to an article xml file required"
+        exit(1)
     main(sys.argv[1]) # pragma: no cover
