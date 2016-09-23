@@ -14,18 +14,18 @@ from conf import PATHS_TO_LAX, ERROR, PROJECT_DIR, INGEST, INGEST_PUBLISH
 import logging
 LOG = logging.getLogger(__name__)
 
-def doresponse(outgoing, response):
+def send_response(outgoing, response):
     try:
         utils.validate_response(response)
-        outgoing.write(utils.json_dumps(response))
-        return response
+        channel = outgoing.write
     except ValidationError as err:
         # response doesn't validate. this probably means
         # we had an error decoding request and have no id or token
         # because the message will not validate, we will not be sending it back
         response['validation-error-msg'] = err.message
-        outgoing.error(response)
-        return response
+        channel = outgoing.error
+    channel(utils.json_dumps(response))
+    return response
 
 def find_lax():
     dirname = filter(os.path.exists, PATHS_TO_LAX)
@@ -79,7 +79,7 @@ def download(location):
     file_contents = downloaderficationer[protocol]()
     return file_contents
 
-def subdict(data, *lst):
+def subdict(data, lst):
     return {k:v for k,v in data.items() if k in lst}
 
 def renkeys(data, pair_list):
@@ -96,9 +96,6 @@ def renkeys(data, pair_list):
 #
 
 def mkresponse(status, message=None, request={}, **kwargs):
-    request = kwargs.pop('request', {})
-    request = subdict(request, ['id', 'token', 'action'])
-    request = renkeys(request, [("action", "requested-action")])
     packet = {
         "status": status,
         "message": message,
@@ -106,7 +103,12 @@ def mkresponse(status, message=None, request={}, **kwargs):
         "token": None,
         "datetime": datetime.now(),
     }
+
+    request = subdict(request, ['id', 'token', 'action'])
+    request = renkeys(request, [("action", "requested-action")])
     packet.update(request)
+
+    # merge in any explicit overrides
     packet.update(kwargs)
     
     # wrangle log context
@@ -120,7 +122,7 @@ def mkresponse(status, message=None, request={}, **kwargs):
     return packet
 
 def handler(json_request, outgoing):
-    response = partial(doresponse, outgoing)
+    response = partial(send_response, outgoing)
 
     try:
         request = utils.validate_request(json_request)
@@ -139,28 +141,32 @@ def handler(json_request, outgoing):
 
     # we have a valid request :)
 
-    params = subdict(request, 'action', 'id', 'token', 'version')
+    params = subdict(request, ['action', 'id', 'token', 'version'])
     params['force'] = request.get('force') # optional value
     
     # if we're to ingest/publish, then we expect a location to download article data
     if params['action'] in [INGEST, INGEST_PUBLISH]:
         try:
             article_xml = download(request['location'])
+        except AssertionError as err:
+            msg = "refusing to download article xml: %s" % err.message
+            return response(mkresponse(ERROR, msg, request))
+
         except Exception as err:
             msg = "failed to download article xml from %r: %s" % (request['location'], err.message)
-            return response(mkresponse(ERROR, msg, request=request))
+            return response(mkresponse(ERROR, msg, request))
 
         try:
             article_data = main.render_single(article_xml)
         except Exception as err:
             msg = "failed to render article-json from article-xml: %s" % err.message
-            return response(mkresponse(ERROR, msg, request=request))
+            return response(mkresponse(ERROR, msg, request))
 
         try:
             article_json = utils.json_dumps(article_data)
         except ValueError as err:
             msg = "failed to serialize article data to article-json: %s" % err.message
-            return response(mkresponse(ERROR, msg, request=request))
+            return response(mkresponse(ERROR, msg, request))
 
         # phew! gauntlet ran, we're now confident of passing this article-json to lax
         # lax may still reject the data as invalid, but we'll proxy that back if necessary
@@ -173,7 +179,7 @@ def handler(json_request, outgoing):
     except Exception as err:
         # lax didn't understand us or broke
         msg = "lax failed attempting to handle our request: %s" % err.message
-        return response(mkresponse(ERROR, msg, request=request))
+        return response(mkresponse(ERROR, msg, request))
 
 #
 #
