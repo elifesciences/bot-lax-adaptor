@@ -16,11 +16,16 @@ import logging
 LOG = logging.getLogger(__name__)
 
 def doresponse(outgoing, response):
-    utils.validate_response(response)
-    json_response = utils.json_dumps(response)
-    outgoing.write(json_response)
-    LOG.error(json_response)
-    return response
+    try:
+        utils.validate_response(response)
+        outgoing.write(utils.json_dumps(response))
+        return response
+    except ValidationError:
+        # response doesn't validate. this probably means
+        # we had an error decoding request and have no id or token
+        # because the message will not validate, we will not be sending it back
+        outgoing.error(response)
+        return response
 
 def find_lax():
     dirname = filter(os.path.exists, PATHS_TO_LAX)

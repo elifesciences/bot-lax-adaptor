@@ -49,5 +49,8 @@ class OutgoingQueue(object):
             q = self.errors
         q.append(string)
 
+    def error(self, response):
+        self.errors.append(response)
+        
     def close(self):
         pass
