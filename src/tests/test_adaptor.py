@@ -23,9 +23,9 @@ class Ingest(BaseCase):
     def test_adaptor_v1(self):
         inc, out = read_from_fs(self.ingest_dir)
         do(inc, out)
+        print 'invalids::',out.invalids
         self.assertEqual(len(out.invalids), 0)
-
-        print out.errors
+        print 'errors::',out.errors
         self.assertEqual(len(out.errors), 0)
         self.assertEqual(len(out.passes), len(os.listdir(self.ingest_dir)))
         
