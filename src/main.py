@@ -9,6 +9,9 @@ import time
 import calendar
 from slugify import slugify
 
+import conf
+conf.LOG
+
 LOG = logging.getLogger(__name__)
 LOG.addHandler(logging.FileHandler('scrape.log'))
 LOG.level = logging.INFO
