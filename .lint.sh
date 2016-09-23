@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+export PYTHONPATH="src/"
+
 echo "* calling pyflakes"
 # if grep has output, fail
 pyflakes src/
