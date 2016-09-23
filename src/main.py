@@ -296,6 +296,15 @@ def to_volume(volume):
         volume = THIS_YEAR - 2011
     return int(volume)
 
+def clean_copyright(article_json):
+    # Clean copyright in article or snippet
+    remove_from_copyright_if_none = ["holder"]
+    for remove_index in remove_from_copyright_if_none:
+        if article_json.get("copyright", {}).has_key(remove_index):
+            if article_json["copyright"][remove_index] is None:
+                del article_json["copyright"][remove_index]
+    return article_json
+
 def clean(article_data):
     # Remove null or blank elements
 
@@ -316,11 +325,8 @@ def clean(article_data):
                 or article_json["article"].get(remove_index) == {})):
             del article_json["article"][remove_index]
 
-    remove_from_copyright_if_none = ["holder"]
-    for remove_index in remove_from_copyright_if_none:
-        if article_json["article"].get("copyright", {}).has_key(remove_index):
-            if article_json["article"]["copyright"][remove_index] is None:
-                del article_json["article"]["copyright"][remove_index]
+    article_json["article"] = clean_copyright(article_json["article"])
+    article_json["snippet"] = clean_copyright(article_json["snippet"])
 
     # If abstract has no DOI, turn it into an impact statement
     if "abstract" in article_json["article"] and "impactStatement" not in article_json["article"]:
