@@ -316,4 +316,8 @@ def main(doc):
         raise
 
 if __name__ == '__main__':  # pragma: no cover
+    args = sys.argv[1:]
+    if len(args) == 0:
+        print "path to an article xml file required"
+        exit(1)
     main(sys.argv[1]) # pragma: no cover
