@@ -20,6 +20,41 @@ LOG.level = logging.INFO
 placeholder_version = 1
 
 placeholder_box_title_if_missing = "Placeholder box title because we must have one"
+
+placeholder_related_article = OrderedDict({
+            "type": "research-article",
+            "status": "vor",
+            "id": "09561",
+            "version": 1,
+            "doi": "10.7554/eLife.09561",
+            "authorLine": "Paul HGM Dirks et al",
+            "title": "Geological and taphonomic context for the new hominin species <i>Homo naledi</i> from the Dinaledi Chamber, South Africa",
+            "published": "2015-09-10T00:00:00Z",
+            "volume": 4,
+            "elocationId": "e09561",
+            "pdf": "https://elifesciences.org/content/4/e09561.pdf",
+            "subjects": [
+                "genomics-evolutionary-biology"
+            ],
+            "impactStatement": "A new hominin species found in a South African cave is part of one of the most unusual hominin fossil assemblages on record.",
+            "image": {
+                "alt": "",
+                "sizes": {
+                    "2:1": {
+                        "900": "https://placehold.it/900x450",
+                        "1800": "https://placehold.it/1800x900"
+                    },
+                    "16:9": {
+                        "250": "https://placehold.it/250x141",
+                        "500": "https://placehold.it/500x281"
+                    },
+                    "1:1": {
+                        "70": "https://placehold.it/70x70",
+                        "140": "https://placehold.it/140x140"
+                    }
+                }
+            }
+})
 #
 # utils
 #
@@ -84,6 +119,15 @@ def license_url_to_license(license_url):
 
 def related_article_to_related_articles(related_article_list):
     related_articles = []
+
+    # Short-circuit here because related articles has changed
+    if related_article_list:
+        related_articles.append(placeholder_related_article)
+        return related_articles
+    else:
+        return None
+
+    # Old code below to be enhanced
     if related_article_list:
         for related in related_article_list:
             try:
@@ -346,7 +390,7 @@ VOR.update(OrderedDict([
     ('keywords', [jats('keywords')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
-    ('body', [jats('body'), body_rewrite]), # ha! so easy ...
+    ('body', [jats('body'), wrap_body_rewrite]), # ha! so easy ...
     ('decisionLetter', [jats('decision_letter'), body_rewrite]),
     ('authorResponse', [jats('author_response'), body_rewrite]),
 ]))
