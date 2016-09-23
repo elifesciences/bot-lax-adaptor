@@ -13,6 +13,9 @@ export PYTHONPATH="src"
 # lint
 . ./.lint.sh
 
+# update the api-raml
+. ./download-api-raml.sh
+
 # run tests
 args="$@"
 module=""
