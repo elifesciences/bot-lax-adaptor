@@ -5,6 +5,9 @@
 	"type": "object",
 	"additionalProperties": false,
 	"properties": {
+	    "requested-action": {
+		    "enum": [ "ingest", "publish", "ingest+publish" ]
+		},
 	    "status": {
 	        "enum": [ "ingested", "published", "invalid", "error" ]
 	    },
@@ -14,18 +17,11 @@
 	    },
 		"id": {
 		    "description": "the article identifier, potentially without leading zeroes. if original request could not be parsed, a null value will be returned",
-		    "oneOf": [
-		        { "type": null },
-		        { "type": "string",
-		          "pattern": "^[0-9]{,6}$" }
-	        ]
+	        "type": "string"
 		},
 		"token": {
 			"description": "data from original request to be returned to the sender once action complete. if original request could not be parsed, a null value will be returned",
-			"oneOf": [
-			    { "type": "string"},
-			    { "type": null }
-		    ]
+		    "type": "string"
 		},
 		"datetime": {
 		    "description": "the date and time in ISO 8601 UTC when this message was sent. if 'status' is either 'ingested' or 'published', then this is the date and time recorded in lax",
