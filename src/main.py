@@ -336,7 +336,7 @@ POA.update(OrderedDict([
     ('authors', [jats('authors_json'), authors_rewrite])
 ]))
 
-VOR_SNIPPET = copy.deepcopy(POA_SNIPPET)
+VOR_SNIPPET = copy.deepcopy(POA)
 VOR_SNIPPET.update(OrderedDict([
     ('impactStatement', [jats('impact_statement')]),
 ]))
