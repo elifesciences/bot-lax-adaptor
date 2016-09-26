@@ -10,7 +10,7 @@ from functools import partial
 import utils
 
 import conf
-from conf import PATHS_TO_LAX, ERROR, PROJECT_DIR, INGEST, INGEST_PUBLISH
+from conf import PATHS_TO_LAX, INVALID, ERROR, INGESTED, PUBLISHED, PROJECT_DIR, INGEST, INGEST_PUBLISH
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ def find_lax():
     assert os.path.exists(script), "could not find lax's manage.sh script"
     return script
 
-def call_lax(action, id, version, token, article_json=None, force=False, dry_run=True):
+def call_lax(action, id, version, token, article_json=None, force=False, dry_run=False):
     cmd = [
         find_lax(),
         "ingest",
@@ -63,6 +63,7 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
             "requested-action": action,
             "token": token,
             "status": results['status'],
+            "message": results['message'],
             "datetime": results.get('datetime', datetime.now())
         }
     except ValueError as err:
@@ -103,7 +104,7 @@ def renkeys(data, pair_list):
 #
 #
 
-def mkresponse(status, message=None, request={}, **kwargs):
+def mkresponse(status, message, request={}, **kwargs):
     packet = {
         "status": status,
         "message": message,
@@ -121,7 +122,13 @@ def mkresponse(status, message=None, request={}, **kwargs):
     
     # wrangle log context
     context = renkeys(packet, [("message", "status-message")])
-    LOG.info("returning an %s response", packet['status'], extra=context)
+    levels = {
+        INVALID: logging.ERROR,
+        ERROR: logging.ERROR,
+        INGESTED: logging.DEBUG,
+        PUBLISHED: logging.DEBUG
+    }
+    LOG.log(levels[packet["status"]], "%s response", packet['status'], extra=context)
 
     # bit ick
     if not packet['message']:
@@ -188,6 +195,7 @@ def handler(json_request, outgoing):
         # lax didn't understand us or broke
         msg = "lax failed attempting to handle our request: %s" % err.message
         response(mkresponse(ERROR, msg, request))
+        # when lax fails, we fail
         raise
 
 #
@@ -199,9 +207,9 @@ def read_from_sqs():
     incoming = outgoing = None
     return incoming, outgoing
 
-def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles')):
+def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles'), force=False):
     "generates messages from a directory, writes responses to a log file"
-    incoming = fs_adaptor.IncomingQueue(path, INGEST)
+    incoming = fs_adaptor.IncomingQueue(path, INGEST, force)
     outgoing = fs_adaptor.OutgoingQueue()
     return incoming, outgoing
 
@@ -211,9 +219,21 @@ def do(incoming, outgoing):
         for request in incoming:
             LOG.info("received request %s", request)
             handler(request, outgoing)
+
+            print
+
     finally:
         incoming.close()
         outgoing.close()
-        
+
+
+def bootstrap():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--force', action='store_true', default=False)
+
+    args = parser.parse_args()
+    do(*read_from_fs(force=args.force))
+    
 if __name__ == '__main__':
-    do(*read_from_fs())
+    bootstrap()
