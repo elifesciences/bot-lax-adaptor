@@ -10,11 +10,13 @@ import calendar
 from slugify import slugify
 
 import conf
-conf.LOG
 
 LOG = logging.getLogger(__name__)
-LOG.addHandler(logging.FileHandler('scrape.log'))
-LOG.level = logging.INFO
+_handler = logging.FileHandler('scrape.log')
+_handler.setLevel(logging.INFO)
+_handler.setFormatter(conf._formatter)
+
+LOG.addHandler(_handler)
 
 placeholder_version = 1
 

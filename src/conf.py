@@ -2,7 +2,7 @@ import os, json, logging
 from os.path import join
 from pythonjsonlogger import jsonlogger
 
-LOG = logging.getLogger(__name__)
+ROOTLOG = logging.getLogger("")
 
 _supported_keys = [
     'asctime',
@@ -26,9 +26,14 @@ _supported_keys = [
 _log_format = ['%({0:s})'.format(i) for i in _supported_keys]
 _log_format = ' '.join(_log_format)
 _formatter = jsonlogger.JsonFormatter(_log_format)
+
+# output to stderr
 _handler = logging.StreamHandler()
-_handler.setFormatter(_formatter)
-LOG.addHandler(_handler)
+_handler.setFormatter(_formatter) # might want to revisit this formatted for stderr
+
+ROOTLOG.setLevel(logging.DEBUG)
+ROOTLOG.addHandler(_handler)
+
 
 # configure logging here
 

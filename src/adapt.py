@@ -9,10 +9,18 @@ import main, fs_adaptor
 from functools import partial
 import utils
 
+import conf
 from conf import PATHS_TO_LAX, ERROR, PROJECT_DIR, INGEST, INGEST_PUBLISH
 
 import logging
 LOG = logging.getLogger(__name__)
+
+# output to adaptor.log
+_handler = logging.FileHandler("adaptor.log")
+_handler.setLevel(logging.DEBUG)
+_handler.setFormatter(conf._formatter)
+LOG.addHandler(_handler)
+
 
 def send_response(outgoing, response):
     try:
@@ -55,7 +63,7 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
             "requested-action": action,
             "token": token,
             "status": results['status'],
-            "datetime": results['datetime']
+            "datetime": results.get('datetime', datetime.now())
         }
     except ValueError as err:
         # could not parse lax response. this is a lax error
@@ -113,7 +121,7 @@ def mkresponse(status, message=None, request={}, **kwargs):
     
     # wrangle log context
     context = renkeys(packet, [("message", "status-message")])
-    LOG.error("returning an %s response", packet['status'], extra=context)
+    LOG.info("returning an %s response", packet['status'], extra=context)
 
     # bit ick
     if not packet['message']:
@@ -179,7 +187,8 @@ def handler(json_request, outgoing):
     except Exception as err:
         # lax didn't understand us or broke
         msg = "lax failed attempting to handle our request: %s" % err.message
-        return response(mkresponse(ERROR, msg, request))
+        response(mkresponse(ERROR, msg, request))
+        raise
 
 #
 #
@@ -192,14 +201,15 @@ def read_from_sqs():
 
 def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles')):
     "generates messages from a directory, writes responses to a log file"
-    incoming = fs_adaptor.IncomingQueue(path, INGEST_PUBLISH)
-    outgoing = fs_adaptor.OutgoingQueue() 
+    incoming = fs_adaptor.IncomingQueue(path, INGEST)
+    outgoing = fs_adaptor.OutgoingQueue()
     return incoming, outgoing
 
 def do(incoming, outgoing):
     # we'll see how far this abstraction gets us...
     try:
         for request in incoming:
+            LOG.info("received request %s", request)
             handler(request, outgoing)
     finally:
         incoming.close()
