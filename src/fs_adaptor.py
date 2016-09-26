@@ -6,8 +6,9 @@ import utils, conf
 LOG = logging.getLogger(__name__)
 
 class IncomingQueue(object):
-    def __init__(self, dirname, action):
+    def __init__(self, dirname, action, force=False):
         self.action = action
+        self.force = force
         self.dirname = dirname
 
     def __iter__(self):
@@ -28,7 +29,7 @@ class IncomingQueue(object):
                 'location': 'file://' + path,
                 'id': msid,
                 'version': ver,
-                'force': False,
+                'force': self.force,
                 'token': 'pants-party'
             }
             # don't ever generate an invalid request
