@@ -10,18 +10,18 @@ _supported_keys = [
     'filename',
     'funcName',
     'levelname',
-    'levelno',
+    #'levelno',
     'lineno',
     'module',
     'msecs',
     'message',
     'name',
     'pathname',
-    'process',
-    'processName',
+    #'process',
+    #'processName',
     'relativeCreated',
-    'thread',
-    'threadName'
+    #'thread',
+    #'threadName'
 ]
 _log_format = ['%({0:s})'.format(i) for i in _supported_keys]
 _log_format = ' '.join(_log_format)
