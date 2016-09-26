@@ -1,5 +1,10 @@
 #!/bin/bash
-set -e
+# clones/updates the elife api-raml repository
+# this repository contains the specification for article-json and
+# is used to validate what the scraper generates.
+# see `src/validate.py`
+
+set -e # everything must pass
 cd schema
 if [ -d api-raml ]; then
     cd api-raml

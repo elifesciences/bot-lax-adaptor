@@ -1,5 +1,7 @@
 #!/bin/bash
-set -e
+# clones/updates the repository of elife's article xml
+# this xml is used for bulk runs of the article-json generator
+set -e # everything must pass
 if [ -d article-xml ]; then
     cd article-xml
     git reset --hard

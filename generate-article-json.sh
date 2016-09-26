@@ -1,6 +1,8 @@
 #!/bin/bash
-set -e
-source download-elife-xml.sh
+# generates article-json from the contents of the elife-article-xml repo
+
+set -e  # everything must pass
+. download-elife-xml.sh
 mkdir -p article-json
 echo > scrape.log
 

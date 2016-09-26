@@ -1,5 +1,7 @@
 #!/bin/bash
-set -e
+# validates the article-json found in the `./article-json` directory.
+# this directory is populated by the `generate-article-json.sh` script.
+set -e # everything must pass
 source download-api-raml.sh
 echo > validate.log
 

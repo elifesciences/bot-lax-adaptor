@@ -1,5 +1,7 @@
 #!/bin/bash
-set -e
+# validates any json file in the `./schema` directory as being valid json
+
+set -e  # everything must pass
 
 function validate {
     path=$1
