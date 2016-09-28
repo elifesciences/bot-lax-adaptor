@@ -48,37 +48,37 @@ def nonxml(msg):
 #
 #
 
+
+DISPLAY_CHANNEL_TYPES = {
+    "Correction": "correction",
+    "Editorial": "editorial",
+    "Feature Article": "feature",
+    "Feature article": "feature",
+    "Insight": "insight",
+    "Registered Report": "registered-report",
+    "Research Advance": "research-advance",
+    "Research Article": "research-article",
+    "Research article": "research-article",
+    "Short report": "short-report",
+    "Tools and Resources": "tools-resources",
+
+    # NOTE: have not seen the below ones yet, guessing
+    "Research exchange": "research-exchange",
+    "Retraction": "retraction",
+    "Replication study": "replication-study",
+}
+
 def display_channel_to_article_type(display_channel_list):
     if not display_channel_list:
         return    
-    types = {
-        "Correction": "correction",
-        "Editorial": "editorial",
-        "Feature Article": "feature",
-        "Feature article": "feature",
-        "Insight": "insight",
-        "Registered Report": "registered-report",
-        "Research Advance": "research-advance",
-        "Research Article": "research-article",
-        "Research article": "research-article",
-        "Short report": "short-report",
-        "Tools and Resources": "tools-resources",
-        
-        # NOTE: have not seen the below ones yet, guessing
-        "Research exchange": "research-exchange",
-        "Retraction": "retraction",
-        "Replication study": "replication-study",
-    }
     display_channel = display_channel_list[0]
-    return types.get(display_channel)
+    return DISPLAY_CHANNEL_TYPES.get(display_channel)
 
-def license_url_to_license(license_url):
-    idx = {
-        "http://creativecommons.org/licenses/by/3.0/": "CC-BY-3.0",
-        "http://creativecommons.org/licenses/by/4.0/": "CC-BY-4.0",
-        "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
-    }
-    return idx.get(license_url)
+LICENCE_TYPES = {
+    "http://creativecommons.org/licenses/by/3.0/": "CC-BY-3.0",
+    "http://creativecommons.org/licenses/by/4.0/": "CC-BY-4.0",
+    "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
+}
 
 def related_article_to_related_articles(related_article_list):
     related_articles = []
@@ -228,13 +228,14 @@ POA_SNIPPET = copy.deepcopy(SNIPPET)
 POA = copy.deepcopy(POA_SNIPPET)
 POA.update(OrderedDict([
     ('copyright', OrderedDict([
-        ('license', [jats('license_url'), license_url_to_license]),
+        ('license', [jats('license_url'), LICENCE_TYPES.get]),
         ('holder', [jats('copyright_holder')]),
         ('statement', [jats('license')]),
     ])),
 ]))
 
-VOR_SNIPPET = copy.deepcopy(POA_SNIPPET)
+# a VOR snippet contains all of the contents of a POA ... I think?
+VOR_SNIPPET = copy.deepcopy(POA)
 VOR_SNIPPET.update(OrderedDict([
     ('impactStatement', [jats('impact_statement')]),    
 ]))
