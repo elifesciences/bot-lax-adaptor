@@ -4,7 +4,7 @@
 set -e # everything must pass
 
 if [ -d $PWD ]; then
-    . download-elife-xml.sh
+    . download-elife-xml.sh &> /dev/null
 fi
 
 PWD=article-xml/articles/
