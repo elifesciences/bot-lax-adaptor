@@ -149,9 +149,12 @@ def body_rewrite(body):
 #
 
 def to_soup(doc):
-    if os.path.exists(doc):
-        return parseJATS.parse_document(doc)
-    return parseJATS.parse_xml(doc)
+    if isinstance(doc, basestring):
+        if os.path.exists(doc):
+            return parseJATS.parse_document(doc)
+        return parseJATS.parse_xml(doc)
+    # assume it's a file-like object and attempt to .read() it's contents
+    return parseJATS.parse_xml(doc.read())
 
 def jats(funcname, *args, **kwargs):
     actual_func = getattr(parseJATS, funcname)
@@ -262,7 +265,13 @@ def render_single(doc):
     description = mkdescription(parseJATS.is_poa(soup))
     return clean(render(description, [soup])[0])
 
-def main(doc):
+def main():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('infile', type=argparse.FileType('r'), default=sys.stdin)
+    parser.add_argument('--verbose', action="store_true", default=False)
+    args = parser.parse_args()
+    doc = args.infile
     try:
         article_json = render_single(doc)
         print json.dumps(article_json, indent=4)
@@ -270,9 +279,5 @@ def main(doc):
         LOG.exception("failed to scrape article", extra={'doc': doc})
         raise
 
-if __name__ == '__main__':  # pragma: no cover
-    args = sys.argv[1:]
-    if len(args) == 0:
-        print "path to an article xml file required"
-        exit(1)
-    main(sys.argv[1]) # pragma: no cover
+if __name__ == '__main__':
+    main()
