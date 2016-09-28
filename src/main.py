@@ -262,12 +262,39 @@ def fix_section_id_if_missing(body_json):
 
     return body_json
 
+def video_rewrite(body_json):
+    for element in body_json:
+        if "type" in element and element["type"] == "video":
+            if "uri" in element:
+                element["sources"] = []
+                source_media = OrderedDict()
+                source_media["mediaType"] = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""
+                source_media["uri"] = "https://example.org/" + element.get("uri")
+                element["sources"].append(source_media)
+
+                element["image"] = "https://example.org/" + element.get("uri")
+                element["width"] = 640
+                element["height"] = 480
+
+                del element["uri"]
+
+        for content_index in ["content"]:
+            if content_index in element:
+                try:
+                    video_rewrite(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
+
+    return body_json
+
 def body_rewrite(body):
     body = image_uri_rewrite(body)
     body = mathml_rewrite(body)
     body = fix_section_id_if_missing(body)
     body = fix_paragraph_with_content(body)
     body = fix_box_title_if_missing(body)
+    body = video_rewrite(body)
     return body
 
 #
