@@ -33,8 +33,8 @@ class FS(BaseCase):
         out = fs_adaptor.OutgoingQueue()
 
         valid_request = list(inc)[0]
-        valid_response = adapt.mkresponse(conf.INGESTED, request=valid_request)
-        valid_response_json = utils.json_dumps(valid_response)        
+        valid_response = adapt.mkresponse(conf.INGESTED, "dummy-ingested-message", request=valid_request)
+        valid_response_json = utils.json_dumps(valid_response)
         out.write(valid_response_json)
         self.assertEqual(len(out.valids), 1)
         self.assertEqual(len(out.invalids), 0)
@@ -45,7 +45,7 @@ class FS(BaseCase):
         out = fs_adaptor.OutgoingQueue()
         
         valid_request = list(inc)[0]
-        valid_response = adapt.mkresponse(conf.PUBLISHED, request=valid_request)
+        valid_response = adapt.mkresponse(conf.PUBLISHED, "dummy-published-message", request=valid_request)
         valid_response_json = utils.json_dumps(valid_response)
         out.write(valid_response_json)
         self.assertEqual(len(out.valids), 1)
@@ -57,4 +57,3 @@ class FS(BaseCase):
         out = fs_adaptor.OutgoingQueue()
         out.dump()
         out.close()
-
