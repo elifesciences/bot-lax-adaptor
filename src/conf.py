@@ -5,8 +5,8 @@ from pythonjsonlogger import jsonlogger
 ROOTLOG = logging.getLogger("")
 
 _supported_keys = [
-    'asctime',
-    'created',
+    #'asctime',
+    #'created',
     'filename',
     'funcName',
     'levelname',
@@ -19,21 +19,22 @@ _supported_keys = [
     'pathname',
     #'process',
     #'processName',
-    'relativeCreated',
+    #'relativeCreated',
     #'thread',
     #'threadName'
 ]
+# optional json logging if you need it
 _log_format = ['%({0:s})'.format(i) for i in _supported_keys]
 _log_format = ' '.join(_log_format)
 _formatter = jsonlogger.JsonFormatter(_log_format)
 
 # output to stderr
 _handler = logging.StreamHandler()
-_handler.setFormatter(_formatter) # might want to revisit this formatted for stderr
+_handler.setLevel(logging.INFO)
+_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
 
-ROOTLOG.setLevel(logging.DEBUG)
 ROOTLOG.addHandler(_handler)
-
+ROOTLOG.setLevel(logging.DEBUG)
 
 # configure logging here
 

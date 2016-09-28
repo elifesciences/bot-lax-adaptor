@@ -210,8 +210,9 @@ JOURNAL = OrderedDict([
 ])
 
 SNIPPET = OrderedDict([
-    ('status', [jats('is_poa'), is_poa_to_status]), # shared by both POA and VOR snippets but not obvious in schema
+    ('status', [jats('is_poa'), is_poa_to_status]),
     ('id', [jats('publisher_id')]),
+
     ('type', [jats('display_channel'), display_channel_to_article_type]),
     ('doi', [jats('doi')]),
     ('title', [jats('title')]),
@@ -225,6 +226,7 @@ SNIPPET = OrderedDict([
 # https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-poa.v1.json#L689
 POA_SNIPPET = copy.deepcopy(SNIPPET)
 
+# a POA contains the contents of a POA snippet
 POA = copy.deepcopy(POA_SNIPPET)
 POA.update(OrderedDict([
     ('copyright', OrderedDict([
@@ -234,12 +236,13 @@ POA.update(OrderedDict([
     ])),
 ]))
 
-# a VOR snippet contains all of the contents of a POA ... I think?
+# a VOR snippets contains the contents of a POA
 VOR_SNIPPET = copy.deepcopy(POA)
 VOR_SNIPPET.update(OrderedDict([
     ('impactStatement', [jats('impact_statement')]),    
 ]))
 
+# a VOR contains the contents of a VOR snippet
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords')]),
@@ -266,13 +269,13 @@ def render_single(doc):
     description = mkdescription(parseJATS.is_poa(soup))
     return clean(render(description, [soup])[0])
 
-def main():
+def main(doc=None):
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('infile', type=argparse.FileType('r'), default=sys.stdin)
     parser.add_argument('--verbose', action="store_true", default=False)
     args = parser.parse_args()
-    doc = args.infile
+    doc = args.infile if not doc else doc
     try:
         article_json = render_single(doc)
         print json.dumps(article_json, indent=4)
