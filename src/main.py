@@ -30,6 +30,7 @@ placeholder_related_article = OrderedDict({
             "authorLine": "Paul HGM Dirks et al",
             "title": "Geological and taphonomic context for the new hominin species <i>Homo naledi</i> from the Dinaledi Chamber, South Africa",
             "published": "2015-09-10T00:00:00Z",
+            "statusDate": "2015-09-10T00:00:00Z",
             "volume": 4,
             "elocationId": "e09561",
             "pdf": "https://elifesciences.org/content/4/e09561.pdf",
@@ -55,6 +56,8 @@ placeholder_related_article = OrderedDict({
                 }
             }
 })
+
+placeholder_statusDate = "1970-09-10T00:00:00Z"
 #
 # utils
 #
@@ -393,6 +396,7 @@ SNIPPET = OrderedDict([
     ('authorLine', [jats('author_line')]),
     ('title', [jats('title')]),
     ('published', [jats('pub_date'), to_isoformat]),
+    ('statusDate', [placeholder_statusDate, todo('placeholder_statusDate')]),
     ('volume', [jats('volume'), to_volume]),
     ('elocationId', [jats('elocation_id')]),
     ('pdf', [jats('self_uri'), self_uri_to_pdf]),
