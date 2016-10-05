@@ -1,4 +1,5 @@
 import os, sys, json, copy
+import threading
 from et3.render import render
 from elifetools import parseJATS
 from functools import wraps
@@ -18,6 +19,25 @@ _handler.setFormatter(conf._formatter)
 
 LOG.addHandler(_handler)
 
+#
+# global mutable state! warning!
+#
+
+# not sure where I'm going with this, but I might send each
+# action to it's own subprocess
+VARS = threading.local()
+
+def getvar(key, default=0xDEADBEEF):
+    def fn(v):
+        var = getattr(VARS, key, default)
+        if var == 0xDEADBEEF:
+            raise AttributeError("no var %r found" % key)
+        return var
+    return fn
+
+def setvar(**kwargs):
+    [setattr(VARS, key, val) for key, val in kwargs.items()]
+    
 #
 # utils
 #
@@ -212,7 +232,7 @@ JOURNAL = OrderedDict([
 SNIPPET = OrderedDict([
     ('status', [jats('is_poa'), is_poa_to_status]),
     ('id', [jats('publisher_id')]),
-
+    ('version', [getvar('version', 9)]),
     ('type', [jats('display_channel'), display_channel_to_article_type]),
     ('doi', [jats('doi')]),
     ('title', [jats('title')]),
@@ -264,15 +284,20 @@ def mkdescription(poa=True):
 # bootstrap
 #
 
-def render_single(doc):
-    soup = to_soup(doc)
-    description = mkdescription(parseJATS.is_poa(soup))
-    return clean(render(description, [soup])[0])
+def render_single(doc, **overrides):
+    try:
+        setvar(**overrides)
+        soup = to_soup(doc)
+        description = mkdescription(parseJATS.is_poa(soup))
+        return clean(render(description, [soup])[0])
+    except Exception as err:
+        LOG.error("failed to render doc with error: %s", err)
+        raise
 
 def main(doc=None):
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('infile', type=argparse.FileType('r'), default=sys.stdin)
+    parser.add_argument('infile', nargs="?", type=argparse.FileType('r'), default=sys.stdin)
     parser.add_argument('--verbose', action="store_true", default=False)
     args = parser.parse_args()
     doc = args.infile if not doc else doc
