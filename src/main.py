@@ -204,6 +204,10 @@ def image_uri_rewrite(body_json):
 
 
 def mathml_rewrite(body_json):
+    # Check if it is not a list, in the case of authorResponse
+    if "content" in body_json:
+        mathml_rewrite(body_json["content"])
+    # A list, like in body, continue
     for element in body_json:
         if "type" in element and element["type"] == "mathml":
             if "mathml" in element:
