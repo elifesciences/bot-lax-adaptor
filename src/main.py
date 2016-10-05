@@ -58,6 +58,7 @@ placeholder_related_article = OrderedDict({
 })
 
 placeholder_statusDate = "1970-09-10T00:00:00Z"
+placeholder_image_title = "This a placeholder for a missing image title"
 #
 # utils
 #
@@ -203,6 +204,33 @@ def image_uri_rewrite(body_json):
     return body_json
 
 
+def fix_image_attributes_if_missing(body_json):
+    """
+    Should be completely temporary - the schema does not allow images
+    without certain attributes, so add them in in order to check for
+    other parsing and validation issues
+    """
+    
+    # Check if it is not a list, in the case of authorResponse
+    if "content" in body_json:
+        fix_image_attributes_if_missing(body_json["content"])
+    # A list, like in body, continue
+    for element in body_json:
+        if ("type" in element and element["type"] == "image"):
+            if "title" not in element:
+                element["title"] = placeholder_image_title
+
+        for content_index in ["content", "supplements", "sourceData"]:
+            if content_index in element:
+                try:
+                    fix_image_attributes_if_missing(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
+
+    return body_json
+
+
 def mathml_rewrite(body_json):
     # Check if it is not a list, in the case of authorResponse
     if "content" in body_json:
@@ -302,6 +330,7 @@ def video_rewrite(body_json):
 
 def body_rewrite(body):
     body = image_uri_rewrite(body)
+    body = fix_image_attributes_if_missing(body)
     body = mathml_rewrite(body)
     body = fix_section_id_if_missing(body)
     body = fix_paragraph_with_content(body)
