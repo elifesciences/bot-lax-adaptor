@@ -6,10 +6,10 @@ import utils, conf
 LOG = logging.getLogger(__name__)
 
 class IncomingQueue(object):
-    def __init__(self, dirname, action, force=False):
+    def __init__(self, path, action=conf.INGEST, force=False):
         self.action = action
         self.force = force
-        self.dirname = dirname
+        self.dirname = path
 
     def __iter__(self):
         paths = os.listdir(self.dirname)

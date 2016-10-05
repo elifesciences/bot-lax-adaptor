@@ -10,7 +10,8 @@ from functools import partial
 import utils
 
 import conf
-from conf import PATHS_TO_LAX, INVALID, ERROR, INGESTED, PUBLISHED, PROJECT_DIR, INGEST, INGEST_PUBLISH
+from conf import PATHS_TO_LAX, PROJECT_DIR
+from conf import INVALID, ERROR, INGESTED, PUBLISHED, INGEST, PUBLISH, INGEST_PUBLISH
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -208,9 +209,10 @@ def read_from_sqs():
     incoming = outgoing = None
     return incoming, outgoing
 
-def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles'), force=False):
+def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles'), **kwargs):
     "generates messages from a directory, writes responses to a log file"
-    incoming = fs_adaptor.IncomingQueue(path, INGEST, force)
+    kwargs['path'] = path
+    incoming = fs_adaptor.IncomingQueue(**kwargs)
     outgoing = fs_adaptor.OutgoingQueue()
     return incoming, outgoing
 
@@ -232,9 +234,10 @@ def bootstrap():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--force', action='store_true', default=False)
+    parser.add_argument('--action', choices=[INGEST, PUBLISH, INGEST_PUBLISH], default=INGEST)
 
     args = parser.parse_args()
-    do(*read_from_fs(force=args.force))
+    do(*read_from_fs(action=args.action, force=args.force))
     
 if __name__ == '__main__':
     bootstrap()
