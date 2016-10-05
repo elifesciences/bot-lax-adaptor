@@ -244,12 +244,13 @@ def mathml_rewrite(body_json):
                 mathml = mathml.replace("<mml:", "<").replace("</mml:", "</")
                 element["mathml"] = mathml
 
-        if "content" in element:
-            try:
-                mathml_rewrite(element["content"])
-            except TypeError:
-                # not iterable
-                pass
+        for content_index in ["content", "caption", "supplements"]:
+            if content_index in element:
+                try:
+                    mathml_rewrite(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
     return body_json
 
 def fix_box_title_if_missing(body_json):
