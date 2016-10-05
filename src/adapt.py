@@ -173,7 +173,7 @@ def handler(json_request, outgoing):
             return response(mkresponse(ERROR, msg, request))
 
         try:
-            article_data = main.render_single(article_xml)
+            article_data = main.render_single(article_xml, version=params['version'])
         except Exception as err:
             msg = "failed to render article-json from article-xml: %s" % err.message
             return response(mkresponse(ERROR, msg, request))
