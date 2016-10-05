@@ -23,6 +23,26 @@ _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
 
 
+from time import time
+from functools import wraps
+
+# http://stackoverflow.com/questions/1622943/timeit-versus-timing-decorator
+def timeit(fn):
+    @wraps(fn)
+    def wrap(*args, **kw):
+        ts = time()
+        result = fn(*args, **kw)
+        te = time()
+        context = {'start': ts, 'end': te, 'total': "%2.4f" % (te-ts)}
+        LOG.info('func:%r args:[%r, %r] took: %2.4f sec', \
+          fn.__name__, args, kw, te-ts, extra=context)
+        return result
+    return wrap
+
+#
+#
+#
+
 def send_response(outgoing, response):
     try:
         utils.validate_response(response)
@@ -138,6 +158,7 @@ def mkresponse(status, message, request={}, **kwargs):
 
     return packet
 
+@timeit
 def handler(json_request, outgoing):
     response = partial(send_response, outgoing)
 
