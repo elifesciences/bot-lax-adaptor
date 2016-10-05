@@ -9,10 +9,39 @@ import main, fs_adaptor
 from functools import partial
 import utils
 
-from conf import PATHS_TO_LAX, ERROR, PROJECT_DIR, INGEST, INGEST_PUBLISH
+import conf
+from conf import PATHS_TO_LAX, PROJECT_DIR
+from conf import INVALID, ERROR, INGESTED, PUBLISHED, INGEST, PUBLISH, INGEST_PUBLISH
 
 import logging
 LOG = logging.getLogger(__name__)
+
+# output to adaptor.log
+_handler = logging.FileHandler("adaptor.log")
+_handler.setLevel(logging.DEBUG)
+_handler.setFormatter(conf._formatter)
+LOG.addHandler(_handler)
+
+
+from time import time
+from functools import wraps
+
+# http://stackoverflow.com/questions/1622943/timeit-versus-timing-decorator
+def timeit(fn):
+    @wraps(fn)
+    def wrap(*args, **kw):
+        ts = time()
+        result = fn(*args, **kw)
+        te = time()
+        context = {'start': ts, 'end': te, 'total': "%2.4f" % (te-ts)}
+        LOG.info('func:%r args:[%r, %r] took: %2.4f sec', \
+          fn.__name__, args, kw, te-ts, extra=context)
+        return result
+    return wrap
+
+#
+#
+#
 
 def send_response(outgoing, response):
     try:
@@ -34,7 +63,7 @@ def find_lax():
     assert os.path.exists(script), "could not find lax's manage.sh script"
     return script
 
-def call_lax(action, id, version, token, article_json=None, force=False, dry_run=True):
+def call_lax(action, id, version, token, article_json=None, force=False, dry_run=False):
     cmd = [
         find_lax(),
         "ingest",
@@ -55,11 +84,13 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
             "requested-action": action,
             "token": token,
             "status": results['status'],
-            "datetime": results['datetime']
+            "message": results['message'],
+            "datetime": results.get('datetime', datetime.now())
         }
     except ValueError as err:
         # could not parse lax response. this is a lax error
-        raise RuntimeError("could not parse response from lax, expecting json, got error: %s" % err.message)
+        raise RuntimeError("could not parse response from lax, expecting json, got error %r from stdout %r" % \
+            (err.message, lax_stdout))
 
 def file_handler(path):
     assert path.startswith(PROJECT_DIR), \
@@ -95,7 +126,7 @@ def renkeys(data, pair_list):
 #
 #
 
-def mkresponse(status, message=None, request={}, **kwargs):
+def mkresponse(status, message, request={}, **kwargs):
     packet = {
         "status": status,
         "message": message,
@@ -113,7 +144,13 @@ def mkresponse(status, message=None, request={}, **kwargs):
     
     # wrangle log context
     context = renkeys(packet, [("message", "status-message")])
-    LOG.error("returning an %s response", packet['status'], extra=context)
+    levels = {
+        INVALID: logging.ERROR,
+        ERROR: logging.ERROR,
+        INGESTED: logging.DEBUG,
+        PUBLISHED: logging.DEBUG
+    }
+    LOG.log(levels[packet["status"]], "%s response", packet['status'], extra=context)
 
     # bit ick
     if not packet['message']:
@@ -121,6 +158,7 @@ def mkresponse(status, message=None, request={}, **kwargs):
 
     return packet
 
+@timeit
 def handler(json_request, outgoing):
     response = partial(send_response, outgoing)
 
@@ -157,7 +195,7 @@ def handler(json_request, outgoing):
             return response(mkresponse(ERROR, msg, request))
 
         try:
-            article_data = main.render_single(article_xml)
+            article_data = main.render_single(article_xml, version=params['version'])
         except Exception as err:
             msg = "failed to render article-json from article-xml: %s" % err.message
             return response(mkresponse(ERROR, msg, request))
@@ -179,7 +217,9 @@ def handler(json_request, outgoing):
     except Exception as err:
         # lax didn't understand us or broke
         msg = "lax failed attempting to handle our request: %s" % err.message
-        return response(mkresponse(ERROR, msg, request))
+        response(mkresponse(ERROR, msg, request))
+        # when lax fails, we fail
+        raise
 
 #
 #
@@ -190,20 +230,35 @@ def read_from_sqs():
     incoming = outgoing = None
     return incoming, outgoing
 
-def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles')):
+def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles'), **kwargs):
     "generates messages from a directory, writes responses to a log file"
-    incoming = fs_adaptor.IncomingQueue(path, INGEST_PUBLISH)
-    outgoing = fs_adaptor.OutgoingQueue() 
+    kwargs['path'] = path
+    incoming = fs_adaptor.IncomingQueue(**kwargs)
+    outgoing = fs_adaptor.OutgoingQueue()
     return incoming, outgoing
 
 def do(incoming, outgoing):
     # we'll see how far this abstraction gets us...
     try:
         for request in incoming:
+            LOG.info("received request %s", request)
             handler(request, outgoing)
+
+            print
+
     finally:
         incoming.close()
         outgoing.close()
-        
+
+
+def bootstrap():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--force', action='store_true', default=False)
+    parser.add_argument('--action', choices=[INGEST, PUBLISH, INGEST_PUBLISH], default=INGEST)
+
+    args = parser.parse_args()
+    do(*read_from_fs(action=args.action, force=args.force))
+    
 if __name__ == '__main__':
-    do(*read_from_fs())
+    bootstrap()

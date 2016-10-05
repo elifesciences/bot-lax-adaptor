@@ -1,4 +1,5 @@
 import os, sys, json, copy
+import threading
 from et3.render import render
 from elifetools import parseJATS
 from functools import wraps
@@ -10,58 +11,33 @@ import calendar
 from slugify import slugify
 
 import conf
-conf.LOG
 
 LOG = logging.getLogger(__name__)
-LOG.addHandler(logging.FileHandler('scrape.log'))
-LOG.level = logging.INFO
+_handler = logging.FileHandler('scrape.log')
+_handler.setLevel(logging.INFO)
+_handler.setFormatter(conf._formatter)
 
-placeholder_version = 1
+LOG.addHandler(_handler)
 
-placeholder_abstract = {
-    "doi": "10.7554/eLife.09560.001",
-    "content": [{
-        "type": "paragraph",
-        "text": "Abstract"
-    }]
-}
+#
+# global mutable state! warning!
+#
 
-placeholder_digest = {
-    "doi": "10.7554/eLife.09560.002",
-    "content": [{
-        "type": "paragraph",
-        "text": "Digest"
-    }]
-}
+# not sure where I'm going with this, but I might send each
+# action to it's own subprocess
+VARS = threading.local()
 
-placeholder_authorLine = "eLife et al"
+def getvar(key, default=0xDEADBEEF):
+    def fn(v):
+        var = getattr(VARS, key, default)
+        if var == 0xDEADBEEF:
+            raise AttributeError("no var %r found" % key)
+        return var
+    return fn
 
-placeholder_authors = [{
-    "type": "person",
-    "name": {
-        "preferred": "Lee R Berger",
-        "index": "Berger, Lee R"
-    },
-    "affiliations": [{
-        "name": [
-            "Evolutionary Studies Institute and Centre of Excellence in PalaeoSciences",
-            "University of the Witwatersrand"
-        ],
-        "address": {
-            "formatted": [
-                "Johannesburg",
-                "South Africa"
-            ],
-            "components": {
-                "locality": [
-                    "Johannesburg"
-                ],
-                "country": "South Africa"
-            }
-        }
-    }]
-}]
-
+def setvar(**kwargs):
+    [setattr(VARS, key, val) for key, val in kwargs.items()]
+    
 #
 # utils
 #
@@ -92,37 +68,37 @@ def nonxml(msg):
 #
 #
 
+
+DISPLAY_CHANNEL_TYPES = {
+    "Correction": "correction",
+    "Editorial": "editorial",
+    "Feature Article": "feature",
+    "Feature article": "feature",
+    "Insight": "insight",
+    "Registered Report": "registered-report",
+    "Research Advance": "research-advance",
+    "Research Article": "research-article",
+    "Research article": "research-article",
+    "Short report": "short-report",
+    "Tools and Resources": "tools-resources",
+
+    # NOTE: have not seen the below ones yet, guessing
+    "Research exchange": "research-exchange",
+    "Retraction": "retraction",
+    "Replication study": "replication-study",
+}
+
 def display_channel_to_article_type(display_channel_list):
     if not display_channel_list:
         return    
-    types = {
-        "Correction": "correction",
-        "Editorial": "editorial",
-        "Feature Article": "feature",
-        "Feature article": "feature",
-        "Insight": "insight",
-        "Registered Report": "registered-report",
-        "Research Advance": "research-advance",
-        "Research Article": "research-article",
-        "Research article": "research-article",
-        "Short report": "short-report",
-        "Tools and Resources": "tools-resources",
-        
-        # NOTE: have not seen the below ones yet, guessing
-        "Research exchange": "research-exchange",
-        "Retraction": "retraction",
-        "Replication study": "replication-study",
-    }
     display_channel = display_channel_list[0]
-    return types.get(display_channel)
+    return DISPLAY_CHANNEL_TYPES.get(display_channel)
 
-def license_url_to_license(license_url):
-    idx = {
-        "http://creativecommons.org/licenses/by/3.0/": "CC-BY-3.0",
-        "http://creativecommons.org/licenses/by/4.0/": "CC-BY-4.0",
-        "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
-    }
-    return idx.get(license_url)
+LICENCE_TYPES = {
+    "http://creativecommons.org/licenses/by/3.0/": "CC-BY-3.0",
+    "http://creativecommons.org/licenses/by/4.0/": "CC-BY-4.0",
+    "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
+}
 
 def related_article_to_related_articles(related_article_list):
     related_articles = []
@@ -193,9 +169,12 @@ def body_rewrite(body):
 #
 
 def to_soup(doc):
-    if os.path.exists(doc):
-        return parseJATS.parse_document(doc)
-    return parseJATS.parse_xml(doc)
+    if isinstance(doc, basestring):
+        if os.path.exists(doc):
+            return parseJATS.parse_document(doc)
+        return parseJATS.parse_xml(doc)
+    # assume it's a file-like object and attempt to .read() it's contents
+    return parseJATS.parse_xml(doc.read())
 
 def jats(funcname, *args, **kwargs):
     actual_func = getattr(parseJATS, funcname)
@@ -251,12 +230,11 @@ JOURNAL = OrderedDict([
 ])
 
 SNIPPET = OrderedDict([
-    ('status', [jats('is_poa'), is_poa_to_status]), # shared by both POA and VOR snippets but not obvious in schema
+    ('status', [jats('is_poa'), is_poa_to_status]),
     ('id', [jats('publisher_id')]),
-    ('version', [placeholder_version, todo('version')]),
+    ('version', [getvar('version', 9)]),
     ('type', [jats('display_channel'), display_channel_to_article_type]),
     ('doi', [jats('doi')]),
-    ('authorLine', [placeholder_authorLine, todo('authorLine')]),
     ('title', [jats('title')]),
     ('published', [jats('pub_date'), to_isoformat]),
     ('volume', [jats('volume'), to_volume]),
@@ -264,37 +242,38 @@ SNIPPET = OrderedDict([
     ('pdf', [jats('self_uri'), self_uri_to_pdf]),
     ('subjects', [jats('category'), category_codes]),
     ('research-organisms', [jats('research_organism')]),
-    ('abstract', [placeholder_abstract, todo('abstract')]),
 ])
 # https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-poa.v1.json#L689
 POA_SNIPPET = copy.deepcopy(SNIPPET)
 
+# a POA contains the contents of a POA snippet
 POA = copy.deepcopy(POA_SNIPPET)
 POA.update(OrderedDict([
     ('copyright', OrderedDict([
-        ('license', [jats('license_url'), license_url_to_license]),
+        ('license', [jats('license_url'), LICENCE_TYPES.get]),
         ('holder', [jats('copyright_holder')]),
         ('statement', [jats('license')]),
     ])),
-    ('authors', [placeholder_authors, todo('format authors')])
 ]))
 
-VOR_SNIPPET = copy.deepcopy(POA_SNIPPET)
+# a VOR snippets contains the contents of a POA
+VOR_SNIPPET = copy.deepcopy(POA)
 VOR_SNIPPET.update(OrderedDict([
     ('impactStatement', [jats('impact_statement')]),    
 ]))
 
+# a VOR contains the contents of a VOR snippet
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
-    ('digest', [placeholder_digest, todo('digest')]),
     ('body', [jats('body'), body_rewrite]), # ha! so easy ...
     ('decisionLetter', [jats('decision_letter'), body_rewrite]),
     ('authorResponse', [jats('author_response'), body_rewrite]),
 ]))
 
 def mkdescription(poa=True):
+    "returns the description to scrape based on the article type"
     return OrderedDict([
         ('journal', JOURNAL),
         ('snippet', POA_SNIPPET if poa else VOR_SNIPPET),
@@ -305,12 +284,23 @@ def mkdescription(poa=True):
 # bootstrap
 #
 
-def render_single(doc):
-    soup = to_soup(doc)
-    description = mkdescription(parseJATS.is_poa(soup))
-    return clean(render(description, [soup])[0])
+def render_single(doc, **overrides):
+    try:
+        setvar(**overrides)
+        soup = to_soup(doc)
+        description = mkdescription(parseJATS.is_poa(soup))
+        return clean(render(description, [soup])[0])
+    except Exception as err:
+        LOG.error("failed to render doc with error: %s", err)
+        raise
 
-def main(doc):
+def main(doc=None):
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('infile', nargs="?", type=argparse.FileType('r'), default=sys.stdin)
+    parser.add_argument('--verbose', action="store_true", default=False)
+    args = parser.parse_args()
+    doc = args.infile if not doc else doc
     try:
         article_json = render_single(doc)
         print json.dumps(article_json, indent=4)
@@ -318,9 +308,5 @@ def main(doc):
         LOG.exception("failed to scrape article", extra={'doc': doc})
         raise
 
-if __name__ == '__main__':  # pragma: no cover
-    args = sys.argv[1:]
-    if len(args) == 0:
-        print "path to an article xml file required"
-        exit(1)
-    main(sys.argv[1]) # pragma: no cover
+if __name__ == '__main__':
+    main()

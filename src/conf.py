@@ -2,40 +2,46 @@ import os, json, logging
 from os.path import join
 from pythonjsonlogger import jsonlogger
 
-LOG = logging.getLogger(__name__)
+ROOTLOG = logging.getLogger("")
 
 _supported_keys = [
-    'asctime',
-    'created',
+    #'asctime',
+    #'created',
     'filename',
     'funcName',
     'levelname',
-    'levelno',
+    #'levelno',
     'lineno',
     'module',
     'msecs',
     'message',
     'name',
     'pathname',
-    'process',
-    'processName',
-    'relativeCreated',
-    'thread',
-    'threadName'
+    #'process',
+    #'processName',
+    #'relativeCreated',
+    #'thread',
+    #'threadName'
 ]
+# optional json logging if you need it
 _log_format = ['%({0:s})'.format(i) for i in _supported_keys]
 _log_format = ' '.join(_log_format)
 _formatter = jsonlogger.JsonFormatter(_log_format)
+
+# output to stderr
 _handler = logging.StreamHandler()
-_handler.setFormatter(_formatter)
-LOG.addHandler(_handler)
+_handler.setLevel(logging.INFO)
+_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
+
+ROOTLOG.addHandler(_handler)
+ROOTLOG.setLevel(logging.DEBUG)
 
 # configure logging here
 
 DEBUG = False
 PATHS_TO_LAX = [
     '/srv/lax/',
-    '/home/luke/dev/python/lax/'
+    #'/home/luke/dev/python/lax/'
 ]
 PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
