@@ -68,7 +68,8 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
         }
     except ValueError as err:
         # could not parse lax response. this is a lax error
-        raise RuntimeError("could not parse response from lax, expecting json, got error: %s" % err.message)
+        raise RuntimeError("could not parse response from lax, expecting json, got error %r from stdout %r" % \
+            (err.message, lax_stdout))
 
 def file_handler(path):
     assert path.startswith(PROJECT_DIR), \
