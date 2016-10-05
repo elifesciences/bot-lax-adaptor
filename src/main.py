@@ -181,6 +181,10 @@ def wrap_body_rewrite(body):
 
 def image_uri_rewrite(body_json):
     base_uri = "https://example.org/"
+    # Check if it is not a list, in the case of authorResponse
+    if "content" in body_json:
+        image_uri_rewrite(body_json["content"])
+    # A list, like in body, continue
     for element in body_json:
         if (("type" in element and element["type"] == "image") or
             ("mediaType" in element)):
