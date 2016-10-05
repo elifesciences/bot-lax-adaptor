@@ -41,7 +41,7 @@ ROOTLOG.setLevel(logging.DEBUG)
 DEBUG = False
 PATHS_TO_LAX = [
     '/srv/lax/',
-    '/home/luke/dev/python/lax/'
+    #'/home/luke/dev/python/lax/'
 ]
 PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
