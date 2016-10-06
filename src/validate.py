@@ -68,7 +68,7 @@ def is_poa(contents):
         return contents["article"]["status"] == "poa"
     except KeyError:
         return False
-    
+
 def add_placeholders_for_validation(contents):
     contents['snippet']['version'] = placeholder_version
     contents['article']['version'] = placeholder_version
@@ -97,14 +97,14 @@ def main():
 
     filename = os.path.basename(args.infile.name)
     _, msid, tail = filename.split('-')
-    ver, _ = tail.split('.',1)
+    ver, _ = tail.split('.', 1)
 
     log_context = {
         'json-filename': filename,
         'msid': msid,
         'version': ver
     }
-    
+
     try:
         jsonschema.validate(contents["article"], schema)
         LOG.info("validated %s", msid, extra=log_context)

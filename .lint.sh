@@ -10,4 +10,5 @@ pyflakes src/
 echo "* calling pylint"
 pylint -E src/* 2> /dev/null
 
-echo "* passed linting"
+echo "* scrubbing"
+. .scrub.sh

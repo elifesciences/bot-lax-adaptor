@@ -22,15 +22,15 @@ def validate(struct, schema):
     except ValueError as err:
         LOG.error("struct is not serializable: %s", err.message)
         raise
-    
+
     try:
         validator(struct, schema)
         return struct
-    
+
     except ValueError as err:
         # your json is broken
         raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
-    
+
     except ValidationError as err:
         # your json is incorrect
         LOG.error("struct failed to validate against schema: %s" % err.message)
@@ -48,10 +48,10 @@ def json_dumps(obj):
     "drop-in for json.dumps that handles datetime objects."
     def datetime_handler(obj):
         if hasattr(obj, 'isoformat'):
-            #return {"-val": obj.isoformat(), "-type": "datetime"}
+            # return {"-val": obj.isoformat(), "-type": "datetime"}
             return obj.isoformat()
         else:
-            raise TypeError, 'Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj))
+            raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
     return json.dumps(obj, default=datetime_handler)
 
 

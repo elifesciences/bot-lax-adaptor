@@ -7,8 +7,8 @@ import unittest
 
 def requires_lax(fn):
     try:
-         adapt.find_lax()
-         return fn
+        adapt.find_lax()
+        return fn
     except AssertionError:
         return unittest.skip("missing lax")(fn)
 
@@ -38,11 +38,11 @@ class Adapt(BaseCase):
 
         self.inc = fs_adaptor.IncomingQueue(self.ingest_v1_dir, conf.INGEST)
         # 09560, artificially promoted to top of stack
-        self.valid_request = list(self.inc)[0] 
-        
+        self.valid_request = list(self.inc)[0]
+
     def tearDown(self):
         pass
-        
+
     def test_handler_bad_json(self):
         "bad json request generates an error"
         adapt.handler("pants-party", self.out)

@@ -27,11 +27,11 @@ class TestArticleScrape(BaseCase):
     def test_render_single(self):
         "ensure the scrape scrapes and has something resembling the correct structure"
         results = main.render_single(self.doc)
-        self.assertTrue(results.has_key('article'))
-        self.assertTrue(results.has_key('journal'))
+        self.assertTrue('article' in results)
+        self.assertTrue('journal' in results)
         # NOTE! leave article validation to json schema
-        #expected_article = json.load(
-        #self.assertEqual(results.
+        # expected_article = json.load(
+        # self.assertEqual(results.
 
     def test_main_bootstrap(self):
         "json is written to stdout"
@@ -41,8 +41,8 @@ class TestArticleScrape(BaseCase):
         try:
             main.main(self.doc) # writes article json to stdout
             results = json.loads(strbuffer.getvalue())
-            self.assertTrue(results.has_key('article'))
-            self.assertTrue(results.has_key('journal'))
+            self.assertTrue('article' in results)
+            self.assertTrue('journal' in results)
         finally:
             sys.stdout = _orig
 

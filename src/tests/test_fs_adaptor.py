@@ -1,7 +1,7 @@
 import os
 from os.path import join
 from .base import BaseCase
-import utils #, adapt
+import utils
 import adaptor as adapt, conf, fs_adaptor
 from jsonschema import ValidationError
 
@@ -11,7 +11,7 @@ class FS(BaseCase):
         self.num_ingest_dir = len(os.listdir(self.ingest_dir))
         spanner = 1
         self.num_ingest_dir_xml = self.num_ingest_dir - spanner
-    
+
     def test_incoming(self):
         "the number of messages to be ingested match the number of xml files in directory to be ingested"
         inst = fs_adaptor.IncomingQueue(self.ingest_dir, 'ingest')
@@ -43,7 +43,7 @@ class FS(BaseCase):
     def test_fs_outgoing_invalid(self):
         inc = fs_adaptor.IncomingQueue(self.ingest_dir, conf.PUBLISH)
         out = fs_adaptor.OutgoingQueue()
-        
+
         valid_request = list(inc)[0]
         valid_response = adapt.mkresponse(conf.PUBLISHED, "dummy-published-message", request=valid_request)
         valid_response_json = utils.json_dumps(valid_response)

@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 from os.path import join
 import requests
-import main, fs_adaptor
+import main, fs_adaptor, sqs_adaptor
 from functools import partial
 import utils
 
@@ -33,9 +33,9 @@ def timeit(fn):
         ts = time()
         result = fn(*args, **kw)
         te = time()
-        context = {'start': ts, 'end': te, 'total': "%2.4f" % (te-ts)}
-        LOG.info('func:%r args:[%r, %r] took: %2.4f sec', \
-          fn.__name__, args, kw, te-ts, extra=context)
+        context = {'start': ts, 'end': te, 'total': "%2.4f" % (te - ts)}
+        LOG.info('func:%r args:[%r, %r] took: %2.4f sec',
+                 fn.__name__, args, kw, te - ts, extra=context)
         return result
     return wrap
 
@@ -44,6 +44,7 @@ def timeit(fn):
 #
 
 def send_response(outgoing, response):
+    # `response` here is the result of `mkresponse` below
     try:
         utils.validate_response(response)
         channel = outgoing.write
@@ -77,7 +78,7 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
         cmd += ["--force"]
     lax_stdout = None
     try:
-        rc, lax_stdout = utils.run_script(cmd, article_json)        
+        rc, lax_stdout = utils.run_script(cmd, article_json)
         results = json.loads(lax_stdout)
         return {
             "id": id,
@@ -89,12 +90,12 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
         }
     except ValueError as err:
         # could not parse lax response. this is a lax error
-        raise RuntimeError("could not parse response from lax, expecting json, got error %r from stdout %r" % \
-            (err.message, lax_stdout))
+        raise RuntimeError("could not parse response from lax, expecting json, got error %r from stdout %r" %
+                           (err.message, lax_stdout))
 
 def file_handler(path):
     assert path.startswith(PROJECT_DIR), \
-      "unsafe operation - refusing to read from a file location outside of project root. %r does not start with %r" % (path, PROJECT_DIR)
+        "unsafe operation - refusing to read from a file location outside of project root. %r does not start with %r" % (path, PROJECT_DIR)
     xml = open(path, 'r').read()
     # write cache?
     return xml
@@ -111,13 +112,13 @@ def download(location):
     return file_contents
 
 def subdict(data, lst):
-    return {k:v for k,v in data.items() if k in lst}
+    return {k: v for k, v in data.items() if k in lst}
 
 def renkeys(data, pair_list):
     "returns a copy of the given data with the list of oldkey->newkey pairs changes made"
     data = copy.deepcopy(data)
     for key, replacement in pair_list:
-        if data.has_key(key):
+        if key in data:
             data[replacement] = data[key]
             del data[key]
     return data
@@ -141,7 +142,7 @@ def mkresponse(status, message, request={}, **kwargs):
 
     # merge in any explicit overrides
     packet.update(kwargs)
-    
+
     # wrangle log context
     context = renkeys(packet, [("message", "status-message")])
     levels = {
@@ -181,7 +182,7 @@ def handler(json_request, outgoing):
 
     params = subdict(request, ['action', 'id', 'token', 'version'])
     params['force'] = request.get('force') # optional value
-    
+
     # if we're to ingest/publish, then we expect a location to download article data
     if params['action'] in [INGEST, INGEST_PUBLISH]:
         try:
@@ -225,9 +226,10 @@ def handler(json_request, outgoing):
 #
 #
 
-def read_from_sqs():
+def read_from_sqs(stackname='temp'):
     "reads messages from an SQS queue, writes responses to another SQS queue"
-    incoming = outgoing = None
+    incoming = sqs_adaptor.IncomingQueue('bot-lax-%s-inc' % stackname)
+    outgoing = sqs_adaptor.OutgoingQueue('bot-lax-%s-out' % stackname)
     return incoming, outgoing
 
 def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles'), **kwargs):
@@ -246,6 +248,9 @@ def do(incoming, outgoing):
 
             print
 
+    except KeyboardInterrupt:
+        pass
+
     finally:
         incoming.close()
         outgoing.close()
@@ -254,11 +259,33 @@ def do(incoming, outgoing):
 def bootstrap():
     import argparse
     parser = argparse.ArgumentParser()
+    parser.add_argument('--type', choices=['sqs', 'fs'], required=True, default='fs')
+
+    # fs options
     parser.add_argument('--force', action='store_true', default=False)
     parser.add_argument('--action', choices=[INGEST, PUBLISH, INGEST_PUBLISH], default=INGEST)
 
+    # sqs options
+    parser.add_argument('--instance', dest='instance_id', help='the "ci" in "lax--ci"')
+
     args = parser.parse_args()
-    do(*read_from_fs(action=args.action, force=args.force))
-    
+
+    adaptors = {
+        'fs': read_from_fs,
+        'sqs': read_from_sqs,
+    }
+    adaptor_type = args.type
+
+    fn = adaptors[adaptor_type]
+    if adaptor_type == 'fs':
+        fn = partial(fn, action=args.action, force=args.force)
+    else:
+        if not args.instance_id:
+            parser.error("--instance is required when --type=sqs")
+        else:
+            fn = partial(fn, args.instance_id)
+
+    do(*fn())
+
 if __name__ == '__main__':
     bootstrap()

@@ -37,7 +37,7 @@ def getvar(key, default=0xDEADBEEF):
 
 def setvar(**kwargs):
     [setattr(VARS, key, val) for key, val in kwargs.items()]
-    
+
 #
 # utils
 #
@@ -90,7 +90,7 @@ DISPLAY_CHANNEL_TYPES = {
 
 def display_channel_to_article_type(display_channel_list):
     if not display_channel_list:
-        return    
+        return
     display_channel = display_channel_list[0]
     return DISPLAY_CHANNEL_TYPES.get(display_channel)
 
@@ -125,7 +125,7 @@ def image_uri_rewrite(body_json):
     base_uri = "https://example.org/"
     for element in body_json:
         if (("type" in element and element["type"] == "image") or
-            ("mediaType" in element)):
+                ("mediaType" in element)):
             if "uri" in element:
                 element["uri"] = base_uri + element["uri"]
                 # Add or edit file extension
@@ -178,6 +178,7 @@ def to_soup(doc):
 
 def jats(funcname, *args, **kwargs):
     actual_func = getattr(parseJATS, funcname)
+
     @wraps(actual_func)
     def fn(soup):
         return actual_func(soup, *args, **kwargs)
@@ -198,8 +199,8 @@ def clean(article_data):
     article_json = article_data # we're not dealing with json just yet ...
     remove_if_none = ["pdf", "relatedArticles"]
     for remove_index in remove_if_none:
-        if article_json["article"].has_key(remove_index):
-            if article_json["article"][remove_index] == None:
+        if remove_index in article_json["article"]:
+            if article_json["article"][remove_index] is None:
                 del article_json["article"][remove_index]
 
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse"]
@@ -213,14 +214,14 @@ def clean(article_data):
 
     remove_from_copyright_if_none = ["holder"]
     for remove_index in remove_from_copyright_if_none:
-        if article_json["article"].get("copyright", {}).has_key(remove_index):
+        if remove_index in article_json["article"].get("copyright", {}):
             if article_json["article"]["copyright"][remove_index] is None:
                 del article_json["article"]["copyright"][remove_index]
 
     return article_json
 
 #
-# 
+#
 #
 
 JOURNAL = OrderedDict([
@@ -259,7 +260,7 @@ POA.update(OrderedDict([
 # a VOR snippets contains the contents of a POA
 VOR_SNIPPET = copy.deepcopy(POA)
 VOR_SNIPPET.update(OrderedDict([
-    ('impactStatement', [jats('impact_statement')]),    
+    ('impactStatement', [jats('impact_statement')]),
 ]))
 
 # a VOR contains the contents of a VOR snippet
@@ -277,7 +278,7 @@ def mkdescription(poa=True):
     return OrderedDict([
         ('journal', JOURNAL),
         ('snippet', POA_SNIPPET if poa else VOR_SNIPPET),
-        ('article', POA if poa else VOR),      
+        ('article', POA if poa else VOR),
     ])
 
 #

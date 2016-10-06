@@ -15,7 +15,7 @@ class IncomingQueue(object):
         paths = os.listdir(self.dirname)
         naledi = "elife-09560-v1.xml"
         paths.remove(naledi)
-        paths = [naledi] + paths
+        paths = [naledi] + paths # naledi is always tested first :)
         for fname in paths:
             if fname.startswith('.') or not fname.endswith('.xml'):
                 # hidden or not xml, skip
@@ -33,7 +33,7 @@ class IncomingQueue(object):
                 'token': 'pants-party'
             }
             # don't ever generate an invalid request
-            utils.validate_request(request) 
+            utils.validate_request(request)
             yield request
 
     def close(self):
@@ -46,6 +46,7 @@ class OutgoingQueue(object):
         self.errors = []
 
     def write(self, string):
+        "called when given a VALID message"
         LOG.info(string)
         struct = json.loads(string)
         if struct['status'] in [conf.PUBLISHED, conf.INGESTED]:
@@ -55,6 +56,7 @@ class OutgoingQueue(object):
         q.append(struct)
 
     def error(self, string):
+        "called when given a bad message"
         try:
             struct = json.loads(string)
             self.errors.append(struct)
@@ -66,6 +68,6 @@ class OutgoingQueue(object):
         print 'valid ::', self.valids
         print 'invalid ::', self.invalids
         print 'errors ::', self.errors
-        
+
     def close(self):
         pass
