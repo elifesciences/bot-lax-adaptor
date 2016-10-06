@@ -2,7 +2,7 @@ import os
 from os.path import join
 from .base import BaseCase
 import utils #, adapt
-import adapt, conf, fs_adaptor
+import adaptor as adapt, conf, fs_adaptor
 from jsonschema import ValidationError
 
 class FS(BaseCase):
