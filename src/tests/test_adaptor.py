@@ -1,8 +1,8 @@
 import os
 from os.path import join
 from .base import BaseCase
-import adapt, fs_adaptor, conf
-from adapt import read_from_fs, do
+import adaptor as adapt, fs_adaptor, conf
+from adaptor import read_from_fs, do
 import unittest
 
 def requires_lax(fn):
