@@ -339,6 +339,35 @@ def body_rewrite(body):
     body = video_rewrite(body)
     return body
 
+def references_rewrite(references):
+    "clean up values that will not pass validation temporarily"
+    for ref in references:
+        if "date" in ref:
+            # Scrub non-numeric values from the date, which comes from the reference year
+            ref["date"] = re.sub("[^0-9]", "", ref["date"])
+        if ref["type"] == "other":
+            # The schema cannot support type other, turn this into a basic journal reference
+            #  to pass validation
+            ref["type"] = "journal"
+            if not "articleTitle" in ref:
+                ref["articleTitle"] = "Placeholder article title for ref of type 'other'"
+            if not "journal" in ref:
+                ref["journal"] = {}
+                ref["journal"]["name"] = []
+                ref["journal"]["name"].append("This is a transformed placeholder journal name for ref of type 'other'")
+                if "source" in ref:
+                    ref["journal"]["name"].append(ref["source"])
+                    del ref["source"]
+        if ref["type"] == "journal" and not "pages" in ref:
+            ref["pages"] = "placeholderforrefwithnopages"
+        if ref["type"] == "book":
+            if not "publisher" in ref:
+                ref["publisher"] = {}
+                ref["publisher"]["name"] = []
+                ref["publisher"]["name"].append("This is a placeholder book publisher name for ref that does not have one")
+
+    return references
+
 #
 #
 #
@@ -385,7 +414,7 @@ def clean(article_data):
             del article_json["article"][remove_index]
 
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
-                       "researchOrganisms", "keywords"]
+                       "researchOrganisms", "keywords", "references"]
     for remove_index in remove_if_empty:
         if (article_json["article"].get(remove_index) is not None
             and (
@@ -467,6 +496,7 @@ VOR.update(OrderedDict([
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
     ('body', [jats('body'), wrap_body_rewrite]), # ha! so easy ...
+    ('references', [jats('references_json'), references_rewrite]),
     ('decisionLetter', [jats('decision_letter'), body_rewrite]),
     ('authorResponse', [jats('author_response'), body_rewrite]),
 ]))
