@@ -236,6 +236,7 @@ SNIPPET = OrderedDict([
     ('version', [getvar('version', 9)]),
     ('type', [jats('display_channel'), display_channel_to_article_type]),
     ('doi', [jats('doi')]),
+    ('authorLine', [jats('author_line')]),
     ('title', [jats('title')]),
     ('published', [jats('pub_date'), to_isoformat]),
     ('volume', [jats('volume'), to_volume]),
@@ -243,6 +244,7 @@ SNIPPET = OrderedDict([
     ('pdf', [jats('self_uri'), self_uri_to_pdf]),
     ('subjects', [jats('category'), category_codes]),
     ('research-organisms', [jats('research_organism')]),
+    ('abstract', [jats('abstract_json')]),
 ])
 # https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-poa.v1.json#L689
 POA_SNIPPET = copy.deepcopy(SNIPPET)
@@ -268,6 +270,7 @@ VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
+    ('digest', [jats('digest_json')]),
     ('body', [jats('body'), body_rewrite]), # ha! so easy ...
     ('decisionLetter', [jats('decision_letter'), body_rewrite]),
     ('authorResponse', [jats('author_response'), body_rewrite]),
