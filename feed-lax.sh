@@ -7,4 +7,4 @@ set -e # everything must pass
 
 args="$@"
 
-python src/adapt.py $args
+python src/adaptor.py $args
