@@ -1,6 +1,6 @@
 import os, sys, json, copy
 import threading
-from et3.render import render
+from et3.render import render, EXCLUDE_ME
 from elifetools import parseJATS
 from functools import wraps
 import logging
@@ -9,8 +9,7 @@ from datetime import datetime
 import time
 import calendar
 from slugify import slugify
-
-import conf
+import conf, utils
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler('scrape.log')
@@ -220,6 +219,12 @@ def clean(article_data):
 
     return article_json
 
+def discard_if_not_v1(v):
+    "discards given value if the version of the article being worked on is not a v1"
+    if getvar('version')(v) == 1:
+        return v
+    return EXCLUDE_ME
+
 #
 #
 #
@@ -233,12 +238,12 @@ JOURNAL = OrderedDict([
 SNIPPET = OrderedDict([
     ('status', [jats('is_poa'), is_poa_to_status]),
     ('id', [jats('publisher_id')]),
-    ('version', [getvar('version', 9)]),
+    ('version', [getvar('version')]),
     ('type', [jats('display_channel'), display_channel_to_article_type]),
     ('doi', [jats('doi')]),
     ('authorLine', [jats('author_line')]),
     ('title', [jats('title')]),
-    ('published', [jats('pub_date'), to_isoformat]),
+    ('published', [jats('pub_date'), to_isoformat, discard_if_not_v1]),
     ('volume', [jats('volume'), to_volume]),
     ('elocationId', [jats('elocation_id')]),
     ('pdf', [jats('self_uri'), self_uri_to_pdf]),
@@ -305,11 +310,12 @@ def main(doc=None):
     parser.add_argument('--verbose', action="store_true", default=False)
     args = parser.parse_args()
     doc = args.infile if not doc else doc
+    msid, version = utils.version_from_path(getattr(doc, 'name', doc))
     try:
-        article_json = render_single(doc)
+        article_json = render_single(doc, version=version)
         print json.dumps(article_json, indent=4)
     except Exception:
-        LOG.exception("failed to scrape article", extra={'doc': doc})
+        LOG.exception("failed to scrape article", extra={'doc': doc, 'msid': msid, 'version': version})
         raise
 
 if __name__ == '__main__':

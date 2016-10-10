@@ -21,8 +21,7 @@ class IncomingQueue(object):
                 # hidden or not xml, skip
                 continue
             path = join(self.dirname, fname)
-            _, msid, ver = os.path.split(path)[-1].split('-') # ll: ['elife', '09560', 'v1.xml']
-            ver = int(ver[1]) # "v1.xml" -> 1
+            msid, ver = utils.version_from_path(path)
             LOG.debug("processing file: %s", path)
             request = {
                 'action': self.action,

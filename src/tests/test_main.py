@@ -26,7 +26,7 @@ class TestArticleScrape(BaseCase):
 
     def test_render_single(self):
         "ensure the scrape scrapes and has something resembling the correct structure"
-        results = main.render_single(self.doc)
+        results = main.render_single(self.doc, version=1)
         self.assertTrue('article' in results)
         self.assertTrue('journal' in results)
         # NOTE! leave article validation to json schema
@@ -50,3 +50,9 @@ class TestArticleScrape(BaseCase):
         "ensure a great big exception occurs when given invalid input"
         # TODO: lets make this behaviour a bit nicer
         self.assertRaises(Exception, main.main, "aaaaaaaaaaaaaa")
+
+    def test_main_published_excluded_if_v2(self):
+        results = main.render_single(self.doc, version=1)
+        self.assertTrue('published' in results['article'])
+        results = main.render_single(self.doc, version=2)
+        self.assertFalse('published' in results['article'])

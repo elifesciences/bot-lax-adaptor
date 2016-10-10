@@ -1,7 +1,7 @@
 autopep8==1.2.4
 boto3==1.4.0
 coverage==4.1
-et3==1.1
+et3==1.2
 git+https://github.com/elifesciences/elife-tools.git@develop#egg=elifetools
 green==2.5.0
 jsonschema==2.5.1

@@ -1,3 +1,4 @@
+import os
 import subprocess
 import json
 from jsonschema import validate as validator
@@ -72,3 +73,8 @@ def run_script(args, user_input=None):
     else:
         stdout, stderr = process.communicate()
     return process.returncode, stdout
+
+def version_from_path(path):
+    _, msid, ver = os.path.split(path)[-1].split('-') # ll: ['elife', '09560', 'v1.xml']
+    ver = int(ver[1]) # "v1.xml" -> 1
+    return msid, ver
