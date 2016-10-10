@@ -196,7 +196,19 @@ def handler(json_request, outgoing):
             return response(mkresponse(ERROR, msg, request))
 
         try:
-            article_data = main.render_single(article_xml, version=params['version'])
+            caching = False
+            cache_path = '/home/luke/dev/python/bot-lax-adaptor/article-json/elife-%05d-v%s.xml.json' \
+                % (int(params['id']), int(params['version']))
+            article_data = None
+            if caching and os.path.exists(cache_path):
+                try:
+                    article_data = json.load(open(cache_path, 'r'))
+                except ValueError:
+                    # failed
+                    pass
+
+            if not article_data:
+                article_data = main.render_single(article_xml, version=params['version'])
         except Exception as err:
             msg = "failed to render article-json from article-xml: %s" % err.message
             return response(mkresponse(ERROR, msg, request))
@@ -259,7 +271,7 @@ def do(incoming, outgoing):
 def bootstrap():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--type', choices=['sqs', 'fs'], required=True, default='fs')
+    parser.add_argument('--type', choices=['sqs', 'fs'], default='fs')
 
     # fs options
     parser.add_argument('--force', action='store_true', default=False)
