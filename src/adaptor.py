@@ -5,6 +5,7 @@ from datetime import datetime
 import os
 from os.path import join
 import requests
+import signal
 import main, fs_adaptor, sqs_adaptor
 from functools import partial
 import utils
@@ -251,17 +252,34 @@ def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles'), **kwargs):
     outgoing = fs_adaptor.OutgoingQueue()
     return incoming, outgoing
 
+class Flag:
+    def __init__(self):
+        self.should_stop = False
+
+    def stop(self):
+        self.should_stop = True
+
 def do(incoming, outgoing):
+    flag = Flag()
+
+    def signal_handler(signum, _frame):
+        LOG.info("received signal %s", signum)
+        flag.stop()
+    signal.signal(signal.SIGTERM, signal_handler)
+
     # we'll see how far this abstraction gets us...
     try:
         for request in incoming:
             LOG.info("received request %s", request)
             handler(request, outgoing)
-
             print
 
+            if flag.should_stop():
+                LOG.info("stopping gracefully")
+                return
+
     except KeyboardInterrupt:
-        pass
+        LOG.warn("stopping abruptly due to KeyboardInterrupt")
 
     finally:
         incoming.close()
