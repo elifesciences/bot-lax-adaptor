@@ -3,7 +3,7 @@
 set -e # everything must pass
 
 # ensure the venv is installed
-. ./install.sh &> /dev/null
+. ./install.sh
 
 # activate venv
 . ./venv/bin/activate
