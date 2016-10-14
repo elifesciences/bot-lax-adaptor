@@ -2,7 +2,10 @@
 # generates article-json from the contents of the elife-article-xml repo
 
 set -e # everything must pass
+
+. install.sh
 . download-elife-xml.sh
+
 echo > scrape.log
 
 # trap ctrl-c and call ctrl_c()
