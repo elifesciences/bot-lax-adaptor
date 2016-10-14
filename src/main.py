@@ -1,4 +1,4 @@
-import os, sys, json, copy
+import os, sys, json, copy, re
 import threading
 from et3.render import render, EXCLUDE_ME
 from elifetools import parseJATS
@@ -162,6 +162,35 @@ def body_rewrite(body):
     body = mathml_rewrite(body)
     return body
 
+def references_rewrite(references):
+    "clean up values that will not pass validation temporarily"
+    for ref in references:
+        if "date" in ref:
+            # Scrub non-numeric values from the date, which comes from the reference year
+            ref["date"] = re.sub("[^0-9]", "", ref["date"])
+        if ref.get("type") == "other":
+            # The schema cannot support type other, turn this into a basic journal reference
+            #  to pass validation
+            ref["type"] = "journal"
+            #if not "articleTitle" in ref:
+            #    ref["articleTitle"] = "Placeholder article title for ref of type 'other'"
+            if not "journal" in ref:
+                ref["journal"] = {}
+                ref["journal"]["name"] = []
+                #ref["journal"]["name"].append("This is a transformed placeholder journal name for ref of type 'other'")
+                if "source" in ref:
+                    ref["journal"]["name"].append(ref["source"])
+                    del ref["source"]
+        if ref.get("type") == "journal" and not "pages" in ref:
+            #ref["pages"] = "placeholderforrefwithnopages"
+            pass
+        if ref.get("type") == "book":
+            if not "publisher" in ref:
+                ref["publisher"] = {}
+                ref["publisher"]["name"] = []
+                #ref["publisher"]["name"].append("This is a placeholder book publisher name for ref that does not have one")
+
+    return references
 
 #
 #
@@ -225,6 +254,15 @@ def discard_if_not_v1(v):
         return v
     return EXCLUDE_ME
 
+def authors_rewrite(authors):
+    # Clean up phone number format
+    for author in authors:
+        if "phoneNumbers" in author:
+            for i, phone in enumerate(author["phoneNumbers"]):
+                # Only one phone number so far, simple replace to validate
+                author["phoneNumbers"][i] = re.sub(r'[\(\) -]', '', phone)
+    return authors
+
 #
 #
 #
@@ -262,6 +300,7 @@ POA.update(OrderedDict([
         ('holder', [jats('copyright_holder')]),
         ('statement', [jats('license')]),
     ])),
+    ('authors', [jats('authors_json'), authors_rewrite])
 ]))
 
 # a VOR snippets contains the contents of a POA
@@ -277,6 +316,7 @@ VOR.update(OrderedDict([
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
     ('body', [jats('body'), body_rewrite]), # ha! so easy ...
+    ('references', [jats('references'), references_rewrite]),
     ('decisionLetter', [jats('decision_letter'), body_rewrite]),
     ('authorResponse', [jats('author_response'), body_rewrite]),
 ]))
