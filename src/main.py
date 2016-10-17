@@ -210,6 +210,14 @@ def clean_if_empty(article_or_snippet):
             del article_or_snippet[remove_index]
     return article_or_snippet
 
+def clean_copyright(article_or_snippet):
+    # Clean copyright in article or snippet
+    remove_from_copyright_if_none = ["holder"]
+    for remove_index in remove_from_copyright_if_none:
+        if article_or_snippet.get("copyright", {}).has_key(remove_index):
+            if article_or_snippet["copyright"][remove_index] is None:
+                del article_or_snippet["copyright"][remove_index]
+    return article_or_snippet
 
 def clean(article_data):
     # Remove null or blank elements
@@ -221,11 +229,8 @@ def clean(article_data):
     article_json["article"] = clean_if_empty(article_json["article"])
     article_json["snippet"] = clean_if_empty(article_json["snippet"])
 
-    remove_from_copyright_if_none = ["holder"]
-    for remove_index in remove_from_copyright_if_none:
-        if remove_index in article_json["article"].get("copyright", {}):
-            if article_json["article"]["copyright"][remove_index] is None:
-                del article_json["article"]["copyright"][remove_index]
+    article_json["article"] = clean_copyright(article_json["article"])
+    article_json["snippet"] = clean_copyright(article_json["snippet"])
 
     article_json["article"] = abstract_to_impact_statement(article_json["article"])
     article_json["snippet"] = abstract_to_impact_statement(article_json["snippet"])
