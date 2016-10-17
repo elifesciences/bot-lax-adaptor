@@ -195,6 +195,41 @@ def fix_section_id_if_missing(body_json):
 
     return body_json
 
+def fix_box_title_if_missing(body_json):
+    placeholder_box_title_if_missing = "Placeholder box title because we must have one"
+    for element in body_json:
+        if "type" in element and element["type"] == "box":
+            if "title" not in element:
+                element["title"] = placeholder_box_title_if_missing
+        for content_index in ["content"]:
+            if content_index in element:
+                try:
+                    fix_box_title_if_missing(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
+    return body_json
+
+def wrap_body_in_section(body_json):
+    """JSON schema requires body to be wrapped in a section even if not present"""
+
+    if (body_json and len(body_json) > 0 and "type" in body_json[0]
+            and body_json[0]["type"] != "section"):
+        # Wrap this one
+        new_body_section = {}
+        new_body_section["type"] = "section"
+        new_body_section["id"] = generate_section_id()
+        new_body_section["title"] = ""
+        new_body_section["content"] = []
+        for body_block in body_json:
+            new_body_section["content"].append(body_block)
+        new_body = []
+        new_body.append(new_body_section)
+        body_json = new_body
+
+    # Continue with rewriting
+    return body_json
+
 def is_poa(contents):
     try:
         return contents["article"]["status"] == "poa"
@@ -222,6 +257,12 @@ def add_placeholders_for_validation(contents):
             art[elem] = fix_section_id_if_missing(art[elem])
             art[elem] = mathml_rewrite(art[elem])
             art[elem] = fix_image_attributes_if_missing(art[elem])
+            art[elem] = fix_box_title_if_missing(art[elem])
+
+    for elem in ['body']:
+        if elem in art:
+            art[elem] = wrap_body_in_section(art[elem])
+
 
     if not is_poa(contents):
         pass
