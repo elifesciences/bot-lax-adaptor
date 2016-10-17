@@ -188,6 +188,9 @@ def handler(json_request, outgoing):
     if params['action'] in [INGEST, INGEST_PUBLISH]:
         try:
             article_xml = download(request['location'])
+            if not article_xml:
+                raise ValueError("no article content available")
+
         except AssertionError as err:
             msg = "refusing to download article xml: %s" % err.message
             return response(mkresponse(ERROR, msg, request))
