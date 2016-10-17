@@ -63,6 +63,8 @@ placeholder_authors = [{
     }]
 }]
 
+placeholder_statusDate = "1970-09-10T00:00:00Z"
+
 def is_poa(contents):
     try:
         return contents["article"]["status"] == "poa"
@@ -80,6 +82,9 @@ def add_placeholders_for_validation(contents):
     contents['article']['abstract'] = placeholder_abstract
 
     contents['article']['authors'] = placeholder_authors
+
+    contents['snippet']['statusDate'] = placeholder_statusDate
+    contents['article']['statusDate'] = placeholder_statusDate
 
     if not is_poa(contents):
         contents['article']['digest'] = placeholder_digest
