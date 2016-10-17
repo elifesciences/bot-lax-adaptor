@@ -19,24 +19,6 @@ LOG.addHandler(_handler2)
 
 placeholder_version = 1
 
-placeholder_abstract = {
-    "doi": "10.7554/eLife.09560.001",
-    "content": [{
-        "type": "paragraph",
-        "text": "Abstract"
-    }]
-}
-
-placeholder_digest = {
-    "doi": "10.7554/eLife.09560.002",
-    "content": [{
-        "type": "paragraph",
-        "text": "Digest"
-    }]
-}
-
-placeholder_authorLine = "eLife et al"
-
 placeholder_authors = [{
     "type": "person",
     "name": {
@@ -70,19 +52,18 @@ def is_poa(contents):
         return False
 
 def add_placeholders_for_validation(contents):
-    contents['snippet']['version'] = placeholder_version
-    contents['article']['version'] = placeholder_version
+    art = contents['article']
 
-    contents['snippet']['authorLine'] = placeholder_authorLine
-    contents['article']['authorLine'] = placeholder_authorLine
+    art['version'] = placeholder_version
+    art['authors'] = placeholder_authors
+    art['statusDate'] = '2016-01-01T00:00:00Z'
 
-    contents['snippet']['abstract'] = placeholder_abstract
-    contents['article']['abstract'] = placeholder_abstract
-
-    contents['article']['authors'] = placeholder_authors
+    # relatedArticles are not part of article deliverables
+    if 'relatedArticles' in art:
+        del art['relatedArticles']
 
     if not is_poa(contents):
-        contents['article']['digest'] = placeholder_digest
+        pass
 
 def main():
     import argparse
@@ -110,6 +91,8 @@ def main():
         LOG.info("validated %s", msid, extra=log_context)
     except jsonschema.ValidationError as err:
         LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
+        exit(1)
+    except KeyboardInterrupt:
         exit(1)
 
 if __name__ == '__main__':
