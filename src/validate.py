@@ -121,6 +121,28 @@ def video_rewrite(body_json):
 
     return body_json
 
+def mathml_rewrite(body_json):
+    # Check if it is not a list, in the case of authorResponse
+    if "content" in body_json:
+        mathml_rewrite(body_json["content"])
+    # A list, like in body, continue
+    for element in body_json:
+        if "type" in element and element["type"] == "mathml":
+            if "mathml" in element:
+                # Quick edits to get mathml to comply with the json schema
+                mathml = "<math>" + element["mathml"] + "</math>"
+                mathml = mathml.replace("<mml:", "<").replace("</mml:", "</")
+                element["mathml"] = mathml
+
+        for content_index in ["content", "caption", "supplements"]:
+            if content_index in element:
+                try:
+                    mathml_rewrite(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
+    return body_json
+
 def generate_section_id():
     """section id attribute generator"""
     global section_id_counter
@@ -170,6 +192,7 @@ def add_placeholders_for_validation(contents):
             art[elem] = uri_rewrite(art[elem])
             art[elem] = video_rewrite(art[elem])
             art[elem] = fix_section_id_if_missing(art[elem])
+            art[elem] = mathml_rewrite(art[elem])
 
     if not is_poa(contents):
         pass

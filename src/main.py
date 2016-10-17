@@ -120,27 +120,6 @@ def self_uri_to_pdf(self_uri_list):
     if self_uri_list:
         return self_uri_list[0]["xlink_href"]
 
-def mathml_rewrite(body_json):
-    for element in body_json:
-        if "type" in element and element["type"] == "mathml":
-            if "mathml" in element:
-                # Quick edits to get mathml to comply with the json schema
-                mathml = "<math>" + element["mathml"] + "</math>"
-                mathml = mathml.replace("<mml:", "<").replace("</mml:", "</")
-                element["mathml"] = mathml
-
-        if "content" in element:
-            try:
-                mathml_rewrite(element["content"])
-            except TypeError:
-                # not iterable
-                pass
-    return body_json
-
-def body_rewrite(body):
-    body = mathml_rewrite(body)
-    return body
-
 def references_rewrite(references):
     "clean up values that will not pass validation temporarily"
     for ref in references:
@@ -294,10 +273,10 @@ VOR.update(OrderedDict([
     ('keywords', [jats('keywords')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
-    ('body', [jats('body'), body_rewrite]), # ha! so easy ...
+    ('body', [jats('body')]), # ha! so easy ...
     ('references', [jats('references'), references_rewrite]),
-    ('decisionLetter', [jats('decision_letter'), body_rewrite]),
-    ('authorResponse', [jats('author_response'), body_rewrite]),
+    ('decisionLetter', [jats('decision_letter')]),
+    ('authorResponse', [jats('author_response')]),
 ]))
 
 def mkdescription(poa=True):
