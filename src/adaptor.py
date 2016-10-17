@@ -10,6 +10,9 @@ import main, fs_adaptor, sqs_adaptor
 from functools import partial
 import utils
 
+from awsauth import S3Auth
+import botocore.session
+
 import conf
 from conf import PATHS_TO_LAX, PROJECT_DIR
 from conf import INVALID, ERROR, INGESTED, PUBLISHED, INGEST, PUBLISH, INGEST_PUBLISH
@@ -91,7 +94,7 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
         }
     except ValueError as err:
         # could not parse lax response. this is a lax error
-        raise RuntimeError("could not parse response from lax, expecting json, got error %r from stdout %r" %
+        raise RuntimeError("failed to parse response from lax, expecting json, got error %r from stdout %r" %
                            (err.message, lax_stdout))
 
 def file_handler(path):
@@ -101,11 +104,24 @@ def file_handler(path):
     # write cache?
     return xml
 
+def http_download(location):
+    cred = None
+    if location.startswith('https://s3.amazonaws.com'):
+        # if we can find credentials, attach them
+        session = botocore.session.get_session()
+        cred = [getattr(session.get_credentials(), attr) for attr in ['access_key', 'secret_key']]
+        if filter(None, cred): # remove any empty values
+            cred = S3Auth(*cred)
+    resp = requests.get(location, auth=cred)
+    if resp.status_code != 200:
+        raise RuntimeError("failed to download xml from location %r, got response code: %s" % (location, resp.status_code))
+    return resp.text
+
 def download(location):
     "download file, convert and pipe content straight into lax + transparent cache"
     protocol, path = location.split('://')
     downloaderficationer = {
-        'https': lambda: requests.get(location).text,
+        'https': lambda: http_download(location),
         # load files relative to adaptor root
         'file': partial(file_handler, path)
     }
@@ -204,7 +220,7 @@ def handler(json_request, outgoing):
             #cache_path = '/home/luke/dev/python/bot-lax-adaptor/article-json/elife-%05d-v%s.xml.json' \
             #    % (int(params['id']), int(params['version']))
             article_data = None
-            #if caching and os.path.exists(cache_path):
+            # if caching and os.path.exists(cache_path):
             #    try:
             #        article_data = json.load(open(cache_path, 'r'))
             #    except ValueError:
@@ -213,7 +229,8 @@ def handler(json_request, outgoing):
             if not article_data:
                 article_data = main.render_single(article_xml, version=params['version'])
         except Exception as err:
-            msg = "failed to render article-json from article-xml: %s" % err.message
+            error = err.message if hasattr(err, 'message') else err
+            msg = "failed to render article-json from article-xml: %s" % error
             LOG.exception(msg, extra=params)
             return response(mkresponse(ERROR, msg, request))
 
@@ -277,7 +294,7 @@ def do(incoming, outgoing):
             handler(request, outgoing)
             print
 
-            if flag.should_stop():
+            if flag.should_stop:
                 LOG.info("stopping gracefully")
                 return
 

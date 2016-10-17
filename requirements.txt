@@ -11,3 +11,4 @@ python-json-logger==0.1.5
 python-slugify==1.2.0
 python-dateutil==2.5.3
 requests==2.11.1
+requests-aws==0.1.8
