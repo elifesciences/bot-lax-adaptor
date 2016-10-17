@@ -73,6 +73,53 @@ placeholder_references = [{
     "doi": "10.1101/gad.462608"
 }]
 
+def uri_rewrite(body_json):
+    base_uri = "https://example.org/"
+    # Check if it is not a list, in the case of authorResponse
+    if "content" in body_json:
+        uri_rewrite(body_json["content"])
+    # A list, like in body, continue
+    for element in body_json:
+        if (("type" in element and element["type"] == "image") or
+            ("mediaType" in element)):
+            if "uri" in element:
+                element["uri"] = base_uri + element["uri"]
+                # Add or edit file extension
+                # TODO!!
+        for content_index in ["content", "supplements", "sourceData"]:
+            if content_index in element:
+                try:
+                    uri_rewrite(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
+    return body_json
+
+def video_rewrite(body_json):
+    for element in body_json:
+        if "type" in element and element["type"] == "video":
+            if "uri" in element:
+                element["sources"] = []
+                source_media = {}
+                source_media["mediaType"] = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""
+                source_media["uri"] = "https://example.org/" + element.get("uri")
+                element["sources"].append(source_media)
+
+                element["image"] = "https://example.org/" + element.get("uri")
+                element["width"] = 640
+                element["height"] = 480
+
+                del element["uri"]
+
+        for content_index in ["content"]:
+            if content_index in element:
+                try:
+                    video_rewrite(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
+
+    return body_json
 
 def is_poa(contents):
     try:
@@ -93,6 +140,11 @@ def add_placeholders_for_validation(contents):
 
     if 'references' in art:
         art['references'] = placeholder_references
+
+    for elem in ['body', 'decisionLetter', 'authorResponse']:
+        if elem in art:
+            art[elem] = uri_rewrite(art[elem])
+            art[elem] = video_rewrite(art[elem])
 
     if not is_poa(contents):
         pass

@@ -120,26 +120,6 @@ def self_uri_to_pdf(self_uri_list):
     if self_uri_list:
         return self_uri_list[0]["xlink_href"]
 
-def image_uri_rewrite(body_json):
-    base_uri = "https://example.org/"
-    for element in body_json:
-        if (("type" in element and element["type"] == "image") or
-                ("mediaType" in element)):
-            if "uri" in element:
-                element["uri"] = base_uri + element["uri"]
-                # Add or edit file extension
-                # TODO!!
-        for content_index in ["content", "supplements", "sourceData"]:
-            if content_index in element:
-                try:
-                    image_uri_rewrite(element[content_index])
-                except TypeError:
-                    # not iterable
-                    pass
-
-    return body_json
-
-
 def mathml_rewrite(body_json):
     for element in body_json:
         if "type" in element and element["type"] == "mathml":
@@ -158,7 +138,6 @@ def mathml_rewrite(body_json):
     return body_json
 
 def body_rewrite(body):
-    body = image_uri_rewrite(body)
     body = mathml_rewrite(body)
     return body
 
