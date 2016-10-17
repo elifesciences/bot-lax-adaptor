@@ -101,6 +101,35 @@ placeholder_related_article = {
     }
 }
 
+placeholder_references = [{
+    "type": "journal", 
+    "id": "bib1", 
+    "date": "2008", 
+    "authors": [
+        {
+            "type": "person", 
+            "name": {
+                "preferred": "Person One", 
+                "index": "One, Person"
+            }
+        }
+    ], 
+    "articleTitle": "Auxin influx carriers stabilize phyllotactic patterning", 
+    "journal": {
+        "name": [
+            "Genes & Development"
+        ]
+    }, 
+    "volume": "22", 
+    "pages": {
+        "first": "810", 
+        "last": "823", 
+        "range": u"810\u2013823"
+    }, 
+    "doi": "10.1101/gad.462608"
+}]
+
+
 def is_poa(contents):
     try:
         return contents["article"]["status"] == "poa"
@@ -125,6 +154,9 @@ def add_placeholders_for_validation(contents):
     if 'relatedArticles' in contents['article']:
         for i, value in enumerate(contents['article']['relatedArticles']):
             contents['article']['relatedArticles'][i] = placeholder_related_article
+
+    if 'references' in contents['article']:
+        contents['article']['references'] = placeholder_references
 
     if not is_poa(contents):
         contents['article']['digest'] = placeholder_digest
