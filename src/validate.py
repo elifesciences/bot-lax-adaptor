@@ -46,30 +46,30 @@ placeholder_authors = [{
 }]
 
 placeholder_references = [{
-    "type": "journal", 
-    "id": "bib1", 
-    "date": "2008", 
+    "type": "journal",
+    "id": "bib1",
+    "date": "2008",
     "authors": [
         {
-            "type": "person", 
+            "type": "person",
             "name": {
-                "preferred": "Person One", 
+                "preferred": "Person One",
                 "index": "One, Person"
             }
         }
-    ], 
-    "articleTitle": "Auxin influx carriers stabilize phyllotactic patterning", 
+    ],
+    "articleTitle": "Auxin influx carriers stabilize phyllotactic patterning",
     "journal": {
         "name": [
             "Genes & Development"
         ]
-    }, 
-    "volume": "22", 
+    },
+    "volume": "22",
     "pages": {
-        "first": "810", 
-        "last": "823", 
+        "first": "810",
+        "last": "823",
         "range": u"810\u2013823"
-    }, 
+    },
     "doi": "10.1101/gad.462608"
 }]
 
@@ -81,7 +81,7 @@ def uri_rewrite(body_json):
     # A list, like in body, continue
     for element in body_json:
         if (("type" in element and element["type"] == "image") or
-            ("mediaType" in element)):
+                ("mediaType" in element)):
             if "uri" in element:
                 element["uri"] = base_uri + element["uri"]
                 # Add or edit file extension
