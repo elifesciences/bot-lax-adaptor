@@ -250,6 +250,9 @@ def add_placeholders_for_validation(contents):
     if 'references' in art:
         art['references'] = placeholder_references
 
+    if 'published' not in art:
+        art['published'] = '1970-07-01T00:00:00Z'
+
     for elem in ['body', 'decisionLetter', 'authorResponse']:
         if elem in art:
             art[elem] = uri_rewrite(art[elem])
