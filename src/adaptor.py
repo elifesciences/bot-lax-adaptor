@@ -229,7 +229,8 @@ def handler(json_request, outgoing):
             if not article_data:
                 article_data = main.render_single(article_xml, version=params['version'])
         except Exception as err:
-            msg = "failed to render article-json from article-xml: %s" % err.message
+            error = err.message if hasattr(err, 'message') else err
+            msg = "failed to render article-json from article-xml: %s" % error
             LOG.exception(msg, extra=params)
             return response(mkresponse(ERROR, msg, request))
 
