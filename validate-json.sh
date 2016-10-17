@@ -14,12 +14,24 @@ function ctrl_c() {
     exit 1
 }
 
+rm -rf ./article-json/valid/ ./article-json/invalid/
+mkdir ./article-json/valid/ ./article-json/invalid/
+
 passed=0
 failed=0
+
 for i in `ls ./article-json/*.json | sort`; do 
-    python ./src/validate.py $i && ((passed+=1)) || {
-        ((failed+=1))
+    fname=$(basename $i)
+    python ./src/validate.py $i && \
+    ((passed+=1)) && \
+    ln -s "../$fname" "./article-json/valid/$fname" || {
+        ((failed+=1)) && \
+        ln -s "../$fname" "./article-json/invalid/$fname"
     }
 done
+
+echo "valid json can be found in ./article-json/valid/"
+echo "invalid json can be found in ./article-json/invalid/"
 echo "passed: $passed"
 echo "failed: $failed"
+echo "$passed/$failed" > validation-results.txt
