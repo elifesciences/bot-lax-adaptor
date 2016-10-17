@@ -180,29 +180,55 @@ def to_volume(volume):
         volume = THIS_YEAR - 2011
     return int(volume)
 
+def abstract_to_impact_statement(article_or_snippet):
+    # If abstract has no DOI, turn it into an impact statement
+    if "abstract" in article_or_snippet and "impactStatement" not in article_or_snippet:
+        if "doi" not in article_or_snippet["abstract"]:
+            # Take the first paragraph text
+            abstract_text = article_or_snippet["abstract"]["content"][0]["text"]
+            article_or_snippet["impactStatement"] = abstract_text
+            del article_or_snippet["abstract"]
+    return article_or_snippet
+
+def clean_if_none(article_or_snippet):
+    remove_if_none = ["pdf", "relatedArticles", "digest", "abstract"]
+    for remove_index in remove_if_none:
+        if remove_index in article_or_snippet:
+            if article_or_snippet[remove_index] is None:
+                del article_or_snippet[remove_index]
+    return article_or_snippet
+
+def clean_if_empty(article_or_snippet):
+    remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
+                       "researchOrganisms", "keywords", "references"]
+    for remove_index in remove_if_empty:
+        if (article_or_snippet.get(remove_index) is not None
+            and (
+                article_or_snippet.get(remove_index) == ""
+                or article_or_snippet.get(remove_index) == []
+                or article_or_snippet.get(remove_index) == {})):
+            del article_or_snippet[remove_index]
+    return article_or_snippet
+
+
 def clean(article_data):
     # Remove null or blank elements
     article_json = article_data # we're not dealing with json just yet ...
-    remove_if_none = ["pdf", "relatedArticles"]
-    for remove_index in remove_if_none:
-        if remove_index in article_json["article"]:
-            if article_json["article"][remove_index] is None:
-                del article_json["article"][remove_index]
 
-    remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse"]
-    for remove_index in remove_if_empty:
-        if (article_json["article"].get(remove_index) is not None
-            and (
-                article_json["article"].get(remove_index) == ""
-                or article_json["article"].get(remove_index) == []
-                or article_json["article"].get(remove_index) == {})):
-            del article_json["article"][remove_index]
+    article_json["article"] = clean_if_none(article_json["article"])
+    article_json["snippet"] = clean_if_none(article_json["snippet"])
+
+    article_json["article"] = clean_if_empty(article_json["article"])
+    article_json["snippet"] = clean_if_empty(article_json["snippet"])
 
     remove_from_copyright_if_none = ["holder"]
     for remove_index in remove_from_copyright_if_none:
         if remove_index in article_json["article"].get("copyright", {}):
             if article_json["article"]["copyright"][remove_index] is None:
                 del article_json["article"]["copyright"][remove_index]
+
+    article_json["article"] = abstract_to_impact_statement(article_json["article"])
+    article_json["snippet"] = abstract_to_impact_statement(article_json["snippet"])
 
     return article_json
 
@@ -244,7 +270,7 @@ SNIPPET = OrderedDict([
     ('elocationId', [jats('elocation_id')]),
     ('pdf', [jats('self_uri'), self_uri_to_pdf]),
     ('subjects', [jats('category'), category_codes]),
-    ('research-organisms', [jats('research_organism')]),
+    ('researchOrganisms', [jats('research_organism')]),
     ('abstract', [jats('abstract_json')]),
 ])
 # https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-poa.v1.json#L689
