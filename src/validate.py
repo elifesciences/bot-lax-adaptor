@@ -45,44 +45,6 @@ placeholder_authors = [{
     }]
 }]
 
-placeholder_statusDate = "1970-09-10T00:00:00Z"
-
-placeholder_related_article = {
-    "type": "research-article",
-    "status": "vor",
-    "id": "09561",
-    "version": 1,
-    "doi": "10.7554/eLife.09561",
-    "authorLine": "Paul HGM Dirks et al",
-    "title": "Geological and taphonomic context for the new hominin species <i>Homo naledi</i> from the Dinaledi Chamber, South Africa",
-    "published": "2015-09-10T00:00:00Z",
-    "statusDate": "2015-09-10T00:00:00Z",
-    "volume": 4,
-    "elocationId": "e09561",
-    "pdf": "https://elifesciences.org/content/4/e09561.pdf",
-    "subjects": [
-        "genomics-evolutionary-biology"
-    ],
-    "impactStatement": "A new hominin species found in a South African cave is part of one of the most unusual hominin fossil assemblages on record.",
-    "image": {
-        "alt": "",
-        "sizes": {
-            "2:1": {
-                "900": "https://placehold.it/900x450",
-                "1800": "https://placehold.it/1800x900"
-            },
-            "16:9": {
-                "250": "https://placehold.it/250x141",
-                "500": "https://placehold.it/500x281"
-            },
-            "1:1": {
-                "70": "https://placehold.it/70x70",
-                "140": "https://placehold.it/140x140"
-            }
-        }
-    }
-}
-
 placeholder_references = [{
     "type": "journal", 
     "id": "bib1", 
@@ -129,15 +91,8 @@ def add_placeholders_for_validation(contents):
     if 'relatedArticles' in art:
         del art['relatedArticles']
 
-    contents['snippet']['statusDate'] = placeholder_statusDate
-    contents['article']['statusDate'] = placeholder_statusDate
-
-    if 'relatedArticles' in contents['article']:
-        for i, value in enumerate(contents['article']['relatedArticles']):
-            contents['article']['relatedArticles'][i] = placeholder_related_article
-
-    if 'references' in contents['article']:
-        contents['article']['references'] = placeholder_references
+    if 'references' in art:
+        art['references'] = placeholder_references
 
     if not is_poa(contents):
         pass
