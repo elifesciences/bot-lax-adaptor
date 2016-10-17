@@ -293,7 +293,7 @@ def do(incoming, outgoing):
             handler(request, outgoing)
             print
 
-            if flag.should_stop():
+            if flag.should_stop:
                 LOG.info("stopping gracefully")
                 return
 
