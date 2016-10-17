@@ -121,6 +121,30 @@ def video_rewrite(body_json):
 
     return body_json
 
+def generate_section_id():
+    """section id attribute generator"""
+    global section_id_counter
+    try:
+        section_id_counter = section_id_counter + 1
+    except NameError:
+        section_id_counter = 1
+    return "phantom-s-" + str(section_id_counter)
+
+def fix_section_id_if_missing(body_json):
+    for element in body_json:
+        if "type" in element and element["type"] == "section":
+            if "id" not in element:
+                element["id"] = generate_section_id()
+        for content_index in ["content"]:
+            if content_index in element:
+                try:
+                    fix_section_id_if_missing(element[content_index])
+                except TypeError:
+                    # not iterable
+                    pass
+
+    return body_json
+
 def is_poa(contents):
     try:
         return contents["article"]["status"] == "poa"
@@ -145,6 +169,7 @@ def add_placeholders_for_validation(contents):
         if elem in art:
             art[elem] = uri_rewrite(art[elem])
             art[elem] = video_rewrite(art[elem])
+            art[elem] = fix_section_id_if_missing(art[elem])
 
     if not is_poa(contents):
         pass
