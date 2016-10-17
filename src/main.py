@@ -79,6 +79,7 @@ DISPLAY_CHANNEL_TYPES = {
     "Research Article": "research-article",
     "Research article": "research-article",
     "Short report": "short-report",
+    "Short Report": "short-report",
     "Tools and Resources": "tools-resources",
 
     # NOTE: have not seen the below ones yet, guessing
