@@ -176,7 +176,7 @@ def generate_section_id():
     global section_id_counter
     try:
         section_id_counter = section_id_counter + 1
-    except NameError:
+    except (NameError, TypeError):
         section_id_counter = 1
     return "phantom-s-" + str(section_id_counter)
 
