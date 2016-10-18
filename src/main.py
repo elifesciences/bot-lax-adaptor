@@ -121,36 +121,6 @@ def self_uri_to_pdf(self_uri_list):
     if self_uri_list:
         return self_uri_list[0]["xlink_href"]
 
-def references_rewrite(references):
-    "clean up values that will not pass validation temporarily"
-    for ref in references:
-        if "date" in ref:
-            # Scrub non-numeric values from the date, which comes from the reference year
-            ref["date"] = re.sub("[^0-9]", "", ref["date"])
-        if ref.get("type") == "other":
-            # The schema cannot support type other, turn this into a basic journal reference
-            #  to pass validation
-            ref["type"] = "journal"
-            #if not "articleTitle" in ref:
-            #    ref["articleTitle"] = "Placeholder article title for ref of type 'other'"
-            if not "journal" in ref:
-                ref["journal"] = {}
-                ref["journal"]["name"] = []
-                #ref["journal"]["name"].append("This is a transformed placeholder journal name for ref of type 'other'")
-                if "source" in ref:
-                    ref["journal"]["name"].append(ref["source"])
-                    del ref["source"]
-        if ref.get("type") == "journal" and not "pages" in ref:
-            #ref["pages"] = "placeholderforrefwithnopages"
-            pass
-        if ref.get("type") == "book":
-            if not "publisher" in ref:
-                ref["publisher"] = {}
-                ref["publisher"]["name"] = []
-                #ref["publisher"]["name"].append("This is a placeholder book publisher name for ref that does not have one")
-
-    return references
-
 #
 #
 #
@@ -306,7 +276,7 @@ VOR.update(OrderedDict([
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
     ('body', [jats('body')]), # ha! so easy ...
-    ('references', [jats('references'), references_rewrite]),
+    ('references', [jats('references')]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
 ]))
