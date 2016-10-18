@@ -15,6 +15,8 @@ function ctrl_c() {
 }
 
 mkdir -p article-json
+rm -rf article-json/invalid/
+rm -rf article-json/valid/
 for i in `ls ./article-xml/articles/*.xml | sort -r`; do 
     echo $(basename $i) "-> " $(basename $i).json
     python ./src/main.py $i > ./article-json/$(basename $i).json 2> /dev/null || {
