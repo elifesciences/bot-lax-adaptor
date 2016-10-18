@@ -17,8 +17,6 @@ _handler2.setLevel(logging.INFO)
 _handler2.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
 LOG.addHandler(_handler2)
 
-placeholder_version = 1
-
 placeholder_authors = [{
     "type": "person",
     "name": {
@@ -240,19 +238,21 @@ def is_poa(contents):
 def add_placeholders_for_validation(contents):
     art = contents['article']
 
-    art['version'] = placeholder_version
-    art['authors'] = placeholder_authors
+    #art['authors'] = placeholder_authors
     art['statusDate'] = '2016-01-01T00:00:00Z'
+
+    # the versionDate is discarded when the article is not v1
+    if art['version'] > 1:
+        # add a placeholder for validation
+        art['versionDate'] = '2016-01-01T00:00:00Z'
 
     # relatedArticles are not part of article deliverables
     if 'relatedArticles' in art:
         del art['relatedArticles']
 
+    # what references we do have are invalid
     if 'references' in art:
-        art['references'] = placeholder_references
-
-    if 'published' not in art:
-        art['published'] = '1970-07-01T00:00:00Z'
+        del art['references']
 
     for elem in ['body', 'decisionLetter', 'authorResponse']:
         if elem in art:
@@ -266,7 +266,6 @@ def add_placeholders_for_validation(contents):
     for elem in ['body']:
         if elem in art:
             art[elem] = wrap_body_in_section(art[elem])
-
 
     if not is_poa(contents):
         pass

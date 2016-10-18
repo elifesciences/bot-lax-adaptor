@@ -90,9 +90,13 @@ DISPLAY_CHANNEL_TYPES = {
 
 def display_channel_to_article_type(display_channel_list):
     if not display_channel_list:
+        LOG.warn("type: display channel list not provided")
         return
     display_channel = display_channel_list[0]
-    return DISPLAY_CHANNEL_TYPES.get(display_channel)
+    retval = DISPLAY_CHANNEL_TYPES.get(display_channel)
+    if not retval:
+        LOG.warn("type: given value %r has no mention in idx: %s", display_channel, DISPLAY_CHANNEL_TYPES.keys())
+    return retval
 
 LICENCE_TYPES = {
     "http://creativecommons.org/licenses/by/3.0/": "CC-BY-3.0",
@@ -241,7 +245,8 @@ SNIPPET = OrderedDict([
     ('doi', [jats('doi')]),
     ('authorLine', [jats('author_line')]),
     ('title', [jats('title')]),
-    ('published', [jats('pub_date'), to_isoformat, discard_if_not_v1]),
+    ('published', [jats('pub_date'), to_isoformat]), # 'published' is the pubdate of the v1 article
+    ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
     ('volume', [jats('volume'), to_volume]),
     ('elocationId', [jats('elocation_id')]),
     ('pdf', [jats('self_uri'), self_uri_to_pdf]),

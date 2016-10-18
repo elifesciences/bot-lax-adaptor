@@ -53,9 +53,9 @@ class TestArticleScrape(BaseCase):
 
     def test_main_published_excluded_if_v2(self):
         results = main.render_single(self.doc, version=1)
-        self.assertTrue('published' in results['article'])
+        self.assertTrue('versionDate' in results['article'])
         results = main.render_single(self.doc, version=2)
-        self.assertFalse('published' in results['article'])
+        self.assertFalse('versionDate' in results['article'])
 
     def test_note(self):
         # For test coverage
