@@ -244,10 +244,10 @@ except ImportError:
 #
 #
 
-def read_from_sqs(stackname='temp'):
+def read_from_sqs(instance_id='temp', **kwargs):
     "reads messages from an SQS queue, writes responses to another SQS queue"
-    incoming = sqs_adaptor.IncomingQueue('bot-lax-%s-inc' % stackname)
-    outgoing = sqs_adaptor.OutgoingQueue('bot-lax-%s-out' % stackname)
+    incoming = sqs_adaptor.IncomingQueue('bot-lax-%s-inc' % instance_id, **kwargs)
+    outgoing = sqs_adaptor.OutgoingQueue('bot-lax-%s-out' % instance_id)
     return incoming, outgoing
 
 def read_from_fs(path, **kwargs):
@@ -265,12 +265,6 @@ class Flag:
         self.should_stop = True
 
 def do(incoming, outgoing):
-    flag = Flag()
-
-    def signal_handler(signum, _frame):
-        LOG.info("received signal %s", signum)
-        flag.stop()
-    signal.signal(signal.SIGTERM, signal_handler)
 
     # we'll see how far this abstraction gets us...
     try:
@@ -279,10 +273,6 @@ def do(incoming, outgoing):
             handler(request, outgoing)
             print
 
-            if flag.should_stop:
-                LOG.info("stopping gracefully")
-                return
-
     except KeyboardInterrupt:
         LOG.warn("stopping abruptly due to KeyboardInterrupt")
 
@@ -290,6 +280,7 @@ def do(incoming, outgoing):
         incoming.close()
         outgoing.close()
 
+    LOG.info("graceful shutdown")
 
 def bootstrap():
     import argparse
@@ -315,15 +306,27 @@ def bootstrap():
     adaptor_type = args.type
 
     fn = adaptors[adaptor_type]
+    flag = _setup_interrupt_flag()
+
     if adaptor_type == 'fs':
         fn = partial(fn, action=args.action, force=args.force)
     else:
         if not args.instance_id:
             parser.error("--instance is required when --type=sqs")
         else:
-            fn = partial(fn, args.instance_id)
+            fn = partial(fn, args.instance_id, flag=flag)
 
     do(*fn())
+
+def _setup_interrupt_flag():
+    flag = Flag()
+
+    def signal_handler(signum, _frame):
+        LOG.info("received signal %s", signum)
+        flag.stop()
+    signal.signal(signal.SIGTERM, signal_handler)
+
+    return flag
 
 if __name__ == '__main__':
     bootstrap()
