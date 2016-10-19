@@ -53,6 +53,53 @@ class TestArticleScrape(BaseCase):
 
     def test_main_published_excluded_if_v2(self):
         results = main.render_single(self.doc, version=1)
-        self.assertTrue('published' in results['article'])
+        self.assertTrue('versionDate' in results['article'])
         results = main.render_single(self.doc, version=2)
-        self.assertFalse('published' in results['article'])
+        self.assertFalse('versionDate' in results['article'])
+
+    def test_note(self):
+        # For test coverage
+        msg = 'message'
+        self.assertIsNotNone(main.note(msg))
+
+    def test_todo(self):
+        # For test coverage
+        msg = 'message'
+        self.assertIsNotNone(main.todo(msg))
+
+    def test_nonxml(self):
+        # For test coverage
+        msg = 'message'
+        self.assertIsNotNone(main.nonxml(msg))
+
+    def test_related_article_to_related_articles_whem_empty(self):
+        # For increased test coverage, test and empty list
+        related_article_list = [{'junk': 'not related'}]
+        expected = None
+        self.assertEqual(main.related_article_to_related_articles(related_article_list), expected)
+
+    def test_abstract_to_impact_statement(self):
+        snippet = {'abstract': {'content': [
+            {'type': 'paragraph', 'text': 'abstract with no DOI'}]}}
+        expected = {'impactStatement': 'abstract with no DOI'}
+        self.assertEqual(main.abstract_to_impact_statement(snippet), expected)
+
+    def test_clean_if_none(self):
+        snippet = {'abstract': None}
+        expected = {}
+        self.assertEqual(main.clean_if_none(snippet), expected)
+
+    def test_clean_if_empty(self):
+        snippet = {'researchOrganisms': []}
+        expected = {}
+        self.assertEqual(main.clean_if_empty(snippet), expected)
+
+    def test_clean_copyright(self):
+        snippet = {'copyright': {'holder': None}}
+        expected = {'copyright': {}}
+        self.assertEqual(main.clean_copyright(snippet), expected)
+
+    def test_authors_rewrite(self):
+        authors = [{'phoneNumbers': ['(+1) 800-555-5555']}]
+        expected = [{'phoneNumbers': ['+18005555555']}]
+        self.assertEqual(main.authors_rewrite(authors), expected)

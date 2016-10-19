@@ -79,6 +79,7 @@ DISPLAY_CHANNEL_TYPES = {
     "Research Article": "research-article",
     "Research article": "research-article",
     "Short report": "short-report",
+    "Short Report": "short-report",
     "Tools and Resources": "tools-resources",
 
     # NOTE: have not seen the below ones yet, guessing
@@ -124,78 +125,6 @@ def self_uri_to_pdf(self_uri_list):
     if self_uri_list:
         return self_uri_list[0]["xlink_href"]
 
-def image_uri_rewrite(body_json):
-    base_uri = "https://example.org/"
-    for element in body_json:
-        if (("type" in element and element["type"] == "image") or
-                ("mediaType" in element)):
-            if "uri" in element:
-                element["uri"] = base_uri + element["uri"]
-                # Add or edit file extension
-                # TODO!!
-        for content_index in ["content", "supplements", "sourceData"]:
-            if content_index in element:
-                try:
-                    image_uri_rewrite(element[content_index])
-                except TypeError:
-                    # not iterable
-                    pass
-
-    return body_json
-
-
-def mathml_rewrite(body_json):
-    for element in body_json:
-        if "type" in element and element["type"] == "mathml":
-            if "mathml" in element:
-                # Quick edits to get mathml to comply with the json schema
-                mathml = "<math>" + element["mathml"] + "</math>"
-                mathml = mathml.replace("<mml:", "<").replace("</mml:", "</")
-                element["mathml"] = mathml
-
-        if "content" in element:
-            try:
-                mathml_rewrite(element["content"])
-            except TypeError:
-                # not iterable
-                pass
-    return body_json
-
-def body_rewrite(body):
-    body = image_uri_rewrite(body)
-    body = mathml_rewrite(body)
-    return body
-
-def references_rewrite(references):
-    "clean up values that will not pass validation temporarily"
-    for ref in references:
-        if "date" in ref:
-            # Scrub non-numeric values from the date, which comes from the reference year
-            ref["date"] = re.sub("[^0-9]", "", ref["date"])
-        if ref.get("type") == "other":
-            # The schema cannot support type other, turn this into a basic journal reference
-            #  to pass validation
-            ref["type"] = "journal"
-            # if not "articleTitle" in ref:
-            #    ref["articleTitle"] = "Placeholder article title for ref of type 'other'"
-            if not "journal" in ref:
-                ref["journal"] = {}
-                ref["journal"]["name"] = []
-                #ref["journal"]["name"].append("This is a transformed placeholder journal name for ref of type 'other'")
-                if "source" in ref:
-                    ref["journal"]["name"].append(ref["source"])
-                    del ref["source"]
-        if ref.get("type") == "journal" and not "pages" in ref:
-            #ref["pages"] = "placeholderforrefwithnopages"
-            pass
-        if ref.get("type") == "book":
-            if not "publisher" in ref:
-                ref["publisher"] = {}
-                ref["publisher"]["name"] = []
-                #ref["publisher"]["name"].append("This is a placeholder book publisher name for ref that does not have one")
-
-    return references
-
 #
 #
 #
@@ -226,29 +155,60 @@ def to_volume(volume):
         volume = THIS_YEAR - 2011
     return int(volume)
 
+def abstract_to_impact_statement(article_or_snippet):
+    # If abstract has no DOI, turn it into an impact statement
+    if "abstract" in article_or_snippet and "impactStatement" not in article_or_snippet:
+        if "doi" not in article_or_snippet["abstract"]:
+            # Take the first paragraph text
+            abstract_text = article_or_snippet["abstract"]["content"][0]["text"]
+            article_or_snippet["impactStatement"] = abstract_text
+            del article_or_snippet["abstract"]
+    return article_or_snippet
+
+def clean_if_none(article_or_snippet):
+    remove_if_none = ["pdf", "relatedArticles", "digest", "abstract"]
+    for remove_index in remove_if_none:
+        if remove_index in article_or_snippet:
+            if article_or_snippet[remove_index] is None:
+                del article_or_snippet[remove_index]
+    return article_or_snippet
+
+def clean_if_empty(article_or_snippet):
+    remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
+                       "researchOrganisms", "keywords", "references"]
+    for remove_index in remove_if_empty:
+        if (article_or_snippet.get(remove_index) is not None
+            and (
+                article_or_snippet.get(remove_index) == ""
+                or article_or_snippet.get(remove_index) == []
+                or article_or_snippet.get(remove_index) == {})):
+            del article_or_snippet[remove_index]
+    return article_or_snippet
+
+def clean_copyright(article_or_snippet):
+    # Clean copyright in article or snippet
+    remove_from_copyright_if_none = ["holder"]
+    for remove_index in remove_from_copyright_if_none:
+        if article_or_snippet.get("copyright", {}).has_key(remove_index):
+            if article_or_snippet["copyright"][remove_index] is None:
+                del article_or_snippet["copyright"][remove_index]
+    return article_or_snippet
+
 def clean(article_data):
     # Remove null or blank elements
     article_json = article_data # we're not dealing with json just yet ...
-    remove_if_none = ["pdf", "relatedArticles"]
-    for remove_index in remove_if_none:
-        if remove_index in article_json["article"]:
-            if article_json["article"][remove_index] is None:
-                del article_json["article"][remove_index]
 
-    remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse"]
-    for remove_index in remove_if_empty:
-        if (article_json["article"].get(remove_index) is not None
-            and (
-                article_json["article"].get(remove_index) == ""
-                or article_json["article"].get(remove_index) == []
-                or article_json["article"].get(remove_index) == {})):
-            del article_json["article"][remove_index]
+    article_json["article"] = clean_if_none(article_json["article"])
+    article_json["snippet"] = clean_if_none(article_json["snippet"])
 
-    remove_from_copyright_if_none = ["holder"]
-    for remove_index in remove_from_copyright_if_none:
-        if remove_index in article_json["article"].get("copyright", {}):
-            if article_json["article"]["copyright"][remove_index] is None:
-                del article_json["article"]["copyright"][remove_index]
+    article_json["article"] = clean_if_empty(article_json["article"])
+    article_json["snippet"] = clean_if_empty(article_json["snippet"])
+
+    article_json["article"] = clean_copyright(article_json["article"])
+    article_json["snippet"] = clean_copyright(article_json["snippet"])
+
+    article_json["article"] = abstract_to_impact_statement(article_json["article"])
+    article_json["snippet"] = abstract_to_impact_statement(article_json["snippet"])
 
     return article_json
 
@@ -291,7 +251,7 @@ SNIPPET = OrderedDict([
     ('elocationId', [jats('elocation_id')]),
     ('pdf', [jats('self_uri'), self_uri_to_pdf]),
     ('subjects', [jats('category'), category_codes]),
-    ('research-organisms', [jats('research_organism')]),
+    ('researchOrganisms', [jats('research_organism')]),
     ('abstract', [jats('abstract_json')]),
 ])
 # https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-poa.v1.json#L689
@@ -320,10 +280,10 @@ VOR.update(OrderedDict([
     ('keywords', [jats('keywords')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
-    ('body', [jats('body'), body_rewrite]), # ha! so easy ...
-    ('references', [jats('references'), references_rewrite]),
-    ('decisionLetter', [jats('decision_letter'), body_rewrite]),
-    ('authorResponse', [jats('author_response'), body_rewrite]),
+    ('body', [jats('body')]), # ha! so easy ...
+    ('references', [jats('references')]),
+    ('decisionLetter', [jats('decision_letter')]),
+    ('authorResponse', [jats('author_response')]),
 ]))
 
 def mkdescription(poa=True):
