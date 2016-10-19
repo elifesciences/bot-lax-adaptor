@@ -14,5 +14,8 @@ set -e # everything must pass
 # update the api-raml
 . ./download-api-raml.sh
 
+# validate the schema
+. ./.validate-schema.sh
+
 # test! finally!
 . ./.test.sh

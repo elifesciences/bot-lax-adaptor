@@ -4,8 +4,6 @@ set -e # everything must pass
 
 export PYTHONPATH="src"
 
-. ./validate-schema.sh
-
 pyflakes src/
 
 # run tests

@@ -3,8 +3,6 @@
 
 set -e  # everything must pass
 
-. install.sh
-
 function validate {
     path=$1
     python -c "import sys,json; json.load(open(sys.argv[1], 'r'))" $path
