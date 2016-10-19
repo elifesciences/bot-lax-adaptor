@@ -189,7 +189,7 @@ def clean_copyright(article_or_snippet):
     # Clean copyright in article or snippet
     remove_from_copyright_if_none = ["holder"]
     for remove_index in remove_from_copyright_if_none:
-        if article_or_snippet.get("copyright", {}).has_key(remove_index):
+        if remove_index in article_or_snippet.get("copyright", {}):
             if article_or_snippet["copyright"][remove_index] is None:
                 del article_or_snippet["copyright"][remove_index]
     return article_or_snippet
