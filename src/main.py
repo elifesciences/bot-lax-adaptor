@@ -172,7 +172,7 @@ def abstract_to_impact_statement(article_or_snippet):
     return article_or_snippet
 
 def clean_if_none(article_or_snippet):
-    remove_if_none = ["pdf", "relatedArticles", "digest", "abstract"]
+    remove_if_none = ["pdf", "relatedArticles", "digest", "abstract", "titlePrefix"]
     for remove_index in remove_if_none:
         if remove_index in article_or_snippet:
             if article_or_snippet[remove_index] is None:
@@ -251,6 +251,7 @@ SNIPPET = OrderedDict([
     ('doi', [jats('doi')]),
     ('authorLine', [jats('author_line')]),
     ('title', [jats('title')]),
+    ('titlePrefix', [jats('title_prefix')]),
     ('published', [jats('pub_date'), to_isoformat]), # 'published' is the pubdate of the v1 article
     ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
     ('volume', [jats('volume'), to_volume]),
