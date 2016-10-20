@@ -57,6 +57,13 @@ class TestArticleScrape(BaseCase):
         results = main.render_single(self.doc, version=2)
         self.assertFalse('versionDate' in results['article'])
 
+    def test_category_codes(self):
+        cat_list = ['Immunology', 'Microbiology and Infectious Disease']
+        expected = [{"id": "immunology", "name": "Immunology"},
+                    {"id": "microbiology-infectious-disease",
+                     "name": "Microbiology and Infectious Disease"}]
+        self.assertEqual(main.category_codes(cat_list), expected)
+
     def test_note(self):
         # For test coverage
         msg = 'message'

@@ -18,7 +18,10 @@
         "elocationId": "e09560", 
         "pdf": "elife-09560-v1.pdf", 
         "subjects": [
-            "genomics-evolutionary-biology"
+            {
+                "id": "genomics-evolutionary-biology", 
+                "name": "Genomics and Evolutionary Biology"
+            }
         ], 
         "researchOrganisms": [
             "None"
@@ -2322,7 +2325,10 @@
         "elocationId": "e09560", 
         "pdf": "elife-09560-v1.pdf", 
         "subjects": [
-            "genomics-evolutionary-biology"
+            {
+                "id": "genomics-evolutionary-biology", 
+                "name": "Genomics and Evolutionary Biology"
+            }
         ], 
         "researchOrganisms": [
             "None"
