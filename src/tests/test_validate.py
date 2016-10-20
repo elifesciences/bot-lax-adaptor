@@ -1,7 +1,8 @@
-import sys
+#import sys
 from os.path import join
 from .base import BaseCase
 import validate
+import jsonschema
 
 class TestArticleValidate(BaseCase):
     def setUp(self):
@@ -12,12 +13,9 @@ class TestArticleValidate(BaseCase):
 
     def test_main_bootstrap(self):
         "output written to stdout"
-        sys.argv.append(self.doc_json)
-        # Assert validate.main does not raise exception
-        try:
-            self.assertRaises(Exception, validate.main)
-        except AssertionError:
-            self.assertTrue(True)
+        # article-json derived from xml can't pass validation
+        # by attempting and failing we cover a lot of code
+        self.assertRaises(jsonschema.ValidationError, validate.main, open(self.doc_json, 'r'))
 
     def test_generate_section_id(self):
         # Reset counter before test is run
