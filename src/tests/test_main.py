@@ -1,10 +1,9 @@
-import sys, StringIO
 import json
 from os.path import join
 from .base import BaseCase
 import main
 
-class TestArticleScrape(BaseCase):
+class ArticleScrape(BaseCase):
     def setUp(self):
         self.doc = join(self.fixtures_dir, 'elife-09560-v1.xml')
         self.doc_json = join(self.fixtures_dir, 'elife-09560-v1.json')
@@ -35,16 +34,10 @@ class TestArticleScrape(BaseCase):
 
     def test_main_bootstrap(self):
         "json is written to stdout"
-        _orig = sys.stdout
-        strbuffer = StringIO.StringIO()
-        sys.stdout = strbuffer
-        try:
-            main.main(self.doc) # writes article json to stdout
-            results = json.loads(strbuffer.getvalue())
-            self.assertTrue('article' in results)
-            self.assertTrue('journal' in results)
-        finally:
-            sys.stdout = _orig
+        results = main.main(self.doc) # writes article json to stdout
+        results = json.loads(results)
+        self.assertTrue('article' in results)
+        self.assertTrue('journal' in results)
 
     def test_main_bootstrap_failure(self):
         "ensure a great big exception occurs when given invalid input"
