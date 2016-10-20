@@ -290,15 +290,17 @@ def main():
         'msid': msid,
         'version': ver
     }
-
     try:
         jsonschema.validate(contents["article"], schema)
         LOG.info("validated %s", msid, extra=log_context)
     except jsonschema.ValidationError as err:
         LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
+        raise
+
+if __name__ == '__main__':
+    try:
+        main()
+    except jsonschema.ValidationError:
         exit(1)
     except KeyboardInterrupt:
         exit(1)
-
-if __name__ == '__main__':
-    main()
