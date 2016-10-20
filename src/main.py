@@ -146,7 +146,13 @@ def jats(funcname, *args, **kwargs):
     return fn
 
 def category_codes(cat_list):
-    return [slugify(cat, stopwords=['and']) for cat in cat_list]
+    subjects = []
+    for cat in cat_list:
+        subject = OrderedDict()
+        subject['id'] = slugify(cat, stopwords=['and'])
+        subject['name'] = cat
+        subjects.append(subject)
+    return subjects
 
 THIS_YEAR = time.gmtime()[0]
 def to_volume(volume):
