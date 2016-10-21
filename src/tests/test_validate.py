@@ -46,6 +46,16 @@ class TestArticleValidate(BaseCase):
                      'type': 'video'}]
         self.assertEqual(validate.video_rewrite(body_json), expected)
 
+    def test_mathml_rewrite(self):
+        # For coverage test for list items
+        body_json = [{'type': 'list', 'items': [[
+            {'type': 'mathml', 'id': 'equ1',
+             'mathml': '<mml:mrow><mml:mi>C</mml:mi></mml:mrow>'}]]}]
+        expected = [{'type': 'list', 'items': [[
+            {'type': 'mathml', 'id': 'equ1',
+             'mathml': '<math><mrow><mi>C</mi></mrow></math>'}]]}]
+        self.assertEqual(validate.mathml_rewrite(body_json), expected)
+
     def test_fix_image_attributes_if_missing(self):
         body_json = [{'type': 'image'}]
         expected = [{'type': 'image', 'title': 'This a placeholder for a missing image title'}]

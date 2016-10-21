@@ -139,6 +139,12 @@ def mathml_rewrite(body_json):
                 except TypeError:
                     # not iterable
                     pass
+
+        if "items" in element:
+            # list block items is a list of lists
+            for list_item in element["items"]:
+                mathml_rewrite(list_item)
+
     return body_json
 
 def fix_image_attributes_if_missing(body_json):
