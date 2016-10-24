@@ -7,7 +7,7 @@ and cleans the environment."""
 import os, platform, shutil
 from os.path import join
 import validate
-import sys
+import sys, json
 from StringIO import StringIO
 from joblib import Parallel, delayed
 from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR
@@ -21,14 +21,15 @@ def job(path):
     try:
         fname = os.path.basename(path)
         strbuffer.write("%s => " % fname)
-        validate.main(open(path, 'r'))
+        article_with_placeholders = validate.main(open(path, 'r'))
         strbuffer.write("success")
         fn(path, join(VALID_JSON_DIR, fname))
+        json.dump(article_with_placeholders, open(join(VALID_JSON_DIR, "dummy" + fname), 'w'))
     except jsonschema.ValidationError:
         strbuffer.write("failed")
         fn(path, join(INVALID_JSON_DIR, fname))
-    except Exception:
-        strbuffer.write("error")
+    except Exception as err:
+        strbuffer.write("error (%s)" % err)
     finally:
         sys.stderr.write(strbuffer.getvalue() + "\n")
         sys.stderr.flush()
