@@ -4,7 +4,7 @@ valid/invalid files.
 this should be run using the ./validate-json.sh script in the project's root. it preps 
 and cleans the environment."""
 
-import os
+import os, platform, shutil
 from os.path import join
 import validate
 import sys
@@ -13,17 +13,20 @@ from joblib import Parallel, delayed
 from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR
 import jsonschema
 
+WINDOWS = platform.system().lower() == 'windows'
+
 def job(path):
     strbuffer = StringIO()
+    fn = shutil.copyfile if WINDOWS else os.symlink
     try:
         fname = os.path.basename(path)
         strbuffer.write("%s => " % fname)
         validate.main(open(path, 'r'))
         strbuffer.write("success")
-        os.symlink(path, join(VALID_JSON_DIR, fname))
+        fn(path, join(VALID_JSON_DIR, fname))
     except jsonschema.ValidationError:
         strbuffer.write("failed")
-        os.symlink(path, join(INVALID_JSON_DIR, fname))
+        fn(path, join(INVALID_JSON_DIR, fname))
     except Exception:
         strbuffer.write("error")
     finally:
