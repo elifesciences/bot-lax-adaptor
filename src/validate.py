@@ -288,6 +288,8 @@ def main(doc):
     try:
         jsonschema.validate(contents["article"], schema)
         LOG.info("validated %s", msid, extra=log_context)
+        # return the contents, complete with placeholders
+        return contents["article"]
     except jsonschema.ValidationError as err:
         LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
         raise
@@ -298,7 +300,7 @@ if __name__ == '__main__':
         parser = argparse.ArgumentParser()
         parser.add_argument('infile', type=argparse.FileType('r'), default=sys.stdin)
         args = parser.parse_args()
-        main(args.infile)
+        print json.dumps(main(args.infile))
     except jsonschema.ValidationError:
         exit(1)
     except KeyboardInterrupt:

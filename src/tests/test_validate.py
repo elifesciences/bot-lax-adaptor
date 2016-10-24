@@ -1,4 +1,6 @@
+from StringIO import StringIO
 #import sys
+import json
 from os.path import join
 from .base import BaseCase
 import validate
@@ -12,10 +14,17 @@ class TestArticleValidate(BaseCase):
         pass
 
     def test_main_bootstrap(self):
-        "output written to stdout"
-        # article-json derived from xml can't pass validation
-        # by attempting and failing we cover a lot of code
-        self.assertRaises(jsonschema.ValidationError, validate.main, open(self.doc_json, 'r'))
+        "valid output is returned"
+        results = validate.main(open(self.doc_json, 'r'))
+        self.assertTrue(isinstance(results, dict))
+
+    def test_main_bootstrap_fails(self):
+        "invalid output raises a validation error"
+        data = json.load(open(self.doc_json, 'r'))
+        data['article']['type'] = 'unknown type that will cause a failure'
+        strbuffer = StringIO(json.dumps(data))
+        strbuffer.name = self.doc_json
+        self.assertRaises(jsonschema.ValidationError, validate.main, strbuffer)
 
     def test_generate_section_id(self):
         # Reset counter before test is run

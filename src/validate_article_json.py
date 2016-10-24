@@ -1,7 +1,7 @@
-"""validates ALL article-json in the article-json directory, creating symlinks to the 
+"""validates ALL article-json in the article-json directory, creating symlinks to the
 valid/invalid files.
 
-this should be run using the ./validate-json.sh script in the project's root. it preps 
+this should be run using the ./validate-json.sh script in the project's root. it preps
 and cleans the environment."""
 
 import os, platform, shutil
