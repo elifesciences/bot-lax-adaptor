@@ -1,4 +1,4 @@
-import os, sys, json
+import os, sys, json, re
 import conf
 import jsonschema
 
@@ -43,33 +43,15 @@ placeholder_authors = [{
     }]
 }]
 
-placeholder_references = [{
-    "type": "journal",
-    "id": "bib1",
-    "date": "2008",
-    "authors": [
-        {
-            "type": "person",
-            "name": {
-                "preferred": "Person One",
-                "index": "One, Person"
-            }
+placeholder_reference_authors = [
+    {
+        "type": "person",
+        "name": {
+            "preferred": "Person One",
+            "index": "One, Person"
         }
-    ],
-    "articleTitle": "Auxin influx carriers stabilize phyllotactic patterning",
-    "journal": {
-        "name": [
-            "Genes & Development"
-        ]
-    },
-    "volume": "22",
-    "pages": {
-        "first": "810",
-        "last": "823",
-        "range": u"810\u2013823"
-    },
-    "doi": "10.1101/gad.462608"
-}]
+    }
+]
 
 def uri_rewrite(body_json):
     base_uri = "https://example.org/"
@@ -235,6 +217,50 @@ def wrap_body_in_section(body_json):
     return body_json
 
 
+def references_rewrite(references):
+    "clean up values that will not pass validation temporarily"
+    for ref in references:
+        if "date" in ref:
+            # Scrub non-numeric values from the date, which comes from the reference year
+            ref["date"] = re.sub("[^0-9]", "", ref["date"])
+        elif "date" not in ref:
+            ref["date"] = "1000"
+        if ref["type"] in ["other", "journal"]:
+            # The schema cannot support type other, turn this into a basic journal reference
+            #  to pass validation, also fix missing values on journal type references
+            ref["type"] = "journal"
+            if not "articleTitle" in ref:
+                ref["articleTitle"] = "Placeholder article title for ref of type 'other'"
+            if not "journal" in ref:
+                ref["journal"] = {}
+                ref["journal"]["name"] = []
+                ref["journal"]["name"].append(
+                    "This is a transformed placeholder journal name for ref of type 'other'")
+                if "source" in ref:
+                    ref["journal"]["name"].append(ref["source"])
+                    del ref["source"]
+        if ref["type"] in ["journal", "book-chapter", "software"] and not "pages" in ref:
+            ref["pages"] = "placeholderforrefwithnopages"
+        if ref["type"] in ["book", "book-chapter"]:
+            if not "publisher" in ref:
+                ref["publisher"] = {}
+                ref["publisher"]["name"] = []
+                ref["publisher"]["name"].append(
+                    "This is a placeholder book publisher name for ref that does not have one")
+            if not "bookTitle" in ref:
+                ref["bookTitle"] = "Placeholder book title for book or book-chapter missing one"
+        if (ref["type"] in ["book", "book-chapter", "conference-proceeding", "data",
+                            "journal", "software", "web"]
+                and "authors" not in ref):
+            ref["authors"] = placeholder_reference_authors
+        elif ref["type"] in ["thesis"]:
+            ref["author"] = placeholder_reference_authors[0]
+        if ref["type"] in ["book-chapter"] and not "editors" in ref:
+            ref["editors"] = placeholder_reference_authors
+
+    return references
+
+
 def is_poa(contents):
     try:
         return contents["article"]["status"] == "poa"
@@ -258,7 +284,7 @@ def add_placeholders_for_validation(contents):
 
     # what references we do have are invalid
     if 'references' in art:
-        del art['references']
+        art['references'] = references_rewrite(art['references'])
 
     for elem in ['body', 'decisionLetter', 'authorResponse']:
         if elem in art:

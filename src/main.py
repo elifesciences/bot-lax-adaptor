@@ -288,7 +288,7 @@ VOR.update(OrderedDict([
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
     ('body', [jats('body')]), # ha! so easy ...
-    ('references', [jats('references')]),
+    ('references', [jats('references_json')]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
 ]))
