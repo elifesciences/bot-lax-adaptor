@@ -8,6 +8,7 @@ venv/*
 .coverage
 article-xml/
 article-json/
+article-json*/
 api-raml/
 htmlcov/
 elife-tools/

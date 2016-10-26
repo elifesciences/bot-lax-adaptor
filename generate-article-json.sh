@@ -15,10 +15,4 @@ function ctrl_c() {
 }
 
 mkdir -p article-json
-for i in `ls ./article-xml/articles/*.xml | sort -r`; do 
-    echo $(basename $i) "-> " $(basename $i).json
-    python ./src/main.py $i > ./article-json/$(basename $i).json 2> /dev/null || {
-        
-        echo "scraping failed, grep scrape.log for " $(basename $i)
-    }
-done
+time python src/generate_article_json.py
