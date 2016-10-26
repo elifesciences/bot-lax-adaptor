@@ -17,32 +17,6 @@ _handler2.setLevel(logging.INFO)
 _handler2.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
 LOG.addHandler(_handler2)
 
-placeholder_authors = [{
-    "type": "person",
-    "name": {
-        "preferred": "Lee R Berger",
-        "index": "Berger, Lee R"
-    },
-    "affiliations": [{
-        "name": [
-            "Evolutionary Studies Institute and Centre of Excellence in PalaeoSciences",
-            "University of the Witwatersrand"
-        ],
-        "address": {
-            "formatted": [
-                "Johannesburg",
-                "South Africa"
-            ],
-            "components": {
-                "locality": [
-                    "Johannesburg"
-                ],
-                "country": "South Africa"
-            }
-        }
-    }]
-}]
-
 placeholder_reference_authors = [
     {
         "type": "person",
@@ -270,7 +244,6 @@ def is_poa(contents):
 def add_placeholders_for_validation(contents):
     art = contents['article']
 
-    #art['authors'] = placeholder_authors
     art['statusDate'] = '2016-01-01T00:00:00Z'
 
     # the versionDate is discarded when the article is not v1
