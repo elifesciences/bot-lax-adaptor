@@ -315,20 +315,20 @@ def render_single(doc, **overrides):
         LOG.error("failed to render doc with error: %s", err)
         raise
 
-def main(doc=None):
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument('infile', nargs="?", type=argparse.FileType('r'), default=sys.stdin)
-    parser.add_argument('--verbose', action="store_true", default=False)
-    args = parser.parse_args()
-    doc = args.infile if not doc else doc
+def main(doc):
     msid, version = utils.version_from_path(getattr(doc, 'name', doc))
     try:
         article_json = render_single(doc, version=version)
-        print json.dumps(article_json, indent=4)
+        return json.dumps(article_json, indent=4)
     except Exception:
         LOG.exception("failed to scrape article", extra={'doc': doc, 'msid': msid, 'version': version})
         raise
 
 if __name__ == '__main__':
-    main()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('infile', nargs="?", type=argparse.FileType('r'), default=sys.stdin)
+    parser.add_argument('--verbose', action="store_true", default=False)
+    args = parser.parse_args()
+    doc = args.infile
+    print main(doc)

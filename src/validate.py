@@ -302,18 +302,13 @@ def add_placeholders_for_validation(contents):
     if not is_poa(contents):
         pass
 
-def main():
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument('infile', type=argparse.FileType('r'), default=sys.stdin)
-    args = parser.parse_args()
-
-    contents = json.load(args.infile)
+def main(doc):
+    contents = json.load(doc)
     add_placeholders_for_validation(contents)
 
     schema = conf.POA_SCHEMA if is_poa(contents) else conf.VOR_SCHEMA
 
-    filename = os.path.basename(args.infile.name)
+    filename = os.path.basename(doc.name)
     _, msid, tail = filename.split('-')
     ver, _ = tail.split('.', 1)
 
@@ -325,13 +320,19 @@ def main():
     try:
         jsonschema.validate(contents["article"], schema)
         LOG.info("validated %s", msid, extra=log_context)
+        # return the contents, complete with placeholders
+        return contents["article"]
     except jsonschema.ValidationError as err:
         LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
         raise
 
 if __name__ == '__main__':
     try:
-        main()
+        import argparse
+        parser = argparse.ArgumentParser()
+        parser.add_argument('infile', type=argparse.FileType('r'), default=sys.stdin)
+        args = parser.parse_args()
+        print json.dumps(main(args.infile))
     except jsonschema.ValidationError:
         exit(1)
     except KeyboardInterrupt:

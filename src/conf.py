@@ -47,6 +47,11 @@ PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error'
 
+XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')
+JSON_DIR = join(PROJECT_DIR, 'article-json')
+VALID_JSON_DIR = join(JSON_DIR, 'valid')
+INVALID_JSON_DIR = join(JSON_DIR, 'invalid')
+
 def json_load(path):
     path = join(PROJECT_DIR, 'schema', path)
     return json.load(open(path, 'r'))
