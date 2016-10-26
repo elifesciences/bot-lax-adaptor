@@ -225,7 +225,7 @@ def references_rewrite(references):
             ref["date"] = re.sub("[^0-9]", "", ref["date"])
         elif "date" not in ref:
             ref["date"] = "1000"
-        if ref["type"] in ["other", "journal"]:
+        if ref.get("type") in ["other", "journal"]:
             # The schema cannot support type other, turn this into a basic journal reference
             #  to pass validation, also fix missing values on journal type references
             ref["type"] = "journal"
@@ -239,9 +239,9 @@ def references_rewrite(references):
                 if "source" in ref:
                     ref["journal"]["name"].append(ref["source"])
                     del ref["source"]
-        if ref["type"] in ["journal", "book-chapter", "software"] and not "pages" in ref:
+        if ref.get("type") in ["journal", "book-chapter", "software"] and not "pages" in ref:
             ref["pages"] = "placeholderforrefwithnopages"
-        if ref["type"] in ["book", "book-chapter"]:
+        if ref.get("type") in ["book", "book-chapter"]:
             if not "publisher" in ref:
                 ref["publisher"] = {}
                 ref["publisher"]["name"] = []
@@ -249,13 +249,13 @@ def references_rewrite(references):
                     "This is a placeholder book publisher name for ref that does not have one")
             if not "bookTitle" in ref:
                 ref["bookTitle"] = "Placeholder book title for book or book-chapter missing one"
-        if (ref["type"] in ["book", "book-chapter", "conference-proceeding", "data",
+        if (ref.get("type") in ["book", "book-chapter", "conference-proceeding", "data",
                             "journal", "software", "web"]
                 and "authors" not in ref):
             ref["authors"] = placeholder_reference_authors
-        elif ref["type"] in ["thesis"]:
+        elif ref.get("type") in ["thesis"]:
             ref["author"] = placeholder_reference_authors[0]
-        if ref["type"] in ["book-chapter"] and not "editors" in ref:
+        if ref.get("type") in ["book-chapter"] and not "editors" in ref:
             ref["editors"] = placeholder_reference_authors
 
     return references
