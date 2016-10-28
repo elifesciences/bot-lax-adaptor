@@ -172,7 +172,8 @@ def abstract_to_impact_statement(article_or_snippet):
     return article_or_snippet
 
 def clean_if_none(article_or_snippet):
-    remove_if_none = ["pdf", "relatedArticles", "digest", "abstract", "titlePrefix"]
+    remove_if_none = ["pdf", "relatedArticles", "digest", "abstract", "titlePrefix",
+                      "acknowledgements"]
     for remove_index in remove_if_none:
         if remove_index in article_or_snippet:
             if article_or_snippet[remove_index] is None:
@@ -289,6 +290,7 @@ VOR.update(OrderedDict([
     ('digest', [jats('digest_json')]),
     ('body', [jats('body')]), # ha! so easy ...
     ('references', [jats('references_json')]),
+    ('acknowledgements', [jats('acknowledgements_json')]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
 ]))
