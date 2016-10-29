@@ -63,11 +63,6 @@ class TestArticleValidate(BaseCase):
              'mathml': '<math><mrow><mi>C</mi></mrow></math>'}]]}]
         self.assertEqual(validate.mathml_rewrite(body_json), expected)
 
-    def test_fix_image_attributes_if_missing(self):
-        body_json = [{'type': 'image'}]
-        expected = [{'type': 'image', 'title': 'This a placeholder for a missing image title'}]
-        self.assertEqual(validate.fix_image_attributes_if_missing(body_json), expected)
-
     def test_fix_section_id_if_missing(self):
         # Reset counter before test is run
         validate.section_id_counter = None
