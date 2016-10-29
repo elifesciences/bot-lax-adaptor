@@ -103,34 +103,6 @@ def mathml_rewrite(body_json):
 
     return body_json
 
-def fix_image_attributes_if_missing(body_json):
-    """
-    Should be completely temporary - the schema does not allow images
-    without certain attributes, so add them in in order to check for
-    other parsing and validation issues
-    """
-
-    placeholder_image_title = "This a placeholder for a missing image title"
-
-    # Check if it is not a list, in the case of authorResponse
-    if "content" in body_json:
-        fix_image_attributes_if_missing(body_json["content"])
-    # A list, like in body, continue
-    for element in body_json:
-        if "type" in element and element["type"] == "image":
-            if "title" not in element:
-                element["title"] = placeholder_image_title
-
-        for content_index in ["content", "supplements", "sourceData"]:
-            if content_index in element:
-                try:
-                    fix_image_attributes_if_missing(element[content_index])
-                except TypeError:
-                    # not iterable
-                    pass
-
-    return body_json
-
 def generate_section_id():
     """section id attribute generator"""
     global section_id_counter
@@ -265,7 +237,6 @@ def add_placeholders_for_validation(contents):
             art[elem] = video_rewrite(art[elem])
             art[elem] = fix_section_id_if_missing(art[elem])
             art[elem] = mathml_rewrite(art[elem])
-            art[elem] = fix_image_attributes_if_missing(art[elem])
             art[elem] = fix_box_title_if_missing(art[elem])
 
     for elem in ['body']:
