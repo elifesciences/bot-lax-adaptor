@@ -103,7 +103,7 @@ class TestArticleValidate(BaseCase):
                      'authors': '',
                      'publisher': {'name': ['This is a placeholder book publisher name for ref that does not have one']},
                      'bookTitle': 'Placeholder book title for book or book-chapter missing one'
-                        }]
+                     }]
         self.assertEqual(validate.references_rewrite(references_json), expected)
 
     def test_references_rewrite_thesis_missing_author(self):
@@ -111,12 +111,12 @@ class TestArticleValidate(BaseCase):
         expected = [{'type': 'thesis',
                      'date': '2016',
                      'author': {
-                        "type": "person",
-                        "name": {
-                            "preferred": "Person One",
-                            "index": "One, Person"
-                        }
-                    }}]
+                         "type": "person",
+                         "name": {
+                             "preferred": "Person One",
+                             "index": "One, Person"
+                         }
+                     }}]
         self.assertEqual(validate.references_rewrite(references_json), expected)
 
     def test_is_poa_not_poa(self):

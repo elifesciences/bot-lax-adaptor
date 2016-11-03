@@ -196,7 +196,7 @@ def references_rewrite(references):
             if not "bookTitle" in ref:
                 ref["bookTitle"] = "Placeholder book title for book or book-chapter missing one"
         if (ref.get("type") in ["book", "book-chapter", "conference-proceeding", "data",
-                            "journal", "software", "web"]
+                                "journal", "software", "web"]
                 and "authors" not in ref):
             ref["authors"] = placeholder_reference_authors
         elif ref.get("type") in ["thesis"]:
