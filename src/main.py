@@ -45,7 +45,10 @@ def doi(item):
     return parseJATS.doi(item)
 
 def to_isoformat(time_struct):
-    return datetime.utcfromtimestamp(calendar.timegm(time_struct)).isoformat()
+    # time_struct ll: time.struct_time(tm_year=2015, tm_mon=9, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=253, tm_isdst=0)
+    ts = calendar.timegm(time_struct) # ll: 1441843200
+    ts = datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
+    return ts.isoformat() # 2015-09-10T00:00:00
 
 def note(msg, level=logging.DEBUG):
     "a note logs some message about the value but otherwise doesn't interrupt the pipeline"
