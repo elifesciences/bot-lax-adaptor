@@ -3,7 +3,6 @@
 # this directory is populated by the `generate-article-json.sh` script.
 
 set -e # everything must pass
-. download-api-raml.sh
 
 # zero out the validation log
 # python writes to this file

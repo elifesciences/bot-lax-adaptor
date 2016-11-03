@@ -3,19 +3,16 @@
 set -e # everything must pass
 
 # ensure the venv is installed
-. ./install.sh
+. install.sh
 
 # activate venv
-. ./venv/bin/activate
+. venv/bin/activate
 
 # lint
-. ./.lint.sh
-
-# update the api-raml
-. ./download-api-raml.sh
+. .lint.sh
 
 # validate the schema
-. ./.validate-schema.sh
+. .validate-schema.sh
 
 # test! finally!
-. ./.test.sh
+. .test.sh

@@ -4,7 +4,6 @@
 set -e # everything must pass
 
 . install.sh
-. download-elife-xml.sh
 
 echo > scrape.log
 
