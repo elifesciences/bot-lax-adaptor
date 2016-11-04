@@ -178,6 +178,7 @@ def mkresponse(status, message, request={}, **kwargs):
     return packet
 
 @timeit
+@newrelic.agent.background_task()
 def handler(json_request, outgoing):
     response = partial(send_response, outgoing)
 
@@ -260,14 +261,12 @@ def handler(json_request, outgoing):
 #
 #
 
-@newrelic.agent.background_task()
 def read_from_sqs(stackname='temp'):
     "reads messages from an SQS queue, writes responses to another SQS queue"
     incoming = sqs_adaptor.IncomingQueue('bot-lax-%s-inc' % stackname)
     outgoing = sqs_adaptor.OutgoingQueue('bot-lax-%s-out' % stackname)
     return incoming, outgoing
 
-@newrelic.agent.background_task()
 def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles'), **kwargs):
     "generates messages from a directory, writes responses to a log file"
     kwargs['path'] = path
