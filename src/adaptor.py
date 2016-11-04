@@ -14,6 +14,7 @@ from awsauth import S3Auth
 import botocore.session
 
 import conf
+import newrelic.agent
 from conf import PATHS_TO_LAX, PROJECT_DIR
 from conf import INVALID, ERROR, INGESTED, PUBLISHED, INGEST, PUBLISH, INGEST_PUBLISH
 
@@ -259,12 +260,14 @@ def handler(json_request, outgoing):
 #
 #
 
+@newrelic.agent.background_task()
 def read_from_sqs(stackname='temp'):
     "reads messages from an SQS queue, writes responses to another SQS queue"
     incoming = sqs_adaptor.IncomingQueue('bot-lax-%s-inc' % stackname)
     outgoing = sqs_adaptor.OutgoingQueue('bot-lax-%s-out' % stackname)
     return incoming, outgoing
 
+@newrelic.agent.background_task()
 def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles'), **kwargs):
     "generates messages from a directory, writes responses to a log file"
     kwargs['path'] = path
