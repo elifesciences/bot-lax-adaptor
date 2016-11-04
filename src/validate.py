@@ -172,7 +172,7 @@ def references_rewrite(references):
         elif "date" not in ref:
             ref["date"] = "1000"
         if (ref.get("type") in ["book", "book-chapter", "conference-proceeding", "data",
-                            "journal", "software", "unknown", "web"]
+                                "journal", "software", "unknown", "web"]
                 and "authors" not in ref):
             ref["authors"] = placeholder_reference_authors
 
