@@ -5878,6 +5878,57 @@
                 "type": "journal", 
                 "id": "bib1", 
                 "date": "2006", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Z Alemseged", 
+                            "index": "Alemseged, Z"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "F Spoor", 
+                            "index": "Spoor, F"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WH Kimbel", 
+                            "index": "Kimbel, WH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Bobe", 
+                            "index": "Bobe, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Geraads", 
+                            "index": "Geraads, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Reed", 
+                            "index": "Reed, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JG Wynn", 
+                            "index": "Wynn, JG"
+                        }
+                    }
+                ], 
                 "articleTitle": "A juvenile early hominin skeleton from Dikika, Ethiopia", 
                 "journal": {
                     "name": [
@@ -5896,6 +5947,22 @@
                 "type": "journal", 
                 "id": "bib2", 
                 "date": "2014", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Alm\u00e9cija", 
+                            "index": "Alm\u00e9cija, S"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DM Alba", 
+                            "index": "Alba, DM"
+                        }
+                    }
+                ], 
                 "articleTitle": "On manual proportions and pad-to-pad precision grasping in <italic>Austalopithecus afarensis</italic>", 
                 "journal": {
                     "name": [
@@ -5914,6 +5981,15 @@
                 "type": "journal", 
                 "id": "bib3", 
                 "date": "2003", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SC Ant\u00f3n", 
+                            "index": "Ant\u00f3n, SC"
+                        }
+                    }
+                ], 
                 "articleTitle": "Natural history of <italic>Homo erectus</italic>", 
                 "journal": {
                     "name": [
@@ -5931,6 +6007,29 @@
                 "type": "journal", 
                 "id": "bib4", 
                 "date": "2014", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SC Ant\u00f3n", 
+                            "index": "Ant\u00f3n, SC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Potts", 
+                            "index": "Potts, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LC Aiello", 
+                            "index": "Aiello, LC"
+                        }
+                    }
+                ], 
                 "articleTitle": "Human evolution. Evolution of early <italic>Homo</italic>: an integrated biological perspective", 
                 "journal": {
                     "name": [
@@ -5945,6 +6044,50 @@
                 "type": "journal", 
                 "id": "bib5", 
                 "date": "1999", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Asfaw", 
+                            "index": "Asfaw, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T White", 
+                            "index": "White, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "O Lovejoy", 
+                            "index": "Lovejoy, O"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Latimer", 
+                            "index": "Latimer, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Simpson", 
+                            "index": "Simpson, S"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Suwa", 
+                            "index": "Suwa, G"
+                        }
+                    }
+                ], 
                 "articleTitle": "<italic>Australopithecus garhi</italic>: a new species of early hominid from Ethiopia", 
                 "journal": {
                     "name": [
@@ -5963,6 +6106,57 @@
                 "type": "journal", 
                 "id": "bib6", 
                 "date": "2010", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DJ de Ruiter", 
+                            "index": "de Ruiter, DJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Schmid", 
+                            "index": "Schmid, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KJ Carlson", 
+                            "index": "Carlson, KJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "PH Dirks", 
+                            "index": "Dirks, PH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JM Kibii", 
+                            "index": "Kibii, JM"
+                        }
+                    }
+                ], 
                 "articleTitle": "<italic>Australopithecus sediba</italic>: a new species of <italic>Homo</italic>-like australopith from South Africa", 
                 "journal": {
                     "name": [
@@ -5981,6 +6175,36 @@
                 "type": "journal", 
                 "id": "bib7", 
                 "date": "2014", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JM Berm\u00fadez de Castro", 
+                            "index": "Berm\u00fadez de Castro, JM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Martin\u00f3n-Torres", 
+                            "index": "Martin\u00f3n-Torres, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MJ Sier", 
+                            "index": "Sier, MJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "L Mart\u00edn-Franc\u00e9s", 
+                            "index": "Mart\u00edn-Franc\u00e9s, L"
+                        }
+                    }
+                ], 
                 "articleTitle": "On the variability of the Dmanisi mandibles", 
                 "journal": {
                     "name": [
@@ -5995,6 +6219,127 @@
                 "type": "journal", 
                 "id": "bib8", 
                 "date": "2003", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RJ Blumenschine", 
+                            "index": "Blumenschine, RJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CR Peters", 
+                            "index": "Peters, CR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FT Masao", 
+                            "index": "Masao, FT"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RJ Clarke", 
+                            "index": "Clarke, RJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AL Deino", 
+                            "index": "Deino, AL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RL Hay", 
+                            "index": "Hay, RL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CC Swisher", 
+                            "index": "Swisher, CC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "IG Stanistreet", 
+                            "index": "Stanistreet, IG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "GM Ashley", 
+                            "index": "Ashley, GM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LJ McHenry", 
+                            "index": "McHenry, LJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "NE Sikes", 
+                            "index": "Sikes, NE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "NJ Van Der Merwe", 
+                            "index": "Van Der Merwe, NJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JC Tactikos", 
+                            "index": "Tactikos, JC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AE Cushing", 
+                            "index": "Cushing, AE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DM Deocampo", 
+                            "index": "Deocampo, DM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JK Njau", 
+                            "index": "Njau, JK"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JI Ebert", 
+                            "index": "Ebert, JI"
+                        }
+                    }
+                ], 
                 "articleTitle": "Late Pliocene <italic>Homo</italic> and hominid land use from western Olduvai Gorge, Tanzania", 
                 "journal": {
                     "name": [
@@ -6013,6 +6358,22 @@
                 "type": "journal", 
                 "id": "bib9", 
                 "date": "1977", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "NT Boaz", 
+                            "index": "Boaz, NT"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FC Howell", 
+                            "index": "Howell, FC"
+                        }
+                    }
+                ], 
                 "articleTitle": "A gracile hominid cranium from upper member G of the Shungura formation, Ethiopia", 
                 "journal": {
                     "name": [
@@ -6031,6 +6392,50 @@
                 "type": "journal", 
                 "id": "bib10", 
                 "date": "2004", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Brown", 
+                            "index": "Brown, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Sutikna", 
+                            "index": "Sutikna, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MJ Morwood", 
+                            "index": "Morwood, MJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RP Soejono", 
+                            "index": "Soejono, RP"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EW Saptomo", 
+                            "index": "Saptomo, EW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RA Due", 
+                            "index": "Due, RA"
+                        }
+                    }
+                ], 
                 "articleTitle": "A new small-bodied hominin from the Late Pleistocene of Flores, Indonesia", 
                 "journal": {
                     "name": [
@@ -6049,6 +6454,57 @@
                 "type": "journal", 
                 "id": "bib11", 
                 "date": "2011", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KJ Carlson", 
+                            "index": "Carlson, KJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Stout", 
+                            "index": "Stout, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Jashashvili", 
+                            "index": "Jashashvili, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DJ de Ruiter", 
+                            "index": "de Ruiter, DJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Tafforeau", 
+                            "index": "Tafforeau, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "K Carlson", 
+                            "index": "Carlson, K"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }
+                ], 
                 "articleTitle": "The endocast of MH1, <italic>Australopithecus sediba</italic>", 
                 "journal": {
                     "name": [
@@ -6067,6 +6523,78 @@
                 "type": "journal", 
                 "id": "bib12", 
                 "date": "2013", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TW Holliday", 
+                            "index": "Holliday, TW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KJ Carlson", 
+                            "index": "Carlson, KJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Jashashvili", 
+                            "index": "Jashashvili, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "ME Macias", 
+                            "index": "Macias, ME"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Mathews", 
+                            "index": "Mathews, S"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TL Sparling", 
+                            "index": "Sparling, TL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Schmid", 
+                            "index": "Schmid, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DJ de Ruiter", 
+                            "index": "de Ruiter, DJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }
+                ], 
                 "articleTitle": "The upper limb of <italic>Australopithecus sediba</italic>", 
                 "journal": {
                     "name": [
@@ -6081,6 +6609,15 @@
                 "type": "book", 
                 "id": "bib13", 
                 "date": "1977", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RJ Clarke", 
+                            "index": "Clarke, RJ"
+                        }
+                    }
+                ], 
                 "bookTitle": "Unpublished PhD dissertation", 
                 "publisher": {
                     "name": [
@@ -6102,6 +6639,15 @@
                 "type": "journal", 
                 "id": "bib14", 
                 "date": "2008", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RJ Clarke", 
+                            "index": "Clarke, RJ"
+                        }
+                    }
+                ], 
                 "articleTitle": "Latest information on Sterkfontein's <italic>Australopithecus</italic> skeleton and a new look at <italic>Australopithecus</italic>", 
                 "journal": {
                     "name": [
@@ -6120,6 +6666,36 @@
                 "type": "journal", 
                 "id": "bib15", 
                 "date": "2015", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Dembo", 
+                            "index": "Dembo, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "NJ Matzke", 
+                            "index": "Matzke, NJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A\u00d8 Mooers", 
+                            "index": "Mooers, A\u00d8"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Collard", 
+                            "index": "Collard, M"
+                        }
+                    }
+                ], 
                 "articleTitle": "Bayesian analysis of a morphological supermatrix sheds light on controversial fossil hominin relationships", 
                 "journal": {
                     "name": [
@@ -6134,6 +6710,57 @@
                 "type": "journal", 
                 "id": "bib16", 
                 "date": "2013", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JM DeSilva", 
+                            "index": "DeSilva, JM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KG Holt", 
+                            "index": "Holt, KG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KJ Carlson", 
+                            "index": "Carlson, KJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CS Walker", 
+                            "index": "Walker, CS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Zipfel", 
+                            "index": "Zipfel, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }
+                ], 
                 "articleTitle": "The lower limb and mechanics of walking in <italic>Australopithecus sediba</italic>", 
                 "journal": {
                     "name": [
@@ -6148,6 +6775,176 @@
                 "type": "journal", 
                 "id": "bib17", 
                 "date": "2015", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "PHGM Dirks", 
+                            "index": "Dirks, PHGM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EM Roberts", 
+                            "index": "Roberts, EM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JD Kramers", 
+                            "index": "Kramers, JD"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Hawks", 
+                            "index": "Hawks, J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "PS Randolph-Quinney", 
+                            "index": "Randolph-Quinney, PS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Elliott", 
+                            "index": "Elliott, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CM Musiba", 
+                            "index": "Musiba, CM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DJ de Ruiter", 
+                            "index": "de Ruiter, DJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Schmid", 
+                            "index": "Schmid, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Backwell", 
+                            "index": "Backwell, LR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "GA Belyanin", 
+                            "index": "Belyanin, GA"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Boshoff", 
+                            "index": "Boshoff, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KL Hunter", 
+                            "index": "Hunter, KL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EM Feuerriegel", 
+                            "index": "Feuerriegel, EM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Gurtov", 
+                            "index": "Gurtov, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J du G Harrison ", 
+                            "index": "du G Harrison , J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Hunter", 
+                            "index": "Hunter, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Kruger", 
+                            "index": "Kruger, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "H Morris", 
+                            "index": "Morris, H"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TV Makhubela", 
+                            "index": "Makhubela, TV"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Peixotto", 
+                            "index": "Peixotto, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Tucker", 
+                            "index": "Tucker, S"
+                        }
+                    }
+                ], 
                 "articleTitle": "Geological and taphonomic evidence for deliberate body disposal by the primitive hominin species <italic>Homo naledi</italic> from the Dinaledi Chamber, South Africa", 
                 "journal": {
                     "name": [
@@ -6162,6 +6959,141 @@
                 "type": "journal", 
                 "id": "bib18", 
                 "date": "2013", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Dom\u00ednguez-Rodrigo", 
+                            "index": "Dom\u00ednguez-Rodrigo, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TR Pickering", 
+                            "index": "Pickering, TR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "E Baquedano", 
+                            "index": "Baquedano, E"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Mabulla", 
+                            "index": "Mabulla, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DF Mark", 
+                            "index": "Mark, DF"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "C Musiba", 
+                            "index": "Musiba, C"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "HT Bunn", 
+                            "index": "Bunn, HT"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Uribelarrea", 
+                            "index": "Uribelarrea, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "V Smith", 
+                            "index": "Smith, V"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "F Diez-Martin", 
+                            "index": "Diez-Martin, F"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A P\u00e9rez-Gonz\u00e1lez", 
+                            "index": "P\u00e9rez-Gonz\u00e1lez, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P S\u00e1nchez", 
+                            "index": "S\u00e1nchez, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Santonja", 
+                            "index": "Santonja, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Barboni", 
+                            "index": "Barboni, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Gidna", 
+                            "index": "Gidna, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Ashley", 
+                            "index": "Ashley, G"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Yravedra", 
+                            "index": "Yravedra, J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JL Heaton", 
+                            "index": "Heaton, JL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MC Arriaza", 
+                            "index": "Arriaza, MC"
+                        }
+                    }
+                ], 
                 "articleTitle": "First partial skeleton of a 1.34-million-year-old <italic>Paranthropus boisei</italic> from Bed II, Olduvai Gorge, Tanzania", 
                 "journal": {
                     "name": [
@@ -6176,6 +7108,43 @@
                 "type": "journal", 
                 "id": "bib19", 
                 "date": "2005", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MS Drapeau", 
+                            "index": "Drapeau, MS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CV Ward", 
+                            "index": "Ward, CV"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WH Kimbel", 
+                            "index": "Kimbel, WH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DC Johanson", 
+                            "index": "Johanson, DC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Y Rak", 
+                            "index": "Rak, Y"
+                        }
+                    }
+                ], 
                 "articleTitle": "Associated cranial and forelimb remains attributed to <italic>Australopithecus afarensis</italic> from Hadar, Ethiopia", 
                 "journal": {
                     "name": [
@@ -6194,6 +7163,78 @@
                 "type": "journal", 
                 "id": "bib20", 
                 "date": "2005", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Falk", 
+                            "index": "Falk, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "C Hildebolt", 
+                            "index": "Hildebolt, C"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "K Smith", 
+                            "index": "Smith, K"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MJ Morwood", 
+                            "index": "Morwood, MJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Sutikna", 
+                            "index": "Sutikna, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Brown", 
+                            "index": "Brown, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Jatmiko", 
+                            "index": "Jatmiko"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EW Saptomo", 
+                            "index": "Saptomo, EW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Brunsden", 
+                            "index": "Brunsden, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "F Prior", 
+                            "index": "Prior, F"
+                        }
+                    }
+                ], 
                 "articleTitle": "The brain of LB1, <italic>Homo floresiensis</italic>", 
                 "journal": {
                     "name": [
@@ -6212,6 +7253,15 @@
                 "type": "journal", 
                 "id": "bib21", 
                 "date": "1956", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Fully", 
+                            "index": "Fully, G"
+                        }
+                    }
+                ], 
                 "articleTitle": "Une nouvelle m\u00e9thode de d\u00e9termination de la taille", 
                 "journal": {
                     "name": [
@@ -6229,6 +7279,106 @@
                 "type": "journal", 
                 "id": "bib22", 
                 "date": "2000", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "L Gabunia", 
+                            "index": "Gabunia, L"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Vekua", 
+                            "index": "Vekua, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Lordkipanidze", 
+                            "index": "Lordkipanidze, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CC Swisher III", 
+                            "index": "Swisher, CC, III"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Ferring", 
+                            "index": "Ferring, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Justus", 
+                            "index": "Justus, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Nioradze", 
+                            "index": "Nioradze, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Tvalchrelidze", 
+                            "index": "Tvalchrelidze, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SC Ant\u00f3n", 
+                            "index": "Ant\u00f3n, SC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Bosinski", 
+                            "index": "Bosinski, G"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "O J\u00f6ris", 
+                            "index": "J\u00f6ris, O"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MA Lumley", 
+                            "index": "Lumley, MA"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Majsuradze", 
+                            "index": "Majsuradze, G"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Mouskhelishvili", 
+                            "index": "Mouskhelishvili, A"
+                        }
+                    }
+                ], 
                 "articleTitle": "Earliest Pleistocene hominid cranial remains from Dmanisi, Republic of Georgia: taxonomy, geological setting and age", 
                 "journal": {
                     "name": [
@@ -6247,6 +7397,45 @@
                 "type": "book-chapter", 
                 "id": "bib23", 
                 "date": "1988", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "HM Grausz", 
+                            "index": "Grausz, HM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Leakey", 
+                            "index": "Leakey, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Walker", 
+                            "index": "Walker, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "C Ward", 
+                            "index": "Ward, C"
+                        }
+                    }
+                ], 
+                "editors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FE Grine", 
+                            "index": "Grine, FE"
+                        }
+                    }
+                ], 
                 "bookTitle": "Evolutionary history of the \u2018Robust\u2019 Australopithecines", 
                 "chapterTitle": "Associated cranial and postcranial bones of <italic>Australopithecus boisei</italic>", 
                 "pages": {
@@ -6274,6 +7463,36 @@
                 "type": "journal", 
                 "id": "bib24", 
                 "date": "1993", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FE Grine", 
+                            "index": "Grine, FE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Demes", 
+                            "index": "Demes, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WL Jungers", 
+                            "index": "Jungers, WL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TM Cole III", 
+                            "index": "Cole, TM, III"
+                        }
+                    }
+                ], 
                 "articleTitle": "Taxonomic affinity of the early <italic>Homo</italic> cranium from Swartkrans, South Africa", 
                 "journal": {
                     "name": [
@@ -6292,6 +7511,36 @@
                 "type": "journal", 
                 "id": "bib25", 
                 "date": "1995", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FE Grine", 
+                            "index": "Grine, FE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WL Jungers", 
+                            "index": "Jungers, WL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "PV Tobias", 
+                            "index": "Tobias, PV"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "OM Pearson", 
+                            "index": "Pearson, OM"
+                        }
+                    }
+                ], 
                 "articleTitle": "Fossil <italic>Homo</italic> femur from Berg Aukas, northern Namibia", 
                 "journal": {
                     "name": [
@@ -6310,6 +7559,29 @@
                 "type": "journal", 
                 "id": "bib26", 
                 "date": "1996", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FE Grine", 
+                            "index": "Grine, FE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WL Jungers", 
+                            "index": "Jungers, WL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Schultz", 
+                            "index": "Schultz, J"
+                        }
+                    }
+                ], 
                 "articleTitle": "Phenetic affinities among early <italic>Homo crania</italic> from East and South Africa", 
                 "journal": {
                     "name": [
@@ -6324,6 +7596,71 @@
                 "type": "journal", 
                 "id": "bib27", 
                 "date": "2010", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Y Haile-Selassie", 
+                            "index": "Haile-Selassie, Y"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "BM Latimer", 
+                            "index": "Latimer, BM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Alene", 
+                            "index": "Alene, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AL Deino", 
+                            "index": "Deino, AL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "L Gibert", 
+                            "index": "Gibert, L"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SM Melillo", 
+                            "index": "Melillo, SM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "BZ Saylor", 
+                            "index": "Saylor, BZ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "GR Scott", 
+                            "index": "Scott, GR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CO Lovejoy", 
+                            "index": "Lovejoy, CO"
+                        }
+                    }
+                ], 
                 "articleTitle": "An early <italic>Australopithecus afarensis</italic> postcranium from Woranso-Mille, Ethiopia", 
                 "journal": {
                     "name": [
@@ -6339,18 +7676,111 @@
                 "doi": "10.1073/pnas.1004527107"
             }, 
             {
-                "type": "other", 
+                "type": "unknown", 
                 "id": "bib28", 
                 "date": "2015", 
-                "source": "Nature Communications", 
-                "volume": "6", 
-                "pages": "8432", 
-                "doi": "10.1038/ncomms9432"
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WEH Harcourt-Smith", 
+                            "index": "Harcourt-Smith, WEH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Z Throckmorton", 
+                            "index": "Throckmorton, Z"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KA Congdon", 
+                            "index": "Congdon, KA"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Zipfel", 
+                            "index": "Zipfel, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AS Deane", 
+                            "index": "Deane, AS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MSM  Drapeau", 
+                            "index": " Drapeau, MSM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JM DeSilva", 
+                            "index": "DeSilva, JM"
+                        }
+                    }
+                ], 
+                "title": "The foot of <italic>Homo naledi</italic>", 
+                "details": "8432, Nature Communications, 6, 10.1038/ncomms9432"
             }, 
             {
                 "type": "journal", 
                 "id": "bib29", 
                 "date": "2000", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Hawks", 
+                            "index": "Hawks, J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "K Hunley", 
+                            "index": "Hunley, K"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SH Lee", 
+                            "index": "Lee, SH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Wolpoff", 
+                            "index": "Wolpoff, M"
+                        }
+                    }
+                ], 
                 "articleTitle": "Population bottlenecks and Pleistocene human evolution", 
                 "journal": {
                     "name": [
@@ -6369,6 +7799,15 @@
                 "type": "journal", 
                 "id": "bib30", 
                 "date": "2012", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TW Holliday", 
+                            "index": "Holliday, TW"
+                        }
+                    }
+                ], 
                 "articleTitle": "Body size, body shape, and the circumscription of the genus <italic>Homo</italic>", 
                 "journal": {
                     "name": [
@@ -6387,6 +7826,78 @@
                 "type": "journal", 
                 "id": "bib31", 
                 "date": "1986", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DC Johanson", 
+                            "index": "Johanson, DC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FT Masao", 
+                            "index": "Masao, FT"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "GG Eck", 
+                            "index": "Eck, GG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TD White", 
+                            "index": "White, TD"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RC Walter", 
+                            "index": "Walter, RC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WH Kimbel", 
+                            "index": "Kimbel, WH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Asfaw", 
+                            "index": "Asfaw, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Manega", 
+                            "index": "Manega, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Ndessokia", 
+                            "index": "Ndessokia, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Suwa", 
+                            "index": "Suwa, G"
+                        }
+                    }
+                ], 
                 "articleTitle": "New partial skeleton of <italic>Homo habilis</italic> from Olduvai Gorge, Tanzania", 
                 "journal": {
                     "name": [
@@ -6405,6 +7916,29 @@
                 "type": "journal", 
                 "id": "bib32", 
                 "date": "1982", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DC Johanson", 
+                            "index": "Johanson, DC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Taieb", 
+                            "index": "Taieb, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Y Coppens", 
+                            "index": "Coppens, Y"
+                        }
+                    }
+                ], 
                 "articleTitle": "Pliocene hominids from the Hadar formation, Ethiopia (1973\u20131977): Stratigraphic, chronologic, and paleoenvironmental contexts, with notes on hominid morphology and systematics", 
                 "journal": {
                     "name": [
@@ -6423,6 +7957,64 @@
                 "type": "journal", 
                 "id": "bib33", 
                 "date": "2009a", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WL Jungers", 
+                            "index": "Jungers, WL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WE Harcourt-Smith", 
+                            "index": "Harcourt-Smith, WE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RE Wunderlich", 
+                            "index": "Wunderlich, RE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MW Tocheri", 
+                            "index": "Tocheri, MW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SG Larson", 
+                            "index": "Larson, SG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Sutikna", 
+                            "index": "Sutikna, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RA Due", 
+                            "index": "Due, RA"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MJ Morwood", 
+                            "index": "Morwood, MJ"
+                        }
+                    }
+                ], 
                 "articleTitle": "The foot of <italic>Homo floresiensis</italic>", 
                 "journal": {
                     "name": [
@@ -6441,6 +8033,57 @@
                 "type": "journal", 
                 "id": "bib34", 
                 "date": "2009b", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WL Jungers", 
+                            "index": "Jungers, WL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SG Larson", 
+                            "index": "Larson, SG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "W Harcourt-Smith", 
+                            "index": "Harcourt-Smith, W"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MJ Morwood", 
+                            "index": "Morwood, MJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Sutikna", 
+                            "index": "Sutikna, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RD Awe", 
+                            "index": "Awe, RD"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Djubiantono", 
+                            "index": "Djubiantono, T"
+                        }
+                    }
+                ], 
                 "articleTitle": "Descriptions of the lower limb skeleton of <italic>Homo floresiensis</italic>", 
                 "journal": {
                     "name": [
@@ -6459,6 +8102,15 @@
                 "type": "journal", 
                 "id": "bib35", 
                 "date": "2000", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AW Keyser", 
+                            "index": "Keyser, AW"
+                        }
+                    }
+                ], 
                 "articleTitle": "The Drimolen skull: the most complete australopithecine cranium and mandible to date", 
                 "journal": {
                     "name": [
@@ -6476,6 +8128,43 @@
                 "type": "journal", 
                 "id": "bib36", 
                 "date": "2000", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AW Keyser", 
+                            "index": "Keyser, AW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CG Menter", 
+                            "index": "Menter, CG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JJ Moggi-Cecchi", 
+                            "index": "Moggi-Cecchi, JJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TR Pickering", 
+                            "index": "Pickering, TR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }
+                ], 
                 "articleTitle": "Drimolen: a new hominin-bearing site in Gauteng, South Africa", 
                 "journal": {
                     "name": [
@@ -6493,6 +8182,36 @@
                 "type": "book", 
                 "id": "bib37", 
                 "date": "2004", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WH Kimbel", 
+                            "index": "Kimbel, WH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Y Rak", 
+                            "index": "Rak, Y"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DC Johanson", 
+                            "index": "Johanson, DC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "N Minugh-Purvis", 
+                            "index": "Minugh-Purvis, N"
+                        }
+                    }
+                ], 
                 "bookTitle": "The skull of Australopithecus afarensis", 
                 "publisher": {
                     "name": [
@@ -6514,6 +8233,29 @@
                 "type": "journal", 
                 "id": "bib38", 
                 "date": "1997", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WH Kimbel", 
+                            "index": "Kimbel, WH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DC Johanson", 
+                            "index": "Johanson, DC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Y Rak", 
+                            "index": "Rak, Y"
+                        }
+                    }
+                ], 
                 "articleTitle": "Systematic assessment of a maxilla of Homo from Hadar, Ethiopia", 
                 "journal": {
                     "name": [
@@ -6532,6 +8274,43 @@
                 "type": "journal", 
                 "id": "bib39", 
                 "date": "2011", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TL Kivell", 
+                            "index": "Kivell, TL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JM Kibii", 
+                            "index": "Kibii, JM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Schmid", 
+                            "index": "Schmid, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }
+                ], 
                 "articleTitle": "<italic>Australopithecus sediba</italic> hand demonstrates mosaic evolution of locomotor and manipulative abilities", 
                 "journal": {
                     "name": [
@@ -6547,18 +8326,125 @@
                 "doi": "10.1126/science.1202625"
             }, 
             {
-                "type": "other", 
+                "type": "unknown", 
                 "id": "bib40", 
                 "date": "2015", 
-                "source": "Nature Communications", 
-                "volume": "6", 
-                "pages": "8431", 
-                "doi": "10.1038/ncomms9431"
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TL Kivell", 
+                            "index": "Kivell, TL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AS Deane", 
+                            "index": "Deane, AS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MW Tocheri", 
+                            "index": "Tocheri, MW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CM Orr", 
+                            "index": "Orr, CM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Schmid", 
+                            "index": "Schmid, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Hawks", 
+                            "index": "Hawks, J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }
+                ], 
+                "title": "The hand of <italic>Homo naledi</italic>", 
+                "details": "8431, Nature Communications, 6, 10.1038/ncomms9431"
             }, 
             {
                 "type": "journal", 
                 "id": "bib41", 
                 "date": "2012", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MG Leakey", 
+                            "index": "Leakey, MG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "F Spoor", 
+                            "index": "Spoor, F"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MC Dean", 
+                            "index": "Dean, MC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CS Feibel", 
+                            "index": "Feibel, CS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SC Ant\u00f3n", 
+                            "index": "Ant\u00f3n, SC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "C Kiarie", 
+                            "index": "Kiarie, C"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LN Leakey", 
+                            "index": "Leakey, LN"
+                        }
+                    }
+                ], 
                 "articleTitle": "New fossils from Koobi Fora in northern Kenya confirm taxonomic diversity in early Homo", 
                 "journal": {
                     "name": [
@@ -6577,6 +8463,15 @@
                 "type": "journal", 
                 "id": "bib42", 
                 "date": "2001", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SH Lee", 
+                            "index": "Lee, SH"
+                        }
+                    }
+                ], 
                 "articleTitle": "Assigned resampling method: a new method to estimate size sexual dimorphism in samples of unknown sex", 
                 "journal": {
                     "name": [
@@ -6594,6 +8489,134 @@
                 "type": "journal", 
                 "id": "bib43", 
                 "date": "2007", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Lordkipanidze", 
+                            "index": "Lordkipanidze, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Jashashvili", 
+                            "index": "Jashashvili, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Vekua", 
+                            "index": "Vekua, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MS Ponce de Le\u00f3n", 
+                            "index": "Ponce de Le\u00f3n, MS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CP Zollikofer", 
+                            "index": "Zollikofer, CP"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "GP Rightmire", 
+                            "index": "Rightmire, GP"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "H Pontzer", 
+                            "index": "Pontzer, H"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Ferring", 
+                            "index": "Ferring, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "O Oms", 
+                            "index": "Oms, O"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Tappen", 
+                            "index": "Tappen, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Bukhsianidze", 
+                            "index": "Bukhsianidze, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Agusti", 
+                            "index": "Agusti, J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Kahlke", 
+                            "index": "Kahlke, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Kiladze", 
+                            "index": "Kiladze, G"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Martinez-Navarro", 
+                            "index": "Martinez-Navarro, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Mouskhelishvili", 
+                            "index": "Mouskhelishvili, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Nioradze", 
+                            "index": "Nioradze, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "L Rook", 
+                            "index": "Rook, L"
+                        }
+                    }
+                ], 
                 "articleTitle": "Postcranial evidence from early <italic>Homo</italic> from Dmanisi, Georgia", 
                 "journal": {
                     "name": [
@@ -6612,6 +8635,57 @@
                 "type": "journal", 
                 "id": "bib44", 
                 "date": "2013", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Lordkipanidze", 
+                            "index": "Lordkipanidze, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MS Ponce de Le\u00f3n", 
+                            "index": "Ponce de Le\u00f3n, MS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Margvelashvili", 
+                            "index": "Margvelashvili, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Y Rak", 
+                            "index": "Rak, Y"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "GP Rightmire", 
+                            "index": "Rightmire, GP"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Vekua", 
+                            "index": "Vekua, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CP Zollikofer", 
+                            "index": "Zollikofer, CP"
+                        }
+                    }
+                ], 
                 "articleTitle": "A complete skull from Dmanisi, Georgia, and the evolutionary biology of early <italic>Homo</italic>", 
                 "journal": {
                     "name": [
@@ -6630,6 +8704,22 @@
                 "type": "journal", 
                 "id": "bib45", 
                 "date": "2009", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AE McKellar", 
+                            "index": "McKellar, AE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AP Hendry", 
+                            "index": "Hendry, AP"
+                        }
+                    }
+                ], 
                 "articleTitle": "How humans differ from other animals in their levels of morphological variation", 
                 "journal": {
                     "name": [
@@ -6644,6 +8734,78 @@
                 "type": "journal", 
                 "id": "bib46", 
                 "date": "2005", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MJ Morwood", 
+                            "index": "Morwood, MJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Brown", 
+                            "index": "Brown, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Sutikna", 
+                            "index": "Sutikna, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EW Saptomo", 
+                            "index": "Saptomo, EW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KE Westaway", 
+                            "index": "Westaway, KE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RA Due", 
+                            "index": "Due, RA"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RG Roberts", 
+                            "index": "Roberts, RG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Maeda", 
+                            "index": "Maeda, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Wasisto", 
+                            "index": "Wasisto, S"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Djubiantono", 
+                            "index": "Djubiantono, T"
+                        }
+                    }
+                ], 
                 "articleTitle": "Further evidence for small-bodied hominins from the Late Pleistocene of Flores, Indonesia", 
                 "journal": {
                     "name": [
@@ -6662,6 +8824,78 @@
                 "type": "journal", 
                 "id": "bib47", 
                 "date": "2013", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CM Orr", 
+                            "index": "Orr, CM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MW Tocheri", 
+                            "index": "Tocheri, MW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Burnett", 
+                            "index": "Burnett, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RD Awe", 
+                            "index": "Awe, RD"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EW Saptomo", 
+                            "index": "Saptomo, EW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Sutikna", 
+                            "index": "Sutikna, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Jatmiko", 
+                            "index": "Jatmiko"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Wasisto", 
+                            "index": "Wasisto, S"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MJ Morwood", 
+                            "index": "Morwood, MJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WL Jungers", 
+                            "index": "Jungers, WL"
+                        }
+                    }
+                ], 
                 "articleTitle": "New wrist bones for <italic>Homo floresiensis</italic> from liang bua (Flores, Indonesia)", 
                 "journal": {
                     "name": [
@@ -6680,6 +8914,29 @@
                 "type": "journal", 
                 "id": "bib48", 
                 "date": "2006", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MH Raxter", 
+                            "index": "Raxter, MH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "BM Auerbach", 
+                            "index": "Auerbach, BM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CB Ruff", 
+                            "index": "Ruff, CB"
+                        }
+                    }
+                ], 
                 "articleTitle": "Revision of the fully technique for estimating statures", 
                 "journal": {
                     "name": [
@@ -6698,6 +8955,29 @@
                 "type": "journal", 
                 "id": "bib49", 
                 "date": "2006", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "GP Rightmire", 
+                            "index": "Rightmire, GP"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Lordkipadnize", 
+                            "index": "Lordkipadnize, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Vekua", 
+                            "index": "Vekua, A"
+                        }
+                    }
+                ], 
                 "articleTitle": "Anatomical descriptions, comparative studies and evolutionary significance of the hominin skulls from Dmanisi, Republic of Georgia", 
                 "journal": {
                     "name": [
@@ -6716,6 +8996,22 @@
                 "type": "journal", 
                 "id": "bib50", 
                 "date": "2013", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "C Rolian", 
+                            "index": "Rolian, C"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AD Gordon", 
+                            "index": "Gordon, AD"
+                        }
+                    }
+                ], 
                 "articleTitle": "Reassessing manual proportions in <italic>Australopithecus afarensis</italic>", 
                 "journal": {
                     "name": [
@@ -6734,6 +9030,29 @@
                 "type": "journal", 
                 "id": "bib51", 
                 "date": "1997", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CB Ruff", 
+                            "index": "Ruff, CB"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "E Trinkaus", 
+                            "index": "Trinkaus, E"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TW Holliday", 
+                            "index": "Holliday, TW"
+                        }
+                    }
+                ], 
                 "articleTitle": "Body mass and encephalization in Pleistocene <italic>Homo</italic>", 
                 "journal": {
                     "name": [
@@ -6752,6 +9071,57 @@
                 "type": "journal", 
                 "id": "bib52", 
                 "date": "2013", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Schmid", 
+                            "index": "Schmid, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Nalla", 
+                            "index": "Nalla, S"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "E Weissen", 
+                            "index": "Weissen, E"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KJ Carlson", 
+                            "index": "Carlson, KJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DJ de Ruiter", 
+                            "index": "de Ruiter, DJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }
+                ], 
                 "articleTitle": "Mosaic morphology in the thorax of <italic>Australopithecus sediba</italic>", 
                 "journal": {
                     "name": [
@@ -6766,6 +9136,43 @@
                 "type": "journal", 
                 "id": "bib53", 
                 "date": "1993", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "F Schrenk", 
+                            "index": "Schrenk, F"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TG Bromage", 
+                            "index": "Bromage, TG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CG Betzler", 
+                            "index": "Betzler, CG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "U Ring", 
+                            "index": "Ring, U"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "YM Juwayeyi", 
+                            "index": "Juwayeyi, YM"
+                        }
+                    }
+                ], 
                 "articleTitle": "Oldest <italic>Homo</italic> and Pliocene biogeography of the Malawi rift", 
                 "journal": {
                     "name": [
@@ -6784,6 +9191,71 @@
                 "type": "journal", 
                 "id": "bib55", 
                 "date": "2007", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "F Spoor", 
+                            "index": "Spoor, F"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MG Leakey", 
+                            "index": "Leakey, MG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "PN Gathogo", 
+                            "index": "Gathogo, PN"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FH Brown", 
+                            "index": "Brown, FH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SC Ant\u00f3n", 
+                            "index": "Ant\u00f3n, SC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "I McDougall", 
+                            "index": "McDougall, I"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "C Kiarie", 
+                            "index": "Kiarie, C"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FK Manthi", 
+                            "index": "Manthi, FK"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LN Leakey", 
+                            "index": "Leakey, LN"
+                        }
+                    }
+                ], 
                 "articleTitle": "Implications of new early <italic>Homo</italic> fossils from Ileret, east of Lake Turkana, Kenya", 
                 "journal": {
                     "name": [
@@ -6802,6 +9274,15 @@
                 "type": "journal", 
                 "id": "bib56", 
                 "date": "2013", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JT Stock", 
+                            "index": "Stock, JT"
+                        }
+                    }
+                ], 
                 "articleTitle": "The skeletal phenotype of \u2018Negritos\u2019 from the Andaman Islands and Philippines relative to global variation among hunter-gatherers", 
                 "journal": {
                     "name": [
@@ -6820,6 +9301,15 @@
                 "type": "journal", 
                 "id": "bib57", 
                 "date": "1988", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RL Susman", 
+                            "index": "Susman, RL"
+                        }
+                    }
+                ], 
                 "articleTitle": "Hand of <italic>Paranthropus robustus</italic> from Member 1, Swartkrans: fossil evidence for tool behavior", 
                 "journal": {
                     "name": [
@@ -6838,6 +9328,29 @@
                 "type": "journal", 
                 "id": "bib58", 
                 "date": "2001", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RL Susman", 
+                            "index": "Susman, RL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D de Ruiter", 
+                            "index": "de Ruiter, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CK Brain", 
+                            "index": "Brain, CK"
+                        }
+                    }
+                ], 
                 "articleTitle": "Recently identified postcranial remains of <italic>Paranthropus</italic> and early <italic>Homo</italic> from Swartkrans Cave, South Africa", 
                 "journal": {
                     "name": [
@@ -6856,6 +9369,78 @@
                 "type": "journal", 
                 "id": "bib59", 
                 "date": "1997", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Suwa", 
+                            "index": "Suwa, G"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Asfaw", 
+                            "index": "Asfaw, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Y Beyene", 
+                            "index": "Beyene, Y"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TD White", 
+                            "index": "White, TD"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Katoh", 
+                            "index": "Katoh, S"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Nagaoka", 
+                            "index": "Nagaoka, S"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "H Nakaya", 
+                            "index": "Nakaya, H"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "K Uzawa", 
+                            "index": "Uzawa, K"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Renne", 
+                            "index": "Renne, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G WoldeGabriel", 
+                            "index": "WoldeGabriel, G"
+                        }
+                    }
+                ], 
                 "articleTitle": "The first skull of <italic>Australopithecus boisei</italic>", 
                 "journal": {
                     "name": [
@@ -6874,6 +9459,29 @@
                 "type": "journal", 
                 "id": "bib60", 
                 "date": "1996", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Suwa", 
+                            "index": "Suwa, G"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TD White", 
+                            "index": "White, TD"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FC Howell", 
+                            "index": "Howell, FC"
+                        }
+                    }
+                ], 
                 "articleTitle": "Mandibular postcanine dentition from the Shungura formation, Ethiopia: crown morphology, taxonomic allocations, and Plio-Pleistocene hominid evolution", 
                 "journal": {
                     "name": [
@@ -6892,6 +9500,71 @@
                 "type": "journal", 
                 "id": "bib61", 
                 "date": "2007", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Suwa", 
+                            "index": "Suwa, G"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Asfaw", 
+                            "index": "Asfaw, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Y Haile-Selassie", 
+                            "index": "Haile-Selassie, Y"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T White", 
+                            "index": "White, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Katoh", 
+                            "index": "Katoh, S"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Woldegabriel", 
+                            "index": "Woldegabriel, G"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WK Hart", 
+                            "index": "Hart, WK"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "H Nakaya", 
+                            "index": "Nakaya, H"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Y Beyene", 
+                            "index": "Beyene, Y"
+                        }
+                    }
+                ], 
                 "articleTitle": "Early pleistocene <italic>Homo erectus</italic> fossils from konso, southern Ethiopia", 
                 "journal": {
                     "name": [
@@ -6910,6 +9583,15 @@
                 "type": "book", 
                 "id": "bib62", 
                 "date": "1967", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "PV Tobias", 
+                            "index": "Tobias, PV"
+                        }
+                    }
+                ], 
                 "bookTitle": "The cranium and maxillary dentition of Australopithecus (Zinjanthropus) boisei", 
                 "publisher": {
                     "name": [
@@ -6931,6 +9613,15 @@
                 "type": "book", 
                 "id": "bib63", 
                 "date": "1991", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "PV Tobias", 
+                            "index": "Tobias, PV"
+                        }
+                    }
+                ], 
                 "bookTitle": "Olduvai Gorge volume 4: the skulls, endocasts and teeth of Homo habilis", 
                 "publisher": {
                     "name": [
@@ -6952,6 +9643,78 @@
                 "type": "journal", 
                 "id": "bib64", 
                 "date": "2007", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MW Tocheri", 
+                            "index": "Tocheri, MW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CM Orr", 
+                            "index": "Orr, CM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SG Larson", 
+                            "index": "Larson, SG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Sutikna", 
+                            "index": "Sutikna, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Jatmiko", 
+                            "index": "Jatmiko"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EW Saptomo", 
+                            "index": "Saptomo, EW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RA Due", 
+                            "index": "Due, RA"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "T Djubiantono", 
+                            "index": "Djubiantono, T"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MJ Morwood", 
+                            "index": "Morwood, MJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WL Jungers", 
+                            "index": "Jungers, WL"
+                        }
+                    }
+                ], 
                 "articleTitle": "The primitive wrist of <italic>Homo floresiensis</italic> and its implicatiosn for hominin evolution", 
                 "journal": {
                     "name": [
@@ -6970,6 +9733,36 @@
                 "type": "journal", 
                 "id": "bib65", 
                 "date": "2005", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MW Tocheri", 
+                            "index": "Tocheri, MW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Razdan", 
+                            "index": "Razdan, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RC Williams", 
+                            "index": "Williams, RC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MW Marzke", 
+                            "index": "Marzke, MW"
+                        }
+                    }
+                ], 
                 "articleTitle": "A 3D quantitative comparison of trapezium and trapezoid relative articular and nonarticular surface areas in modern humans and great apes", 
                 "journal": {
                     "name": [
@@ -6988,6 +9781,92 @@
                 "type": "journal", 
                 "id": "bib66", 
                 "date": "2002", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Vekua", 
+                            "index": "Vekua, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Lordkipanidze", 
+                            "index": "Lordkipanidze, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "GP Rightmire", 
+                            "index": "Rightmire, GP"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Agusti", 
+                            "index": "Agusti, J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Ferring", 
+                            "index": "Ferring, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Maisuradze", 
+                            "index": "Maisuradze, G"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Mouskhelishvili", 
+                            "index": "Mouskhelishvili, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Nioradze", 
+                            "index": "Nioradze, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MP De Leon", 
+                            "index": "De Leon, MP"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Tappen", 
+                            "index": "Tappen, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Tvalchrelidze", 
+                            "index": "Tvalchrelidze, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "C Zollikofer", 
+                            "index": "Zollikofer, C"
+                        }
+                    }
+                ], 
                 "articleTitle": "A new skull of early <italic>Homo</italic> from Dmanisi, Georgia", 
                 "journal": {
                     "name": [
@@ -7006,6 +9885,36 @@
                 "type": "journal", 
                 "id": "bib67", 
                 "date": "2012", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CV Ward", 
+                            "index": "Ward, CV"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "WH Kimbel", 
+                            "index": "Kimbel, WH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EH Harmon", 
+                            "index": "Harmon, EH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DC Johanson", 
+                            "index": "Johanson, DC"
+                        }
+                    }
+                ], 
                 "articleTitle": "New postcranial fossils of <italic>Australopithecus afarensis</italic> from hadar, Ethiopia (1990\u20132007)", 
                 "journal": {
                     "name": [
@@ -7024,6 +9933,43 @@
                 "type": "journal", 
                 "id": "bib68", 
                 "date": "2013", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CV Ward", 
+                            "index": "Ward, CV"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MW Tocheri", 
+                            "index": "Tocheri, MW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JM Plavcan", 
+                            "index": "Plavcan, JM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "FH Brown", 
+                            "index": "Brown, FH"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "F Kyalo Manthi", 
+                            "index": "Kyalo Manthi, F"
+                        }
+                    }
+                ], 
                 "articleTitle": "Early Pleistocene third metacarpal from Kenya and the evolution of modern human-like hand morphology", 
                 "journal": {
                     "name": [
@@ -7042,6 +9988,15 @@
                 "type": "journal", 
                 "id": "bib69", 
                 "date": "1943", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "F Weidenreich", 
+                            "index": "Weidenreich, F"
+                        }
+                    }
+                ], 
                 "articleTitle": "The skull of <italic>Sinanthropus</italic>", 
                 "journal": {
                     "name": [
@@ -7055,6 +10010,15 @@
                 "type": "book", 
                 "id": "bib70", 
                 "date": "1991", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "BA Wood", 
+                            "index": "Wood, BA"
+                        }
+                    }
+                ], 
                 "bookTitle": "Koobi Fora research project IV: hominid cranial remains from Koobi Fora", 
                 "publisher": {
                     "name": [
@@ -7076,6 +10040,22 @@
                 "type": "journal", 
                 "id": "bib71", 
                 "date": "1999", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "BA Wood", 
+                            "index": "Wood, BA"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Collard", 
+                            "index": "Collard, M"
+                        }
+                    }
+                ], 
                 "articleTitle": "The human genus", 
                 "journal": {
                     "name": [
@@ -7094,6 +10074,50 @@
                 "type": "journal", 
                 "id": "bib72", 
                 "date": "2011", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Zipfel", 
+                            "index": "Zipfel, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JM DeSilva", 
+                            "index": "DeSilva, JM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RS Kidd", 
+                            "index": "Kidd, RS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KJ Carlson", 
+                            "index": "Carlson, KJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }
+                ], 
                 "articleTitle": "The foot and ankle of <italic>Australopithecus sediba</italic>", 
                 "journal": {
                     "name": [

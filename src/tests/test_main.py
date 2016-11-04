@@ -103,3 +103,8 @@ class ArticleScrape(BaseCase):
         authors = [{'phoneNumbers': ['(+1) 800-555-5555']}]
         expected = [{'phoneNumbers': ['+18005555555']}]
         self.assertEqual(main.authors_rewrite(authors), expected)
+
+    def test_display_channel_to_article_type_fails(self):
+        display_channel = ['']
+        expected = None
+        self.assertEqual(main.display_channel_to_article_type(display_channel), expected)

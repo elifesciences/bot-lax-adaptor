@@ -80,44 +80,25 @@ class TestArticleValidate(BaseCase):
         expected = [{'date': '1000'}]
         self.assertEqual(validate.references_rewrite(references_json), expected)
 
-    def test_references_rewrite_journal_missing_pages(self):
-        references_json = [{'type': 'journal',
-                            'articleTitle': '',
-                            'journal': '',
-                            'date': '2016',
-                            'authors': ''}]
-        expected = [{'type': 'journal',
-                     'articleTitle': '',
-                     'journal': '',
-                     'date': '2016',
-                     'authors': '',
-                     'pages': 'placeholderforrefwithnopages'}]
-        self.assertEqual(validate.references_rewrite(references_json), expected)
-
-    def test_references_rewrite_book_missing_data(self):
-        references_json = [{'type': 'book',
-                            'date': '2016',
-                            'authors': ''}]
+    def test_references_rewrite_book_missing_author(self):
+        references_json = [{'type': 'book', 'date': '2016'}]
         expected = [{'type': 'book',
                      'date': '2016',
-                     'authors': '',
-                     'publisher': {'name': ['This is a placeholder book publisher name for ref that does not have one']},
-                     'bookTitle': 'Placeholder book title for book or book-chapter missing one'
-                     }]
-        self.assertEqual(validate.references_rewrite(references_json), expected)
-
-    def test_references_rewrite_thesis_missing_author(self):
-        references_json = [{'type': 'thesis', 'date': '2016'}]
-        expected = [{'type': 'thesis',
-                     'date': '2016',
-                     'author': {
+                     'authors': [{
                          "type": "person",
                          "name": {
                              "preferred": "Person One",
                              "index": "One, Person"
                          }
-                     }}]
+                     }]}]
         self.assertEqual(validate.references_rewrite(references_json), expected)
+
+    def test_add_placeholders_for_validation(self):
+        references_json = {'article': {'version': 2}}
+        expected = {'article': {'statusDate': '2016-01-01T00:00:00Z',
+                                'version': 2, 'versionDate': '2016-01-01T00:00:00Z'}}
+        validate.add_placeholders_for_validation(references_json)
+        self.assertEqual(references_json, expected)
 
     def test_is_poa_not_poa(self):
         # For test coverage
