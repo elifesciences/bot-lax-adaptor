@@ -28,6 +28,7 @@ class ArticleScrape(BaseCase):
         results = main.render_single(self.doc, version=1)
         self.assertTrue('article' in results)
         self.assertTrue('journal' in results)
+        self.assertEqual(results['article']['relatedArticles'], [])
         # NOTE! leave article validation to json schema
         # expected_article = json.load(
         # self.assertEqual(results.
