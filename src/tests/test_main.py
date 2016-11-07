@@ -106,8 +106,8 @@ class ArticleScrape(BaseCase):
         cases = [
             ((None, 'CC-BY-4'), main.EXCLUDE_ME),
             (('John', 'CC-BY-4'), 'John'),
-            (('John', 'CC-0'), main.EXCLUDE_ME),
-            (('John', 'cC-0'), main.EXCLUDE_ME)
+            (('John', 'CC0-1.0'), main.EXCLUDE_ME),
+            (('Jane', 'cC0-2.pants'), main.EXCLUDE_ME)
         ]
         for given, expected in cases:
             actual = main.discard_if_none_or_cc0(given)

@@ -228,7 +228,7 @@ def discard_if(pred): # can also be used like: discard_if(None)
 
 def discard_if_none_or_cc0(pair):
     holder, licence = pair
-    if not holder or str(licence).upper() == 'CC-0':
+    if not holder or str(licence).upper().startswith('CC0-'):
         return EXCLUDE_ME
     return holder
 
