@@ -195,15 +195,6 @@ def clean_if_empty(article_or_snippet):
             del article_or_snippet[remove_index]
     return article_or_snippet
 
-def clean_copyright(article_or_snippet):
-    # Clean copyright in article or snippet
-    remove_from_copyright_if_none = ["holder"]
-    for remove_index in remove_from_copyright_if_none:
-        if remove_index in article_or_snippet.get("copyright", {}):
-            if article_or_snippet["copyright"][remove_index] is None:
-                del article_or_snippet["copyright"][remove_index]
-    return article_or_snippet
-
 def clean(article_data):
     # Remove null or blank elements
     article_json = article_data # we're not dealing with json just yet ...
@@ -214,19 +205,32 @@ def clean(article_data):
     article_json["article"] = clean_if_empty(article_json["article"])
     article_json["snippet"] = clean_if_empty(article_json["snippet"])
 
-    article_json["article"] = clean_copyright(article_json["article"])
-    article_json["snippet"] = clean_copyright(article_json["snippet"])
-
     article_json["article"] = abstract_to_impact_statement(article_json["article"])
     article_json["snippet"] = abstract_to_impact_statement(article_json["snippet"])
 
     return article_json
+
 
 def discard_if_not_v1(v):
     "discards given value if the version of the article being worked on is not a v1"
     if getvar('version')(v) == 1:
         return v
     return EXCLUDE_ME
+
+'''
+def discard_if(pred): # can also be used like: discard_if(None)
+    def fn(v):
+        if pred is None:
+            return EXCLUDE_ME
+        return EXCLUDE_ME if pred(v) else v
+    return fn
+'''
+
+def discard_if_none_or_cc0(pair):
+    holder, licence = pair
+    if not holder or str(licence).upper() == 'CC-0':
+        return EXCLUDE_ME
+    return holder
 
 def authors_rewrite(authors):
     # Clean up phone number format
@@ -273,7 +277,7 @@ POA = copy.deepcopy(POA_SNIPPET)
 POA.update(OrderedDict([
     ('copyright', OrderedDict([
         ('license', [jats('license_url'), LICENCE_TYPES.get]),
-        ('holder', [jats('copyright_holder')]),
+        ('holder', [(jats('copyright_holder'), jats('license')), discard_if_none_or_cc0]),
         ('statement', [jats('license')]),
     ])),
     ('authors', [jats('authors_json'), authors_rewrite])
