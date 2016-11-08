@@ -8,6 +8,7 @@ from collections import OrderedDict
 from datetime import datetime
 import time
 import calendar
+import newrelic.agent
 from slugify import slugify
 import conf, utils
 
@@ -310,6 +311,7 @@ def mkdescription(poa=True):
 # bootstrap
 #
 
+@newrelic.agent.function_trace()
 def render_single(doc, **overrides):
     try:
         setvar(**overrides)
