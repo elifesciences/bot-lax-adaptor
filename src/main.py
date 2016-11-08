@@ -144,10 +144,10 @@ def to_soup(doc):
 def jats(funcname, *args, **kwargs):
     actual_func = getattr(parseJATS, funcname)
 
-    @newrelic.agent.function_trace()
     @wraps(actual_func)
     def fn(soup):
         return actual_func(soup, *args, **kwargs)
+
     return fn
 
 def category_codes(cat_list):
@@ -299,6 +299,25 @@ VOR.update(OrderedDict([
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
 ]))
+
+def _instrument_with_new_relic_monitoring(od):
+    for part in od:
+        l = []
+        if isinstance(od[part], OrderedDict):
+            _instrument_with_new_relic_monitoring(od[part])
+        else:
+            for fn in od[part]:
+                print fn
+                print type(fn)
+                l.append(newrelic.agent.FunctionTraceWrapper(fn))
+            od[part] = l
+        #od[part] = [newrelic.agent.FunctionTraceWrapper(fn) for fn in od[part]]
+
+
+_instrument_with_new_relic_monitoring(POA_SNIPPET)
+_instrument_with_new_relic_monitoring(POA)
+_instrument_with_new_relic_monitoring(VOR)
+_instrument_with_new_relic_monitoring(VOR_SNIPPET)
 
 def mkdescription(poa=True):
     "returns the description to scrape based on the article type"
