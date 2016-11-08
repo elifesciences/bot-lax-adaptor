@@ -144,7 +144,6 @@ def to_soup(doc):
 def jats(funcname, *args, **kwargs):
     actual_func = getattr(parseJATS, funcname)
 
-    @newrelic.agent.function_trace()
     @wraps(actual_func)
     def fn(soup):
         return actual_func(soup, *args, **kwargs)
