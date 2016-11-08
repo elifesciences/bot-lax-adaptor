@@ -1,3 +1,4 @@
+from os.path import join
 import os, sys, json, copy, re
 import threading
 from et3.render import render, EXCLUDE_ME
@@ -125,9 +126,25 @@ def related_article_to_related_articles(related_article_list):
 def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
 
-def self_uri_to_pdf(self_uri_list):
-    if self_uri_list:
-        return self_uri_list[0]["xlink_href"]
+def cdnlink(path):
+    return conf.CDN_PROTOCOL + ':' + conf.CDN_BASE_URL + '/' + path
+
+def pdf_uri(uri):
+    "predict an article's pdf url"
+    # uri ll:
+    # [{'content-type': u'pdf',
+    #   'ordinal': 1,
+    #   'position': 1,
+    #   'type': 'self-uri',
+    #   'xlink_href': u'elife-09560-v1.pdf'}]
+    try:
+        filename = uri[0]["xlink_href"]
+        padded_msid = filename.split('-')[1]
+        int(padded_msid) # raises ValueError if something other than an int
+        cdn_filename = 'elife-' + padded_msid + '.pdf' # not versioned?
+        return cdnlink(join('elife-articles', padded_msid, "pdf", cdn_filename))
+    except (KeyError, IndexError, ValueError):
+        return EXCLUDE_ME
 
 #
 #
@@ -261,7 +278,7 @@ SNIPPET = OrderedDict([
     ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
     ('volume', [jats('volume'), to_volume]),
     ('elocationId', [jats('elocation_id')]),
-    ('pdf', [jats('self_uri'), self_uri_to_pdf]),
+    ('pdf', [jats('self_uri'), pdf_uri]),
     ('subjects', [jats('category'), category_codes]),
     ('researchOrganisms', [jats('research_organism')]),
     ('abstract', [jats('abstract_json')]),
