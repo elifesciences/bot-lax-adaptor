@@ -302,17 +302,10 @@ VOR.update(OrderedDict([
 
 def _instrument_with_new_relic_monitoring(od):
     for part in od:
-        l = []
         if isinstance(od[part], OrderedDict):
             _instrument_with_new_relic_monitoring(od[part])
         else:
-            for fn in od[part]:
-                print fn
-                print type(fn)
-                l.append(newrelic.agent.FunctionTraceWrapper(fn))
-            od[part] = l
-        #od[part] = [newrelic.agent.FunctionTraceWrapper(fn) for fn in od[part]]
-
+            od[part] = [newrelic.agent.FunctionTraceWrapper(fn) for fn in od[part]]
 
 _instrument_with_new_relic_monitoring(POA_SNIPPET)
 _instrument_with_new_relic_monitoring(POA)
