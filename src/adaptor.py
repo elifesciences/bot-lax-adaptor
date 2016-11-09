@@ -14,7 +14,6 @@ from awsauth import S3Auth
 import botocore.session
 
 import conf
-import newrelic.agent
 from conf import PATHS_TO_LAX, PROJECT_DIR
 from conf import INVALID, ERROR, INGESTED, PUBLISHED, INGEST, PUBLISH, INGEST_PUBLISH
 
@@ -178,7 +177,6 @@ def mkresponse(status, message, request={}, **kwargs):
     return packet
 
 @timeit
-@newrelic.agent.background_task()
 def handler(json_request, outgoing):
     response = partial(send_response, outgoing)
 
@@ -256,6 +254,12 @@ def handler(json_request, outgoing):
         response(mkresponse(ERROR, msg, request))
         # when lax fails, we fail
         raise
+
+try:
+    import newrelic.agent
+    handler = newrelic.agent.background_task()(handler)
+except ImportError:
+    pass
 
 #
 #

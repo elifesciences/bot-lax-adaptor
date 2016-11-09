@@ -8,7 +8,6 @@ from collections import OrderedDict
 from datetime import datetime
 import time
 import calendar
-import newrelic.agent
 from slugify import slugify
 import conf, utils
 
@@ -147,6 +146,7 @@ def jats(funcname, *args, **kwargs):
     @wraps(actual_func)
     def fn(soup):
         return actual_func(soup, *args, **kwargs)
+
     return fn
 
 def category_codes(cat_list):
@@ -311,12 +311,28 @@ def mkdescription(poa=True):
 # bootstrap
 #
 
-@newrelic.agent.function_trace()
+def instrument(description):
+    try:
+        import newrelic.agent
+
+        for key, pipeline in description.items():
+            if isinstance(pipeline, dict): # OrderedDict is subtype of dict
+                subdescription = pipeline
+                instrument(subdescription) # recurse
+            else:
+                description[key] = map(newrelic.agent.FunctionTraceWrapper, pipeline)
+
+    except ImportError:
+        pass
+
+    return description
+
 def render_single(doc, **overrides):
     try:
         setvar(**overrides)
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
+        description = instrument(description)
         return clean(render(description, [soup])[0])
     except Exception as err:
         LOG.error("failed to render doc with error: %s", err)
