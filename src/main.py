@@ -8,7 +8,6 @@ from collections import OrderedDict
 from datetime import datetime
 import time
 import calendar
-import newrelic.agent
 from slugify import slugify
 import conf, utils
 
@@ -300,18 +299,6 @@ VOR.update(OrderedDict([
     ('authorResponse', [jats('author_response')]),
 ]))
 
-def _instrument_with_new_relic_monitoring(od):
-    for part in od:
-        if isinstance(od[part], OrderedDict):
-            _instrument_with_new_relic_monitoring(od[part])
-        else:
-            od[part] = [newrelic.agent.FunctionTraceWrapper(fn) for fn in od[part]]
-
-_instrument_with_new_relic_monitoring(POA_SNIPPET)
-_instrument_with_new_relic_monitoring(POA)
-_instrument_with_new_relic_monitoring(VOR)
-_instrument_with_new_relic_monitoring(VOR_SNIPPET)
-
 def mkdescription(poa=True):
     "returns the description to scrape based on the article type"
     return OrderedDict([
@@ -324,12 +311,28 @@ def mkdescription(poa=True):
 # bootstrap
 #
 
-@newrelic.agent.function_trace()
+def instrument(description):
+    try:
+        import newrelic.agent
+
+        for key, pipeline in description.items():
+            if isinstance(pipeline, dict): # OrderedDict is subtype of dict
+                subdescription = pipeline
+                instrument(subdescription) # recurse
+            else:
+                description[key] = map(newrelic.agent.FunctionTraceWrapper, pipeline)
+
+    except ImportError:
+        pass
+
+    return description
+
 def render_single(doc, **overrides):
     try:
         setvar(**overrides)
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
+        description = instrument(description)
         return clean(render(description, [soup])[0])
     except Exception as err:
         LOG.error("failed to render doc with error: %s", err)
