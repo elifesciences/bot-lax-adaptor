@@ -255,7 +255,7 @@ SNIPPET = OrderedDict([
     ('type', [jats('display_channel'), display_channel_to_article_type]),
     ('doi', [jats('doi')]),
     ('authorLine', [jats('author_line')]),
-    ('title', [jats('title')]),
+    ('title', [jats('full_title_json')]),
     ('titlePrefix', [jats('title_prefix')]),
     ('published', [jats('pub_date'), to_isoformat]), # 'published' is the pubdate of the v1 article
     ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
@@ -283,7 +283,7 @@ POA.update(OrderedDict([
 # a VOR snippets contains the contents of a POA
 VOR_SNIPPET = copy.deepcopy(POA)
 VOR_SNIPPET.update(OrderedDict([
-    ('impactStatement', [jats('impact_statement')]),
+    ('impactStatement', [jats('impact_statement_json')]),
 ]))
 
 # a VOR contains the contents of a VOR snippet
