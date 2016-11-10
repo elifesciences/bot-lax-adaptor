@@ -312,18 +312,18 @@ def mkdescription(poa=True):
 #
 
 def instrument(description):
-    try:
-        import newrelic.agent
+    #try:
+    #    import newrelic.agent
 
-        for key, pipeline in description.items():
-            if isinstance(pipeline, dict): # OrderedDict is subtype of dict
-                subdescription = pipeline
-                instrument(subdescription) # recurse
-            else:
-                description[key] = map(newrelic.agent.FunctionTraceWrapper, pipeline)
+    #    for key, pipeline in description.items():
+    #        if isinstance(pipeline, dict): # OrderedDict is subtype of dict
+    #            subdescription = pipeline
+    #            instrument(subdescription) # recurse
+    #        else:
+    #            description[key] = map(newrelic.agent.FunctionTraceWrapper, pipeline)
 
-    except ImportError:
-        pass
+    #except ImportError:
+    #    pass
 
     return description
 
