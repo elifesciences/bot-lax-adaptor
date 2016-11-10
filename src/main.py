@@ -290,7 +290,8 @@ VOR_SNIPPET.update(OrderedDict([
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords')]),
-    ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
+    #('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
+    ('relatedArticles', [[]]),
     ('digest', [jats('digest_json')]),
     ('body', [jats('body')]), # ha! so easy ...
     ('references', [jats('references_json')]),
