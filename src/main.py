@@ -312,7 +312,7 @@ def mkdescription(poa=True):
 #
 
 def instrument(description):
-    #try:
+    # try:
     #    import newrelic.agent
 
     #    for key, pipeline in description.items():
@@ -322,7 +322,7 @@ def instrument(description):
     #        else:
     #            description[key] = map(newrelic.agent.FunctionTraceWrapper, pipeline)
 
-    #except ImportError:
+    # except ImportError:
     #    pass
 
     return description
