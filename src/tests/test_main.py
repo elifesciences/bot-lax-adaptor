@@ -110,21 +110,13 @@ class ArticleScrape(BaseCase):
         self.assertEqual(main.display_channel_to_article_type(display_channel), expected)
 
     def test_pdf_uri(self):
-        given = [{
-            'content-type': u'pdf',
-            'ordinal': 1,
-            'position': 1,
-            'type': 'self-uri',
-            'xlink_href': u'elife-01234-v1.pdf'}]
-        expected_uri = 'https://cdn.elifesciences.org/elife-articles/01234/pdf/elife-01234.pdf'
-        self.assertEqual(expected_uri, main.pdf_uri(given))
+        given = ('research-article', 1234, 1)
+        expected = 'https://cdn.elifesciences.org/articles/01234/elife-01234-v1.pdf'
+        self.assertEqual(expected, main.pdf_uri(given))
 
     def test_pdf_uri_bad(self):
         cases = [
-            ([], main.EXCLUDE_ME),
-            ([{}], main.EXCLUDE_ME),
-            ([{'xlink_href': 'pants'}], main.EXCLUDE_ME)
+            ("asdf", "asdf", "asdf"),
         ]
-        for given, expected in cases:
-            actual = main.pdf_uri(given)
-            self.assertEqual(expected, actual, "for %r expecting %r got %r" % (given, expected, actual))
+        for given in cases:
+            self.assertRaises(ValueError, main.pdf_uri, given)
