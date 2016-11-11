@@ -289,7 +289,7 @@ VOR_SNIPPET.update(OrderedDict([
 # a VOR contains the contents of a VOR snippet
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
-    ('keywords', [jats('keywords')]),
+    ('keywords', [jats('keywords_json')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
     ('body', [jats('body')]), # ha! so easy ...
