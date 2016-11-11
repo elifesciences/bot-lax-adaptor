@@ -34,6 +34,8 @@ def uri_rewrite(body_json):
         uri_rewrite(body_json["content"])
     # A list, like in body, continue
     for element in body_json:
+        if "uri" in element:
+            element["filename"] = os.path.basename(element["uri"])
         if (("type" in element and element["type"] == "image") or
                 ("mediaType" in element)):
             if "uri" in element:
@@ -57,7 +59,6 @@ def video_rewrite(body_json):
                 source_media = {}
                 source_media["mediaType"] = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""
                 source_media["uri"] = "https://example.org/" + element.get("uri")
-                source_media["filename"] = os.path.basename(element.get("uri"))
 
                 element["sources"].append(source_media)
 
@@ -241,7 +242,7 @@ def main(doc):
         # return the contents, complete with placeholders
         return contents
     except jsonschema.ValidationError as err:
-        LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
+        LOG.error("failed to validate %s: %s", msid, err, extra=log_context)
         raise
 
 if __name__ == '__main__':

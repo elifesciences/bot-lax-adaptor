@@ -12,6 +12,12 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
+def first(x):
+    try:
+        return x[0]
+    except (IndexError, TypeError):
+        return None
+
 def validate(struct, schema):
     # if given a string, assume it's json and try to load it
     # if given a data, assume it's serializable, dump it and load it

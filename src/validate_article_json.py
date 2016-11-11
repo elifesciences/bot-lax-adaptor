@@ -5,6 +5,7 @@ this should be run using the ./validate-json.sh script in the project's root. it
 and cleans the environment."""
 
 import os, platform, shutil
+from utils import first
 from os.path import join
 import validate
 import sys, json
@@ -34,12 +35,20 @@ def job(path):
         sys.stderr.write(strbuffer.getvalue() + "\n")
         sys.stderr.flush()
 
-def main():
-    paths = map(lambda fname: join(JSON_DIR, fname), os.listdir(JSON_DIR))
+def main(args=None):
+    target = first(args)
+    if not target:
+        target = JSON_DIR
+
+    if os.path.isdir(target):
+        paths = map(lambda fname: join(target, fname), os.listdir(target))
+        paths = sorted(paths, reverse=True)
+    else:
+        paths = [os.path.abspath(target)]
+
     paths = filter(lambda path: path.lower().endswith('.json'), paths)
-    paths = sorted(paths, reverse=True)
     Parallel(n_jobs=-1)(delayed(job)(path) for path in paths)
     print 'see validate.log for errors'
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
