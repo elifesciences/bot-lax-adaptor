@@ -61,3 +61,6 @@ VOR_SCHEMA = json_load('api-raml/dist/model/article-vor.v1.json')
 
 REQUEST_SCHEMA = json_load('request-schema.json')
 RESPONSE_SCHEMA = json_load('response-schema.json')
+
+CDN_PROTOCOL = 'https'
+CDN_BASE_URL = '//cdn.elifesciences.org'

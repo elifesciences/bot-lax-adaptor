@@ -108,3 +108,15 @@ class ArticleScrape(BaseCase):
         display_channel = ['']
         expected = None
         self.assertEqual(main.display_channel_to_article_type(display_channel), expected)
+
+    def test_pdf_uri(self):
+        given = ('research-article', 1234, 1)
+        expected = 'https://cdn.elifesciences.org/articles/01234/elife-01234-v1.pdf'
+        self.assertEqual(expected, main.pdf_uri(given))
+
+    def test_pdf_uri_bad(self):
+        cases = [
+            ("asdf", "asdf", "asdf"),
+        ]
+        for given in cases:
+            self.assertRaises(ValueError, main.pdf_uri, given)

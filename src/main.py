@@ -1,3 +1,4 @@
+from os.path import join
 import os, sys, json, copy, re
 import threading
 from et3.render import render, EXCLUDE_ME
@@ -124,9 +125,20 @@ def related_article_to_related_articles(related_article_list):
 def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
 
-def self_uri_to_pdf(self_uri_list):
-    if self_uri_list:
-        return self_uri_list[0]["xlink_href"]
+def cdnlink(path):
+    return conf.CDN_PROTOCOL + ':' + conf.CDN_BASE_URL + '/' + path
+
+def pdf_uri(triple):
+    """predict an article's pdf url.
+    some article types don't have a PDF (like corrections) and some
+    older articles that should have a pdf, don't. this function doesn't
+    concern itself with those latter exceptions."""
+    content_type, msid, version = triple
+    if content_type in ['Correction']:
+        return EXCLUDE_ME
+    padded_msid = str(int(msid)).zfill(5)
+    filename = "elife-%s-v%s.pdf" % (padded_msid, version) # ll: elife-09560-v1.pdf
+    return cdnlink(join('articles', padded_msid, filename))
 
 #
 #
@@ -261,7 +273,7 @@ SNIPPET = OrderedDict([
     ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
     ('volume', [jats('volume'), to_volume]),
     ('elocationId', [jats('elocation_id')]),
-    ('pdf', [jats('self_uri'), self_uri_to_pdf]),
+    ('pdf', [(jats('display_channel'), jats('publisher_id'), getvar('version')), pdf_uri]),
     ('subjects', [jats('category'), category_codes]),
     ('researchOrganisms', [jats('research_organism')]),
     ('abstract', [jats('abstract_json')]),
