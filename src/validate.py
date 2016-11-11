@@ -57,6 +57,8 @@ def video_rewrite(body_json):
                 source_media = {}
                 source_media["mediaType"] = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""
                 source_media["uri"] = "https://example.org/" + element.get("uri")
+                source_media["filename"] = os.path.basename(element.get("uri"))
+
                 element["sources"].append(source_media)
 
                 element["image"] = "https://example.org/" + element.get("uri")
@@ -237,7 +239,7 @@ def main(doc):
         jsonschema.validate(contents["article"], schema)
         LOG.info("validated %s", msid, extra=log_context)
         # return the contents, complete with placeholders
-        return contents["article"]
+        return contents
     except jsonschema.ValidationError as err:
         LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
         raise

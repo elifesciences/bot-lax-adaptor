@@ -24,7 +24,7 @@ def job(path):
         article_with_placeholders = validate.main(open(path, 'r'))
         strbuffer.write("success")
         fn(path, join(VALID_JSON_DIR, fname))
-        json.dump(article_with_placeholders, open(join(VALID_JSON_DIR, "dummy" + fname), 'w'))
+        json.dump(article_with_placeholders, open(join(VALID_JSON_DIR, "dummy" + fname), 'w'), indent=4)
     except jsonschema.ValidationError:
         strbuffer.write("failed")
         fn(path, join(INVALID_JSON_DIR, fname))
