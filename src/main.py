@@ -1,4 +1,3 @@
-from os.path import join
 import os, sys, json, copy, re
 import threading
 from et3.render import render, EXCLUDE_ME
@@ -138,7 +137,7 @@ def pdf_uri(triple):
         return EXCLUDE_ME
     padded_msid = str(int(msid)).zfill(5)
     filename = "elife-%s-v%s.pdf" % (padded_msid, version) # ll: elife-09560-v1.pdf
-    return cdnlink(join('articles', padded_msid, filename))
+    return cdnlink('/'.join(['articles', padded_msid, filename]))
 
 #
 #
@@ -176,16 +175,6 @@ def to_volume(volume):
         # No volume on unpublished PoA articles, calculate based on current year
         volume = THIS_YEAR - 2011
     return int(volume)
-
-def abstract_to_impact_statement(article_or_snippet):
-    # If abstract has no DOI, turn it into an impact statement
-    if "abstract" in article_or_snippet and "impactStatement" not in article_or_snippet:
-        if "doi" not in article_or_snippet["abstract"]:
-            # Take the first paragraph text
-            abstract_text = article_or_snippet["abstract"]["content"][0]["text"]
-            article_or_snippet["impactStatement"] = abstract_text
-            del article_or_snippet["abstract"]
-    return article_or_snippet
 
 def clean_if_none(article_or_snippet):
     remove_if_none = ["pdf", "relatedArticles", "digest", "abstract", "titlePrefix",
@@ -229,9 +218,6 @@ def clean(article_data):
 
     article_json["article"] = clean_copyright(article_json["article"])
     article_json["snippet"] = clean_copyright(article_json["snippet"])
-
-    article_json["article"] = abstract_to_impact_statement(article_json["article"])
-    article_json["snippet"] = abstract_to_impact_statement(article_json["snippet"])
 
     return article_json
 
