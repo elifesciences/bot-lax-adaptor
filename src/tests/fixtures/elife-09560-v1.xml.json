@@ -16,7 +16,7 @@
         "versionDate": "2015-09-10T00:00:00", 
         "volume": 4, 
         "elocationId": "e09560", 
-        "pdf": "elife-09560-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/09560/elife-09560-v1.pdf", 
         "subjects": [
             {
                 "id": "genomics-evolutionary-biology", 
@@ -2319,7 +2319,7 @@
         "versionDate": "2015-09-10T00:00:00", 
         "volume": 4, 
         "elocationId": "e09560", 
-        "pdf": "elife-09560-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/09560/elife-09560-v1.pdf", 
         "subjects": [
             {
                 "id": "genomics-evolutionary-biology", 

@@ -78,12 +78,6 @@ class ArticleScrape(BaseCase):
         expected = None
         self.assertEqual(main.related_article_to_related_articles(related_article_list), expected)
 
-    def test_abstract_to_impact_statement(self):
-        snippet = {'abstract': {'content': [
-            {'type': 'paragraph', 'text': 'abstract with no DOI'}]}}
-        expected = {'impactStatement': 'abstract with no DOI'}
-        self.assertEqual(main.abstract_to_impact_statement(snippet), expected)
-
     def test_clean_if_none(self):
         snippet = {'abstract': None}
         expected = {}
