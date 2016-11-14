@@ -177,7 +177,7 @@ def to_volume(volume):
     return int(volume)
 
 def clean_if_none(article_or_snippet):
-    remove_if_none = ["pdf", "relatedArticles", "digest", "abstract", "titlePrefix",
+    remove_if_none = ["relatedArticles", "digest", "abstract", "titlePrefix",
                       "acknowledgements"]
     for remove_index in remove_if_none:
         if remove_index in article_or_snippet:
