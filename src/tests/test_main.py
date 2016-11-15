@@ -93,11 +93,6 @@ class ArticleScrape(BaseCase):
         expected = {'copyright': {}}
         self.assertEqual(main.clean_copyright(snippet), expected)
 
-    def test_authors_rewrite(self):
-        authors = [{'phoneNumbers': ['(+1) 800-555-5555']}]
-        expected = [{'phoneNumbers': ['+18005555555']}]
-        self.assertEqual(main.authors_rewrite(authors), expected)
-
     def test_display_channel_to_article_type_fails(self):
         display_channel = ['']
         expected = None
