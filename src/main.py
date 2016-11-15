@@ -1,4 +1,4 @@
-import os, sys, json, copy, re
+import os, sys, json, copy
 import threading
 from et3.render import render, EXCLUDE_ME
 from elifetools import parseJATS
@@ -227,15 +227,6 @@ def discard_if_not_v1(v):
         return v
     return EXCLUDE_ME
 
-def authors_rewrite(authors):
-    # Clean up phone number format
-    for author in authors:
-        if "phoneNumbers" in author:
-            for i, phone in enumerate(author["phoneNumbers"]):
-                # Only one phone number so far, simple replace to validate
-                author["phoneNumbers"][i] = re.sub(r'[\(\) -]', '', phone)
-    return authors
-
 #
 #
 #
@@ -275,7 +266,7 @@ POA.update(OrderedDict([
         ('holder', [jats('copyright_holder')]),
         ('statement', [jats('license')]),
     ])),
-    ('authors', [jats('authors_json'), authors_rewrite])
+    ('authors', [jats('authors_json')])
 ]))
 
 # a VOR snippets contains the contents of a POA
