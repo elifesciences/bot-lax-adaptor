@@ -12,7 +12,7 @@ elifeLibrary {
     stage 'Corpus tests', {
         sh './download-elife-xml.sh'
         sh './generate-article-json.sh'
-        sh './validate-json.sh'
+        sh './validate-all-json.sh'
     }
     
     elifeMainlineOnly {    
