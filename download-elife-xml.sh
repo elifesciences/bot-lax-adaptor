@@ -7,7 +7,7 @@ if [ -d article-xml ]; then
     git reset --hard
     git pull
     cd ..
-elif [ -d ~/elife-article-xml ]; 
+elif [ -d ~/elife-article-xml ]; then
     git clone file://~/elife-article-xml article-xml --depth 1
 else
     git clone https://github.com/elifesciences/elife-article-xml article-xml --depth 1
