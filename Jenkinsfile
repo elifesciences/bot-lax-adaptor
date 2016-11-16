@@ -9,9 +9,12 @@ elifeLibrary {
         sh 'git diff --exit-code'
     }
 
-    stage 'Corpus tests', {
+    stage 'Corpus generation', {
         sh './download-elife-xml.sh'
         sh './generate-article-json.sh'
+    }
+
+    stage 'Corpus validation', {
         sh './validate-all-json.sh'
     }
     
