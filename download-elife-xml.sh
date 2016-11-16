@@ -7,9 +7,9 @@ if [ -d article-xml ]; then
     git reset --hard
     git pull
     cd ..
-elif [ -d ~/elife-article-xml ]; then
+elif [ -d /home/elife/elife-article-xml ]; then
     # local copy on elife-libraries Jenkins node for faster cloning
-    git clone file://~/elife-article-xml article-xml --depth 1
+    git clone file://home/elife/elife-article-xml article-xml --depth 1
 else
     git clone https://github.com/elifesciences/elife-article-xml article-xml --depth 1
 fi
