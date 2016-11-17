@@ -1,4 +1,4 @@
-import os, sys, json, copy, re
+import os, sys, json, copy, re, time, calendar
 import threading
 from et3.render import render, EXCLUDE_ME
 from elifetools import parseJATS
@@ -6,10 +6,9 @@ from functools import wraps
 import logging
 from collections import OrderedDict
 from datetime import datetime
-import time
-import calendar
 from slugify import slugify
-import conf, utils
+import conf, utils, glencoe
+from utils import ensure, subdict, renkeys
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler('scrape.log')
@@ -66,6 +65,32 @@ def nonxml(msg):
     "we're scraping a value that doesn't appear in the XML"
     return note("nonxml: %s" % msg, logging.WARN)
 
+def is_poa_to_status(is_poa):
+    return "poa" if is_poa else "vor"
+
+def cdnlink(path):
+    return conf.CDN_PROTOCOL + ':' + conf.CDN_BASE_URL + '/' + path
+
+def to_soup(doc):
+    if isinstance(doc, basestring):
+        if os.path.exists(doc):
+            return parseJATS.parse_document(doc)
+        return parseJATS.parse_xml(doc)
+    # assume it's a file-like object and attempt to .read() it's contents
+    return parseJATS.parse_xml(doc.read())
+
+def jats(funcname, *args, **kwargs):
+    aliases = {
+        'msid': 'publisher_id',
+    }
+    actual_func = getattr(parseJATS, funcname, None) or getattr(parseJATS, aliases.get(funcname))
+    if not actual_func:
+        raise ValueError("you asked for %r from parseJATS but I couldn't find it!" % funcname)
+    @wraps(actual_func)
+    def fn(soup):
+        return actual_func(soup, *args, **kwargs)
+    return fn
+
 #
 #
 #
@@ -121,12 +146,6 @@ def related_article_to_related_articles(related_article_list):
         return None
     return related_articles
 
-def is_poa_to_status(is_poa):
-    return "poa" if is_poa else "vor"
-
-def cdnlink(path):
-    return conf.CDN_PROTOCOL + ':' + conf.CDN_BASE_URL + '/' + path
-
 def pdf_uri(triple):
     """predict an article's pdf url.
     some article types don't have a PDF (like corrections) and some
@@ -139,26 +158,54 @@ def pdf_uri(triple):
     filename = "elife-%s-v%s.pdf" % (padded_msid, version) # ll: elife-09560-v1.pdf
     return cdnlink('/'.join(['articles', padded_msid, filename]))
 
-#
-#
-#
+def do_section(element, fn):
+    "applies given function to each element in each section."
+    # sections may actually contain other sections. we treat the top-level 'body'
+    # attribute as just another section and recurse
+    if element['type'] == 'section': # recurse
+        element['content'] = [do_section(child, fn) for child in element['content']]
+    else:
+        element = fn(element)
+    return element
 
-def to_soup(doc):
-    if isinstance(doc, basestring):
-        if os.path.exists(doc):
-            return parseJATS.parse_document(doc)
-        return parseJATS.parse_xml(doc)
-    # assume it's a file-like object and attempt to .read() it's contents
-    return parseJATS.parse_xml(doc.read())
+def do_body(body_content, fn):
+    "applies given function to each non-section element in body content recursively"
+    return map(lambda element: do_section(element, fn), body_content)
 
-def jats(funcname, *args, **kwargs):
-    actual_func = getattr(parseJATS, funcname)
+def do_body_for_type(body_content, type_list, fn):
+    def _fn(element):
+        return fn(element) if element['type'] in type_list else element    
+    return do_body(body_content, _fn)
 
-    @wraps(actual_func)
-    def fn(soup):
-        return actual_func(soup, *args, **kwargs)
+def expand_videos(pair):
+    "takes an existing video type struct as returned by elife-tools and fills it out with data from glencoe"
+    msid, body_content = pair
+    gc_data = glencoe.metadata(msid)
+    gc_id_str = ", ".join(gc_data.keys())
 
-    return fn
+    sources = {
+        'mp4': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
+        'webm': 'video/webm; codecs="vp8.0, vorbis"',
+        'ogv': 'video/ogg; codecs="theora, vorbis"',
+    }
+    
+    def fn(video):
+        vid = video['id']
+        ensure(vid in gc_data, "glencoe doesn't know %r, only %s" % (vid, gc_id_str))
+        video_data = gc_data[vid]
+        video_data = subdict(video_data, ['jpg_href', 'width', 'height'])
+        video_data = renkeys(video_data, [('jpg_href', 'image')])
+
+        video_data['sources'] = map(lambda mtype: {
+            'mediaType': sources[mtype],
+            'uri': gc_data[vid][mtype + "_href"]}, sources.keys())
+
+        video.update(video_data)
+
+        del video['uri'] # returned by elife-tools, not useful in final json
+        
+        return video
+    return do_body_for_type(body_content, ['video'], fn)
 
 def category_codes(cat_list):
     subjects = []
@@ -290,7 +337,7 @@ VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
-    ('body', [jats('body')]), # ha! so easy ...
+    ('body', [(jats('msid'), jats('body')), expand_videos]),
     ('references', [jats('references_json')]),
     ('acknowledgements', [jats('acknowledgements_json')]),
     ('decisionLetter', [jats('decision_letter')]),

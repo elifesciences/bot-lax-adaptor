@@ -1,3 +1,4 @@
+import copy
 import os
 import subprocess
 import json
@@ -11,6 +12,22 @@ LOG = logging.getLogger(__name__)
 
 class StateError(RuntimeError):
     pass
+
+def subdict(ddict, key_list):
+    return {k: v for k, v in ddict.items() if k in key_list}
+
+def renkeys(ddict, mapping):
+    ddict = copy.deepcopy(ddict)
+    for old_key, new_key in mapping:
+        ddict[new_key] = ddict[old_key]
+        del ddict[old_key]
+    return ddict
+
+def ensure(assertion, msg, *args):
+    """intended as a convenient replacement for `assert` statements that
+    get compiled away with -O flags"""
+    if not assertion:
+        raise AssertionError(msg % args)
 
 def first(x):
     try:
