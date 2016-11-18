@@ -187,7 +187,8 @@ def clean_if_none(article_or_snippet):
 
 def clean_if_empty(article_or_snippet):
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
-                       "researchOrganisms", "keywords", "references"]
+                       "researchOrganisms", "keywords", "references",
+                       "ethics", "appendices"]
     for remove_index in remove_if_empty:
         if (article_or_snippet.get(remove_index) is not None
             and (
@@ -266,7 +267,8 @@ POA.update(OrderedDict([
         ('holder', [jats('copyright_holder')]),
         ('statement', [jats('license')]),
     ])),
-    ('authors', [jats('authors_json')])
+    ('authors', [jats('authors_json')]),
+    ('ethics', [jats('ethics_json')]),
 ]))
 
 # a VOR snippets contains the contents of a POA
@@ -283,6 +285,7 @@ VOR.update(OrderedDict([
     ('digest', [jats('digest_json')]),
     ('body', [jats('body')]), # ha! so easy ...
     ('references', [jats('references_json')]),
+    ('appendices', [jats('appendices_json')]),
     ('acknowledgements', [jats('acknowledgements_json')]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
