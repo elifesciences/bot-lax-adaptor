@@ -11,11 +11,19 @@ elifeLibrary {
 
     stage 'Corpus generation', {
         sh './download-elife-xml.sh'
-        sh './generate-article-json.sh'
+        sh './generate-article-json.sh > corpus-generation.log'
+        archive 'corpus-generation.log'
+        def generated_green = sh('grep "^elife-[0-9]\+-v[0-9]\+\.xml ->" corpus-generation.log | grep success', returnStdout).trim().toInteger()
+        def generated_red = sh('grep "^elife-[0-9]\+-v[0-9]\+\.xml ->" corpus-generation.log | grep -v success', returnStdout).trim().toInteger()
+        echo "Generated green,red: ${generated_green}.${generated_red}"
     }
 
     stage 'Corpus validation', {
-        sh './validate-all-json.sh'
+        sh './validate-all-json.sh > corpus-validation.log'
+        archive 'corpus-validation.log'
+        def validated_green = sh('grep "^elife-[0-9]\+-v[0-9]\+\.xml\.json =>" corpus-generation.log | grep success', returnStdout).trim().toInteger()
+        def validated_red = sh('grep "^elife-[0-9]\+-v[0-9]\+\.xml\.json =>" corpus-generation.log | grep -v success', returnStdout).trim().toInteger()
+        echo "Validated green,red: ${validated_green}.${validated_red}"
     }
     
     elifeMainlineOnly {    
