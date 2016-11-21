@@ -2,7 +2,7 @@
 
 This application:
 
-1. listens for messages from the [elife-bot](https://github.com/elifesciences/lax)
+1. listens for messages from the [elife-bot](https://github.com/elifesciences/elife-bot)
 2. downloads xml from S3 via HTTP
 3. converts it to a partial representation of our [article-json schema](https://github.com/elifesciences/api-raml)
 4. sends article-json to [Lax](https://github.com/elifesciences/lax) to be ingested
@@ -50,8 +50,7 @@ also involves filling in certain gaps that can only be provided by Lax.
 
 ### validate specific article-json
 
-Thin wrapper around above command. The below file can be generated with the 
-conversion commands above:
+Thin wrapper around above command:
 
     $ ./validate-json.sh ./article-json/elife-09560-v1.xml.json
 
