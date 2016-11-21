@@ -47,8 +47,8 @@ set +o nounset; . install.sh; set -o nounset;
 # instead, do this in bulk lots: download, bulk generate, bulk ingest 
 # and skip the adaptor that handles different types of communication
 
-#. generate-article-json.sh
-#. validate-all-json.sh
+. generate-article-json.sh
+. validate-all-json.sh
 
 lax="/home/luke/dev/python/lax" # obviously, we need to auto-detect this or fail here
 
