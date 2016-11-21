@@ -50,7 +50,7 @@ set +o nounset; . install.sh; set -o nounset;
 . generate-article-json.sh
 . validate-all-json.sh
 
-lax="/home/luke/dev/python/lax" # obviously, we need to auto-detect this or fail here
+lax="/srv/lax/"
 
 # call the lax 'ingest' command with a directory of valid article json
 time "$lax/manage.sh" ingest --ingest --force --dir "$(pwd)/article-json/valid/"
