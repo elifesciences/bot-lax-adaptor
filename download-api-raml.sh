@@ -9,13 +9,7 @@ cd schema
 if [ -d api-raml ]; then
     cd api-raml
     git reset --hard
-    git fetch
-    if [ -f elife-article-xml.sha1 ]; then
-        git checkout $(cat elife-article-xml.sha1)
-    else
-        git checkout master
-        git pull origin master
-    fi
+    git pull
     cd ..
 else
     git clone https://github.com/elifesciences/api-raml --depth 1

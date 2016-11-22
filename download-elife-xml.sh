@@ -13,3 +13,9 @@ elif [ -d /home/elife/elife-article-xml ]; then
 else
     git clone https://github.com/elifesciences/elife-article-xml article-xml --depth 1
 fi
+
+if [ -f elife-article-xml.sha1 ]; then
+    cd article-xml
+    git checkout "$(cat ../elife-article-xml.sha1)"
+    cd ..
+fi
