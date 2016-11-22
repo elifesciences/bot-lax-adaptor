@@ -29,7 +29,7 @@ def job(path):
     except jsonschema.ValidationError:
         strbuffer.write("failed")
         fn(path, join(INVALID_JSON_DIR, fname))
-    except Exception as err:
+    except BaseException as err:
         strbuffer.write("error (%s)" % err)
     finally:
         sys.stderr.write(strbuffer.getvalue() + "\n")
