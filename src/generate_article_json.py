@@ -19,7 +19,7 @@ def render(path):
         outfname = join(conf.JSON_DIR, fname + '.json')
         open(outfname, 'w').write(json_result)
         strbuffer.write("success")
-    except Exception as err:
+    except BaseException as err:
         strbuffer.write("failed (%s)" % err)
     finally:
         sys.stderr.write(strbuffer.getvalue() + "\n")
