@@ -16,6 +16,8 @@ fi
 
 if [ -f elife-article-xml.sha1 ]; then
     cd article-xml
+    # existing elife-article-xml shallow clones, containing only 1 commit
+    git fetch --depth 1000
     git checkout "$(cat ../elife-article-xml.sha1)"
     cd ..
 fi
