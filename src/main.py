@@ -15,7 +15,6 @@ LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler('scrape.log')
 _handler.setLevel(logging.INFO)
 _handler.setFormatter(conf._formatter)
-
 LOG.addHandler(_handler)
 
 #

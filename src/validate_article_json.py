@@ -13,6 +13,8 @@ from StringIO import StringIO
 from joblib import Parallel, delayed
 from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR
 import jsonschema
+import logging
+LOG = logging.getLogger(__name__)
 
 WINDOWS = platform.system().lower() == 'windows'
 
@@ -32,8 +34,7 @@ def job(path):
     except BaseException as err:
         strbuffer.write("error (%s)" % err)
     finally:
-        sys.stderr.write(strbuffer.getvalue() + "\n")
-        sys.stderr.flush()
+        LOG.info(strbuffer.getvalue())
 
 def main(args=None):
     target = first(args)
@@ -47,6 +48,7 @@ def main(args=None):
         paths = [os.path.abspath(target)]
 
     paths = filter(lambda path: path.lower().endswith('.json'), paths)
+    print 'jobs %d' % len(paths)
     Parallel(n_jobs=-1)(delayed(job)(path) for path in paths)
     print 'see validate.log for errors'
 

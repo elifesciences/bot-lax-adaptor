@@ -5,10 +5,11 @@ looks in the article-xml directory and converts all/some/random xml to article-j
 import os
 from os.path import join
 import main as scraper
-import sys
 from StringIO import StringIO
 from joblib import Parallel, delayed
 import conf
+import logging
+LOG = logging.getLogger(__name__)
 
 def render(path):
     strbuffer = StringIO()
@@ -22,8 +23,7 @@ def render(path):
     except BaseException as err:
         strbuffer.write("failed (%s)" % err)
     finally:
-        sys.stderr.write(strbuffer.getvalue() + "\n")
-        sys.stderr.flush()
+        LOG.info(strbuffer.getvalue())
 
 def main():
     paths = map(lambda fname: join(conf.XML_DIR, fname), os.listdir(conf.XML_DIR))
