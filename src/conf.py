@@ -37,6 +37,13 @@ ROOTLOG.addHandler(_handler)
 ROOTLOG.setLevel(logging.DEBUG)
 
 # configure logging here
+def multiprocess_log(filename, name=__name__):
+    log = logging.getLogger(__name__)
+    _handler = logging.FileHandler(filename)
+    _handler.setLevel(logging.INFO)
+    _handler.setFormatter(logging.Formatter('%(levelname)s - %(asctime)s - %(message)s'))
+    log.addHandler(_handler)
+    return log
 
 DEBUG = False
 PATHS_TO_LAX = [

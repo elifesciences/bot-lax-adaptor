@@ -11,17 +11,15 @@ elifeLibrary {
 
     stage 'Corpus generation', {
         sh './download-elife-xml.sh'
-        sh './generate-article-json.sh > corpus-generation.log 2>&1'
-        archive 'corpus-generation.log'
-        archive 'scrape.log'
-        sh './generate-statistics.sh corpus-generation.log'
+        sh './generate-article-json.sh'
+        archive 'generation.log'
+        sh './generate-statistics.sh generation.log'
     }
 
     stage 'Corpus validation', {
-        sh './validate-all-json.sh > corpus-validation.log 2>&1'
-        archive 'corpus-validation.log'
-        archive 'validate.log'
-        sh './validate-statistics.sh corpus-validation.log'
+        sh './validate-all-json.sh'
+        archive 'validation.log'
+        sh './validate-statistics.sh validation.log'
     }
     
     elifeMainlineOnly {    

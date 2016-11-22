@@ -8,14 +8,11 @@ import main as scraper
 from StringIO import StringIO
 from joblib import Parallel, delayed
 import conf
-import logging
-LOG = logging.getLogger(__name__)
 
 def render(path):
-    strbuffer = StringIO()
     try:
+        strbuffer = StringIO()
         fname = os.path.basename(path)
-        LOG.info("Started generation from %s" % fname)
         strbuffer.write("%s -> %s => " % (fname, fname + '.json'))
         json_result = scraper.main(path)
         outfname = join(conf.JSON_DIR, fname + '.json')
@@ -24,7 +21,8 @@ def render(path):
     except BaseException as err:
         strbuffer.write("failed (%s)" % err)
     finally:
-        LOG.info(strbuffer.getvalue())
+        log = conf.multiprocess_log('generation.log', __name__)
+        log.info(strbuffer.getvalue())
 
 def main():
     paths = map(lambda fname: join(conf.XML_DIR, fname), os.listdir(conf.XML_DIR))

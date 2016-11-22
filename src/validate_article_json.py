@@ -11,10 +11,9 @@ import validate
 import sys, json
 from StringIO import StringIO
 from joblib import Parallel, delayed
+import conf
 from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR
 import jsonschema
-import logging
-LOG = logging.getLogger(__name__)
 
 WINDOWS = platform.system().lower() == 'windows'
 
@@ -23,7 +22,6 @@ def job(path):
     fn = shutil.copyfile if WINDOWS else os.symlink
     try:
         fname = os.path.basename(path)
-        LOG.info("Started validation of %s" % fname)
         strbuffer.write("%s => " % fname)
         article_with_placeholders = validate.main(open(path, 'r'))
         strbuffer.write("success")
@@ -35,7 +33,8 @@ def job(path):
     except BaseException as err:
         strbuffer.write("error (%s)" % err)
     finally:
-        LOG.info(strbuffer.getvalue())
+        log = conf.multiprocess_log('validation.log', __name__)
+        log.info(strbuffer.getvalue())
 
 def main(args=None):
     target = first(args)
