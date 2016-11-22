@@ -13,12 +13,14 @@ elifeLibrary {
         sh './download-elife-xml.sh'
         sh './generate-article-json.sh > corpus-generation.log 2>&1'
         archive 'corpus-generation.log'
+        archive 'scrape.log'
         sh './generate-statistics.sh corpus-generation.log'
     }
 
     stage 'Corpus validation', {
         sh './validate-all-json.sh > corpus-validation.log 2>&1'
         archive 'corpus-validation.log'
+        archive 'validate.log'
         sh './validate-statistics.sh corpus-validation.log'
     }
     
