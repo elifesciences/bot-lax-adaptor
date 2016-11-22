@@ -22,8 +22,8 @@ def job(path):
     strbuffer = StringIO()
     fn = shutil.copyfile if WINDOWS else os.symlink
     try:
-        LOG.info("Started validation of %s" % fname)
         fname = os.path.basename(path)
+        LOG.info("Started validation of %s" % fname)
         strbuffer.write("%s => " % fname)
         article_with_placeholders = validate.main(open(path, 'r'))
         strbuffer.write("success")

@@ -14,8 +14,8 @@ LOG = logging.getLogger(__name__)
 def render(path):
     strbuffer = StringIO()
     try:
-        LOG.info("Started generation from %s" % fname)
         fname = os.path.basename(path)
+        LOG.info("Started generation from %s" % fname)
         strbuffer.write("%s -> %s => " % (fname, fname + '.json'))
         json_result = scraper.main(path)
         outfname = join(conf.JSON_DIR, fname + '.json')
