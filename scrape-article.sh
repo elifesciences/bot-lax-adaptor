@@ -1,7 +1,8 @@
 #/bin/bash
 # generates article-json from a random article in the elife-article-xml repo
-
 set -e # everything must pass
+
+. install.sh > /dev/null
 
 if [ -d $PWD ]; then
     . download-elife-xml.sh &> /dev/null

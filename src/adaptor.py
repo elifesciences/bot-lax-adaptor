@@ -315,11 +315,11 @@ def do(incoming, outgoing):
 def bootstrap():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--type', choices=['sqs', 'fs'], default='fs')
+    parser.add_argument('--type', choices=['sqs', 'fs'])
 
     # fs options
     parser.add_argument('--force', action='store_true', default=False)
-    parser.add_argument('--action', choices=[INGEST, PUBLISH, INGEST_PUBLISH], default=INGEST)
+    parser.add_argument('--action', choices=[INGEST, PUBLISH, INGEST_PUBLISH])
 
     # sqs options
     parser.add_argument('--instance', dest='instance_id', help='the "ci" in "lax--ci"')
