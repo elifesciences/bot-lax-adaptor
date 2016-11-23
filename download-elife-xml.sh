@@ -10,7 +10,8 @@ set -e # everything must pass
 if [ ! -d article-xml ]; then
     if [ -d /home/elife/elife-article-xml ]; then
         # local copy on elife-libraries Jenkins node for faster cloning
-        git clone file:///home/elife/elife-article-xml article-xml
+        git clone --origin cached-copy file:///home/elife/elife-article-xml article-xml
+        git remote add origin https://github.com/elifesciences/elife-article-xml
     else
         git clone https://github.com/elifesciences/elife-article-xml article-xml
     fi
@@ -18,6 +19,7 @@ fi
 
 if [ -f elife-article-xml.sha1 ]; then
     cd article-xml
+    git fetch origin
     git checkout "$(cat ../elife-article-xml.sha1)"
     cd ..
 fi
