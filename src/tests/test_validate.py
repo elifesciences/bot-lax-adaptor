@@ -95,8 +95,13 @@ class TestArticleValidate(BaseCase):
 
     def test_add_placeholders_for_validation(self):
         references_json = {'article': {'version': 2}}
-        expected = {'article': {'statusDate': '2016-01-01T00:00:00Z',
-                                'version': 2, 'versionDate': '2016-01-01T00:00:00Z'}}
+        expected = {
+            'article': {
+                'version': 2,
+                'stage': 'published',
+                'versionDate': '2016-01-01T00:00:00Z',
+                'statusDate': '2016-01-01T00:00:00Z',
+            }}
         validate.add_placeholders_for_validation(references_json)
         self.assertEqual(references_json, expected)
 

@@ -193,12 +193,9 @@ def is_poa(contents):
 def add_placeholders_for_validation(contents):
     art = contents['article']
 
+    art['stage'] = 'published'
     art['statusDate'] = '2016-01-01T00:00:00Z'
-
-    # the versionDate is discarded when the article is not v1
-    if art['version'] > 1:
-        # add a placeholder for validation
-        art['versionDate'] = '2016-01-01T00:00:00Z'
+    art['versionDate'] = '2016-01-01T00:00:00Z'
 
     # relatedArticles are not part of article deliverables
     if 'relatedArticles' in art:
@@ -223,9 +220,6 @@ def add_placeholders_for_validation(contents):
         if elem in art:
             art[elem] = wrap_body_in_section(art[elem])
 
-    if not is_poa(contents):
-        pass
-
 def main(doc):
     contents = json.load(doc)
     add_placeholders_for_validation(contents)
@@ -244,7 +238,6 @@ def main(doc):
     try:
         jsonschema.validate(contents["article"], schema)
         LOG.info("validated %s", msid, extra=log_context)
-        # return the contents, complete with placeholders
         return contents
     except jsonschema.ValidationError as err:
         LOG.error("failed to validate %s: %s", msid, err, extra=log_context)
