@@ -6,12 +6,15 @@
 
 set -e # everything must pass
 cd schema
-if [ -d api-raml ]; then
-    cd api-raml
-    git reset --hard
-    git pull
-    cd ..
-else
-    git clone https://github.com/elifesciences/api-raml --depth 1
+if [ ! -d api-raml ]; then
+    git clone https://github.com/elifesciences/api-raml
 fi
 cd ..
+
+if [ -f api-raml.sha1 ]; then
+    cd schema/api-raml
+    # existing api-raml shallow clones, containing only 1 commit
+    git reset --hard
+    git checkout "$(cat ../../api-raml.sha1)"
+    cd -
+fi
