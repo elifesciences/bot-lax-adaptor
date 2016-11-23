@@ -11,7 +11,9 @@ if [ ! -d article-xml ]; then
     if [ -d /home/elife/elife-article-xml ]; then
         # local copy on elife-libraries Jenkins node for faster cloning
         git clone --origin cached-copy file:///home/elife/elife-article-xml article-xml
+        cd article-xml
         git remote add origin https://github.com/elifesciences/elife-article-xml
+        cd -
     else
         git clone https://github.com/elifesciences/elife-article-xml article-xml
     fi
