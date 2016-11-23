@@ -11,14 +11,14 @@ elifeLibrary {
 
     stage 'Corpus generation', {
         sh './download-elife-xml.sh'
-        sh 'rm generation.log'
+        sh 'rm -f generation.log'
         sh './generate-article-json.sh'
         archive 'generation.log'
         sh './generate-statistics.sh generation.log'
     }
 
     stage 'Corpus validation', {
-        sh 'rm validation.log'
+        sh 'rm -f validation.log'
         sh './validate-all-json.sh'
         archive 'validation.log'
         sh './validate-statistics.sh validation.log'
