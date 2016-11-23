@@ -12,7 +12,7 @@ import sys, json
 from StringIO import StringIO
 from joblib import Parallel, delayed
 import conf
-from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR
+from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR, VALID_PATCHED_JSON_DIR
 import jsonschema
 
 WINDOWS = platform.system().lower() == 'windows'
