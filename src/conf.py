@@ -36,13 +36,17 @@ _handler.setFormatter(logging.Formatter('%(levelname)s - %(asctime)s - %(message
 ROOTLOG.addHandler(_handler)
 ROOTLOG.setLevel(logging.DEBUG)
 
-# configure logging here
 def multiprocess_log(filename, name=__name__):
-    log = logging.getLogger(__name__)
-    _handler = logging.FileHandler(filename)
-    _handler.setLevel(logging.INFO)
-    _handler.setFormatter(logging.Formatter('%(levelname)s - %(asctime)s - %(message)s'))
-    log.addHandler(_handler)
+    """Creates a shared log for name and the current process, writing to filename
+    with the append flag.
+
+    On Linux this should ensure that no log entries are lost, thanks to kernel-specific behavior"""
+    log = logging.getLogger("%s.%d" % (__name__, os.getpid()))
+    if not log.handlers:
+        _handler = logging.FileHandler(filename)
+        _handler.setLevel(logging.INFO)
+        _handler.setFormatter(logging.Formatter('%(levelname)s - %(asctime)s - %(message)s'))
+        log.addHandler(_handler)
     return log
 
 DEBUG = False
