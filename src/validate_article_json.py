@@ -11,6 +11,7 @@ import validate
 import sys, json
 from StringIO import StringIO
 from joblib import Parallel, delayed
+import conf
 from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR
 import jsonschema
 
@@ -29,11 +30,11 @@ def job(path):
     except jsonschema.ValidationError:
         strbuffer.write("failed")
         fn(path, join(INVALID_JSON_DIR, fname))
-    except Exception as err:
+    except BaseException as err:
         strbuffer.write("error (%s)" % err)
     finally:
-        sys.stderr.write(strbuffer.getvalue() + "\n")
-        sys.stderr.flush()
+        log = conf.multiprocess_log('validation.log', __name__)
+        log.info(strbuffer.getvalue())
 
 def main(args=None):
     target = first(args)
@@ -47,6 +48,7 @@ def main(args=None):
         paths = [os.path.abspath(target)]
 
     paths = filter(lambda path: path.lower().endswith('.json'), paths)
+    print 'jobs %d' % len(paths)
     Parallel(n_jobs=-1)(delayed(job)(path) for path in paths)
     print 'see validate.log for errors'
 
