@@ -77,6 +77,7 @@ DISPLAY_CHANNEL_TYPES = {
     "Feature article": "feature",
     "Insight": "insight",
     "Registered Report": "registered-report",
+    "Registered report": "registered-report",
     "Research Advance": "research-advance",
     "Research Article": "research-article",
     "Research article": "research-article",
