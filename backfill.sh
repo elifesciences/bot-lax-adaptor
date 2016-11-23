@@ -53,6 +53,13 @@ set +o nounset; . install.sh; set -o nounset;
 lax="/srv/lax/"
 
 # call the lax 'ingest' command with a directory of valid article json
-time "$lax/manage.sh" ingest --ingest --force --dir "$(pwd)/article-json/valid/"
 
+# use a dir called 'patched' if you find it. 
+# used for testing a subset of the full corpus
+dir="$(pwd)/article-json/patched/"
+if [ -d patched ]; then
+   dir="$(pwd)/patched/"
+fi
+
+time "$lax/manage.sh" ingest --ingest --force --dir "$dir" #(pwd)/article-json/patched/"
 

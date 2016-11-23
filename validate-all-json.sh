@@ -16,7 +16,7 @@ function ctrl_c() {
     exit 1
 }
 
-rm -rf ./article-json/valid/ ./article-json/invalid/
-mkdir ./article-json/valid/ ./article-json/invalid/
+rm -rf ./article-json/valid/ ./article-json/invalid/  ./article-json/patched/
+mkdir ./article-json/valid/ ./article-json/invalid/ ./article-json/patched/
 
 time python src/validate_article_json.py

@@ -11,7 +11,7 @@ import validate
 import sys, json
 from StringIO import StringIO
 from joblib import Parallel, delayed
-from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR
+from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR, VALID_PATCHED_JSON_DIR
 import jsonschema
 
 WINDOWS = platform.system().lower() == 'windows'
@@ -25,7 +25,7 @@ def job(path):
         article_with_placeholders = validate.main(open(path, 'r'))
         strbuffer.write("success")
         fn(path, join(VALID_JSON_DIR, fname))
-        json.dump(article_with_placeholders, open(join(VALID_JSON_DIR, "dummy" + fname), 'w'), indent=4)
+        json.dump(article_with_placeholders, open(join(VALID_PATCHED_JSON_DIR, fname), 'w'), indent=4)
     except jsonschema.ValidationError:
         strbuffer.write("failed")
         fn(path, join(INVALID_JSON_DIR, fname))
