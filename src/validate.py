@@ -11,12 +11,6 @@ _handler.setLevel(logging.ERROR)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
 
-# output to screen
-_handler2 = logging.StreamHandler()
-_handler2.setLevel(logging.INFO)
-_handler2.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
-LOG.addHandler(_handler2)
-
 placeholder_reference_authors = [
     {
         "type": "person",
