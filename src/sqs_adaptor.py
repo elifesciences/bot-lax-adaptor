@@ -40,7 +40,7 @@ class IncomingQueue(object):
                     VisibilityTimeout=60, # time allowed to call delete, can be increased
                     WaitTimeSeconds=20 # maximum setting for long polling
                 )
-            LOG.debug("processing message")
+            LOG.debug("processing sqs message")
             message = messages[0]
             yield message.body
             message.delete()

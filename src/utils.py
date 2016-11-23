@@ -1,4 +1,4 @@
-import os
+import os, copy
 import subprocess
 import json
 from jsonschema import validate as validator
@@ -11,6 +11,19 @@ LOG = logging.getLogger(__name__)
 
 class StateError(RuntimeError):
     pass
+
+def renkeys(data, pair_list):
+    "returns a copy of the given data with the list of oldkey->newkey pairs changes made"
+    data = copy.deepcopy(data)
+    for key, replacement in pair_list:
+        if key in data:
+            data[replacement] = data[key]
+            del data[key]
+    return data
+
+
+def subdict(data, lst):
+    return {k: v for k, v in data.items() if k in lst}
 
 def first(x):
     try:

@@ -14,8 +14,9 @@ class IncomingQueue(object):
     def __iter__(self):
         paths = os.listdir(self.dirname)
         naledi = "elife-09560-v1.xml"
-        paths.remove(naledi)
-        paths = [naledi] + paths # naledi is always tested first :)
+        if naledi in paths:
+            paths.remove(naledi)
+            paths = [naledi] + paths # naledi is always tested first :)
         for fname in paths:
             if fname.startswith('.') or not fname.endswith('.xml'):
                 # hidden or not xml, skip

@@ -94,16 +94,17 @@ class TestArticleValidate(BaseCase):
         self.assertEqual(validate.references_rewrite(references_json), expected)
 
     def test_add_placeholders_for_validation(self):
-        references_json = {'article': {'version': 2}}
+        article = {'article': {'version': 2}}
         expected = {
             'article': {
+                '-patched': True,
                 'version': 2,
                 'stage': 'published',
-                'versionDate': '2016-01-01T00:00:00Z',
-                'statusDate': '2016-01-01T00:00:00Z',
+                'versionDate': '2099-01-01T00:00:00Z',
+                'statusDate': '2099-01-01T00:00:00Z',
             }}
-        validate.add_placeholders_for_validation(references_json)
-        self.assertEqual(references_json, expected)
+        validate.add_placeholders_for_validation(article)
+        self.assertEqual(article, expected)
 
     def test_is_poa_not_poa(self):
         # For test coverage

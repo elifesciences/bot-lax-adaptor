@@ -54,6 +54,9 @@ PATHS_TO_LAX = map(os.path.expanduser, [
     '/srv/lax/',
     '~/dev/python/lax/'
 ])
+
+SEND_LAX_PATCHED_AJSON = True
+
 PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error'

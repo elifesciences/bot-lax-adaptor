@@ -191,11 +191,17 @@ def is_poa(contents):
         return False
 
 def add_placeholders_for_validation(contents):
+    """these placeholder values are now making their way into production.
+    please make them OBVIOUS placeholders while still remaining valid data."""
+
     art = contents['article']
 
+    # simple indicator that this article content contains patched values
+    art['-patched'] = True
+
     art['stage'] = 'published'
-    art['statusDate'] = '2016-01-01T00:00:00Z'
-    art['versionDate'] = '2016-01-01T00:00:00Z'
+    art['statusDate'] = '2099-01-01T00:00:00Z'
+    art['versionDate'] = '2099-01-01T00:00:00Z'
 
     # relatedArticles are not part of article deliverables
     if 'relatedArticles' in art:
