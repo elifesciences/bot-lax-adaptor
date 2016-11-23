@@ -5,7 +5,9 @@ set -e # everything must pass
 if [ -d article-xml ]; then
     cd article-xml
     git reset --hard
-    git pull
+    if ! git branch | grep detached; then
+        git pull
+    fi
     cd ..
 elif [ -d /home/elife/elife-article-xml ]; then
     # local copy on elife-libraries Jenkins node for faster cloning
