@@ -108,6 +108,7 @@ class Adapt(BaseCase):
     def test_patched_data(self):
         "we can optionally send lax the patched version of the article-json"
         expected = {'-patched': True}
+
         def call_lax(*args, **kwargs):
             art = json.loads(kwargs['article_json'])['article']
             for key, val in expected.items():
