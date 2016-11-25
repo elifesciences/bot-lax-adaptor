@@ -77,6 +77,7 @@ DISPLAY_CHANNEL_TYPES = {
     "Feature article": "feature",
     "Insight": "insight",
     "Registered Report": "registered-report",
+    "Registered report": "registered-report",
     "Research Advance": "research-advance",
     "Research Article": "research-article",
     "Research article": "research-article",
@@ -187,7 +188,7 @@ def clean_if_none(article_or_snippet):
 def clean_if_empty(article_or_snippet):
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
                        "researchOrganisms", "keywords", "references",
-                       "ethics", "appendices"]
+                       "ethics", "appendices", "dataSets"]
     for remove_index in remove_if_empty:
         if (article_or_snippet.get(remove_index) is not None
             and (
@@ -286,6 +287,7 @@ VOR.update(OrderedDict([
     ('references', [jats('references_json')]),
     ('appendices', [jats('appendices_json')]),
     ('acknowledgements', [jats('acknowledgements_json')]),
+    ('dataSets', [jats('datasets_json')]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
 ]))
