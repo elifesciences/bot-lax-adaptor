@@ -2,7 +2,6 @@ import os, json
 from os.path import join
 from .base import BaseCase
 import adaptor as adapt, fs_adaptor, conf
-#from adaptor import read_from_fs, do
 import adaptor
 import unittest
 from mock import patch
@@ -24,15 +23,15 @@ class Ingest(BaseCase):
     def tearDown(self):
         pass
 
-    '''
-    @requires_lax # requires lax IN A CERTAIN STATE :( disabling for now
+    # still really handy to tests integration locally
+    @unittest.skip("requires lax IN A CERTAIN STATE :( disabling for now")
+    @requires_lax
     def test_adaptor_v1(self):
-        inc, out = read_from_fs(self.ingest_dir)
-        do(inc, out)
+        inc, out = adaptor.read_from_fs(self.ingest_dir)
+        adaptor.do(inc, out)
         self.assertEqual(len(out.invalids), 0)
         self.assertEqual(len(out.errors), 0)
         self.assertEqual(len(out.valids), self.num_ingest_dir_xml)
-    '''
 
 class Adapt(BaseCase):
     def setUp(self):
