@@ -187,7 +187,7 @@ def clean_if_none(article_or_snippet):
 def clean_if_empty(article_or_snippet):
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
                        "researchOrganisms", "keywords", "references",
-                       "ethics", "appendices"]
+                       "ethics", "appendices", "datasets"]
     for remove_index in remove_if_empty:
         if (article_or_snippet.get(remove_index) is not None
             and (
@@ -286,6 +286,7 @@ VOR.update(OrderedDict([
     ('references', [jats('references_json')]),
     ('appendices', [jats('appendices_json')]),
     ('acknowledgements', [jats('acknowledgements_json')]),
+    ('dataSets', [jats('datasets_json')]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
 ]))
