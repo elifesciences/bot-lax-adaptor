@@ -3,7 +3,7 @@
 set -e
 
 log=$1
-maximum_invalid=91
+maximum_invalid=87
 article_pattern='\- elife-[0-9]\+-v[0-9]\+\.xml\.json =>'
 
 validated_green=$(grep "$article_pattern" "$log" | grep success | wc -l)
