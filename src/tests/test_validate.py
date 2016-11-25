@@ -40,7 +40,7 @@ class TestArticleValidate(BaseCase):
         body_json = [{"type": "paragraph"}]
         wrapped_body_json = validate.wrap_body_in_section(body_json)
         expected_body_json = [{'type': 'section', 'id': 'phantom-s-1',
-                               'title': '', 'content': [{'type': 'paragraph'}]}]
+                               'title': 'Main text', 'content': [{'type': 'paragraph'}]}]
         self.assertEqual(wrapped_body_json, expected_body_json)
 
     def test_video_rewrite(self):
