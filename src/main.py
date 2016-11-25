@@ -270,6 +270,7 @@ POA.update(OrderedDict([
     ('authors', [jats('authors_json')]),
     ('ethics', [jats('ethics_json')]),
     ('additionalFiles', [jats('supplementary_files_json')]),
+    ('dataSets', [jats('datasets_json')]),
 ]))
 
 # a VOR snippets contains the contents of a POA
@@ -288,7 +289,6 @@ VOR.update(OrderedDict([
     ('references', [jats('references_json')]),
     ('appendices', [jats('appendices_json')]),
     ('acknowledgements', [jats('acknowledgements_json')]),
-    ('dataSets', [jats('datasets_json')]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
 ]))
