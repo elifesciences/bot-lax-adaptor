@@ -148,7 +148,7 @@ def wrap_body_in_section(body_json):
         new_body_section = {}
         new_body_section["type"] = "section"
         new_body_section["id"] = generate_section_id()
-        new_body_section["title"] = ""
+        new_body_section["title"] = "Main text"
         new_body_section["content"] = []
         for body_block in body_json:
             new_body_section["content"].append(body_block)
