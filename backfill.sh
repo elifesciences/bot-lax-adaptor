@@ -13,8 +13,16 @@
 
 set -euo pipefail # strict mode
 
+# by default we use the checkout of the `elife-article-xml` repository to ingest
+# use `/some/other/dir/` as first param to ingest xml from another directory
 default_dir="$(pwd)/articles-xml/articles/"
 dir=${1:-$default_dir}
+
+# by default we just send INGEST commands with `--ingest`
+# use `--ingest+publish` as second param to also publish articles
+# use with `--publish` as second param to publish any ingested by unpublished articles
+default_action="--ingest"
+action=${2:-$default_action}
 
 trap ctrl_c INT
 function ctrl_c() {
@@ -41,11 +49,10 @@ fi
 # activate venv
 set +o nounset; . install.sh; set -o nounset;
 
-# this approach DOES NOT WORK WELL. v.slow
-# python ./src/adaptor.py --action ingest --force --type fs #--dir "$1"
+# this approach DOES NOT WORK WELL. it's possible, but *very* slow
+# python ./src/adaptor.py --action ingest --force --type fs
 
-# instead, do this in bulk lots: download, bulk generate, bulk ingest 
-# and skip the adaptor that handles different types of communication
+# instead, run bulk lots: download, bulk generate, bulk ingest and skip the adaptor
 
 . generate-article-json.sh
 . validate-all-json.sh
@@ -57,9 +64,9 @@ lax="/srv/lax/"
 # use a dir called 'patched' if you find it. 
 # used for testing a subset of the full corpus
 dir="$(pwd)/article-json/patched/"
-if [ -d patched ]; then
-   dir="$(pwd)/patched/"
-fi
+#if [ -d patched ]; then
+#   dir="$(pwd)/patched/"
+#fi
 
-time "$lax/manage.sh" ingest --ingest --force --dir "$dir" #(pwd)/article-json/patched/"
+time "$lax/manage.sh" ingest "$action" --force --dir "$dir" #(pwd)/article-json/patched/"
 
