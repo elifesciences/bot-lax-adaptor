@@ -5754,7 +5754,7 @@
                         "content": [
                             {
                                 "type": "paragraph", 
-                                "text": "All Dinaledi fossil material is available for study by researchers upon application to the Evolutionary Studies Institute at the University of the Witwatersrand where the material is curated (contact Bernhard Zipfel [<email>Bernhard.Zipfel@wits.ac.za</email>]). Three-dimensional surface renderings and other digital data are available from the MorphoSource digital repository (<a href=\"http://morphosource.org/\">http://morphosource.org</a>)."
+                                "text": "All Dinaledi fossil material is available for study by researchers upon application to the Evolutionary Studies Institute at the University of the Witwatersrand where the material is curated (contact Bernhard Zipfel [<a href=\"mailto:Bernhard.Zipfel@wits.ac.za\">Bernhard.Zipfel@wits.ac.za</a>]). Three-dimensional surface renderings and other digital data are available from the MorphoSource digital repository (<a href=\"http://morphosource.org/\">http://morphosource.org</a>)."
                             }
                         ]
                     }
@@ -7844,7 +7844,8 @@
             {
                 "type": "journal", 
                 "id": "bib33", 
-                "date": "2009a", 
+                "date": "2009", 
+                "discriminator": "a", 
                 "authors": [
                     {
                         "type": "person", 
@@ -7920,7 +7921,8 @@
             {
                 "type": "journal", 
                 "id": "bib34", 
-                "date": "2009b", 
+                "date": "2009", 
+                "discriminator": "b", 
                 "authors": [
                     {
                         "type": "person", 
