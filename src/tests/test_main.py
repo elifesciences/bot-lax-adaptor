@@ -91,6 +91,17 @@ class ArticleScrape(BaseCase):
         expected = None
         self.assertEqual(main.display_channel_to_article_type(display_channel), expected)
 
+    def test_discard_if_none_or_empty(self):
+        cases = [
+            (None, main.EXCLUDE_ME),
+            ('not none', 'not none'),
+            ([], main.EXCLUDE_ME),
+            ({}, main.EXCLUDE_ME)
+        ]
+        for given, expected in cases:
+            actual = main.discard_if_none_or_empty(given)
+            self.assertEqual(actual, expected, "given %r I expected %r but got %r" % (given, expected, actual))
+
     def test_licence_holder(self):
         cases = [
             ((None, 'CC-BY-4'), main.EXCLUDE_ME),

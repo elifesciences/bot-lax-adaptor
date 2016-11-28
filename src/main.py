@@ -192,7 +192,8 @@ def clean_if_none(article_or_snippet):
 def clean_if_empty(article_or_snippet):
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
                        "researchOrganisms", "keywords", "references",
-                       "ethics", "appendices", "dataSets", "additionalFiles"]
+                       "ethics", "appendices", "dataSets", "additionalFiles",
+                       "funding"]
     for remove_index in remove_if_empty:
         if (article_or_snippet.get(remove_index) is not None
             and (
@@ -228,6 +229,13 @@ def discard_if(pred): # can also be used like: discard_if(None)
         return EXCLUDE_ME if pred(v) else v
     return fn
 '''
+
+def discard_if_none_or_empty(v):
+    if not v:
+        return EXCLUDE_ME
+    elif len(v) <= 0:
+        return EXCLUDE_ME
+    return v
 
 def discard_if_none_or_cc0(pair):
     holder, licence = pair
@@ -275,6 +283,10 @@ POA.update(OrderedDict([
     ])),
     ('authors', [jats('authors_json')]),
     ('ethics', [jats('ethics_json')]),
+    ('funding', OrderedDict([
+        ('awards', [jats('funding_awards_json'), discard_if_none_or_empty]),
+        ('statement', [jats('funding_statement_json'), discard_if_none_or_empty]),
+    ])),
     ('additionalFiles', [jats('supplementary_files_json')]),
     ('dataSets', [jats('datasets_json')]),
 ]))
