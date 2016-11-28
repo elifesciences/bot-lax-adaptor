@@ -19,7 +19,16 @@ WINDOWS = platform.system().lower() == 'windows'
 
 def job(path):
     strbuffer = StringIO()
-    fn = shutil.copyfile if WINDOWS else os.symlink
+
+    def copyfn(src, dest):
+        if os.path.exists(dest):
+            os.unlink(dest)
+        return shutil.copyfile(src, dest)
+
+    fn = copyfn
+    if WINDOWS:
+        fn = os.symlink
+
     try:
         fname = os.path.basename(path)
         strbuffer.write("%s => " % fname)

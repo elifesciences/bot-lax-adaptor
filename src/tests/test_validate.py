@@ -98,6 +98,7 @@ class TestArticleValidate(BaseCase):
         expected = {
             'article': {
                 '-patched': True,
+                'id': 01234,
                 'version': 2,
                 'stage': 'published',
                 'versionDate': '2099-01-01T00:00:00Z',
