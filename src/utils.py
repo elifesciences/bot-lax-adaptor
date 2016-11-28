@@ -1,6 +1,7 @@
 import os, copy
 import subprocess
 import json
+import jsonschema
 from jsonschema import validate as validator
 from jsonschema import ValidationError
 #from os.path import join
@@ -44,7 +45,7 @@ def validate(struct, schema):
         raise
 
     try:
-        validator(struct, schema)
+        validator(struct, schema, format_checker=jsonschema.FormatChecker())
         return struct
 
     except ValueError as err:
