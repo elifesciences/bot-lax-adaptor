@@ -5,12 +5,14 @@ this should be run using the ./validate-json.sh script in the project's root. it
 and cleans the environment."""
 
 import os, platform, shutil
+from utils import first
 from os.path import join
 import validate
 import sys, json
 from StringIO import StringIO
 from joblib import Parallel, delayed
-from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR
+import conf
+from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR, VALID_PATCHED_JSON_DIR
 import jsonschema
 
 WINDOWS = platform.system().lower() == 'windows'
@@ -24,22 +26,31 @@ def job(path):
         article_with_placeholders = validate.main(open(path, 'r'))
         strbuffer.write("success")
         fn(path, join(VALID_JSON_DIR, fname))
-        json.dump(article_with_placeholders, open(join(VALID_JSON_DIR, "dummy" + fname), 'w'))
+        json.dump(article_with_placeholders, open(join(VALID_PATCHED_JSON_DIR, fname), 'w'), indent=4)
     except jsonschema.ValidationError:
         strbuffer.write("failed")
         fn(path, join(INVALID_JSON_DIR, fname))
-    except Exception as err:
+    except BaseException as err:
         strbuffer.write("error (%s)" % err)
     finally:
-        sys.stderr.write(strbuffer.getvalue() + "\n")
-        sys.stderr.flush()
+        log = conf.multiprocess_log('validation.log', __name__)
+        log.info(strbuffer.getvalue())
 
-def main():
-    paths = map(lambda fname: join(JSON_DIR, fname), os.listdir(JSON_DIR))
+def main(args=None):
+    target = first(args)
+    if not target:
+        target = JSON_DIR
+
+    if os.path.isdir(target):
+        paths = map(lambda fname: join(target, fname), os.listdir(target))
+        paths = sorted(paths, reverse=True)
+    else:
+        paths = [os.path.abspath(target)]
+
     paths = filter(lambda path: path.lower().endswith('.json'), paths)
-    paths = sorted(paths, reverse=True)
+    print 'jobs %d' % len(paths)
     Parallel(n_jobs=-1)(delayed(job)(path) for path in paths)
     print 'see validate.log for errors'
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])

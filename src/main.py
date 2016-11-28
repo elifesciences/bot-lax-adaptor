@@ -1,4 +1,4 @@
-import os, sys, json, copy, re
+import os, sys, json, copy
 import threading
 from et3.render import render, EXCLUDE_ME
 from elifetools import parseJATS
@@ -15,7 +15,6 @@ LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler('scrape.log')
 _handler.setLevel(logging.INFO)
 _handler.setFormatter(conf._formatter)
-
 LOG.addHandler(_handler)
 
 #
@@ -78,6 +77,7 @@ DISPLAY_CHANNEL_TYPES = {
     "Feature article": "feature",
     "Insight": "insight",
     "Registered Report": "registered-report",
+    "Registered report": "registered-report",
     "Research Advance": "research-advance",
     "Research Article": "research-article",
     "Research article": "research-article",
@@ -124,9 +124,20 @@ def related_article_to_related_articles(related_article_list):
 def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
 
-def self_uri_to_pdf(self_uri_list):
-    if self_uri_list:
-        return self_uri_list[0]["xlink_href"]
+def cdnlink(path):
+    return conf.CDN_PROTOCOL + ':' + conf.CDN_BASE_URL + '/' + path
+
+def pdf_uri(triple):
+    """predict an article's pdf url.
+    some article types don't have a PDF (like corrections) and some
+    older articles that should have a pdf, don't. this function doesn't
+    concern itself with those latter exceptions."""
+    content_type, msid, version = triple
+    if content_type in ['Correction']:
+        return EXCLUDE_ME
+    padded_msid = str(int(msid)).zfill(5)
+    filename = "elife-%s-v%s.pdf" % (padded_msid, version) # ll: elife-09560-v1.pdf
+    return cdnlink('/'.join(['articles', padded_msid, filename]))
 
 #
 #
@@ -146,6 +157,7 @@ def jats(funcname, *args, **kwargs):
     @wraps(actual_func)
     def fn(soup):
         return actual_func(soup, *args, **kwargs)
+
     return fn
 
 def category_codes(cat_list):
@@ -164,16 +176,6 @@ def to_volume(volume):
         volume = THIS_YEAR - 2011
     return int(volume)
 
-def abstract_to_impact_statement(article_or_snippet):
-    # If abstract has no DOI, turn it into an impact statement
-    if "abstract" in article_or_snippet and "impactStatement" not in article_or_snippet:
-        if "doi" not in article_or_snippet["abstract"]:
-            # Take the first paragraph text
-            abstract_text = article_or_snippet["abstract"]["content"][0]["text"]
-            article_or_snippet["impactStatement"] = abstract_text
-            del article_or_snippet["abstract"]
-    return article_or_snippet
-
 def clean_if_none(article_or_snippet):
     remove_if_none = ["pdf", "relatedArticles", "digest", "abstract", "titlePrefix",
                       "acknowledgements"]
@@ -185,7 +187,8 @@ def clean_if_none(article_or_snippet):
 
 def clean_if_empty(article_or_snippet):
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
-                       "researchOrganisms", "keywords", "references"]
+                       "researchOrganisms", "keywords", "references",
+                       "ethics", "appendices", "dataSets", "additionalFiles"]
     for remove_index in remove_if_empty:
         if (article_or_snippet.get(remove_index) is not None
             and (
@@ -205,11 +208,7 @@ def clean(article_data):
     article_json["article"] = clean_if_empty(article_json["article"])
     article_json["snippet"] = clean_if_empty(article_json["snippet"])
 
-    article_json["article"] = abstract_to_impact_statement(article_json["article"])
-    article_json["snippet"] = abstract_to_impact_statement(article_json["snippet"])
-
     return article_json
-
 
 def discard_if_not_v1(v):
     "discards given value if the version of the article being worked on is not a v1"
@@ -231,16 +230,6 @@ def discard_if_none_or_cc0(pair):
     if not holder or str(licence).upper().startswith('CC0-'):
         return EXCLUDE_ME
     return holder
-
-def authors_rewrite(authors):
-    # Clean up phone number format
-    for author in authors:
-        if "phoneNumbers" in author:
-            for i, phone in enumerate(author["phoneNumbers"]):
-                # Only one phone number so far, simple replace to validate
-                author["phoneNumbers"][i] = re.sub(r'[\(\) -]', '', phone)
-    return authors
-
 #
 #
 #
@@ -258,13 +247,13 @@ SNIPPET = OrderedDict([
     ('type', [jats('display_channel'), display_channel_to_article_type]),
     ('doi', [jats('doi')]),
     ('authorLine', [jats('author_line')]),
-    ('title', [jats('title')]),
+    ('title', [jats('full_title_json')]),
     ('titlePrefix', [jats('title_prefix')]),
     ('published', [jats('pub_date'), to_isoformat]), # 'published' is the pubdate of the v1 article
     ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
     ('volume', [jats('volume'), to_volume]),
     ('elocationId', [jats('elocation_id')]),
-    ('pdf', [jats('self_uri'), self_uri_to_pdf]),
+    ('pdf', [(jats('display_channel'), jats('publisher_id'), getvar('version')), pdf_uri]),
     ('subjects', [jats('category'), category_codes]),
     ('researchOrganisms', [jats('research_organism')]),
     ('abstract', [jats('abstract_json')]),
@@ -280,23 +269,27 @@ POA.update(OrderedDict([
         ('holder', [(jats('copyright_holder'), jats('license')), discard_if_none_or_cc0]),
         ('statement', [jats('license')]),
     ])),
-    ('authors', [jats('authors_json'), authors_rewrite])
+    ('authors', [jats('authors_json')]),
+    ('ethics', [jats('ethics_json')]),
+    ('additionalFiles', [jats('supplementary_files_json')]),
+    ('dataSets', [jats('datasets_json')]),
 ]))
 
 # a VOR snippets contains the contents of a POA
 VOR_SNIPPET = copy.deepcopy(POA)
 VOR_SNIPPET.update(OrderedDict([
-    ('impactStatement', [jats('impact_statement')]),
+    ('impactStatement', [jats('impact_statement_json')]),
 ]))
 
 # a VOR contains the contents of a VOR snippet
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
-    ('keywords', [jats('keywords')]),
+    ('keywords', [jats('keywords_json')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
     ('body', [jats('body')]), # ha! so easy ...
     ('references', [jats('references_json')]),
+    ('appendices', [jats('appendices_json')]),
     ('acknowledgements', [jats('acknowledgements_json')]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
@@ -314,11 +307,28 @@ def mkdescription(poa=True):
 # bootstrap
 #
 
+def instrument(description):
+    # try:
+    #    import newrelic.agent
+
+    #    for key, pipeline in description.items():
+    #        if isinstance(pipeline, dict): # OrderedDict is subtype of dict
+    #            subdescription = pipeline
+    #            instrument(subdescription) # recurse
+    #        else:
+    #            description[key] = map(newrelic.agent.FunctionTraceWrapper, pipeline)
+
+    # except ImportError:
+    #    pass
+
+    return description
+
 def render_single(doc, **overrides):
     try:
         setvar(**overrides)
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
+        description = instrument(description)
         return clean(render(description, [soup])[0])
     except Exception as err:
         LOG.error("failed to render doc with error: %s", err)

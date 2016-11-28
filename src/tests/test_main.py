@@ -76,12 +76,6 @@ class ArticleScrape(BaseCase):
         expected = None
         self.assertEqual(main.related_article_to_related_articles(related_article_list), expected)
 
-    def test_abstract_to_impact_statement(self):
-        snippet = {'abstract': {'content': [
-            {'type': 'paragraph', 'text': 'abstract with no DOI'}]}}
-        expected = {'impactStatement': 'abstract with no DOI'}
-        self.assertEqual(main.abstract_to_impact_statement(snippet), expected)
-
     def test_clean_if_none(self):
         snippet = {'abstract': None}
         expected = {}
@@ -91,11 +85,6 @@ class ArticleScrape(BaseCase):
         snippet = {'researchOrganisms': []}
         expected = {}
         self.assertEqual(main.clean_if_empty(snippet), expected)
-
-    def test_authors_rewrite(self):
-        authors = [{'phoneNumbers': ['(+1) 800-555-5555']}]
-        expected = [{'phoneNumbers': ['+18005555555']}]
-        self.assertEqual(main.authors_rewrite(authors), expected)
 
     def test_display_channel_to_article_type_fails(self):
         display_channel = ['']
@@ -112,3 +101,15 @@ class ArticleScrape(BaseCase):
         for given, expected in cases:
             actual = main.discard_if_none_or_cc0(given)
             self.assertEqual(actual, expected, "given %r I expected %r but got %r" % (given, expected, actual))
+
+    def test_pdf_uri(self):
+        given = ('research-article', 1234, 1)
+        expected = 'https://cdn.elifesciences.org/articles/01234/elife-01234-v1.pdf'
+        self.assertEqual(expected, main.pdf_uri(given))
+
+    def test_pdf_uri_bad(self):
+        cases = [
+            ("asdf", "asdf", "asdf"),
+        ]
+        for given in cases:
+            self.assertRaises(ValueError, main.pdf_uri, given)

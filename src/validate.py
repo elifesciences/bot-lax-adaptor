@@ -11,12 +11,6 @@ _handler.setLevel(logging.ERROR)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
 
-# output to screen
-_handler2 = logging.StreamHandler()
-_handler2.setLevel(logging.INFO)
-_handler2.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
-LOG.addHandler(_handler2)
-
 placeholder_reference_authors = [
     {
         "type": "person",
@@ -34,6 +28,8 @@ def uri_rewrite(body_json):
         uri_rewrite(body_json["content"])
     # A list, like in body, continue
     for element in body_json:
+        if "uri" in element:
+            element["filename"] = os.path.basename(element["uri"])
         if (("type" in element and element["type"] == "image") or
                 ("mediaType" in element)):
             if "uri" in element:
@@ -57,6 +53,7 @@ def video_rewrite(body_json):
                 source_media = {}
                 source_media["mediaType"] = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""
                 source_media["uri"] = "https://example.org/" + element.get("uri")
+
                 element["sources"].append(source_media)
 
                 element["image"] = "https://example.org/" + element.get("uri")
@@ -151,7 +148,7 @@ def wrap_body_in_section(body_json):
         new_body_section = {}
         new_body_section["type"] = "section"
         new_body_section["id"] = generate_section_id()
-        new_body_section["title"] = ""
+        new_body_section["title"] = "Main text"
         new_body_section["content"] = []
         for body_block in body_json:
             new_body_section["content"].append(body_block)
@@ -179,6 +176,14 @@ def references_rewrite(references):
     return references
 
 
+def appendices_rewrite(appendices):
+    "clean up values that will not pass validation temporarily"
+    for app in appendices:
+        if "doi" not in app:
+            app["doi"] = "10.7554/eLife.00666"
+    return appendices
+
+
 def is_poa(contents):
     try:
         return contents["article"]["status"] == "poa"
@@ -186,14 +191,17 @@ def is_poa(contents):
         return False
 
 def add_placeholders_for_validation(contents):
+    """these placeholder values are now making their way into production.
+    please make them OBVIOUS placeholders while still remaining valid data."""
+
     art = contents['article']
 
-    art['statusDate'] = '2016-01-01T00:00:00Z'
+    # simple indicator that this article content contains patched values
+    art['-patched'] = True
 
-    # the versionDate is discarded when the article is not v1
-    if art['version'] > 1:
-        # add a placeholder for validation
-        art['versionDate'] = '2016-01-01T00:00:00Z'
+    art['stage'] = 'published'
+    art['statusDate'] = '2099-01-01T00:00:00Z'
+    art['versionDate'] = '2099-01-01T00:00:00Z'
 
     # relatedArticles are not part of article deliverables
     if 'relatedArticles' in art:
@@ -203,7 +211,10 @@ def add_placeholders_for_validation(contents):
     if 'references' in art:
         art['references'] = references_rewrite(art['references'])
 
-    for elem in ['body', 'decisionLetter', 'authorResponse']:
+    if 'appendices' in art:
+        art['appendices'] = appendices_rewrite(art['appendices'])
+
+    for elem in ['body', 'decisionLetter', 'authorResponse', 'appendices']:
         if elem in art:
             art[elem] = uri_rewrite(art[elem])
             art[elem] = video_rewrite(art[elem])
@@ -214,9 +225,6 @@ def add_placeholders_for_validation(contents):
     for elem in ['body']:
         if elem in art:
             art[elem] = wrap_body_in_section(art[elem])
-
-    if not is_poa(contents):
-        pass
 
 def main(doc):
     contents = json.load(doc)
@@ -236,10 +244,9 @@ def main(doc):
     try:
         jsonschema.validate(contents["article"], schema)
         LOG.info("validated %s", msid, extra=log_context)
-        # return the contents, complete with placeholders
-        return contents["article"]
+        return contents
     except jsonschema.ValidationError as err:
-        LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
+        LOG.error("failed to validate %s: %s", msid, err, extra=log_context)
         raise
 
 if __name__ == '__main__':

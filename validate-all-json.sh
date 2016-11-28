@@ -4,13 +4,11 @@
 
 set -e # everything must pass
 
-filename=$1
-
 # zero out the validation log
 # python writes to this file
 echo > validate.log
 
-#. install.sh 2> /dev/null
+. install.sh 2> /dev/null
 
 # trap ctrl-c and call ctrl_c()
 trap ctrl_c INT
@@ -18,6 +16,7 @@ function ctrl_c() {
     exit 1
 }
 
-mkdir -p ./article-json/valid/ ./article-json/invalid/
+rm -rf ./article-json/valid/ ./article-json/invalid/  ./article-json/patched/
+mkdir ./article-json/valid/ ./article-json/invalid/ ./article-json/patched/
 
-time python src/validate.py "$filename"
+time python src/validate_article_json.py

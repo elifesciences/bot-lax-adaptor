@@ -40,7 +40,7 @@ class TestArticleValidate(BaseCase):
         body_json = [{"type": "paragraph"}]
         wrapped_body_json = validate.wrap_body_in_section(body_json)
         expected_body_json = [{'type': 'section', 'id': 'phantom-s-1',
-                               'title': '', 'content': [{'type': 'paragraph'}]}]
+                               'title': 'Main text', 'content': [{'type': 'paragraph'}]}]
         self.assertEqual(wrapped_body_json, expected_body_json)
 
     def test_video_rewrite(self):
@@ -94,11 +94,17 @@ class TestArticleValidate(BaseCase):
         self.assertEqual(validate.references_rewrite(references_json), expected)
 
     def test_add_placeholders_for_validation(self):
-        references_json = {'article': {'version': 2}}
-        expected = {'article': {'statusDate': '2016-01-01T00:00:00Z',
-                                'version': 2, 'versionDate': '2016-01-01T00:00:00Z'}}
-        validate.add_placeholders_for_validation(references_json)
-        self.assertEqual(references_json, expected)
+        article = {'article': {'version': 2}}
+        expected = {
+            'article': {
+                '-patched': True,
+                'version': 2,
+                'stage': 'published',
+                'versionDate': '2099-01-01T00:00:00Z',
+                'statusDate': '2099-01-01T00:00:00Z',
+            }}
+        validate.add_placeholders_for_validation(article)
+        self.assertEqual(article, expected)
 
     def test_is_poa_not_poa(self):
         # For test coverage

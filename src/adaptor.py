@@ -1,4 +1,3 @@
-import copy
 from jsonschema import ValidationError
 import json
 from datetime import datetime
@@ -8,13 +7,13 @@ import requests
 import signal
 import main, fs_adaptor, sqs_adaptor
 from functools import partial
-import utils
+import validate, utils
+from utils import subdict, renkeys
 
 from awsauth import S3Auth
 import botocore.session
 
 import conf
-import newrelic.agent
 from conf import PATHS_TO_LAX, PROJECT_DIR
 from conf import INVALID, ERROR, INGESTED, PUBLISHED, INGEST, PUBLISH, INGEST_PUBLISH
 
@@ -129,18 +128,6 @@ def download(location):
     file_contents = downloaderficationer[protocol]()
     return file_contents
 
-def subdict(data, lst):
-    return {k: v for k, v in data.items() if k in lst}
-
-def renkeys(data, pair_list):
-    "returns a copy of the given data with the list of oldkey->newkey pairs changes made"
-    data = copy.deepcopy(data)
-    for key, replacement in pair_list:
-        if key in data:
-            data[replacement] = data[key]
-            del data[key]
-    return data
-
 #
 #
 #
@@ -178,7 +165,6 @@ def mkresponse(status, message, request={}, **kwargs):
     return packet
 
 @timeit
-@newrelic.agent.background_task()
 def handler(json_request, outgoing):
     response = partial(send_response, outgoing)
 
@@ -218,18 +204,9 @@ def handler(json_request, outgoing):
             return response(mkresponse(ERROR, msg, request))
 
         try:
-            #caching = False
-            #cache_path = '/home/luke/dev/python/bot-lax-adaptor/article-json/elife-%05d-v%s.xml.json' \
-            #    % (int(params['id']), int(params['version']))
-            article_data = None
-            # if caching and os.path.exists(cache_path):
-            #    try:
-            #        article_data = json.load(open(cache_path, 'r'))
-            #    except ValueError:
-            #        # failed
-            #        pass
-            if not article_data:
-                article_data = main.render_single(article_xml, version=params['version'])
+            article_data = main.render_single(article_xml, version=params['version'])
+            if conf.SEND_LAX_PATCHED_AJSON: # makes in-place changes to the data
+                validate.add_placeholders_for_validation(article_data)
         except Exception as err:
             error = err.message if hasattr(err, 'message') else err
             msg = "failed to render article-json from article-xml: %s" % error
@@ -257,6 +234,12 @@ def handler(json_request, outgoing):
         # when lax fails, we fail
         raise
 
+try:
+    import newrelic.agent
+    handler = newrelic.agent.background_task()(handler)
+except ImportError:
+    pass
+
 #
 #
 #
@@ -267,7 +250,7 @@ def read_from_sqs(stackname='temp'):
     outgoing = sqs_adaptor.OutgoingQueue('bot-lax-%s-out' % stackname)
     return incoming, outgoing
 
-def read_from_fs(path=join(PROJECT_DIR, 'article-xml', 'articles'), **kwargs):
+def read_from_fs(path, **kwargs):
     "generates messages from a directory, writes responses to a log file"
     kwargs['path'] = path
     incoming = fs_adaptor.IncomingQueue(**kwargs)
@@ -311,11 +294,12 @@ def do(incoming, outgoing):
 def bootstrap():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--type', choices=['sqs', 'fs'], default='fs')
+    parser.add_argument('--type', choices=['sqs', 'fs'])
 
     # fs options
+    parser.add_argument('--target', default=join(PROJECT_DIR, 'article-xml', 'articles'))
     parser.add_argument('--force', action='store_true', default=False)
-    parser.add_argument('--action', choices=[INGEST, PUBLISH, INGEST_PUBLISH], default=INGEST)
+    parser.add_argument('--action', choices=[INGEST, PUBLISH, INGEST_PUBLISH])
 
     # sqs options
     parser.add_argument('--instance', dest='instance_id', help='the "ci" in "lax--ci"')
@@ -323,7 +307,7 @@ def bootstrap():
     args = parser.parse_args()
 
     adaptors = {
-        'fs': read_from_fs,
+        'fs': partial(read_from_fs, args.target),
         'sqs': read_from_sqs,
     }
     adaptor_type = args.type
