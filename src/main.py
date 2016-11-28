@@ -125,6 +125,10 @@ def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
 
 def cdnlink(path):
+    use_other_cdn = True
+    if use_other_cdn:
+        _, padded_msid, filename = path.split('/') # 'articles', padded msid, filename
+        return 'https://publishing-cdn.elifesciences.org/%s/%s' % (padded_msid, filename)
     return conf.CDN_PROTOCOL + ':' + conf.CDN_BASE_URL + '/' + path
 
 def pdf_uri(triple):

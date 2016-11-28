@@ -21,11 +21,11 @@ placeholder_reference_authors = [
     }
 ]
 
-def uri_rewrite(body_json):
-    base_uri = "https://example.org/"
+def uri_rewrite(padded_msid, body_json):
+    base_uri = "https://publishing-cdn.elifesciences.org/%s/" % padded_msid
     # Check if it is not a list, in the case of authorResponse
     if "content" in body_json:
-        uri_rewrite(body_json["content"])
+        uri_rewrite(padded_msid, body_json["content"])
     # A list, like in body, continue
     for element in body_json:
         if "uri" in element:
@@ -39,7 +39,7 @@ def uri_rewrite(body_json):
         for content_index in ["content", "supplements", "sourceData"]:
             if content_index in element:
                 try:
-                    uri_rewrite(element[content_index])
+                    uri_rewrite(padded_msid, element[content_index])
                 except TypeError:
                     # not iterable
                     pass
@@ -214,9 +214,11 @@ def add_placeholders_for_validation(contents):
     if 'appendices' in art:
         art['appendices'] = appendices_rewrite(art['appendices'])
 
+    padded_msid = str(art['id']).zfill(5)
+
     for elem in ['body', 'decisionLetter', 'authorResponse', 'appendices']:
         if elem in art:
-            art[elem] = uri_rewrite(art[elem])
+            art[elem] = uri_rewrite(padded_msid, art[elem])
             art[elem] = video_rewrite(art[elem])
             art[elem] = fix_section_id_if_missing(art[elem])
             art[elem] = mathml_rewrite(art[elem])
