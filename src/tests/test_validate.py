@@ -94,11 +94,11 @@ class TestArticleValidate(BaseCase):
         self.assertEqual(validate.references_rewrite(references_json), expected)
 
     def test_add_placeholders_for_validation(self):
-        article = {'article': {'version': 2}}
+        article = {'article': {'id': 12345, 'version': 2}}
         expected = {
             'article': {
                 '-patched': True,
-                'id': 01234,
+                'id': 12345,
                 'version': 2,
                 'stage': 'published',
                 'versionDate': '2099-01-01T00:00:00Z',
