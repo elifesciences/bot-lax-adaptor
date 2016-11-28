@@ -8,7 +8,9 @@ fi
 
 source venv/bin/activate
 
-pip uninstall -y elifetools
+if pip list | grep elifetools; then
+    pip uninstall -y elifetools
+fi
 pip install -r requirements.txt
 
 . download-api-raml.sh
