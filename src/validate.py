@@ -1,3 +1,4 @@
+import utils
 import os, sys, json, re
 import conf
 import jsonschema
@@ -198,6 +199,8 @@ def add_placeholders_for_validation(contents):
 
     # simple indicator that this article content contains patched values
     art['-patched'] = True
+
+    art['published'] = utils.ymdhms(art['published'])
 
     art['stage'] = 'published'
     art['statusDate'] = '2099-01-01T00:00:00Z'
