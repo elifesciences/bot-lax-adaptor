@@ -128,7 +128,7 @@ def cdnlink(path):
     use_other_cdn = True
     if use_other_cdn:
         _, padded_msid, filename = path.split('/') # 'articles', padded msid, filename
-        return 'https://publishing-cdn.elifesciences.org/%s/%s' % (padded_msid, filename)
+        return 'https://%s/%s/%s' % (conf.OTHER_CDN_HOST, padded_msid, filename)
     return conf.CDN_PROTOCOL + ':' + conf.CDN_BASE_URL + '/' + path
 
 def pdf_uri(triple):
