@@ -12,7 +12,7 @@ class Utils(BaseCase):
     def test_json_dumps(self):
         then = datetime(year=2001, month=1, day=1, hour=23, minute=59)
         struct = {'now': then}
-        expected = '{"now": "2001-01-01T23:59:00"}'
+        expected = '{"now": "2001-01-01T23:59:00Z"}'
         self.assertEqual(utils.json_dumps(struct), expected)
 
     def test_json_dumps_unhandled_obj(self):
