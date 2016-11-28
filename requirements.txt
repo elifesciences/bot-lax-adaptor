@@ -14,3 +14,4 @@ python-dateutil==2.5.3
 requests==2.11.1
 requests-aws==0.1.8
 newrelic==2.72.1.53
+strict-rfc3339==0.7
