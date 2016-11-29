@@ -185,6 +185,19 @@ def appendices_rewrite(appendices):
     return appendices
 
 
+def funding_rewrite(funding):
+    "clean up funding values that will not pass validation"
+    if funding.get("awards"):
+        placeholder_recipients = [{"type": "group", "name": "Placeholder award recipient"}]
+        for award in funding.get("awards"):
+            if not award.get("recipients"):
+                award["recipients"] = placeholder_recipients
+        # Need a funding statement
+        if not funding.get("statement"):
+            funding["statement"] = "Placeholder for funding statement."
+    return funding
+
+
 def is_poa(contents):
     try:
         return contents["article"]["status"] == "poa"
@@ -217,6 +230,9 @@ def add_placeholders_for_validation(contents):
 
     if 'appendices' in art:
         art['appendices'] = appendices_rewrite(art['appendices'])
+
+    if 'funding' in art:
+        art['funding'] = funding_rewrite(art['funding'])
 
     padded_msid = str(art['id']).zfill(5)
 
