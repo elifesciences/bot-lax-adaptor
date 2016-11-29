@@ -45,7 +45,7 @@ def metadata(msid):
 
     context = {'msid': msid, 'url': url, 'status-code': resp.status_code}
     if resp.status_code == 404:
-        LOG.info("article has no videos", extra=context)
+        LOG.debug("article has no videos", extra=context)
         return {}
 
     elif resp.status_code != 200:
