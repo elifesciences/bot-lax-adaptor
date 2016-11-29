@@ -10,7 +10,7 @@ requests_cache.install_cache(**{
     #'location': join(conf.PROJECT_DIR, 'glencoe'), # grr, not working
     'extension': '.sqlite3'})
 # https://requests-cache.readthedocs.io/en/latest/api.html#requests-cache-backends-sqlite
-#requests_cache.core.configure()
+# requests_cache.core.configure()
 
 '''
 glencoe_resp = {
@@ -43,7 +43,7 @@ def metadata(msid):
 
     resp = requests.get(url)
 
-    context = {'msid': msid, 'url': url, 'status-code': resp.status_code}    
+    context = {'msid': msid, 'url': url, 'status-code': resp.status_code}
     if resp.status_code == 404:
         LOG.info("article has no videos", extra=context)
         return {}

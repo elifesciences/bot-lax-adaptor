@@ -1,4 +1,4 @@
-import os, sys, json, copy, re, time, calendar
+import os, sys, json, copy, time, calendar
 import threading
 from et3.render import render, EXCLUDE_ME
 from elifetools import parseJATS
@@ -67,9 +67,6 @@ def nonxml(msg):
 def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
 
-def cdnlink(path):
-    return conf.CDN_PROTOCOL + ':' + conf.CDN_BASE_URL + '/' + path
-
 def to_soup(doc):
     if isinstance(doc, basestring):
         if os.path.exists(doc):
@@ -85,6 +82,7 @@ def jats(funcname, *args, **kwargs):
     actual_func = getattr(parseJATS, funcname, None) or getattr(parseJATS, aliases.get(funcname))
     if not actual_func:
         raise ValueError("you asked for %r from parseJATS but I couldn't find it!" % funcname)
+
     @wraps(actual_func)
     def fn(soup):
         return actual_func(soup, *args, **kwargs)
@@ -146,9 +144,6 @@ def related_article_to_related_articles(related_article_list):
         return None
     return related_articles
 
-def is_poa_to_status(is_poa):
-    return "poa" if is_poa else "vor"
-
 def cdnlink(path):
     use_other_cdn = True
     if use_other_cdn:
@@ -184,7 +179,7 @@ def do_body(body_content, fn):
 
 def do_body_for_type(body_content, type_list, fn):
     def _fn(element):
-        return fn(element) if element['type'] in type_list else element    
+        return fn(element) if element['type'] in type_list else element
     return do_body(body_content, _fn)
 
 def expand_videos(pair):
@@ -198,7 +193,7 @@ def expand_videos(pair):
         'webm': 'video/webm; codecs="vp8.0, vorbis"',
         'ogv': 'video/ogg; codecs="theora, vorbis"',
     }
-    
+
     def fn(video):
         vid = video['id']
         ensure(vid in gc_data, "glencoe doesn't know %r, only %s" % (vid, gc_id_str))
@@ -213,7 +208,7 @@ def expand_videos(pair):
         video.update(video_data)
 
         del video['uri'] # returned by elife-tools, not useful in final json
-        
+
         return video
     return do_body_for_type(body_content, ['video'], fn)
 

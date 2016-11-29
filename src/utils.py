@@ -13,6 +13,13 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
+def ensure(assertion, msg, *args):
+    """intended as a convenient replacement for `assert` statements that
+    get compiled away with -O flags"""
+    if not assertion:
+        raise AssertionError(msg % args)
+
+
 def renkeys(data, pair_list):
     "returns a copy of the given data with the list of oldkey->newkey pairs changes made"
     data = copy.deepcopy(data)
