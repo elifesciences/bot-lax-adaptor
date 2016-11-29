@@ -194,7 +194,7 @@ def funding_rewrite(funding):
                 award["recipients"] = placeholder_recipients
         # Need a funding statement
         if not funding.get("statement"):
-                funding["statement"] = "Placeholder for funding statement."
+            funding["statement"] = "Placeholder for funding statement."
     return funding
 
 
