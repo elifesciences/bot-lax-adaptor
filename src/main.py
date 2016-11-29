@@ -1,6 +1,6 @@
 import os, sys, json, copy, time, calendar
 import threading
-from et3.render import render, EXCLUDE_ME
+from et3.render import render, doall, EXCLUDE_ME
 from elifetools import parseJATS
 from functools import wraps
 import logging
@@ -43,10 +43,12 @@ def doi(item):
     return parseJATS.doi(item)
 
 def to_isoformat(time_struct):
+    if not time_struct:
+        return time_struct
     # time_struct ll: time.struct_time(tm_year=2015, tm_mon=9, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=253, tm_isdst=0)
     ts = calendar.timegm(time_struct) # ll: 1441843200
     ts = datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
-    return ts.isoformat() # 2015-09-10T00:00:00
+    return utils.ymdhms(ts)
 
 def note(msg, level=logging.DEBUG):
     "a note logs some message about the value but otherwise doesn't interrupt the pipeline"
@@ -163,6 +165,26 @@ def pdf_uri(triple):
     filename = "elife-%s-v%s.pdf" % (padded_msid, version) # ll: elife-09560-v1.pdf
     return cdnlink('/'.join(['articles', padded_msid, filename]))
 
+def category_codes(cat_list):
+    subjects = []
+    for cat in cat_list:
+        subject = OrderedDict()
+        subject['id'] = slugify(cat, stopwords=['and'])
+        subject['name'] = cat
+        subjects.append(subject)
+    return subjects
+
+THIS_YEAR = time.gmtime()[0]
+def to_volume(volume):
+    if not volume:
+        # No volume on unpublished PoA articles, calculate based on current year
+        volume = THIS_YEAR - 2011
+    return int(volume)
+
+#
+# post processing
+#
+
 def do_section(element, fn):
     "applies given function to each element in each section."
     # sections may actually contain other sections. we treat the top-level 'body'
@@ -182,9 +204,12 @@ def do_body_for_type(body_content, type_list, fn):
         return fn(element) if element['type'] in type_list else element
     return do_body(body_content, _fn)
 
-def expand_videos(pair):
+def expand_any_videos(article):
     "takes an existing video type struct as returned by elife-tools and fills it out with data from glencoe"
-    msid, body_content = pair
+    if 'body' not in article:
+        return article
+    msid = article['id']
+    body_content = article['body']
     gc_data = glencoe.metadata(msid)
     gc_id_str = ", ".join(gc_data.keys())
 
@@ -195,38 +220,26 @@ def expand_videos(pair):
     }
 
     def fn(video):
-        vid = video['id']
-        ensure(vid in gc_data, "glencoe doesn't know %r, only %s" % (vid, gc_id_str))
-        video_data = gc_data[vid]
-        video_data = subdict(video_data, ['jpg_href', 'width', 'height'])
-        video_data = renkeys(video_data, [('jpg_href', 'image')])
+        try:
+            vid = video['id']
+            ensure(vid in gc_data, "glencoe doesn't know %r, only %s" % (vid, gc_id_str))
+            video_data = gc_data[vid]
+            video_data = subdict(video_data, ['jpg_href', 'width', 'height'])
+            video_data = renkeys(video_data, [('jpg_href', 'image')])
 
-        video_data['sources'] = map(lambda mtype: {
-            'mediaType': sources[mtype],
-            'uri': gc_data[vid][mtype + "_href"]}, sources.keys())
+            video_data['sources'] = map(lambda mtype: {
+                'mediaType': sources[mtype],
+                'uri': gc_data[vid][mtype + "_href"]}, sources.keys())
 
-        video.update(video_data)
+            video.update(video_data)
 
-        del video['uri'] # returned by elife-tools, not useful in final json
-
+            del video['uri'] # returned by elife-tools, not useful in final json
+        except AssertionError as err:
+            LOG.warn(err, extra={'msid': msid, 'version': article['version']})
         return video
-    return do_body_for_type(body_content, ['video'], fn)
 
-def category_codes(cat_list):
-    subjects = []
-    for cat in cat_list:
-        subject = OrderedDict()
-        subject['id'] = slugify(cat, stopwords=['and'])
-        subject['name'] = cat
-        subjects.append(subject)
-    return subjects
-
-THIS_YEAR = time.gmtime()[0]
-def to_volume(volume):
-    if not volume:
-        # No volume on unpublished PoA articles, calculate based on current year
-        volume = THIS_YEAR - 2011
-    return int(volume)
+    article['body'] = do_body_for_type(body_content, ['video'], fn)
+    return article
 
 def clean_if_none(article_or_snippet):
     remove_if_none = ["pdf", "relatedArticles", "digest", "abstract", "titlePrefix",
@@ -251,17 +264,13 @@ def clean_if_empty(article_or_snippet):
             del article_or_snippet[remove_index]
     return article_or_snippet
 
-def clean(article_data):
-    # Remove null or blank elements
-    article_json = article_data # we're not dealing with json just yet ...
+def postprocess(data):
+    article, snippet = data['article'], data['snippet']
 
-    article_json["article"] = clean_if_none(article_json["article"])
-    article_json["snippet"] = clean_if_none(article_json["snippet"])
+    data['article'] = doall(article, [expand_any_videos, clean_if_none, clean_if_empty])
+    data['snippet'] = doall(snippet, [clean_if_none, clean_if_empty])
 
-    article_json["article"] = clean_if_empty(article_json["article"])
-    article_json["snippet"] = clean_if_empty(article_json["snippet"])
-
-    return article_json
+    return data
 
 def discard_if_not_v1(v):
     "discards given value if the version of the article being worked on is not a v1"
@@ -351,7 +360,7 @@ VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
-    ('body', [(jats('msid'), jats('body')), expand_videos]),
+    ('body', [jats('body')]),
     ('references', [jats('references_json')]),
     ('appendices', [jats('appendices_json')]),
     ('acknowledgements', [jats('acknowledgements_json')]),
@@ -371,29 +380,12 @@ def mkdescription(poa=True):
 # bootstrap
 #
 
-def instrument(description):
-    # try:
-    #    import newrelic.agent
-
-    #    for key, pipeline in description.items():
-    #        if isinstance(pipeline, dict): # OrderedDict is subtype of dict
-    #            subdescription = pipeline
-    #            instrument(subdescription) # recurse
-    #        else:
-    #            description[key] = map(newrelic.agent.FunctionTraceWrapper, pipeline)
-
-    # except ImportError:
-    #    pass
-
-    return description
-
 def render_single(doc, **overrides):
     try:
         setvar(**overrides)
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
-        description = instrument(description)
-        return clean(render(description, [soup])[0])
+        return postprocess(render(description, [soup])[0])
     except Exception as err:
         LOG.error("failed to render doc with error: %s", err)
         raise

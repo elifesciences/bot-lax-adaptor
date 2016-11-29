@@ -72,14 +72,14 @@ def validate_response(response):
     "validates outgoing response"
     return validate(response, conf.RESPONSE_SCHEMA)
 
-def json_dumps(obj):
+def json_dumps(obj, **kwargs):
     "drop-in for json.dumps that handles datetime objects."
     def datetime_handler(obj):
         if hasattr(obj, 'isoformat'):
             return ymdhms(obj)
         else:
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
-    return json.dumps(obj, default=datetime_handler)
+    return json.dumps(obj, default=datetime_handler, **kwargs)
 
 
 '''
