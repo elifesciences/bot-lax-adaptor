@@ -24,7 +24,7 @@ placeholder_reference_authors = [
 
 def uri_rewrite(padded_msid, body_json):
     #base_uri = "https://%s/%s/" % (conf.other_cdn_host(), padded_msid)
-    base_uri = conf.cdn(scraper.getvar('env', None))
+    base_uri = conf.cdn(scraper.getvar('env', None)(None))
     # Check if it is not a list, in the case of authorResponse
     if "content" in body_json:
         uri_rewrite(padded_msid, body_json["content"])
