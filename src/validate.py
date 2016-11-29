@@ -2,7 +2,7 @@ import utils
 import os, sys, json, re
 import conf
 import jsonschema
-
+import main as scraper
 import logging
 LOG = logging.getLogger(__name__)
 
@@ -23,7 +23,8 @@ placeholder_reference_authors = [
 ]
 
 def uri_rewrite(padded_msid, body_json):
-    base_uri = "https://publishing-cdn.elifesciences.org/%s/" % padded_msid
+    #base_uri = "https://%s/%s/" % (conf.other_cdn_host(), padded_msid)
+    base_uri = conf.cdn(scraper.getvar('env', None))
     # Check if it is not a list, in the case of authorResponse
     if "content" in body_json:
         uri_rewrite(padded_msid, body_json["content"])
@@ -34,7 +35,8 @@ def uri_rewrite(padded_msid, body_json):
         if (("type" in element and element["type"] == "image") or
                 ("mediaType" in element)):
             if "uri" in element:
-                element["uri"] = base_uri + element["uri"]
+                #element["uri"] = base_uri + element["uri"]
+                element["uri"] = base_uri % {'fname': element["uri"], 'padded-msid': padded_msid}
                 # Add or edit file extension
                 # TODO!!
         for content_index in ["content", "supplements", "sourceData"]:
