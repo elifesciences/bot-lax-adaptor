@@ -125,7 +125,7 @@ def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
 
 def cdnlink(msid, filename):
-    cdn = conf.cdn(getvar('env'))
+    cdn = conf.cdn(getvar('env', None))
     kwargs = {
         'padded-msid': pad_msid(msid),
         'fname': filename

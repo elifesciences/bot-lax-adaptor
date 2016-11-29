@@ -1,7 +1,7 @@
 import os, sys, json, re
 import conf
 import jsonschema
-
+import main as scraper
 import logging
 LOG = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ placeholder_reference_authors = [
 
 def uri_rewrite(padded_msid, body_json):
     #base_uri = "https://%s/%s/" % (conf.other_cdn_host(), padded_msid)
-    base_uri = conf.cdn()
+    base_uri = conf.cdn(scraper.getvar('env', None))
     # Check if it is not a list, in the case of authorResponse
     if "content" in body_json:
         uri_rewrite(padded_msid, body_json["content"])
