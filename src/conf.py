@@ -77,12 +77,13 @@ VOR_SCHEMA = json_load('api-raml/dist/model/article-vor.v1.json')
 REQUEST_SCHEMA = json_load('request-schema.json')
 RESPONSE_SCHEMA = json_load('response-schema.json')
 
-CDN_PROTOCOL = 'https'
-CDN_BASE_URL = '//cdn.elifesciences.org'
+CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
+CDN2 = 'publishing-cdn.elifesciences.org/%(padded-msid)s/%(fname)s'
 
-urls_config = {'other_cdn_host': 'publishing-cdn.elifesciences.org'}
-def set_temporary_cdn_host(host):
-    urls_config['other_cdn_host'] = host
+DEFAULT_CDN = CDN1 if False else CDN2
+CDNS_BY_ENV = {
+    'end2end': 'end2end-' + CDN2,
+}
 
-def other_cdn_host():
-    return urls_config['other_cdn_host']
+def cdn(env=None):
+    return 'https://' + CDNS_BY_ENV.get(env, DEFAULT_CDN)

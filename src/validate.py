@@ -22,7 +22,8 @@ placeholder_reference_authors = [
 ]
 
 def uri_rewrite(padded_msid, body_json):
-    base_uri = "https://%s/%s/" % (conf.other_cdn_host(), padded_msid)
+    #base_uri = "https://%s/%s/" % (conf.other_cdn_host(), padded_msid)
+    base_uri = conf.cdn()
     # Check if it is not a list, in the case of authorResponse
     if "content" in body_json:
         uri_rewrite(padded_msid, body_json["content"])
@@ -33,7 +34,8 @@ def uri_rewrite(padded_msid, body_json):
         if (("type" in element and element["type"] == "image") or
                 ("mediaType" in element)):
             if "uri" in element:
-                element["uri"] = base_uri + element["uri"]
+                #element["uri"] = base_uri + element["uri"]
+                element["uri"] = base_uri % {'fname': element["uri"], 'padded-msid': padded_msid}
                 # Add or edit file extension
                 # TODO!!
         for content_index in ["content", "supplements", "sourceData"]:

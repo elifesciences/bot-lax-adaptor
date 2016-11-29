@@ -306,8 +306,7 @@ def bootstrap():
 
     args = parser.parse_args()
 
-    if args.instance_id == 'end2end':
-        conf.set_temporary_cdn_host('end2end-publishing-cdn.elifesciences.org')
+    main.setvar(env=args.instance_id)
 
     adaptors = {
         'fs': partial(read_from_fs, args.target),
