@@ -84,3 +84,6 @@ OTHER_CDN_HOST = 'publishing-cdn.elifesciences.org'
 def set_temporary_cdn_host(host):
     global OTHER_CDN_HOST
     OTHER_CDN_HOST = host
+
+def other_cdn_host():
+    return OTHER_CDN_HOST
