@@ -29,8 +29,6 @@ class ArticleScrape(BaseCase):
         self.assertTrue('article' in results)
         self.assertTrue('journal' in results)
         # NOTE! leave article validation to json schema
-        # expected_article = json.load(
-        # self.assertEqual(results.
 
     def test_main_bootstrap(self):
         "json is written to stdout"
@@ -88,24 +86,37 @@ class ArticleScrape(BaseCase):
         expected = {}
         self.assertEqual(main.clean_if_empty(snippet), expected)
 
-    def test_clean_copyright(self):
-        snippet = {'copyright': {'holder': None}}
-        expected = {'copyright': {}}
-        self.assertEqual(main.clean_copyright(snippet), expected)
-
-    def test_authors_rewrite(self):
-        authors = [{'phoneNumbers': ['(+1) 800-555-5555']}]
-        expected = [{'phoneNumbers': ['+18005555555']}]
-        self.assertEqual(main.authors_rewrite(authors), expected)
-
     def test_display_channel_to_article_type_fails(self):
         display_channel = ['']
         expected = None
         self.assertEqual(main.display_channel_to_article_type(display_channel), expected)
 
+    def test_discard_if_none_or_empty(self):
+        cases = [
+            (None, main.EXCLUDE_ME),
+            ('not none', 'not none'),
+            ([], main.EXCLUDE_ME),
+            ({}, main.EXCLUDE_ME)
+        ]
+        for given, expected in cases:
+            actual = main.discard_if_none_or_empty(given)
+            self.assertEqual(actual, expected, "given %r I expected %r but got %r" % (given, expected, actual))
+
+    def test_licence_holder(self):
+        cases = [
+            ((None, 'CC-BY-4'), main.EXCLUDE_ME),
+            (('John', 'CC-BY-4'), 'John'),
+            (('John', 'CC0-1.0'), main.EXCLUDE_ME),
+            (('Jane', 'cC0-2.pants'), main.EXCLUDE_ME)
+        ]
+        for given, expected in cases:
+            actual = main.discard_if_none_or_cc0(given)
+            self.assertEqual(actual, expected, "given %r I expected %r but got %r" % (given, expected, actual))
+
     def test_pdf_uri(self):
         given = ('research-article', 1234, 1)
-        expected = 'https://cdn.elifesciences.org/articles/01234/elife-01234-v1.pdf'
+        #expected = 'https://cdn.elifesciences.org/articles/01234/elife-01234-v1.pdf'
+        expected = 'https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf'
         self.assertEqual(expected, main.pdf_uri(given))
 
     def test_pdf_uri_bad(self):

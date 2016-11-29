@@ -12,8 +12,8 @@
         "doi": "10.7554/eLife.09560", 
         "authorLine": "Lee R Berger et al", 
         "title": "<i>Homo naledi</i>, a new species of the genus <i>Homo</i> from the Dinaledi Chamber, South Africa", 
-        "published": "2015-09-10T00:00:00Z", 
-        "versionDate": "2015-09-10T00:00:00Z", 
+        "published": "2015-09-10T00:00:00", 
+        "versionDate": "2015-09-10T00:00:00", 
         "volume": 4, 
         "elocationId": "e09560", 
         "pdf": "https://cdn.elifesciences.org/articles/09560/elife-09560-v1.pdf", 
@@ -2303,26 +2303,6 @@
                 ], 
                 "contribution": "BZ, Acquisition of data, Analysis and interpretation of data", 
                 "competingInterests": "The authors declare that no competing interests exist."
-            }
-        ], 
-        "additionalFiles": [
-            {
-                "doi": "10.7554/eLife.09560.028", 
-                "id": "SD1-data", 
-                "label": "Supplementary file 1.", 
-                "title": "Holotype and paratype specimens and referred materials.", 
-                "mediaType": "application/docx", 
-                "uri": "elife-09560-supp1-v1.docx", 
-                "filename": "elife-09560-supp1-v1.docx"
-            }, 
-            {
-                "doi": "10.7554/eLife.09560.029", 
-                "id": "SD2-data", 
-                "label": "Supplementary file 2.", 
-                "title": "Traits of <i>H</i>. <i>naledi</i> and comparative species.", 
-                "mediaType": "application/docx", 
-                "uri": "elife-09560-supp2-v1.docx", 
-                "filename": "elife-09560-supp2-v1.docx"
             }
         ], 
         "impactStatement": "A new hominin species has been unearthed in the Dinaledi Chamber of the Rising Star cave system in the largest assemblage of a single species of hominins yet discovered in Africa."
@@ -2335,8 +2315,8 @@
         "doi": "10.7554/eLife.09560", 
         "authorLine": "Lee R Berger et al", 
         "title": "<i>Homo naledi</i>, a new species of the genus <i>Homo</i> from the Dinaledi Chamber, South Africa", 
-        "published": "2015-09-10T00:00:00Z", 
-        "versionDate": "2015-09-10T00:00:00Z", 
+        "published": "2015-09-10T00:00:00", 
+        "versionDate": "2015-09-10T00:00:00", 
         "volume": 4, 
         "elocationId": "e09560", 
         "pdf": "https://cdn.elifesciences.org/articles/09560/elife-09560-v1.pdf", 
@@ -4626,26 +4606,6 @@
                 ], 
                 "contribution": "BZ, Acquisition of data, Analysis and interpretation of data", 
                 "competingInterests": "The authors declare that no competing interests exist."
-            }
-        ], 
-        "additionalFiles": [
-            {
-                "doi": "10.7554/eLife.09560.028", 
-                "id": "SD1-data", 
-                "label": "Supplementary file 1.", 
-                "title": "Holotype and paratype specimens and referred materials.", 
-                "mediaType": "application/docx", 
-                "uri": "elife-09560-supp1-v1.docx", 
-                "filename": "elife-09560-supp1-v1.docx"
-            }, 
-            {
-                "doi": "10.7554/eLife.09560.029", 
-                "id": "SD2-data", 
-                "label": "Supplementary file 2.", 
-                "title": "Traits of <i>H</i>. <i>naledi</i> and comparative species.", 
-                "mediaType": "application/docx", 
-                "uri": "elife-09560-supp2-v1.docx", 
-                "filename": "elife-09560-supp2-v1.docx"
             }
         ], 
         "impactStatement": "A new hominin species has been unearthed in the Dinaledi Chamber of the Rising Star cave system in the largest assemblage of a single species of hominins yet discovered in Africa.", 

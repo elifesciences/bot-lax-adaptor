@@ -8,7 +8,9 @@ fi
 
 source venv/bin/activate
 
+if pip list | grep elifetools; then
+    pip uninstall -y elifetools
+fi
 pip install -r requirements.txt
-pip install git+https://github.com/elifesciences/elife-tools.git@develop#egg=elifetools --upgrade
 
 . download-api-raml.sh

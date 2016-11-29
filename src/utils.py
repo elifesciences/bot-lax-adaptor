@@ -1,7 +1,7 @@
-import copy
-import os
+import os, copy
 import subprocess
 import json
+import jsonschema
 from jsonschema import validate as validator
 from jsonschema import ValidationError
 #from os.path import join
@@ -13,21 +13,18 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
-def subdict(ddict, key_list):
-    return {k: v for k, v in ddict.items() if k in key_list}
+def renkeys(data, pair_list):
+    "returns a copy of the given data with the list of oldkey->newkey pairs changes made"
+    data = copy.deepcopy(data)
+    for key, replacement in pair_list:
+        if key in data:
+            data[replacement] = data[key]
+            del data[key]
+    return data
 
-def renkeys(ddict, mapping):
-    ddict = copy.deepcopy(ddict)
-    for old_key, new_key in mapping:
-        ddict[new_key] = ddict[old_key]
-        del ddict[old_key]
-    return ddict
 
-def ensure(assertion, msg, *args):
-    """intended as a convenient replacement for `assert` statements that
-    get compiled away with -O flags"""
-    if not assertion:
-        raise AssertionError(msg % args)
+def subdict(data, lst):
+    return {k: v for k, v in data.items() if k in lst}
 
 def first(x):
     try:
@@ -48,7 +45,7 @@ def validate(struct, schema):
         raise
 
     try:
-        validator(struct, schema)
+        validator(struct, schema, format_checker=jsonschema.FormatChecker())
         return struct
 
     except ValueError as err:
@@ -72,8 +69,7 @@ def json_dumps(obj):
     "drop-in for json.dumps that handles datetime objects."
     def datetime_handler(obj):
         if hasattr(obj, 'isoformat'):
-            # return {"-val": obj.isoformat(), "-type": "datetime"}
-            return obj.isoformat()
+            return ymdhms(obj)
         else:
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
     return json.dumps(obj, default=datetime_handler)
@@ -101,3 +97,41 @@ def version_from_path(path):
     _, msid, ver = os.path.split(path)[-1].split('-') # ll: ['elife', '09560', 'v1.xml']
     ver = int(ver[1]) # "v1.xml" -> 1
     return msid, ver
+
+
+#
+#
+#
+
+
+import pytz
+from datetime import datetime
+from dateutil import parser
+from rfc3339 import rfc3339
+
+def todt(val):
+    "turn almost any formatted datetime string into a UTC datetime object"
+    if val is None:
+        return None
+    dt = val
+    if not isinstance(dt, datetime):
+        dt = parser.parse(val, fuzzy=False)
+    dt.replace(microsecond=0) # not useful, never been useful, will never be useful.
+
+    if not dt.tzinfo:
+        # no timezone (naive), assume UTC and make it explicit
+        LOG.debug("encountered naive timestamp %r from %r. UTC assumed.", dt, val)
+        return pytz.utc.localize(dt)
+
+    else:
+        # ensure tz is UTC
+        if dt.tzinfo != pytz.utc:
+            LOG.debug("converting an aware dt that isn't in utc TO utc: %r", dt)
+            return dt.astimezone(pytz.utc)
+    return dt
+
+def ymdhms(dt):
+    "returns an rfc3339 representation of a datetime object"
+    if dt:
+        dt = todt(dt) # convert to utc, etc
+        return rfc3339(dt, utc=True)

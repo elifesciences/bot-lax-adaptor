@@ -11,29 +11,39 @@ import validate
 import sys, json
 from StringIO import StringIO
 from joblib import Parallel, delayed
-from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR
+import conf
+from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR, VALID_PATCHED_JSON_DIR
 import jsonschema
 
 WINDOWS = platform.system().lower() == 'windows'
 
 def job(path):
     strbuffer = StringIO()
-    fn = shutil.copyfile if WINDOWS else os.symlink
+
+    def copyfn(src, dest):
+        if os.path.exists(dest):
+            os.unlink(dest)
+        return shutil.copyfile(src, dest)
+
+    fn = copyfn
+    if WINDOWS:
+        fn = os.symlink
+
     try:
         fname = os.path.basename(path)
         strbuffer.write("%s => " % fname)
         article_with_placeholders = validate.main(open(path, 'r'))
         strbuffer.write("success")
         fn(path, join(VALID_JSON_DIR, fname))
-        json.dump(article_with_placeholders, open(join(VALID_JSON_DIR, "dummy" + fname), 'w'), indent=4)
+        json.dump(article_with_placeholders, open(join(VALID_PATCHED_JSON_DIR, fname), 'w'), indent=4)
     except jsonschema.ValidationError:
         strbuffer.write("failed")
         fn(path, join(INVALID_JSON_DIR, fname))
-    except Exception as err:
+    except BaseException as err:
         strbuffer.write("error (%s)" % err)
     finally:
-        sys.stderr.write(strbuffer.getvalue() + "\n")
-        sys.stderr.flush()
+        log = conf.multiprocess_log('validation.log', __name__)
+        log.info(strbuffer.getvalue())
 
 def main(args=None):
     target = first(args)
@@ -47,6 +57,7 @@ def main(args=None):
         paths = [os.path.abspath(target)]
 
     paths = filter(lambda path: path.lower().endswith('.json'), paths)
+    print 'jobs %d' % len(paths)
     Parallel(n_jobs=-1)(delayed(job)(path) for path in paths)
     print 'see validate.log for errors'
 

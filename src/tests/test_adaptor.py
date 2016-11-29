@@ -1,9 +1,10 @@
-import os
+import os, json
 from os.path import join
 from .base import BaseCase
 import adaptor as adapt, fs_adaptor, conf
-from adaptor import read_from_fs, do
+import adaptor
 import unittest
+from mock import patch
 
 def requires_lax(fn):
     try:
@@ -22,10 +23,12 @@ class Ingest(BaseCase):
     def tearDown(self):
         pass
 
+    # still really handy to tests integration locally
+    @unittest.skip("requires lax IN A CERTAIN STATE :( disabling for now")
     @requires_lax
     def test_adaptor_v1(self):
-        inc, out = read_from_fs(self.ingest_dir)
-        do(inc, out)
+        inc, out = adaptor.read_from_fs(self.ingest_dir)
+        adaptor.do(inc, out)
         self.assertEqual(len(out.invalids), 0)
         self.assertEqual(len(out.errors), 0)
         self.assertEqual(len(out.valids), self.num_ingest_dir_xml)
@@ -88,3 +91,27 @@ class Adapt(BaseCase):
         self.out.dump()
         self.assertEqual(len(self.out.errors), 1)
         self.assertTrue(self.out.errors[0]['message'].startswith("failed to render"))
+
+    @patch('conf.DEBUG', True)
+    @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.INVALID, 'message': 'mock'})
+    def test_bootstrap(self):
+        v3_dir = join(self.ingest_dir, 'v3')
+        argstr = '--type fs --action ingest+publish --target %s' % v3_dir
+        args = ['adaptor.py']
+        args.extend(argstr.split())
+        with patch('sys.argv', args):
+            adapt.bootstrap()
+
+    # what a hack this test is!
+    @patch('conf.SEND_LAX_PATCHED_AJSON', True)
+    def test_patched_data(self):
+        "we can optionally send lax the patched version of the article-json"
+        expected = {'-patched': True}
+
+        def call_lax(*args, **kwargs):
+            art = json.loads(kwargs['article_json'])['article']
+            for key, val in expected.items():
+                self.assertEqual(art[key], val)
+            return {'status': conf.INGESTED, 'message': 'mock'}
+        with patch('adaptor.call_lax', call_lax):
+            adaptor.do(*adaptor.read_from_fs(join(self.ingest_dir, 'v3')))

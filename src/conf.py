@@ -36,13 +36,27 @@ _handler.setFormatter(logging.Formatter('%(levelname)s - %(asctime)s - %(message
 ROOTLOG.addHandler(_handler)
 ROOTLOG.setLevel(logging.DEBUG)
 
-# configure logging here
+def multiprocess_log(filename, name=__name__):
+    """Creates a shared log for name and the current process, writing to filename
+    with the append flag.
+
+    On Linux this should ensure that no log entries are lost, thanks to kernel-specific behavior"""
+    log = logging.getLogger("%s.%d" % (__name__, os.getpid()))
+    if not log.handlers:
+        _handler = logging.FileHandler(filename)
+        _handler.setLevel(logging.INFO)
+        _handler.setFormatter(logging.Formatter('%(levelname)s - %(asctime)s - %(message)s'))
+        log.addHandler(_handler)
+    return log
 
 DEBUG = False
-PATHS_TO_LAX = [
+PATHS_TO_LAX = map(os.path.expanduser, [
     '/srv/lax/',
-    #'/home/luke/dev/python/lax/'
-]
+    '~/dev/python/lax/'
+])
+
+SEND_LAX_PATCHED_AJSON = True
+
 PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error'
@@ -51,6 +65,7 @@ XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')
 JSON_DIR = join(PROJECT_DIR, 'article-json')
 VALID_JSON_DIR = join(JSON_DIR, 'valid')
 INVALID_JSON_DIR = join(JSON_DIR, 'invalid')
+VALID_PATCHED_JSON_DIR = join(JSON_DIR, 'patched') # only valid json is output to the patched dir
 
 def json_load(path):
     path = join(PROJECT_DIR, 'schema', path)

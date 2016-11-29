@@ -14,7 +14,6 @@ LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler('scrape.log')
 _handler.setLevel(logging.INFO)
 _handler.setFormatter(conf._formatter)
-
 LOG.addHandler(_handler)
 
 #
@@ -103,6 +102,7 @@ DISPLAY_CHANNEL_TYPES = {
     "Feature article": "feature",
     "Insight": "insight",
     "Registered Report": "registered-report",
+    "Registered report": "registered-report",
     "Research Advance": "research-advance",
     "Research Article": "research-article",
     "Research article": "research-article",
@@ -145,6 +145,16 @@ def related_article_to_related_articles(related_article_list):
     if len(related_articles) <= 0:
         return None
     return related_articles
+
+def is_poa_to_status(is_poa):
+    return "poa" if is_poa else "vor"
+
+def cdnlink(path):
+    use_other_cdn = True
+    if use_other_cdn:
+        _, padded_msid, filename = path.split('/') # 'articles', padded msid, filename
+        return 'https://publishing-cdn.elifesciences.org/%s/%s' % (padded_msid, filename)
+    return conf.CDN_PROTOCOL + ':' + conf.CDN_BASE_URL + '/' + path
 
 def pdf_uri(triple):
     """predict an article's pdf url.
@@ -224,7 +234,7 @@ def to_volume(volume):
     return int(volume)
 
 def clean_if_none(article_or_snippet):
-    remove_if_none = ["relatedArticles", "digest", "abstract", "titlePrefix",
+    remove_if_none = ["pdf", "relatedArticles", "digest", "abstract", "titlePrefix",
                       "acknowledgements"]
     for remove_index in remove_if_none:
         if remove_index in article_or_snippet:
@@ -234,7 +244,9 @@ def clean_if_none(article_or_snippet):
 
 def clean_if_empty(article_or_snippet):
     remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
-                       "researchOrganisms", "keywords", "references"]
+                       "researchOrganisms", "keywords", "references",
+                       "ethics", "appendices", "dataSets", "additionalFiles",
+                       "funding"]
     for remove_index in remove_if_empty:
         if (article_or_snippet.get(remove_index) is not None
             and (
@@ -242,15 +254,6 @@ def clean_if_empty(article_or_snippet):
                 or article_or_snippet.get(remove_index) == []
                 or article_or_snippet.get(remove_index) == {})):
             del article_or_snippet[remove_index]
-    return article_or_snippet
-
-def clean_copyright(article_or_snippet):
-    # Clean copyright in article or snippet
-    remove_from_copyright_if_none = ["holder"]
-    for remove_index in remove_from_copyright_if_none:
-        if remove_index in article_or_snippet.get("copyright", {}):
-            if article_or_snippet["copyright"][remove_index] is None:
-                del article_or_snippet["copyright"][remove_index]
     return article_or_snippet
 
 def clean(article_data):
@@ -263,9 +266,6 @@ def clean(article_data):
     article_json["article"] = clean_if_empty(article_json["article"])
     article_json["snippet"] = clean_if_empty(article_json["snippet"])
 
-    article_json["article"] = clean_copyright(article_json["article"])
-    article_json["snippet"] = clean_copyright(article_json["snippet"])
-
     return article_json
 
 def discard_if_not_v1(v):
@@ -274,15 +274,27 @@ def discard_if_not_v1(v):
         return v
     return EXCLUDE_ME
 
-def authors_rewrite(authors):
-    # Clean up phone number format
-    for author in authors:
-        if "phoneNumbers" in author:
-            for i, phone in enumerate(author["phoneNumbers"]):
-                # Only one phone number so far, simple replace to validate
-                author["phoneNumbers"][i] = re.sub(r'[\(\) -]', '', phone)
-    return authors
+'''
+def discard_if(pred): # can also be used like: discard_if(None)
+    def fn(v):
+        if pred is None:
+            return EXCLUDE_ME
+        return EXCLUDE_ME if pred(v) else v
+    return fn
+'''
 
+def discard_if_none_or_empty(v):
+    if not v:
+        return EXCLUDE_ME
+    elif len(v) <= 0:
+        return EXCLUDE_ME
+    return v
+
+def discard_if_none_or_cc0(pair):
+    holder, licence = pair
+    if not holder or str(licence).upper().startswith('CC0-'):
+        return EXCLUDE_ME
+    return holder
 #
 #
 #
@@ -319,10 +331,17 @@ POA = copy.deepcopy(POA_SNIPPET)
 POA.update(OrderedDict([
     ('copyright', OrderedDict([
         ('license', [jats('license_url'), LICENCE_TYPES.get]),
-        ('holder', [jats('copyright_holder')]),
+        ('holder', [(jats('copyright_holder'), jats('license')), discard_if_none_or_cc0]),
         ('statement', [jats('license')]),
     ])),
-    ('authors', [jats('authors_json'), authors_rewrite])
+    ('authors', [jats('authors_json')]),
+    ('ethics', [jats('ethics_json')]),
+    ('funding', OrderedDict([
+        ('awards', [jats('funding_awards_json'), discard_if_none_or_empty]),
+        ('statement', [jats('funding_statement_json'), discard_if_none_or_empty]),
+    ])),
+    ('additionalFiles', [jats('supplementary_files_json')]),
+    ('dataSets', [jats('datasets_json')]),
 ]))
 
 # a VOR snippets contains the contents of a POA
@@ -339,6 +358,7 @@ VOR.update(OrderedDict([
     ('digest', [jats('digest_json')]),
     ('body', [(jats('msid'), jats('body')), expand_videos]),
     ('references', [jats('references_json')]),
+    ('appendices', [jats('appendices_json')]),
     ('acknowledgements', [jats('acknowledgements_json')]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),

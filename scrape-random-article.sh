@@ -3,6 +3,8 @@
 
 set -e # everything must pass
 
+. install.sh > /dev/null
+
 if [ -d $PWD ]; then
     . download-elife-xml.sh &> /dev/null
 fi
