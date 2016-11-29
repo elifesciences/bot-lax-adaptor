@@ -80,10 +80,9 @@ RESPONSE_SCHEMA = json_load('response-schema.json')
 CDN_PROTOCOL = 'https'
 CDN_BASE_URL = '//cdn.elifesciences.org'
 
-OTHER_CDN_HOST = 'publishing-cdn.elifesciences.org'
+urls_config = {'other_cdn_host': 'publishing-cdn.elifesciences.org'}
 def set_temporary_cdn_host(host):
-    global OTHER_CDN_HOST
-    OTHER_CDN_HOST = host
+    urls_config['other_cdn_host'] = host
 
 def other_cdn_host():
-    return OTHER_CDN_HOST
+    return urls_config['other_cdn_host']
