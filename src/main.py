@@ -146,12 +146,19 @@ def related_article_to_related_articles(related_article_list):
         return None
     return related_articles
 
-def cdnlink(path):
-    use_other_cdn = True
-    if use_other_cdn:
-        _, padded_msid, filename = path.split('/') # 'articles', padded msid, filename
-        return 'https://publishing-cdn.elifesciences.org/%s/%s' % (padded_msid, filename)
-    return conf.CDN_PROTOCOL + ':' + conf.CDN_BASE_URL + '/' + path
+def is_poa_to_status(is_poa):
+    return "poa" if is_poa else "vor"
+
+def cdnlink(msid, filename):
+    cdn = conf.cdn(getvar('env', None)(None))
+    kwargs = {
+        'padded-msid': pad_msid(msid),
+        'fname': filename
+    }
+    return cdn % kwargs
+
+def pad_msid(msid):
+    return str(int(msid)).zfill(5)
 
 def pdf_uri(triple):
     """predict an article's pdf url.
@@ -161,9 +168,8 @@ def pdf_uri(triple):
     content_type, msid, version = triple
     if content_type in ['Correction']:
         return EXCLUDE_ME
-    padded_msid = str(int(msid)).zfill(5)
-    filename = "elife-%s-v%s.pdf" % (padded_msid, version) # ll: elife-09560-v1.pdf
-    return cdnlink('/'.join(['articles', padded_msid, filename]))
+    filename = "elife-%s-v%s.pdf" % (pad_msid(msid), version) # ll: elife-09560-v1.pdf
+    return cdnlink(msid, filename)
 
 def category_codes(cat_list):
     subjects = []

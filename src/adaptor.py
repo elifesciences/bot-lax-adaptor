@@ -306,6 +306,8 @@ def bootstrap():
 
     args = parser.parse_args()
 
+    main.setvar(env=args.instance_id)
+
     adaptors = {
         'fs': partial(read_from_fs, args.target),
         'sqs': read_from_sqs,
