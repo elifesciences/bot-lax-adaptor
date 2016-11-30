@@ -1,7 +1,8 @@
+from collections import OrderedDict
 import json
 from os.path import join
 from .base import BaseCase
-import main
+import main, utils
 
 class ArticleScrape(BaseCase):
     def setUp(self):
@@ -125,3 +126,36 @@ class ArticleScrape(BaseCase):
         ]
         for given in cases:
             self.assertRaises(ValueError, main.pdf_uri, given)
+
+
+class KitchenSink(BaseCase):
+    def setUp(self):
+        self.doc = join(self.fixtures_dir, 'elife-00666-v1.xml')
+        self.soup = main.to_soup(self.doc)
+
+    def test_video(self):
+        result = main.render_single(self.doc, version=1)
+        return
+        #art = result['article']
+        #expected_caption = {}
+        media = result['article']['body'][1]['content'][5]['content'][1]
+        sd = media['sourceData']
+
+        expected_media = OrderedDict([
+            ("doi", "https://doi.org/10.7554/eLife.00666.016"),
+            ("id", "video1sdata1"),
+            ("label", "Video 1\u2014Source data 1."),
+            ("title", "Title of the source code."),
+            ("mediaType", "application/xml"),
+            ("caption", [
+                OrderedDict([
+                    ("type", "paragraph"),
+                    ("text", "Legend of the source code."),
+                ]),
+            ]),
+            ("uri", "elife-00666-video4-data1.xlsx"),
+            ("filename", "elife-00666-video4-data1.xlsx")
+        ])
+        self.assertEqual(dict(media), dict(expected_media))
+
+        print utils.json_dumps(sd, indent=4)
