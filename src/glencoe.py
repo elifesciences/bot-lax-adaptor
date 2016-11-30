@@ -1,16 +1,14 @@
 import requests, requests_cache
 import logging
 #from os.path import join
-#import conf
+import conf
 
 LOG = logging.getLogger(__name__)
 requests_cache.install_cache(**{
+    'cache_name': conf.GLENCOE_CACHE,
     'backend': 'sqlite',
     'fast_save': True,
-    #'location': join(conf.PROJECT_DIR, 'glencoe'), # grr, not working
     'extension': '.sqlite3'})
-# https://requests-cache.readthedocs.io/en/latest/api.html#requests-cache-backends-sqlite
-# requests_cache.core.configure()
 
 '''
 glencoe_resp = {

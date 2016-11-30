@@ -87,3 +87,5 @@ CDNS_BY_ENV = {
 
 def cdn(env=None):
     return 'https://' + CDNS_BY_ENV.get(env, DEFAULT_CDN)
+
+GLENCOE_CACHE = '/tmp/glencoe-cache'
