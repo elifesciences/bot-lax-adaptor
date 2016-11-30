@@ -270,7 +270,7 @@ def main(doc):
         LOG.info("validated %s", msid, extra=log_context)
         return contents
     except jsonschema.ValidationError as err:
-        LOG.error("failed to validate %s: %s", msid, err, extra=log_context)
+        LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
         raise
 
 if __name__ == '__main__':

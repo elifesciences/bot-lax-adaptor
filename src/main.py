@@ -225,7 +225,7 @@ def expand_any_videos(article):
     def fn(video):
         try:
             vid = video['id']
-            ensure(vid in gc_data, "glencoe doesn't know %r, only %s" % (vid, gc_id_str))
+            ensure(vid in gc_data, "glencoe doesn't know %r, only %r" % (vid, gc_id_str))
             video_data = gc_data[vid]
             video_data = subdict(video_data, ['jpg_href', 'width', 'height'])
             video_data = renkeys(video_data, [('jpg_href', 'image')])
@@ -236,9 +236,15 @@ def expand_any_videos(article):
 
             video.update(video_data)
 
-            del video['uri'] # returned by elife-tools, not useful in final json
         except AssertionError as err:
+            # during testing we generate articles with video content that
+            # aren't present in glencoe. log it and return an empty array for testing
             LOG.warn(err, extra={'msid': msid, 'version': article['version']})
+            video['sources'] = [] # empty list of sources
+
+        finally:
+            del video['uri'] # returned by elife-tools, not part of spec
+
         return video
 
     article['body'] = do_body_for_type(body_content, ['video'], fn)
