@@ -12,11 +12,11 @@
         "doi": "10.7554/eLife.09560", 
         "authorLine": "Lee R Berger et al", 
         "title": "<i>Homo naledi</i>, a new species of the genus <i>Homo</i> from the Dinaledi Chamber, South Africa", 
-        "published": "2015-09-10T00:00:00Z", 
-        "versionDate": "2015-09-10T00:00:00Z", 
+        "published": "2015-09-10T00:00:00", 
+        "versionDate": "2015-09-10T00:00:00", 
         "volume": 4, 
         "elocationId": "e09560", 
-        "pdf": "https://cdn.elifesciences.org/articles/09560/elife-09560-v1.pdf", 
+        "pdf": "https://publishing-cdn.elifesciences.org/09560/elife-09560-v1.pdf", 
         "subjects": [
             {
                 "id": "genomics-evolutionary-biology", 
@@ -2305,6 +2305,118 @@
                 "competingInterests": "The authors declare that no competing interests exist."
             }
         ], 
+        "funding": {
+            "awards": [
+                {
+                    "id": "par-1", 
+                    "source": {
+                        "funderId": "10.13039/100006363", 
+                        "name": [
+                            "National Geographic Society"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Lee R Berger", 
+                                "index": "Berger, Lee R"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-2", 
+                    "source": {
+                        "funderId": "10.13039/501100001321", 
+                        "name": [
+                            "The National Research Foundation of South Africa"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Lee R Berger", 
+                                "index": "Berger, Lee R"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-3", 
+                    "source": {
+                        "name": [
+                            "The Palaeontological Scientific Trust"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Lee R Berger", 
+                                "index": "Berger, Lee R"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-4", 
+                    "source": {
+                        "funderId": "10.13039/100007423", 
+                        "name": [
+                            "Lyda Hill Foundation"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Lee R Berger", 
+                                "index": "Berger, Lee R"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-5", 
+                    "source": {
+                        "funderId": "10.13039/100001395", 
+                        "name": [
+                            "Wisconsin Alumni Research Foundation (WARF)"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "John Hawks", 
+                                "index": "Hawks, John"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-6", 
+                    "source": {
+                        "funderId": "10.13039/100007904", 
+                        "name": [
+                            "Texas A and M University"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Darryl J de Ruiter", 
+                                "index": "de Ruiter, Darryl J"
+                            }
+                        }
+                    ]
+                }
+            ], 
+            "statement": "The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication."
+        }, 
         "additionalFiles": [
             {
                 "doi": "10.7554/eLife.09560.028", 
@@ -2335,11 +2447,11 @@
         "doi": "10.7554/eLife.09560", 
         "authorLine": "Lee R Berger et al", 
         "title": "<i>Homo naledi</i>, a new species of the genus <i>Homo</i> from the Dinaledi Chamber, South Africa", 
-        "published": "2015-09-10T00:00:00Z", 
-        "versionDate": "2015-09-10T00:00:00Z", 
+        "published": "2015-09-10T00:00:00", 
+        "versionDate": "2015-09-10T00:00:00", 
         "volume": 4, 
         "elocationId": "e09560", 
-        "pdf": "https://cdn.elifesciences.org/articles/09560/elife-09560-v1.pdf", 
+        "pdf": "https://publishing-cdn.elifesciences.org/09560/elife-09560-v1.pdf", 
         "subjects": [
             {
                 "id": "genomics-evolutionary-biology", 
@@ -4628,6 +4740,118 @@
                 "competingInterests": "The authors declare that no competing interests exist."
             }
         ], 
+        "funding": {
+            "awards": [
+                {
+                    "id": "par-1", 
+                    "source": {
+                        "funderId": "10.13039/100006363", 
+                        "name": [
+                            "National Geographic Society"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Lee R Berger", 
+                                "index": "Berger, Lee R"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-2", 
+                    "source": {
+                        "funderId": "10.13039/501100001321", 
+                        "name": [
+                            "The National Research Foundation of South Africa"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Lee R Berger", 
+                                "index": "Berger, Lee R"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-3", 
+                    "source": {
+                        "name": [
+                            "The Palaeontological Scientific Trust"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Lee R Berger", 
+                                "index": "Berger, Lee R"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-4", 
+                    "source": {
+                        "funderId": "10.13039/100007423", 
+                        "name": [
+                            "Lyda Hill Foundation"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Lee R Berger", 
+                                "index": "Berger, Lee R"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-5", 
+                    "source": {
+                        "funderId": "10.13039/100001395", 
+                        "name": [
+                            "Wisconsin Alumni Research Foundation (WARF)"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "John Hawks", 
+                                "index": "Hawks, John"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-6", 
+                    "source": {
+                        "funderId": "10.13039/100007904", 
+                        "name": [
+                            "Texas A and M University"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Darryl J de Ruiter", 
+                                "index": "de Ruiter, Darryl J"
+                            }
+                        }
+                    ]
+                }
+            ], 
+            "statement": "The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication."
+        }, 
         "additionalFiles": [
             {
                 "doi": "10.7554/eLife.09560.028", 
