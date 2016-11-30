@@ -192,7 +192,7 @@ def do_section(element, fn):
     "applies given function to each element in each section."
     # sections may actually contain other sections. we treat the top-level 'body'
     # attribute as just another section and recurse
-    if element['type'] == 'section': # recurse
+    if element['type'] == 'section' and 'content' in element: # recurse
         element['content'] = [do_section(child, fn) for child in element['content']]
     else:
         element = fn(element)
