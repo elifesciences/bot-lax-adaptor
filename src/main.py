@@ -146,9 +146,6 @@ def related_article_to_related_articles(related_article_list):
         return None
     return related_articles
 
-def is_poa_to_status(is_poa):
-    return "poa" if is_poa else "vor"
-
 def cdnlink(msid, filename):
     cdn = conf.cdn(getvar('env', None)(None))
     kwargs = {
