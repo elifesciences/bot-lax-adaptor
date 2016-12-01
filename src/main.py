@@ -184,13 +184,41 @@ def to_volume(volume):
         volume = THIS_YEAR - 2011
     return int(volume)
 
+def discard_if_not_v1(v):
+    "discards given value if the version of the article being worked on is not a v1"
+    if getvar('version')(v) == 1:
+        return v
+    return EXCLUDE_ME
+
+'''
+def discard_if(pred): # can also be used like: discard_if(None)
+    def fn(v):
+        if pred is None:
+            return EXCLUDE_ME
+        return EXCLUDE_ME if pred(v) else v
+    return fn
+'''
+
+def discard_if_none_or_empty(v):
+    if not v:
+        return EXCLUDE_ME
+    elif len(v) <= 0:
+        return EXCLUDE_ME
+    return v
+
+def discard_if_none_or_cc0(pair):
+    holder, licence = pair
+    if not holder or str(licence).upper().startswith('CC0-'):
+        return EXCLUDE_ME
+    return holder
+
 
 #
 # post processing
 #
 
-
 def visit(data, pred, fn):
+    "visits every value in the given data and applies `fn` when `pred` is true "
     if pred(data):
         data = fn(data)
         # why don't we return here after matching?
@@ -205,34 +233,8 @@ def visit(data, pred, fn):
         return {key: visit(val, pred, fn) for key, val in data.items()}
     elif isinstance(data, list):
         return [visit(row, pred, fn) for row in data]
-    # unsupported type
+    # unsupported type/no further matches
     return data
-
-
-def do_section(element, fn):
-    "applies given function to each element in each section."
-    # sections may actually contain other sections. we treat the top-level 'body'
-    # attribute as just another section and recurse
-    if element['type'] == 'section' and 'content' in element: # recurse
-        element['content'] = [do_section(child, fn) for child in element['content']]
-    else:
-        element = fn(element)
-    return element
-
-def do_body(body_content, fn):
-    "applies given function to each non-section element in body content recursively"
-    return map(lambda element: do_section(element, fn), body_content)
-
-def do_body_for_pred(body_content, pred, fn):
-    def _fn(element):
-        return fn(element) if pred(element) else element
-    return do_body(body_content, _fn)
-
-def do_body_for_type(body_content, type_list, fn):
-    def pred(element):
-        return element.get('type') in type_list
-    return do_body_for_pred(body_content, pred, fn)
-
 
 def expand_videos(data):
     "takes an existing video type struct as returned by elife-tools and fills it out with data from glencoe"
@@ -276,19 +278,18 @@ def expand_videos(data):
     return visit(data, pred, fn)
 
 def expand_uris(data):
+    "any 'uri' element is given a proper cdn link"
     padded_msid = data['snippet']['id']
-    base_uri = conf.cdn(getvar('env', None)(None))
 
     def fn(element):
-        element["filename"] = os.path.basename(element["uri"])
-        element["uri"] = base_uri % {'fname': element["uri"], 'padded-msid': padded_msid}
+        element["filename"] = os.path.basename(element["uri"]) # basename here redundant?
+        element["uri"] = cdnlink(padded_msid, element["uri"]) 
         return element
 
     def pred(element):
         return isinstance(element, dict) and "uri" in element
 
     return visit(data, pred, fn)
-
 
 def prune(data):
     prune_if_none = [
@@ -316,34 +317,6 @@ def prune(data):
 def postprocess(data):
     data = doall(data, [expand_videos, expand_uris, prune])
     return data
-
-def discard_if_not_v1(v):
-    "discards given value if the version of the article being worked on is not a v1"
-    if getvar('version')(v) == 1:
-        return v
-    return EXCLUDE_ME
-
-'''
-def discard_if(pred): # can also be used like: discard_if(None)
-    def fn(v):
-        if pred is None:
-            return EXCLUDE_ME
-        return EXCLUDE_ME if pred(v) else v
-    return fn
-'''
-
-def discard_if_none_or_empty(v):
-    if not v:
-        return EXCLUDE_ME
-    elif len(v) <= 0:
-        return EXCLUDE_ME
-    return v
-
-def discard_if_none_or_cc0(pair):
-    holder, licence = pair
-    if not holder or str(licence).upper().startswith('CC0-'):
-        return EXCLUDE_ME
-    return holder
 #
 #
 #
