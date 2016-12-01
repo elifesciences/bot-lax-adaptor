@@ -283,7 +283,7 @@ def expand_uris(data):
 
     def fn(element):
         element["filename"] = os.path.basename(element["uri"]) # basename here redundant?
-        element["uri"] = cdnlink(padded_msid, element["uri"]) 
+        element["uri"] = cdnlink(padded_msid, element["uri"])
         return element
 
     def pred(element):
