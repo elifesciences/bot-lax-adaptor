@@ -2,7 +2,6 @@ import utils
 import os, sys, json, re
 import conf
 import jsonschema
-import main as scraper
 import logging
 LOG = logging.getLogger(__name__)
 
@@ -21,59 +20,6 @@ placeholder_reference_authors = [
         }
     }
 ]
-
-def uri_rewrite(padded_msid, body_json):
-    #base_uri = "https://%s/%s/" % (conf.other_cdn_host(), padded_msid)
-    base_uri = conf.cdn(scraper.getvar('env', None)(None))
-    # Check if it is not a list, in the case of authorResponse
-    if "content" in body_json:
-        uri_rewrite(padded_msid, body_json["content"])
-    # A list, like in body, continue
-    for element in body_json:
-        if "uri" in element:
-            element["filename"] = os.path.basename(element["uri"])
-        if (("type" in element and element["type"] == "image") or
-                ("mediaType" in element)):
-            if "uri" in element:
-                #element["uri"] = base_uri + element["uri"]
-                element["uri"] = base_uri % {'fname': element["uri"], 'padded-msid': padded_msid}
-                # Add or edit file extension
-                # TODO!!
-        for content_index in ["content", "supplements", "sourceData"]:
-            if content_index in element:
-                try:
-                    uri_rewrite(padded_msid, element[content_index])
-                except TypeError:
-                    # not iterable
-                    pass
-    return body_json
-
-def video_rewrite(body_json):
-    for element in body_json:
-        if "type" in element and element["type"] == "video":
-            if "uri" in element:
-                element["sources"] = []
-                source_media = {}
-                source_media["mediaType"] = "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\""
-                source_media["uri"] = "https://example.org/" + element.get("uri")
-
-                element["sources"].append(source_media)
-
-                element["image"] = "https://example.org/" + element.get("uri")
-                element["width"] = 640
-                element["height"] = 480
-
-                del element["uri"]
-
-        for content_index in ["content"]:
-            if content_index in element:
-                try:
-                    video_rewrite(element[content_index])
-                except TypeError:
-                    # not iterable
-                    pass
-
-    return body_json
 
 def mathml_rewrite(body_json):
     # Check if it is not a list, in the case of authorResponse
@@ -236,12 +182,8 @@ def add_placeholders_for_validation(contents):
     if 'funding' in art:
         art['funding'] = funding_rewrite(art['funding'])
 
-    padded_msid = str(art['id']).zfill(5)
-
     for elem in ['body', 'decisionLetter', 'authorResponse', 'appendices']:
         if elem in art:
-            art[elem] = uri_rewrite(padded_msid, art[elem])
-            art[elem] = video_rewrite(art[elem])
             art[elem] = fix_section_id_if_missing(art[elem])
             art[elem] = mathml_rewrite(art[elem])
             art[elem] = fix_box_title_if_missing(art[elem])
@@ -270,7 +212,7 @@ def main(doc):
         LOG.info("validated %s", msid, extra=log_context)
         return contents
     except jsonschema.ValidationError as err:
-        LOG.error("failed to validate %s: %s", msid, err, extra=log_context)
+        LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
         raise
 
 if __name__ == '__main__':

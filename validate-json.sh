@@ -10,7 +10,7 @@ filename=$1
 # python writes to this file
 echo > validate.log
 
-#. install.sh 2> /dev/null
+. install.sh
 
 # trap ctrl-c and call ctrl_c()
 trap ctrl_c INT

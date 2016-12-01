@@ -13,6 +13,25 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
+def ensure(assertion, msg, *args):
+    """intended as a convenient replacement for `assert` statements that
+    get compiled away with -O flags"""
+    if not assertion:
+        raise AssertionError(msg % args)
+
+def contains_any(ddict, key_list):
+    return any([key in ddict for key in key_list])
+
+
+def rmkeys(ddict, key_list, pred):
+    "immutable. removes all keys from ddict in given key list if pred is true"
+    data = copy.deepcopy(ddict)
+    for key in key_list:
+        if key in ddict and pred(data[key]):
+            del data[key]
+    return data
+
+
 def renkeys(data, pair_list):
     "returns a copy of the given data with the list of oldkey->newkey pairs changes made"
     data = copy.deepcopy(data)
@@ -65,14 +84,14 @@ def validate_response(response):
     "validates outgoing response"
     return validate(response, conf.RESPONSE_SCHEMA)
 
-def json_dumps(obj):
+def json_dumps(obj, **kwargs):
     "drop-in for json.dumps that handles datetime objects."
     def datetime_handler(obj):
         if hasattr(obj, 'isoformat'):
             return ymdhms(obj)
         else:
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
-    return json.dumps(obj, default=datetime_handler)
+    return json.dumps(obj, default=datetime_handler, **kwargs)
 
 
 '''

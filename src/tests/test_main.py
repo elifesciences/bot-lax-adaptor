@@ -6,7 +6,6 @@ import main
 class ArticleScrape(BaseCase):
     def setUp(self):
         self.doc = join(self.fixtures_dir, 'elife-09560-v1.xml')
-        self.doc_json = join(self.fixtures_dir, 'elife-09560-v1.json')
         self.soup = main.to_soup(self.doc)
 
     def tearDown(self):
@@ -76,6 +75,7 @@ class ArticleScrape(BaseCase):
         expected = None
         self.assertEqual(main.related_article_to_related_articles(related_article_list), expected)
 
+    '''
     def test_clean_if_none(self):
         snippet = {'abstract': None}
         expected = {}
@@ -85,6 +85,7 @@ class ArticleScrape(BaseCase):
         snippet = {'researchOrganisms': []}
         expected = {}
         self.assertEqual(main.clean_if_empty(snippet), expected)
+    '''
 
     def test_display_channel_to_article_type_fails(self):
         display_channel = ['']
@@ -125,3 +126,41 @@ class ArticleScrape(BaseCase):
         ]
         for given in cases:
             self.assertRaises(ValueError, main.pdf_uri, given)
+
+
+def tod(d):
+    return json.loads(json.dumps(d))
+
+class KitchenSink(BaseCase):
+    def setUp(self):
+        self.doc = join(self.fixtures_dir, 'elife-00666-v1.xml')
+        self.soup = main.to_soup(self.doc)
+
+    def test_video(self):
+        result = main.render_single(self.doc, version=1)
+        media = result['article']['body'][1]['content'][5]['content'][1]
+
+        expected_media = {
+            "type": "video",
+            "doi": "https://doi.org/10.7554/eLife.00666.016",
+            "id": "video1",
+            "label": "Video 1.",
+            "title": "\n                                A descirption of the eLife editorial process.\n                            ",
+            "sources": [],
+            "sourceData": [{
+                "doi": "https://doi.org/10.7554/eLife.00666.036",
+                "id": "video1sdata1",
+                "label": u"Video 1\u2014Source data 1.",
+                "title": "Title of the source code.",
+                "mediaType": "application/xml",
+                "caption": [
+                    {
+                        "type": "paragraph",
+                        "text": "Legend of the source code.",
+                    },
+                ],
+                "uri": main.cdnlink("00666", "elife-00666-video4-data1.xlsx"),
+                "filename": "elife-00666-video4-data1.xlsx"
+            }]
+        }
+        self.assertEqual(tod(media), tod(expected_media))
