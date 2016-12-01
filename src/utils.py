@@ -19,6 +19,18 @@ def ensure(assertion, msg, *args):
     if not assertion:
         raise AssertionError(msg % args)
 
+def contains_any(ddict, key_list):
+    return any([key in ddict for key in key_list])
+
+
+def rmkeys(ddict, key_list, pred):
+    "immutable. removes all keys from ddict in given key list if pred is true"
+    data = copy.deepcopy(ddict)
+    for key in key_list:
+        if key in ddict and pred(data[key]):
+            del data[key]
+    return data
+
 
 def renkeys(data, pair_list):
     "returns a copy of the given data with the list of oldkey->newkey pairs changes made"

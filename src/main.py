@@ -184,9 +184,30 @@ def to_volume(volume):
         volume = THIS_YEAR - 2011
     return int(volume)
 
+
 #
 # post processing
 #
+
+
+def visit(data, pred, fn):
+    if pred(data):
+        data = fn(data)
+        # why don't we return here after matching?
+        # the match may contain matches within child elements (lists, dicts)
+        # we want to visit them, too
+    if isinstance(data, OrderedDict):
+        results = OrderedDict()
+        for key, val in data.items():
+            results[key] = visit(val, pred, fn)
+        return results
+    elif isinstance(data, dict):
+        return {key: visit(val, pred, fn) for key, val in data.items()}
+    elif isinstance(data, list):
+        return [visit(row, pred, fn) for row in data]
+    # unsupported type
+    return data
+
 
 def do_section(element, fn):
     "applies given function to each element in each section."
@@ -202,44 +223,49 @@ def do_body(body_content, fn):
     "applies given function to each non-section element in body content recursively"
     return map(lambda element: do_section(element, fn), body_content)
 
-def do_body_for_type(body_content, type_list, fn):
+def do_body_for_pred(body_content, pred, fn):
     def _fn(element):
-        return fn(element) if element['type'] in type_list else element
+        return fn(element) if pred(element) else element
     return do_body(body_content, _fn)
 
-def expand_any_videos(article):
+def do_body_for_type(body_content, type_list, fn):
+    def pred(element):
+        return element.get('type') in type_list
+    return do_body_for_pred(body_content, pred, fn)
+
+
+def expand_videos(data):
     "takes an existing video type struct as returned by elife-tools and fills it out with data from glencoe"
-    if 'body' not in article:
-        return article
-    msid = article['id']
-    body_content = article['body']
+    msid = data['snippet']['id']
     gc_data = glencoe.metadata(msid)
     gc_id_str = ", ".join(gc_data.keys())
-
     sources = {
         'mp4': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
         'webm': 'video/webm; codecs="vp8.0, vorbis"',
         'ogv': 'video/ogg; codecs="theora, vorbis"',
     }
 
+    context = {'msid': msid, 'version': data['snippet']['version']}
+
+    def pred(element):
+        return isinstance(element, dict) and element.get("type") == "video"
+
     def fn(video):
         try:
-            vid = video['id']
-            ensure(vid in gc_data, "glencoe doesn't know %r, only %r" % (vid, gc_id_str))
-            video_data = gc_data[vid]
+            v_id = video['id']
+            ensure(v_id in gc_data, "glencoe doesn't know %r, only %r" % (v_id, gc_id_str))
+            video_data = gc_data[v_id]
             video_data = subdict(video_data, ['jpg_href', 'width', 'height'])
             video_data = renkeys(video_data, [('jpg_href', 'image')])
-
             video_data['sources'] = map(lambda mtype: {
                 'mediaType': sources[mtype],
-                'uri': gc_data[vid][mtype + "_href"]}, sources.keys())
-
+                'uri': gc_data[v_id][mtype + "_href"]}, sources.keys())
             video.update(video_data)
 
         except AssertionError as err:
             # during testing we generate articles with video content that
-            # aren't present in glencoe. log it and return an empty array for testing
-            LOG.warn(err, extra={'msid': msid, 'version': article['version']})
+            # aren't present in glencoe. log it and return an empty array
+            LOG.warn(err, extra=context)
             video['sources'] = [] # empty list of sources
 
         finally:
@@ -247,38 +273,48 @@ def expand_any_videos(article):
 
         return video
 
-    article['body'] = do_body_for_type(body_content, ['video'], fn)
-    return article
+    return visit(data, pred, fn)
 
-def clean_if_none(article_or_snippet):
-    remove_if_none = ["pdf", "relatedArticles", "digest", "abstract", "titlePrefix",
-                      "acknowledgements"]
-    for remove_index in remove_if_none:
-        if remove_index in article_or_snippet:
-            if article_or_snippet[remove_index] is None:
-                del article_or_snippet[remove_index]
-    return article_or_snippet
+def expand_uris(data):
+    padded_msid = data['snippet']['id']
+    base_uri = conf.cdn(getvar('env', None)(None))
 
-def clean_if_empty(article_or_snippet):
-    remove_if_empty = ["impactStatement", "decisionLetter", "authorResponse",
-                       "researchOrganisms", "keywords", "references",
-                       "ethics", "appendices", "dataSets", "additionalFiles",
-                       "funding"]
-    for remove_index in remove_if_empty:
-        if (article_or_snippet.get(remove_index) is not None
-            and (
-                article_or_snippet.get(remove_index) == ""
-                or article_or_snippet.get(remove_index) == []
-                or article_or_snippet.get(remove_index) == {})):
-            del article_or_snippet[remove_index]
-    return article_or_snippet
+    def fn(element):
+        element["filename"] = os.path.basename(element["uri"])
+        element["uri"] = base_uri % {'fname': element["uri"], 'padded-msid': padded_msid}
+        return element
+
+    def pred(element):
+        return isinstance(element, dict) and "uri" in element
+
+    return visit(data, pred, fn)
+
+
+def prune(data):
+    prune_if_none = [
+        "pdf", "relatedArticles", "digest", "abstract", "titlePrefix",
+        "acknowledgements"
+    ]
+    prune_if_empty = [
+        "impactStatement", "decisionLetter", "authorResponse",
+        "researchOrganisms", "keywords", "references",
+        "ethics", "appendices", "dataSets", "additionalFiles",
+        "funding"
+    ]
+    empty = [[], {}, ""]
+
+    def pred(element):
+        # visit any element that contains any of the above keys
+        return isinstance(element, dict) and utils.contains_any(element, prune_if_none + prune_if_empty)
+
+    def fn(element):
+        element = utils.rmkeys(element, prune_if_none, lambda val: val is None)
+        element = utils.rmkeys(element, prune_if_empty, lambda val: val in empty)
+        return element
+    return visit(data, pred, fn)
 
 def postprocess(data):
-    article, snippet = data['article'], data['snippet']
-
-    data['article'] = doall(article, [expand_any_videos, clean_if_none, clean_if_empty])
-    data['snippet'] = doall(snippet, [clean_if_none, clean_if_empty])
-
+    data = doall(data, [expand_videos, expand_uris, prune])
     return data
 
 def discard_if_not_v1(v):

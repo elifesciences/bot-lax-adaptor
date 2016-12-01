@@ -6,7 +6,6 @@ import main
 class ArticleScrape(BaseCase):
     def setUp(self):
         self.doc = join(self.fixtures_dir, 'elife-09560-v1.xml')
-        self.doc_json = join(self.fixtures_dir, 'elife-09560-v1.json')
         self.soup = main.to_soup(self.doc)
 
     def tearDown(self):
@@ -76,6 +75,7 @@ class ArticleScrape(BaseCase):
         expected = None
         self.assertEqual(main.related_article_to_related_articles(related_article_list), expected)
 
+    '''
     def test_clean_if_none(self):
         snippet = {'abstract': None}
         expected = {}
@@ -85,6 +85,7 @@ class ArticleScrape(BaseCase):
         snippet = {'researchOrganisms': []}
         expected = {}
         self.assertEqual(main.clean_if_empty(snippet), expected)
+    '''
 
     def test_display_channel_to_article_type_fails(self):
         display_channel = ['']
@@ -158,7 +159,7 @@ class KitchenSink(BaseCase):
                         "text": "Legend of the source code.",
                     },
                 ],
-                "uri": "elife-00666-video4-data1.xlsx",
+                "uri": main.cdnlink("00666", "elife-00666-video4-data1.xlsx"),
                 "filename": "elife-00666-video4-data1.xlsx"
             }]
         }
