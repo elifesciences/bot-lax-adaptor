@@ -112,13 +112,6 @@ def wrap_body_in_section(body_json):
 def references_rewrite(references):
     "clean up values that will not pass validation temporarily"
     for ref in references:
-        """
-        if "date" in ref:
-            # Scrub non-numeric values from the date, which comes from the reference year
-            ref["date"] = re.sub("[^0-9]", "", ref["date"])
-        elif "date" not in ref:
-            ref["date"] = "1000"
-        """
         if (ref.get("type") in ["book", "book-chapter", "conference-proceeding", "data",
                                 "journal", "software", "unknown", "web"]
                 and "authors" not in ref):
