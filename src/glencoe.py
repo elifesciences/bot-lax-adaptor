@@ -51,8 +51,4 @@ def metadata(msid):
         LOG.warn(msg, extra=context)
         raise ValueError(msg + ": %s" % resp.status_code)
 
-    #import json
-    #response = resp.json()
-    #json.dump(response, open('/tmp/glencoe-%s.json' % msid, 'w'))
-
     return resp.json()
