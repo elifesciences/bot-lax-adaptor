@@ -287,7 +287,8 @@ def expand_uris(data):
         return element
 
     def pred(element):
-        return isinstance(element, dict) and "uri" in element
+        # dictionary with 'uri' key exists that hasn't been expanded yet
+        return isinstance(element, dict) and "uri" in element and not element["uri"].startswith("https://")
 
     return visit(data, pred, fn)
 
