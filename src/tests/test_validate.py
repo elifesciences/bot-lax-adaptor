@@ -65,11 +65,6 @@ class TestArticleValidate(BaseCase):
         expected = [{'type': 'box', 'title': 'Placeholder box title because we must have one'}]
         self.assertEqual(validate.fix_box_title_if_missing(body_json), expected)
 
-    def test_references_rewrite_missing_date(self):
-        references_json = [{}]
-        expected = [{'date': '1000'}]
-        self.assertEqual(validate.references_rewrite(references_json), expected)
-
     def test_references_rewrite_book_missing_author(self):
         references_json = [{'type': 'book', 'date': '2016'}]
         expected = [{'type': 'book',
