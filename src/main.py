@@ -241,6 +241,8 @@ def visit(data, pred, fn):
     # unsupported type/no further matches
     return data
 
+
+# TODO: consider shifting this logic into glencoe.py
 def expand_videos(data):
     "takes an existing video type struct as returned by elife-tools and fills it out with data from glencoe"
     msid = data['snippet']['id']
@@ -273,12 +275,13 @@ def expand_videos(data):
             video_data = subdict(video_data, ['jpg_href', 'width', 'height'])
             video_data = renkeys(video_data, [('jpg_href', 'image')])
 
-            # we can't guarantee the sources will always be present
+            # we can't guarantee all of the sources will always be present
             available_sources = filter(lambda mtype: mtype + "_href" in gc_data[v_id], known_sources)
 
-            if len(available_sources) != len(known_sources):
-                LOG.warn("number of available sources less than known sources for %r. missing: %s" %
-                         (v_id, ", ".join(set(known_sources) - set(available_sources))), extra=context)
+            # fail if we have partial data.
+            msg = "number of available sources less than known sources for %r. missing: %s" % \
+              (v_id, ", ".join(set(known_sources) - set(available_sources))), extra=context)
+            ensure(len(available_sources) == len(known_sources), msg)
 
             # for the available sources, get the uri and mediatype
             func = lambda mtype: {
