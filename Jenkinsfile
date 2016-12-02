@@ -25,7 +25,7 @@ elifeLibrary {
     }
 
     elifeMainlineOnly {    
-        stage 'Push updated article JSON' {
+        stage 'Push updated article JSON', {
             sh 'git clone git@github.com:elifesciences/elife-article-json /tmp/elife-article-json'
             sh './copy-json.sh /tmp/elife-article-json/articles'
             sh 'cd /tmp/elife-article-json; git push'
