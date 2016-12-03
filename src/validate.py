@@ -88,26 +88,6 @@ def fix_box_title_if_missing(body_json):
                     pass
     return body_json
 
-def wrap_body_in_section(body_json):
-    """JSON schema requires body to be wrapped in a section even if not present"""
-
-    if (body_json and len(body_json) > 0 and "type" in body_json[0]
-            and body_json[0]["type"] != "section"):
-        # Wrap this one
-        new_body_section = {}
-        new_body_section["type"] = "section"
-        new_body_section["id"] = generate_section_id()
-        new_body_section["title"] = "Main text"
-        new_body_section["content"] = []
-        for body_block in body_json:
-            new_body_section["content"].append(body_block)
-        new_body = []
-        new_body.append(new_body_section)
-        body_json = new_body
-
-    # Continue with rewriting
-    return body_json
-
 
 def references_rewrite(references):
     "clean up values that will not pass validation temporarily"
@@ -182,10 +162,6 @@ def add_placeholders_for_validation(contents):
             art[elem] = fix_section_id_if_missing(art[elem])
             art[elem] = mathml_rewrite(art[elem])
             art[elem] = fix_box_title_if_missing(art[elem])
-
-    for elem in ['body']:
-        if elem in art:
-            art[elem] = wrap_body_in_section(art[elem])
 
 def main(doc):
     contents = json.load(doc)
