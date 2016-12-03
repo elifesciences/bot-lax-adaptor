@@ -34,16 +34,6 @@ class TestArticleValidate(BaseCase):
         second_section_id = validate.generate_section_id()
         self.assertEqual(second_section_id, 'phantom-s-2')
 
-    def test_mathml_rewrite(self):
-        # For coverage test for list items
-        body_json = [{'type': 'list', 'items': [[
-            {'type': 'mathml', 'id': 'equ1',
-             'mathml': '<mml:mrow><mml:mi>C</mml:mi></mml:mrow>'}]]}]
-        expected = [{'type': 'list', 'items': [[
-            {'type': 'mathml', 'id': 'equ1',
-             'mathml': '<math><mrow><mi>C</mi></mrow></math>'}]]}]
-        self.assertEqual(validate.mathml_rewrite(body_json), expected)
-
     def test_fix_section_id_if_missing(self):
         # Reset counter before test is run
         validate.section_id_counter = None
