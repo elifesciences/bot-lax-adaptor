@@ -217,22 +217,25 @@ def discard_if_none_or_cc0(pair):
 # post processing
 #
 
-def visit(data, pred, fn):
+def visit(data, pred, fn, coll=None):
     "visits every value in the given data and applies `fn` when `pred` is true "
     if pred(data):
-        data = fn(data)
+        if coll is not None:
+            data = fn(data, coll)
+        else:
+            data = fn(data)
         # why don't we return here after matching?
         # the match may contain matches within child elements (lists, dicts)
         # we want to visit them, too
     if isinstance(data, OrderedDict):
         results = OrderedDict()
         for key, val in data.items():
-            results[key] = visit(val, pred, fn)
+            results[key] = visit(val, pred, fn, coll)
         return results
     elif isinstance(data, dict):
-        return {key: visit(val, pred, fn) for key, val in data.items()}
+        return {key: visit(val, pred, fn, coll) for key, val in data.items()}
     elif isinstance(data, list):
-        return [visit(row, pred, fn) for row in data]
+        return [visit(row, pred, fn, coll) for row in data]
     # unsupported type/no further matches
     return data
 
@@ -301,11 +304,23 @@ def fix_extensions(data):
             and element.get("type") == "image" \
             and not os.path.splitext(element["uri"])[1] # ext in pair of (fname, ext) is empty
 
-    def fn(element):
+    def fn(element, missing):
+        missing.append(utils.subdict(element, ['type', 'id', 'uri']))
         element["uri"] += ".jpg"
         return element
 
-    return visit(data, pred, fn)
+    missing = []
+    data = visit(data, pred, fn, missing)
+
+    if missing and 'snippet' in data: # test cases rarely have a 'snippet' in them
+        context = {
+            'msid': data['snippet']['id'],
+            'version': data['snippet']['version'],
+            'missing': missing
+        }
+        LOG.info("encountered article with %s images with missing file extensions. assuming .jpg", len(missing), extra=context)
+
+    return data
 
 def prune(data):
     prune_if_none = [
