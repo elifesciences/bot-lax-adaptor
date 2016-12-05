@@ -247,9 +247,12 @@ def expand_videos(data):
     "takes an existing video type struct as returned by elife-tools and fills it out with data from glencoe"
     msid = data['snippet']['id']
     fake, msid = test_msid(msid)
-
     gc_data = glencoe.metadata(msid)
-    if not gc_data and fake:
+
+    # testing hack
+    # if no gc data for fake article, return immediately or
+    # if gc_data and we're using the kitchen sink, return immediately.
+    if fake and (not gc_data or int(msid) == conf.KITCHEN_SINK_MSID):
         return data
 
     # in the case of no glencoe data and *not* fake, allow the scrape to fail (or not) naturally
@@ -280,7 +283,7 @@ def expand_videos(data):
 
             # fail if we have partial data.
             msg = "number of available sources less than known sources for %r. missing: %s" % \
-              (v_id, ", ".join(set(known_sources) - set(available_sources))), extra=context)
+                (v_id, ", ".join(set(known_sources) - set(available_sources)))
             ensure(len(available_sources) == len(known_sources), msg)
 
             # for the available sources, get the uri and mediatype
