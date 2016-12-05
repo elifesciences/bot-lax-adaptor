@@ -4,13 +4,17 @@
 
 set -e # everything must pass
 
+if [ ! -d venv ]; then
+    . install.sh > /dev/null
+fi
+source venv/bin/activate
+
 filename=$1
 
 # zero out the validation log
 # python writes to this file
 echo > validate.log
 
-. install.sh
 
 # trap ctrl-c and call ctrl_c()
 trap ctrl_c INT

@@ -9,8 +9,12 @@ elifeLibrary {
         sh 'git diff --exit-code'
     }
 
-    stage 'Corpus generation', {
+    stage 'Guinea pigs', {
         sh './download-elife-xml.sh'
+        sh './guinea-pigs.sh'
+    }
+
+    stage 'Corpus generation', {
         sh 'rm -f generation.log'
         sh './generate-article-json.sh'
         archive 'generation.log'
