@@ -2,9 +2,12 @@
 # generates article-json from a random article in the elife-article-xml repo
 set -e # everything must pass
 
-. install.sh > /dev/null
+if [ ! -d venv ]; then
+    . install.sh > /dev/null
+fi
+source venv/bin/activate
 
-if [ -d $PWD ]; then
+if [ ! -d article-xml ]; then
     . download-elife-xml.sh &> /dev/null
 fi
 

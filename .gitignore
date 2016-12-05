@@ -9,6 +9,7 @@ venv/*
 article-xml/
 article-json/
 article-json*/
+guinea-pigs/
 api-raml/
 htmlcov/
 elife-tools/
