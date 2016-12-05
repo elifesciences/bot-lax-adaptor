@@ -292,6 +292,21 @@ def expand_uris(data):
 
     return visit(data, pred, fn)
 
+def fix_extensions(data):
+    "in some older articles there are uris with no file extensions. call before expand_uris"
+
+    # 15852
+    def pred(element):
+        return isinstance(element, dict) \
+            and element.get("type") == "image" \
+            and not os.path.splitext(element["uri"])[1] # ext in pair of (fname, ext) is empty
+
+    def fn(element):
+        element["uri"] += ".jpg"
+        return element
+
+    return visit(data, pred, fn)
+
 def prune(data):
     prune_if_none = [
         "pdf", "relatedArticles", "digest", "abstract", "titlePrefix",
@@ -316,7 +331,7 @@ def prune(data):
     return visit(data, pred, fn)
 
 def postprocess(data):
-    data = doall(data, [expand_videos, expand_uris, prune])
+    data = doall(data, [fix_extensions, expand_videos, expand_uris, prune])
     return data
 #
 #

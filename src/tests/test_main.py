@@ -127,9 +127,17 @@ class ArticleScrape(BaseCase):
         for given in cases:
             self.assertRaises(ValueError, main.pdf_uri, given)
 
+    def test_fix_filenames(self):
+        given = [
+            {"type": "image", "uri": "foo"},
+            {"type": "image", "uri": "foo.bar"}
+        ]
+        expected = [
+            {"type": "image", "uri": "foo.jpg"},
+            {"type": "image", "uri": "foo.bar"}, # no clobbering
+        ]
+        self.assertEqual(main.fix_extensions(given), expected)
 
-def tod(d):
-    return json.loads(json.dumps(d))
 
 class KitchenSink(BaseCase):
     def setUp(self):
@@ -139,6 +147,9 @@ class KitchenSink(BaseCase):
     def test_video(self):
         result = main.render_single(self.doc, version=1)
         media = result['article']['body'][1]['content'][5]['content'][1]
+
+        def tod(d):
+            return json.loads(json.dumps(d))
 
         expected_media = {
             "type": "video",
