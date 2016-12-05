@@ -406,7 +406,7 @@ VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
-    ('body', [jats('body')]),
+    ('body', [jats('body_json')]),
     ('references', [jats('references_json')]),
     ('appendices', [jats('appendices_json')]),
     ('acknowledgements', [jats('acknowledgements_json')]),

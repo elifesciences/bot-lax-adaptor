@@ -21,34 +21,6 @@ placeholder_reference_authors = [
     }
 ]
 
-def mathml_rewrite(body_json):
-    # Check if it is not a list, in the case of authorResponse
-    if "content" in body_json:
-        mathml_rewrite(body_json["content"])
-    # A list, like in body, continue
-    for element in body_json:
-        if "type" in element and element["type"] == "mathml":
-            if "mathml" in element:
-                # Quick edits to get mathml to comply with the json schema
-                mathml = "<math>" + element["mathml"] + "</math>"
-                mathml = mathml.replace("<mml:", "<").replace("</mml:", "</")
-                element["mathml"] = mathml
-
-        for content_index in ["content", "caption", "supplements"]:
-            if content_index in element:
-                try:
-                    mathml_rewrite(element[content_index])
-                except TypeError:
-                    # not iterable
-                    pass
-
-        if "items" in element:
-            # list block items is a list of lists
-            for list_item in element["items"]:
-                mathml_rewrite(list_item)
-
-    return body_json
-
 def generate_section_id():
     """section id attribute generator"""
     global section_id_counter
@@ -86,26 +58,6 @@ def fix_box_title_if_missing(body_json):
                 except TypeError:
                     # not iterable
                     pass
-    return body_json
-
-def wrap_body_in_section(body_json):
-    """JSON schema requires body to be wrapped in a section even if not present"""
-
-    if (body_json and len(body_json) > 0 and "type" in body_json[0]
-            and body_json[0]["type"] != "section"):
-        # Wrap this one
-        new_body_section = {}
-        new_body_section["type"] = "section"
-        new_body_section["id"] = generate_section_id()
-        new_body_section["title"] = "Main text"
-        new_body_section["content"] = []
-        for body_block in body_json:
-            new_body_section["content"].append(body_block)
-        new_body = []
-        new_body.append(new_body_section)
-        body_json = new_body
-
-    # Continue with rewriting
     return body_json
 
 
@@ -180,12 +132,7 @@ def add_placeholders_for_validation(contents):
     for elem in ['body', 'decisionLetter', 'authorResponse', 'appendices']:
         if elem in art:
             art[elem] = fix_section_id_if_missing(art[elem])
-            art[elem] = mathml_rewrite(art[elem])
             art[elem] = fix_box_title_if_missing(art[elem])
-
-    for elem in ['body']:
-        if elem in art:
-            art[elem] = wrap_body_in_section(art[elem])
 
 def main(doc):
     contents = json.load(doc)
