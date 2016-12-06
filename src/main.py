@@ -1,3 +1,4 @@
+from functools import partial
 import os, sys, json, copy, time, calendar
 import threading
 from et3.render import render, doall, EXCLUDE_ME
@@ -8,7 +9,7 @@ from collections import OrderedDict
 from datetime import datetime
 from slugify import slugify
 import conf, utils, glencoe
-from utils import ensure, subdict, renkeys, pad_msid
+from utils import pad_msid
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler('scrape.log')
@@ -242,6 +243,22 @@ def visit(data, pred, fn):
     return data
 
 
+def expand_videos(data):
+    msid = data['snippet']['id']
+    fake, msid = test_msid(msid)
+
+    # testing hack
+    # if no gc data for fake article, return immediately or
+    # if gc_data and we're using the kitchen sink, return immediately.
+    if fake and int(msid) == conf.KITCHEN_SINK_MSID:
+        return data
+
+    def pred(element):
+        return isinstance(element, dict) and element.get("type") == "video"
+
+    return visit(data, pred, partial(glencoe.expand_videos, msid))
+
+'''
 # TODO: consider shifting this logic into glencoe.py
 def expand_videos(data):
     "takes an existing video type struct as returned by elife-tools and fills it out with data from glencoe"
@@ -303,6 +320,7 @@ def expand_videos(data):
         return video
 
     return visit(data, pred, fn)
+'''
 
 def expand_uris(data):
     "any 'uri' element is given a proper cdn link"
