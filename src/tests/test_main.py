@@ -138,6 +138,21 @@ class ArticleScrape(BaseCase):
         ]
         self.assertEqual(main.fix_extensions(given), expected)
 
+    def test_expand_uris(self):
+        msid = 1234
+        given = [
+            {"uri": "foo.bar"},
+            {"uri": "http://foo.bar/baz.bup"},
+            {"uri": "https://foo.bar/baz.bup"},
+        ]
+        expected = [
+            {"uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
+            # already-expanded uris are preserved
+            {"uri": "http://foo.bar/baz.bup"},
+            {"uri": "https://foo.bar/baz.bup"},
+        ]
+        self.assertEqual(main.expand_uris(msid, given), expected)
+
 
 class KitchenSink(BaseCase):
     def setUp(self):

@@ -1,3 +1,4 @@
+from functools import partial
 import os, sys, json, copy, time, calendar
 import threading
 from et3.render import render, doall, EXCLUDE_ME
@@ -280,18 +281,19 @@ def expand_videos(data):
 
     return visit(data, pred, fn)
 
-def expand_uris(data):
+def expand_uris(msid, data):
     "any 'uri' element is given a proper cdn link"
-    padded_msid = data['snippet']['id']
 
     def fn(element):
         element["filename"] = os.path.basename(element["uri"]) # basename here redundant?
-        element["uri"] = cdnlink(padded_msid, element["uri"])
+        element["uri"] = cdnlink(msid, element["uri"])
         return element
 
     def pred(element):
         # dictionary with 'uri' key exists that hasn't been expanded yet
-        return isinstance(element, dict) and "uri" in element and not element["uri"].startswith("https://")
+        return isinstance(element, dict) \
+            and "uri" in element \
+            and not element["uri"].startswith("http")
 
     return visit(data, pred, fn)
 
@@ -346,7 +348,13 @@ def prune(data):
     return visit(data, pred, fn)
 
 def postprocess(data):
-    data = doall(data, [fix_extensions, expand_videos, expand_uris, prune])
+    msid = data['snippet']['id']
+    data = doall(data, [
+        fix_extensions,
+        expand_videos,
+        partial(expand_uris, msid),
+        prune
+    ])
     return data
 #
 #
