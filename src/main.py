@@ -9,7 +9,7 @@ from collections import OrderedDict
 from datetime import datetime
 from slugify import slugify
 import conf, utils, glencoe
-from utils import ensure, subdict, renkeys
+from utils import pad_msid
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler('scrape.log')
@@ -39,6 +39,13 @@ def setvar(**kwargs):
 #
 # utils
 #
+
+def test_msid(msid):
+    if int(msid) > 100000:
+        return True, pad_msid(str(msid[-5:]))
+    if int(msid) == conf.KITCHEN_SINK_MSID:
+        return True, msid
+    return False, msid
 
 def doi(item):
     return parseJATS.doi(item)
@@ -155,8 +162,6 @@ def cdnlink(msid, filename):
     }
     return cdn % kwargs
 
-def pad_msid(msid):
-    return str(int(msid)).zfill(5)
 
 def pdf_uri(triple):
     """predict an article's pdf url.
@@ -240,16 +245,45 @@ def visit(data, pred, fn, coll=None):
     # unsupported type/no further matches
     return data
 
+
+def expand_videos(data):
+    msid = data['snippet']['id']
+    fake, msid = test_msid(msid)
+
+    # testing hack
+    # if no gc data for fake article, return immediately or
+    # if gc_data and we're using the kitchen sink, return immediately.
+    if fake and int(msid) == conf.KITCHEN_SINK_MSID:
+        return data
+
+    def pred(element):
+        return isinstance(element, dict) and element.get("type") == "video"
+
+    return visit(data, pred, partial(glencoe.expand_videos, msid))
+
+'''
+# TODO: consider shifting this logic into glencoe.py
 def expand_videos(data):
     "takes an existing video type struct as returned by elife-tools and fills it out with data from glencoe"
     msid = data['snippet']['id']
+    fake, msid = test_msid(msid)
     gc_data = glencoe.metadata(msid)
+
+    # testing hack
+    # if no gc data for fake article, return immediately or
+    # if gc_data and we're using the kitchen sink, return immediately.
+    if fake and (not gc_data or int(msid) == conf.KITCHEN_SINK_MSID):
+        return data
+
+    # in the case of no glencoe data and *not* fake, allow the scrape to fail (or not) naturally
+
     gc_id_str = ", ".join(gc_data.keys())
     sources = {
         'mp4': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
         'webm': 'video/webm; codecs="vp8.0, vorbis"',
         'ogv': 'video/ogg; codecs="theora, vorbis"',
     }
+    known_sources = sources.keys()
 
     context = {'msid': msid, 'version': data['snippet']['version']}
 
@@ -263,23 +297,33 @@ def expand_videos(data):
             video_data = gc_data[v_id]
             video_data = subdict(video_data, ['jpg_href', 'width', 'height'])
             video_data = renkeys(video_data, [('jpg_href', 'image')])
-            video_data['sources'] = map(lambda mtype: {
+
+            # we can't guarantee all of the sources will always be present
+            available_sources = filter(lambda mtype: mtype + "_href" in gc_data[v_id], known_sources)
+
+            # fail if we have partial data.
+            msg = "number of available sources less than known sources for %r. missing: %s" % \
+                (v_id, ", ".join(set(known_sources) - set(available_sources)))
+            ensure(len(available_sources) == len(known_sources), msg)
+
+            # for the available sources, get the uri and mediatype
+            func = lambda mtype: {
                 'mediaType': sources[mtype],
-                'uri': gc_data[v_id][mtype + "_href"]}, sources.keys())
+                'uri': gc_data[v_id][mtype + "_href"]
+            }
+            video_data['sources'] = map(func, available_sources)
             video.update(video_data)
 
-        except AssertionError as err:
-            # during testing we generate articles with video content that
-            # aren't present in glencoe. log it and return an empty array
-            LOG.warn(err, extra=context)
-            video['sources'] = [] # empty list of sources
-
-        finally:
             del video['uri'] # returned by elife-tools, not part of spec
+
+        except AssertionError as err:
+            LOG.error(err, extra=context)
+            raise
 
         return video
 
     return visit(data, pred, fn)
+'''
 
 def expand_uris(msid, data):
     "any 'uri' element is given a proper cdn link"

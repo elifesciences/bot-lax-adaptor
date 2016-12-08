@@ -13,6 +13,9 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
+def pad_msid(msid):
+    return str(int(msid)).zfill(5)
+
 def ensure(assertion, msg, *args):
     """intended as a convenient replacement for `assert` statements that
     get compiled away with -O flags"""
