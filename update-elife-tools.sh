@@ -11,4 +11,4 @@ sed -i -e "s;.*/elife-tools.git.*;git+https://github.com/elifesciences/elife-too
 source venv/bin/activate
 pip uninstall -y elifetools
 pip install -r requirements.txt
-
+echo "(requirements.txt updated with $elife_tools_sha1)"
