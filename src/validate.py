@@ -72,14 +72,6 @@ def references_rewrite(references):
     return references
 
 
-def appendices_rewrite(appendices):
-    "clean up values that will not pass validation temporarily"
-    for app in appendices:
-        if "doi" not in app:
-            app["doi"] = "10.7554/eLife.00666"
-    return appendices
-
-
 def funding_rewrite(funding):
     "clean up funding values that will not pass validation"
     if funding.get("awards"):
@@ -122,9 +114,6 @@ def add_placeholders_for_validation(contents):
     # what references we do have are invalid
     if 'references' in art:
         art['references'] = references_rewrite(art['references'])
-
-    if 'appendices' in art:
-        art['appendices'] = appendices_rewrite(art['appendices'])
 
     if 'funding' in art:
         art['funding'] = funding_rewrite(art['funding'])

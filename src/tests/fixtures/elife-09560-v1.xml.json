@@ -7611,12 +7611,6 @@
                     }
                 ], 
                 "bookTitle": "Evolutionary history of the \u2018Robust\u2019 Australopithecines", 
-                "chapterTitle": "Associated cranial and postcranial bones of <i>Australopithecus boisei</i>", 
-                "pages": {
-                    "first": "127", 
-                    "last": "132", 
-                    "range": "127\u2013132"
-                }, 
                 "publisher": {
                     "name": [
                         "Aldine de Gruyter"
@@ -7631,6 +7625,12 @@
                             ]
                         }
                     }
+                }, 
+                "chapterTitle": "Associated cranial and postcranial bones of <i>Australopithecus boisei</i>", 
+                "pages": {
+                    "first": "127", 
+                    "last": "132", 
+                    "range": "127\u2013132"
                 }
             }, 
             {
