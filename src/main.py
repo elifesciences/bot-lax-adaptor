@@ -223,22 +223,25 @@ def discard_if_none_or_cc0(pair):
 # post processing
 #
 
-def visit(data, pred, fn):
+def visit(data, pred, fn, coll=None):
     "visits every value in the given data and applies `fn` when `pred` is true "
     if pred(data):
-        data = fn(data)
+        if coll is not None:
+            data = fn(data, coll)
+        else:
+            data = fn(data)
         # why don't we return here after matching?
         # the match may contain matches within child elements (lists, dicts)
         # we want to visit them, too
     if isinstance(data, OrderedDict):
         results = OrderedDict()
         for key, val in data.items():
-            results[key] = visit(val, pred, fn)
+            results[key] = visit(val, pred, fn, coll)
         return results
     elif isinstance(data, dict):
-        return {key: visit(val, pred, fn) for key, val in data.items()}
+        return {key: visit(val, pred, fn, coll) for key, val in data.items()}
     elif isinstance(data, list):
-        return [visit(row, pred, fn) for row in data]
+        return [visit(row, pred, fn, coll) for row in data]
     # unsupported type/no further matches
     return data
 
@@ -322,20 +325,48 @@ def expand_videos(data):
     return visit(data, pred, fn)
 '''
 
-def expand_uris(data):
+def expand_uris(msid, data):
     "any 'uri' element is given a proper cdn link"
-    padded_msid = data['snippet']['id']
 
     def fn(element):
         element["filename"] = os.path.basename(element["uri"]) # basename here redundant?
-        element["uri"] = cdnlink(padded_msid, element["uri"])
+        element["uri"] = cdnlink(msid, element["uri"])
         return element
 
     def pred(element):
         # dictionary with 'uri' key exists that hasn't been expanded yet
-        return isinstance(element, dict) and "uri" in element and not element["uri"].startswith("https://")
+        return isinstance(element, dict) \
+            and "uri" in element \
+            and not element["uri"].startswith("http")
 
     return visit(data, pred, fn)
+
+def fix_extensions(data):
+    "in some older articles there are uris with no file extensions. call before expand_uris"
+
+    # 15852
+    def pred(element):
+        return isinstance(element, dict) \
+            and element.get("type") == "image" \
+            and not os.path.splitext(element["uri"])[1] # ext in pair of (fname, ext) is empty
+
+    def fn(element, missing):
+        missing.append(utils.subdict(element, ['type', 'id', 'uri']))
+        element["uri"] += ".jpg"
+        return element
+
+    missing = []
+    data = visit(data, pred, fn, missing)
+
+    if missing and 'snippet' in data: # test cases rarely have a 'snippet' in them
+        context = {
+            'msid': data['snippet']['id'],
+            'version': data['snippet']['version'],
+            'missing': missing
+        }
+        LOG.info("encountered article with %s images with missing file extensions. assuming .jpg", len(missing), extra=context)
+
+    return data
 
 def prune(data):
     prune_if_none = [
@@ -361,7 +392,13 @@ def prune(data):
     return visit(data, pred, fn)
 
 def postprocess(data):
-    data = doall(data, [expand_videos, expand_uris, prune])
+    msid = data['snippet']['id']
+    data = doall(data, [
+        fix_extensions,
+        expand_videos,
+        partial(expand_uris, msid),
+        prune
+    ])
     return data
 #
 #

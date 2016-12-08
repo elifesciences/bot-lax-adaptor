@@ -127,9 +127,32 @@ class ArticleScrape(BaseCase):
         for given in cases:
             self.assertRaises(ValueError, main.pdf_uri, given)
 
+    def test_fix_filenames(self):
+        given = [
+            {"type": "image", "uri": "foo"},
+            {"type": "image", "uri": "foo.bar"}
+        ]
+        expected = [
+            {"type": "image", "uri": "foo.jpg"},
+            {"type": "image", "uri": "foo.bar"}, # no clobbering
+        ]
+        self.assertEqual(main.fix_extensions(given), expected)
 
-def tod(d):
-    return json.loads(json.dumps(d))
+    def test_expand_uris(self):
+        msid = 1234
+        given = [
+            {"uri": "foo.bar"},
+            {"uri": "http://foo.bar/baz.bup"},
+            {"uri": "https://foo.bar/baz.bup"},
+        ]
+        expected = [
+            {"uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
+            # already-expanded uris are preserved
+            {"uri": "http://foo.bar/baz.bup"},
+            {"uri": "https://foo.bar/baz.bup"},
+        ]
+        self.assertEqual(main.expand_uris(msid, given), expected)
+
 
 class KitchenSink(BaseCase):
     def setUp(self):
@@ -139,6 +162,9 @@ class KitchenSink(BaseCase):
     def test_video(self):
         result = main.render_single(self.doc, version=1)
         media = result['article']['body'][1]['content'][5]['content'][1]
+
+        def tod(d):
+            return json.loads(json.dumps(d))
 
         expected_media = {
             "type": "video",
