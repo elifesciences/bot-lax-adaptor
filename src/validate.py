@@ -11,15 +11,6 @@ _handler.setLevel(logging.ERROR)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
 
-placeholder_reference_authors = [
-    {
-        "type": "person",
-        "name": {
-            "preferred": "Person One",
-            "index": "One, Person"
-        }
-    }
-]
 
 def generate_section_id():
     """section id attribute generator"""
@@ -61,17 +52,6 @@ def fix_box_title_if_missing(body_json):
     return body_json
 
 
-def references_rewrite(references):
-    "clean up values that will not pass validation temporarily"
-    for ref in references:
-        if (ref.get("type") in ["book", "book-chapter", "conference-proceeding", "data",
-                                "journal", "software", "unknown", "web"]
-                and "authors" not in ref):
-            ref["authors"] = placeholder_reference_authors
-
-    return references
-
-
 def funding_rewrite(funding):
     "clean up funding values that will not pass validation"
     if funding.get("awards"):
@@ -110,10 +90,6 @@ def add_placeholders_for_validation(contents):
     # relatedArticles are not part of article deliverables
     if 'relatedArticles' in art:
         del art['relatedArticles']
-
-    # what references we do have are invalid
-    if 'references' in art:
-        art['references'] = references_rewrite(art['references'])
 
     if 'funding' in art:
         art['funding'] = funding_rewrite(art['funding'])
