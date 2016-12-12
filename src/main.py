@@ -1,3 +1,4 @@
+import re
 from functools import partial
 import os, sys, json, copy, time, calendar
 import threading
@@ -328,17 +329,34 @@ def expand_videos(data):
 def expand_uris(msid, data):
     "any 'uri' element is given a proper cdn link"
 
-    def fn(element):
-        element["filename"] = os.path.basename(element["uri"]) # basename here redundant?
-        element["uri"] = cdnlink(msid, element["uri"])
-        return element
+    protocol_matcher = re.compile(r'(http|ftp)s?:\/\/.*')
 
     def pred(element):
         # dictionary with 'uri' key exists that hasn't been expanded yet
         return isinstance(element, dict) \
             and "uri" in element \
-            and not element["uri"].startswith("http")
+            and not protocol_matcher.match(element["uri"])
 
+    def fn(element):
+        uri = element["uri"]
+        # edge case: 'www' without a protocol
+        if uri.startswith('www'):
+            # all urls must have a protocol.
+            # this should have been picked up in the bot or in production.
+            fixed = 'http://' + element['uri']
+            LOG.warn("broken url: %r has become %r" % (uri, fixed))
+            element['uri'] = fixed
+            return element
+        # edge case: 'doi:' is not a protocol
+        if uri.startswith('doi:'):
+            fixed = 'https://doi.org/' + uri[4:]
+            LOG.warn("broken url: %r has become %r" % (uri, fixed))
+            element['uri'] = fixed
+            return element
+        # normal case: cdn link
+        element["filename"] = os.path.basename(element["uri"]) # basename here redundant?
+        element["uri"] = cdnlink(msid, element["uri"])
+        return element
     return visit(data, pred, fn)
 
 def fix_extensions(data):
