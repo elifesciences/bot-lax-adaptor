@@ -142,17 +142,27 @@ class ArticleScrape(BaseCase):
         msid = 1234
         given = [
             {"uri": "foo.bar"},
+            {"uri": "www.foo.bar"},
+            {"uri": "doi:10.7554/eLife.09560"},
             {"uri": "http://foo.bar/baz.bup"},
             {"uri": "https://foo.bar/baz.bup"},
+            {"uri": "ftp://user:pass@foo.bar/baz.bup"},
+            {"uri": "ftps://user:pass@foo.bar/baz.bup"},
         ]
         expected = [
+            # filename => https://cdn.tld/path/filename
             {"uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
+            # www => http://www.
+            {"uri": "http://www.foo.bar"},
+            # doi:... => https://doi.org/...
+            {"uri": "https://doi.org/10.7554/eLife.09560"},
             # already-expanded uris are preserved
             {"uri": "http://foo.bar/baz.bup"},
             {"uri": "https://foo.bar/baz.bup"},
+            {"uri": "ftp://user:pass@foo.bar/baz.bup"},
+            {"uri": "ftps://user:pass@foo.bar/baz.bup"},
         ]
         self.assertEqual(main.expand_uris(msid, given), expected)
-
 
 class KitchenSink(BaseCase):
     def setUp(self):
