@@ -1,4 +1,4 @@
-elifeLibrary {
+elifeLibrary({
     stage 'Checkout', {
         checkout scm
     }
@@ -39,4 +39,4 @@ elifeLibrary {
             elifeGitMoveToBranch elifeGitRevision(), 'master'
         }
     }
-}
+}, 'elife-libraries--powerful')
