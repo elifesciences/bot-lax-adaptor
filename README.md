@@ -11,6 +11,13 @@ This application:
 
     $ ./install.sh
 
+## web interface
+
+The bot-lax-adaptor comes with a simple web GUI that allows uploading arbitrary
+jats xml, generating article-json from it and validating it.
+
+    $ ./web.sh
+
 ## conversion
 
     $ source venv/bin/activate
