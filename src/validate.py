@@ -96,8 +96,8 @@ def add_placeholders_for_validation(contents):
 
     for elem in ['body', 'decisionLetter', 'authorResponse', 'appendices']:
         if elem in art:
-            art[elem] = fix_section_id_if_missing(art[elem])
-            #art[elem] = fix_box_title_if_missing(art[elem])
+            #art[elem] = fix_section_id_if_missing(art[elem])
+            art[elem] = fix_box_title_if_missing(art[elem])
 
 def main(doc):
     contents = json.load(doc)
