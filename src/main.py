@@ -184,13 +184,6 @@ def category_codes(cat_list):
         subjects.append(subject)
     return subjects
 
-def set_parser_base_url(msid):
-    "set the parser base_url value, per article"
-    if msid:
-        parseJATS.base_url = cdnlink(msid, '')
-    else:
-        parseJATS.base_url = None
-
 THIS_YEAR = time.gmtime()[0]
 def to_volume(volume):
     if not volume:
@@ -511,7 +504,6 @@ def render_single(doc, **overrides):
         setvar(**overrides)
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
-        set_parser_base_url(parseJATS.publisher_id(soup))
         return postprocess(render(description, [soup])[0])
     except Exception as err:
         LOG.error("failed to render doc with error: %s", err)
