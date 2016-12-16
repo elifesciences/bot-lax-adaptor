@@ -2,7 +2,7 @@ autopep8==1.2.4
 boto3==1.4.0
 coverage==4.1
 et3==1.3
-git+https://github.com/elifesciences/elife-tools.git@a6f399ff49c32ea63fc16c10ae7ba190f8c579bc#egg=elifetools
+git+https://github.com/elifesciences/elife-tools.git@217712fd1196cb04737369e692405b41204ae6e9#egg=elifetools
 green==2.5.0
 joblib==0.10.3
 jsonschema==2.5.1
