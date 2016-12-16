@@ -26,7 +26,7 @@ def job(path):
         return shutil.copyfile(src, dest)
 
     fn = copyfn
-    if WINDOWS:
+    if not WINDOWS:
         fn = os.symlink
 
     try:
