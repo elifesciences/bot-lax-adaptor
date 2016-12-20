@@ -51,8 +51,6 @@ def add_placeholders_for_validation(contents):
     if 'relatedArticles' in art:
         del art['relatedArticles']
 
-    #if 'funding' in art:
-    #    art['funding'] = funding_rewrite(art['funding'])
 
 
 def main(doc, quiet=False):
