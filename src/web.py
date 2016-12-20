@@ -86,7 +86,7 @@ def upload():
         validate.main(open(json_path, 'r'))
         flash("valid")
     except jsonschema.ValidationError as err:
-        flash(str(err))
+        flash("invalid: " + str(err))
 
     return redirect("/")
 
@@ -143,7 +143,7 @@ def validate_file(filename):
     if not path:
         flash("file not found")
     elif not filename.endswith('.json'):
-        flash("can only validate .json files")
+        flash("not validated: I can only validate .json files")
     else:
         try:
             t, _ = timed(validate.main)(open(path, 'r'))
@@ -169,21 +169,6 @@ def generate_file(filename):
             flash(err)
     return redirect("/")
 
-@app.route("/test/")
-def test():
-    app_client = app.test_client()
-    response = app_client.post('/upload/', **{
-        'buffered': True,
-        'content_type': 'multipart/form-data',
-        'data': {
-            #'form_field1': 'field1_data',
-            #'form_field2': 'field2_data',
-            #'xml': (StringIO('xml data'), 'hello.txt')
-            'xml': (open(join(PROJECT_DIR, 'article-xml/articles', 'elife-09560-v1.xml'), 'r'), 'elife-09560-v1.xml'),
-        }
-    })
-    return render('test.html', response=str(response))
-
 @app.route("/")
 def index():
     context = {
@@ -198,7 +183,6 @@ def start_server():
         'SECRET_KEY': os.urandom(24),
         # http://flask.pocoo.org/docs/0.11/config/#instance-folders
         'UPLOAD_FOLDER': join(PROJECT_DIR, 'web', 'uploads'),
-        #'STATIC_FOLDER': join(PROJECT_DIR, 'web', 'static'),
     })
     app.run()
 
