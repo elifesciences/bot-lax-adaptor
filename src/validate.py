@@ -52,7 +52,6 @@ def add_placeholders_for_validation(contents):
         del art['relatedArticles']
 
 
-
 def main(doc, quiet=False):
     contents = json.load(doc)
     add_placeholders_for_validation(contents)
