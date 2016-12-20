@@ -15,8 +15,9 @@ class TestArticleValidate(BaseCase):
 
     def test_main_bootstrap(self):
         "valid output is returned"
-        results = validate.main(open(self.doc_json, 'r'))
+        valid, results = validate.main(open(self.doc_json, 'r'))
         self.assertTrue(isinstance(results, dict))
+        self.assertTrue(isinstance(valid, bool))
 
     def test_main_bootstrap_fails(self):
         "invalid output raises a validation error"
@@ -25,26 +26,6 @@ class TestArticleValidate(BaseCase):
         strbuffer = StringIO(json.dumps(data))
         strbuffer.name = self.doc_json
         self.assertRaises(jsonschema.ValidationError, validate.main, strbuffer)
-
-    def test_generate_section_id(self):
-        # Reset counter before test is run
-        validate.section_id_counter = None
-        first_section_id = validate.generate_section_id()
-        self.assertEqual(first_section_id, 'phantom-s-1')
-        second_section_id = validate.generate_section_id()
-        self.assertEqual(second_section_id, 'phantom-s-2')
-
-    def test_fix_section_id_if_missing(self):
-        # Reset counter before test is run
-        validate.section_id_counter = None
-        body_json = [{'type': 'section'}]
-        expected = [{'type': 'section', 'id': 'phantom-s-1'}]
-        self.assertEqual(validate.fix_section_id_if_missing(body_json), expected)
-
-    def test_fix_box_title_if_missing(self):
-        body_json = [{'type': 'box'}]
-        expected = [{'type': 'box', 'title': 'Placeholder box title because we must have one'}]
-        self.assertEqual(validate.fix_box_title_if_missing(body_json), expected)
 
     def test_add_placeholders_for_validation(self):
         article = {'article': {'id': 12345, 'version': 2}}
