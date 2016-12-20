@@ -13,7 +13,6 @@ from StringIO import StringIO
 from joblib import Parallel, delayed
 import conf
 from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR, VALID_PATCHED_JSON_DIR
-import jsonschema
 
 WINDOWS = platform.system().lower() == 'windows'
 
@@ -32,13 +31,19 @@ def job(path):
     try:
         fname = os.path.basename(path)
         strbuffer.write("%s => " % fname)
-        article_with_placeholders = validate.main(open(path, 'r'))
-        strbuffer.write("success")
-        fn(path, join(VALID_JSON_DIR, fname))
+        doc = open(path, 'r')
+        valid, article_with_placeholders = validate.main(doc, quiet=True)
+
+        if valid:
+            strbuffer.write("success")
+            fn(path, join(VALID_JSON_DIR, fname))
+        else:
+            strbuffer.write("failed")
+            fn(path, join(INVALID_JSON_DIR, fname))
+
+        # write the patched data regardless of validity
         json.dump(article_with_placeholders, open(join(VALID_PATCHED_JSON_DIR, fname), 'w'), indent=4)
-    except jsonschema.ValidationError:
-        strbuffer.write("failed")
-        fn(path, join(INVALID_JSON_DIR, fname))
+
     except BaseException as err:
         strbuffer.write("error (%s)" % err)
     finally:
