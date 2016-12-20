@@ -15,8 +15,9 @@ class TestArticleValidate(BaseCase):
 
     def test_main_bootstrap(self):
         "valid output is returned"
-        results = validate.main(open(self.doc_json, 'r'))
+        valid, results = validate.main(open(self.doc_json, 'r'))
         self.assertTrue(isinstance(results, dict))
+        self.assertTrue(isinstance(valid, bool))
 
     def test_main_bootstrap_fails(self):
         "invalid output raises a validation error"

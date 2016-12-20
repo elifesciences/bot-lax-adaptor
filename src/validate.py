@@ -55,7 +55,7 @@ def add_placeholders_for_validation(contents):
         art['funding'] = funding_rewrite(art['funding'])
 
 
-def main(doc):
+def main(doc, quiet=False):
     contents = json.load(doc)
     add_placeholders_for_validation(contents)
 
@@ -73,9 +73,11 @@ def main(doc):
     try:
         jsonschema.validate(contents["article"], schema)
         LOG.info("validated %s", msid, extra=log_context)
-        return contents
+        return True, contents
     except jsonschema.ValidationError as err:
         LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
+        if quiet:
+            return False, contents
         raise
 
 if __name__ == '__main__':
