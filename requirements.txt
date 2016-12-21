@@ -2,6 +2,8 @@ autopep8==1.2.4
 boto3==1.4.0
 coverage==4.1
 et3==1.3
+Flask==0.11.1
+Flask-Testing==0.6.1
 git+https://github.com/elifesciences/elife-tools.git@edad1bb184f2d64f2a7a1426e8b9350f6e21f09c#egg=elifetools
 green==2.5.0
 joblib==0.10.3

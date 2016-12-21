@@ -1,0 +1,11 @@
+table#results {
+    min-width: 35%;
+    margin-left: 20px;
+
+}
+
+tr.odd {
+    background: #eee;
+}
+
+
