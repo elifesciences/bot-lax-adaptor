@@ -167,17 +167,17 @@ class ArticleScrape(BaseCase):
     def test_isbn(self):
         cases = [
             # 10 digits => formatted 13 digits
-            ("0198526636", "978-0-19-852663-6"), 
+            ("0198526636", "978-0-19-852663-6"),
             ("0-19-852663-6", "978-0-19-852663-6"),
 
             # 13 digits => formatted 13 digits
-            ("9789241565059", "978-92-4-156505-9"), 
+            ("9789241565059", "978-92-4-156505-9"),
             ("978 92 4 156505 9", "978-92-4-156505-9"),
 
             # arbitrary formatting => formatted 13 digits
-            ("9-7-8-9-2-4-1-5-6-5-0-5-9", "978-92-4-156505-9"), 
+            ("9-7-8-9-2-4-1-5-6-5-0-5-9", "978-92-4-156505-9"),
             ("9 7 8 9 2 4 1 5 6 5 0 5 9", "978-92-4-156505-9"),
-            ("9--7:8.9|2-4|1|565|0--59", "978-92-4-156505-9"),            
+            ("9--7:8.9|2-4|1|565|0--59", "978-92-4-156505-9"),
             ("ISBN: 9789241565059", "978-92-4-156505-9"),
             ("ISBN:9789241565059", "978-92-4-156505-9"),
 
@@ -185,8 +185,8 @@ class ArticleScrape(BaseCase):
             ("184146208X", "978-1-84146-208-0"),
         ]
         for given, expected in cases:
-            self.assertEqual(main.handle_isbn(given), expected)        
-            
+            self.assertEqual(main.handle_isbn(given), expected)
+
 class KitchenSink(BaseCase):
     def setUp(self):
         self.doc = join(self.fixtures_dir, 'elife-00666-v1.xml')
