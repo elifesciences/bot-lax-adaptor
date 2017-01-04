@@ -16,7 +16,7 @@ class ArticleScrape(BaseCase):
         self.assertEqual(main.doi(self.soup), expected_item_id)
 
     def test_to_volume(self):
-        this_year, first_year = 2016, 2011
+        this_year, first_year = 2017, 2011
         expected_default = this_year - first_year
         cases = ["", {}, None, []]
         for case in cases:
