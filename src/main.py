@@ -1,3 +1,4 @@
+from isbnlib import mask, to_isbn13
 import re
 from functools import partial
 import os, sys, json, copy, time, calendar
@@ -184,6 +185,9 @@ def category_codes(cat_list):
         subjects.append(subject)
     return subjects
 
+def handle_isbn(val):
+    return mask(to_isbn13(str(val)))
+
 THIS_YEAR = time.gmtime()[0]
 def to_volume(volume):
     if not volume:
@@ -261,70 +265,6 @@ def expand_videos(data):
         return isinstance(element, dict) and element.get("type") == "video"
 
     return visit(data, pred, partial(glencoe.expand_videos, msid))
-
-'''
-# TODO: consider shifting this logic into glencoe.py
-def expand_videos(data):
-    "takes an existing video type struct as returned by elife-tools and fills it out with data from glencoe"
-    msid = data['snippet']['id']
-    fake, msid = test_msid(msid)
-    gc_data = glencoe.metadata(msid)
-
-    # testing hack
-    # if no gc data for fake article, return immediately or
-    # if gc_data and we're using the kitchen sink, return immediately.
-    if fake and (not gc_data or int(msid) == conf.KITCHEN_SINK_MSID):
-        return data
-
-    # in the case of no glencoe data and *not* fake, allow the scrape to fail (or not) naturally
-
-    gc_id_str = ", ".join(gc_data.keys())
-    sources = {
-        'mp4': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
-        'webm': 'video/webm; codecs="vp8.0, vorbis"',
-        'ogv': 'video/ogg; codecs="theora, vorbis"',
-    }
-    known_sources = sources.keys()
-
-    context = {'msid': msid, 'version': data['snippet']['version']}
-
-    def pred(element):
-        return isinstance(element, dict) and element.get("type") == "video"
-
-    def fn(video):
-        try:
-            v_id = video['id']
-            ensure(v_id in gc_data, "glencoe doesn't know %r, only %r" % (v_id, gc_id_str))
-            video_data = gc_data[v_id]
-            video_data = subdict(video_data, ['jpg_href', 'width', 'height'])
-            video_data = renkeys(video_data, [('jpg_href', 'image')])
-
-            # we can't guarantee all of the sources will always be present
-            available_sources = filter(lambda mtype: mtype + "_href" in gc_data[v_id], known_sources)
-
-            # fail if we have partial data.
-            msg = "number of available sources less than known sources for %r. missing: %s" % \
-                (v_id, ", ".join(set(known_sources) - set(available_sources)))
-            ensure(len(available_sources) == len(known_sources), msg)
-
-            # for the available sources, get the uri and mediatype
-            func = lambda mtype: {
-                'mediaType': sources[mtype],
-                'uri': gc_data[v_id][mtype + "_href"]
-            }
-            video_data['sources'] = map(func, available_sources)
-            video.update(video_data)
-
-            del video['uri'] # returned by elife-tools, not part of spec
-
-        except AssertionError as err:
-            LOG.error(err, extra=context)
-            raise
-
-        return video
-
-    return visit(data, pred, fn)
-'''
 
 def expand_uris(msid, data):
     "any 'uri' element is given a proper cdn link"
@@ -409,12 +349,23 @@ def prune(data):
         return element
     return visit(data, pred, fn)
 
+def format_isbns(data):
+    def pred(element):
+        return isinstance(element, dict) and 'isbn' in element
+
+    def fn(element):
+        element['isbn'] = handle_isbn(element['isbn'])
+        return element
+
+    return visit(data, pred, fn)
+
 def postprocess(data):
     msid = data['snippet']['id']
     data = doall(data, [
         fix_extensions,
         expand_videos,
         partial(expand_uris, msid),
+        format_isbns,
         prune
     ])
     return data
