@@ -1,7 +1,7 @@
 from isbnlib import mask, to_isbn13
 import re
 from functools import partial
-import os, sys, json, copy, time, calendar
+import os, sys, json, copy, calendar
 import threading
 from et3.render import render, doall, EXCLUDE_ME
 from elifetools import parseJATS
@@ -188,11 +188,17 @@ def category_codes(cat_list):
 def handle_isbn(val):
     return mask(to_isbn13(str(val)))
 
-THIS_YEAR = time.gmtime()[0]
-def to_volume(volume):
+def to_volume(pair):
+    pub_date, volume = pair
     if not volume:
-        # No volume on unpublished PoA articles, calculate based on current year
-        volume = THIS_YEAR - 2011
+        # no volume on unpublished PoA articles, calculate based on year published
+        if isinstance(pub_date, basestring):
+            # assume yyyy-mm-dd formatted string
+            pub_year = int(pub_date[:4])
+        else:
+            # assume a timestruct 
+            pub_year = to_isoformat(pub_date)[:4]
+        volume = pub_year - 2011
     return int(volume)
 
 def discard_if_not_v1(v):
@@ -390,7 +396,7 @@ SNIPPET = OrderedDict([
     ('titlePrefix', [jats('title_prefix')]),
     ('published', [jats('pub_date'), to_isoformat]), # 'published' is the pubdate of the v1 article
     ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
-    ('volume', [jats('volume'), to_volume]),
+    ('volume', [(jats('pub_date'), jats('volume')), to_volume]),
     ('elocationId', [jats('elocation_id')]),
     ('pdf', [(jats('display_channel'), jats('publisher_id'), getvar('version')), pdf_uri]),
     ('subjects', [jats('category'), category_codes]),
