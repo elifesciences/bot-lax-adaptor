@@ -164,6 +164,8 @@ def cdnlink(msid, filename):
     }
     return cdn % kwargs
 
+def base_url(msid):
+    return cdnlink(msid, '')
 
 def pdf_uri(triple):
     """predict an article's pdf url.
@@ -223,6 +225,11 @@ def discard_if_none_or_cc0(pair):
         return EXCLUDE_ME
     return holder
 
+def body(soup):
+    return jats('body_json', base_url(jats('publisher_id')(soup)))(soup)
+
+def appendices(soup):
+    return jats('appendices_json', base_url(jats('publisher_id')(soup)))(soup)
 
 #
 # post processing
@@ -430,9 +437,9 @@ VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
     ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
-    ('body', [jats('body_json')]),
+    ('body', [body]),
     ('references', [jats('references_json')]),
-    ('appendices', [jats('appendices_json')]),
+    ('appendices', [appendices]),
     ('acknowledgements', [jats('acknowledgements_json')]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
