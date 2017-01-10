@@ -119,11 +119,12 @@ DISPLAY_CHANNEL_TYPES = {
     "Short report": "short-report",
     "Short Report": "short-report",
     "Tools and Resources": "tools-resources",
+    "Replication Study": "replication-study",
+    "Replication study": "replication-study",
 
     # NOTE: have not seen the below ones yet, guessing
     "Research exchange": "research-exchange",
     "Retraction": "retraction",
-    "Replication study": "replication-study",
 }
 
 def display_channel_to_article_type(display_channel_list):
