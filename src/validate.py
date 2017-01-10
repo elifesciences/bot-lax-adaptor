@@ -62,7 +62,7 @@ def main(doc, quiet=False):
     schema = conf.POA_SCHEMA if is_poa(contents) else conf.VOR_SCHEMA
 
     filename = os.path.basename(doc.name)
-    _, msid, tail = filename.split('-')
+    _, msid, tail = filename.split('-', 2)
     ver, _ = tail.split('.', 1)
 
     log_context = {
