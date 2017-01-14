@@ -12,8 +12,6 @@ _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
 
 
-
-
 def is_poa(contents):
     try:
         return contents["article"]["status"] == "poa"
@@ -39,7 +37,6 @@ def add_placeholders_for_validation(contents):
     # relatedArticles are not part of article deliverables
     if 'relatedArticles' in art:
         del art['relatedArticles']
-
 
 
 def main(doc, quiet=False):
