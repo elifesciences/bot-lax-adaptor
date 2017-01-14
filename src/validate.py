@@ -12,19 +12,6 @@ _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
 
 
-def funding_rewrite(funding):
-    "clean up funding values that will not pass validation"
-    if funding.get("awards"):
-        placeholder_recipients = [{"type": "group", "name": "Placeholder award recipient"}]
-        for award in funding.get("awards"):
-            if not award.get("recipients"):
-                award["recipients"] = placeholder_recipients
-        # Need a funding statement
-        if not funding.get("statement"):
-            funding["statement"] = "Placeholder for funding statement."
-    return funding
-
-
 def is_poa(contents):
     try:
         return contents["article"]["status"] == "poa"
@@ -50,9 +37,6 @@ def add_placeholders_for_validation(contents):
     # relatedArticles are not part of article deliverables
     if 'relatedArticles' in art:
         del art['relatedArticles']
-
-    if 'funding' in art:
-        art['funding'] = funding_rewrite(art['funding'])
 
 
 def main(doc, quiet=False):
