@@ -199,9 +199,9 @@ def to_volume(pair):
             # assume yyyy-mm-dd formatted string
             pub_year = int(pub_date[:4])
         else:
-            # assume a timestruct 
-            pub_year = to_isoformat(pub_date)[:4]
-        volume = pub_year - 2011
+            # assume a timestruct
+            pub_year = pub_date[0]  # to_isoformat(pub_date)[:4]
+        volume = pub_year - (conf.JOURNAL_INCEPTION - 1) # 2011 for elife
     return int(volume)
 
 def discard_if_not_v1(v):

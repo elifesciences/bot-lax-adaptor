@@ -31,7 +31,8 @@ class ArticleScrape(BaseCase):
             (('2016-12-31', []), 5),
         ]
         for year_volume_pair, expected in cases:
-            self.assertEqual(main.to_volume(year_volume_pair), expected)
+            got = main.to_volume(year_volume_pair)
+            self.assertEqual(expected, got, "given %r, I expected %r got %r" % (year_volume_pair, expected, got))
 
     def test_render_single(self):
         "ensure the scrape scrapes and has something resembling the correct structure"
