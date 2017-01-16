@@ -125,6 +125,11 @@ class ArticleScrape(BaseCase):
             actual = main.discard_if_none_or_cc0(given)
             self.assertEqual(actual, expected, "given %r I expected %r but got %r" % (given, expected, actual))
 
+    def test_base_url(self):
+        given = 1234
+        expected = 'https://publishing-cdn.elifesciences.org/01234/'
+        self.assertEqual(expected, main.base_url(given))
+
     def test_pdf_uri(self):
         given = ('research-article', 1234, 1)
         #expected = 'https://cdn.elifesciences.org/articles/01234/elife-01234-v1.pdf'
