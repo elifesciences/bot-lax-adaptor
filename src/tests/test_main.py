@@ -16,11 +16,23 @@ class ArticleScrape(BaseCase):
         self.assertEqual(main.doi(self.soup), expected_item_id)
 
     def test_to_volume(self):
-        this_year, first_year = 2017, 2011
-        expected_default = this_year - first_year
-        cases = ["", {}, None, []]
-        for case in cases:
-            self.assertEqual(main.to_volume(case), expected_default)
+        cases = [
+            (('2012-12-31', None), 1),
+            (('2013-12-31', None), 2),
+            (('2014-12-31', None), 3),
+            (('2015-12-31', None), 4),
+            (('2016-12-31', None), 5),
+            (('2017-12-31', None), 6),
+            (('2018-12-31', None), 7), # etc
+
+            # various other empty values
+            (('2016-12-31', ""), 5),
+            (('2016-12-31', {}), 5),
+            (('2016-12-31', []), 5),
+        ]
+        for year_volume_pair, expected in cases:
+            got = main.to_volume(year_volume_pair)
+            self.assertEqual(expected, got, "given %r, I expected %r got %r" % (year_volume_pair, expected, got))
 
     def test_render_single(self):
         "ensure the scrape scrapes and has something resembling the correct structure"
