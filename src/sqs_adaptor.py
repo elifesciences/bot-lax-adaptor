@@ -49,10 +49,6 @@ class IncomingQueue(object):
             yield message.body
             message.delete()
 
-    def close(self):
-        # close the aws connection?
-        pass
-
 class OutgoingQueue(object):
     def __init__(self, queue_name):
         self.queue = conn().get_queue_by_name(QueueName=queue_name)
@@ -64,6 +60,3 @@ class OutgoingQueue(object):
     def error(self, string):
         "called when given an unroutable message"
         LOG.error("received unroutable message", extra={'unroutable-message': str(string)})
-
-    def close(self):
-        pass

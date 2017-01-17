@@ -276,10 +276,6 @@ def do(incoming, outgoing):
     except KeyboardInterrupt:
         LOG.warn("stopping abruptly due to KeyboardInterrupt")
 
-    finally:
-        incoming.close()
-        outgoing.close()
-
     LOG.info("graceful shutdown")
 
 def bootstrap():

@@ -36,9 +36,6 @@ class IncomingQueue(object):
             utils.validate_request(request)
             yield request
 
-    def close(self):
-        pass
-
 class OutgoingQueue(object):
     def __init__(self):
         self.valids = []
@@ -68,6 +65,3 @@ class OutgoingQueue(object):
         print 'valid ::', self.valids
         print 'invalid ::', self.invalids
         print 'errors ::', self.errors
-
-    def close(self):
-        pass
