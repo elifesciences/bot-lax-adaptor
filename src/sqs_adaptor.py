@@ -26,28 +26,28 @@ def poll(queue_obj):
         message.delete()
 
 class IncomingQueue(object):
-    def __init__(self, queue_name):
+    def __init__(self, queue_name, flag=None):
         self.queue = conn().get_queue_by_name(QueueName=queue_name)
+        self.flag = flag
 
     def __iter__(self):
         """an infinite poll on the given queue object.
         blocks for 20 seconds before connection is dropped and re-established"""
         while True:
-            messages = []
-            while not messages:
-                messages = self.queue.receive_messages(
-                    MaxNumberOfMessages=1,
-                    VisibilityTimeout=60, # time allowed to call delete, can be increased
-                    WaitTimeSeconds=20 # maximum setting for long polling
-                )
-            LOG.debug("processing sqs message")
+            if self.flag.should_stop:
+                break
+            messages = self.queue.receive_messages(
+                MaxNumberOfMessages=1,
+                VisibilityTimeout=60, # time allowed to call delete, can be increased
+                WaitTimeSeconds=20 # maximum setting for long polling
+            )
+            if not messages:
+                continue
+
+            LOG.debug("processing message")
             message = messages[0]
             yield message.body
             message.delete()
-
-    def close(self):
-        # close the aws connection?
-        pass
 
 class OutgoingQueue(object):
     def __init__(self, queue_name):
@@ -60,6 +60,3 @@ class OutgoingQueue(object):
     def error(self, string):
         "called when given an unroutable message"
         LOG.error("received unroutable message", extra={'unroutable-message': str(string)})
-
-    def close(self):
-        pass

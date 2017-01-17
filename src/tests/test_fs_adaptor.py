@@ -56,4 +56,3 @@ class FS(BaseCase):
         "purely for code coverage"
         out = fs_adaptor.OutgoingQueue()
         out.dump()
-        out.close()
