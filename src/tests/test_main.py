@@ -43,7 +43,7 @@ class ArticleScrape(BaseCase):
             (('2016-12-31', None), 6),
             (('2017-12-31', None), 6),
             (('2018-12-31', None), 6), # etc
-            
+
             # various other empty values
             (('2016-12-31', ""), 6),
             (('2016-12-31', {}), 6),
@@ -52,8 +52,7 @@ class ArticleScrape(BaseCase):
         for year_volume_pair, expected in cases:
             got = main.to_volume_incorrect(year_volume_pair)
             self.assertEqual(expected, got, "given %r, I expected %r got %r" % (year_volume_pair, expected, got))
-        
-            
+
     def test_render_single(self):
         "ensure the scrape scrapes and has something resembling the correct structure"
         results = main.render_single(self.doc, version=1)
