@@ -59,7 +59,7 @@ def main(doc, quiet=False):
         LOG.info("validated %s", msid, extra=log_context)
         return True, contents
     except jsonschema.ValidationError as err:
-        LOG.error("failed to validate %s: %s", msid, err.message, extra=log_context)
+        LOG.error("failed to validate %s: %s", msid, err, extra=log_context)
         if quiet:
             return False, contents
         raise
