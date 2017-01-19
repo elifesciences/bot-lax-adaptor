@@ -410,7 +410,7 @@ SNIPPET = OrderedDict([
     ('version', [getvar('version')]),
     ('type', [jats('display_channel'), display_channel_to_article_type]),
     ('doi', [jats('doi')]),
-    ('authorLine', [jats('author_line')]),
+    ('authorLine', [jats('author_line'), discard_if_none_or_empty]),
     ('title', [jats('full_title_json')]),
     ('titlePrefix', [jats('title_prefix')]),
     ('published', [jats('pub_date'), to_isoformat]), # 'published' is the pubdate of the v1 article
@@ -433,7 +433,7 @@ POA.update(OrderedDict([
         ('holder', [(jats('copyright_holder'), jats('license')), discard_if_none_or_cc0]),
         ('statement', [jats('license')]),
     ])),
-    ('authors', [jats('authors_json')]),
+    ('authors', [jats('authors_json'), discard_if_none_or_empty]),
     ('ethics', [jats('ethics_json')]),
     ('funding', OrderedDict([
         ('awards', [jats('funding_awards_json'), discard_if_none_or_empty]),
