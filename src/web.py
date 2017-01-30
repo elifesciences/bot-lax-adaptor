@@ -8,7 +8,10 @@ import shutil
 from conf import PROJECT_DIR, XML_REV, XML_DIR
 from flask import Flask, request, render_template, redirect, flash, send_from_directory
 
-app = Flask("bot-lax-adaptor", **{
+#from conf import logging
+
+
+app = Flask(__name__, **{
     'template_folder': join(PROJECT_DIR, 'web', 'templates'),
     'static_folder': join(PROJECT_DIR, 'web', 'static'),
 })
@@ -179,7 +182,7 @@ def index():
 
 def start_server():
     app.config.update({
-        'DEBUG': True,
+        'DEBUG': False,
         'SECRET_KEY': os.urandom(24),
         # http://flask.pocoo.org/docs/0.11/config/#instance-folders
         'UPLOAD_FOLDER': join(PROJECT_DIR, 'web', 'uploads'),

@@ -70,7 +70,7 @@ def find_lax():
 
 def call_lax(action, id, version, token, article_json=None, force=False, dry_run=False):
     cmd = [
-        find_lax(),
+        find_lax(), # /srv/lax/manage.sh
         "ingest",
         "--" + action, # ll: --ingest+publish
         "--id", str(id),
@@ -184,6 +184,7 @@ def handler(json_request, outgoing):
         return response(mkresponse(ERROR, msg))
 
     # we have a valid request :)
+    LOG.info("valid request")
 
     params = subdict(request, ['action', 'id', 'token', 'version'])
     params['force'] = request.get('force') # optional value
@@ -194,7 +195,7 @@ def handler(json_request, outgoing):
             article_xml = download(request['location'])
             if not article_xml:
                 raise ValueError("no article content available")
-
+            
         except AssertionError as err:
             msg = "refusing to download article xml: %s" % err.message
             return response(mkresponse(ERROR, msg, request))
@@ -203,28 +204,44 @@ def handler(json_request, outgoing):
             msg = "failed to download article xml from %r: %s" % (request['location'], err.message)
             return response(mkresponse(ERROR, msg, request))
 
+        LOG.info("got xml")
+        
         try:
             article_data = main.render_single(article_xml, version=params['version'])
+
+            LOG.info("rendered article data ")
+            
             if conf.SEND_LAX_PATCHED_AJSON: # makes in-place changes to the data
                 validate.add_placeholders_for_validation(article_data)
+                LOG.info("placeholders attached")
         except Exception as err:
             error = err.message if hasattr(err, 'message') else err
             msg = "failed to render article-json from article-xml: %s" % error
             LOG.exception(msg, extra=params)
             return response(mkresponse(ERROR, msg, request))
 
+        LOG.info("successful scrape")
+        
         try:
             article_json = utils.json_dumps(article_data)
         except ValueError as err:
             msg = "failed to serialize article data to article-json: %s" % err.message
             return response(mkresponse(ERROR, msg, request))
 
+        LOG.info("successfully serialized article-data to article-json")
+        
         # phew! gauntlet ran, we're now confident of passing this article-json to lax
         # lax may still reject the data as invalid, but we'll proxy that back if necessary
         params['article_json'] = article_json
 
     try:
+
+        LOG.info("calling lax") # with params: %r" % params)
+        
         lax_response = call_lax(**params)
+
+        LOG.info("lax response: %r", lax_response)
+        
         return response(mkresponse(**lax_response))
 
     except Exception as err:
@@ -269,15 +286,26 @@ def do(incoming, outgoing):
     # we'll see how far this abstraction gets us...
     try:
         for request in incoming:
+            print 'doing ...'
             LOG.info("received request %s", request)
             handler(request, outgoing)
-            print
+            print '....done'
 
     except KeyboardInterrupt:
         LOG.warn("stopping abruptly due to KeyboardInterrupt")
 
     LOG.info("graceful shutdown")
 
+def _setup_interrupt_flag():
+    flag = Flag()
+
+    def signal_handler(signum, _frame):
+        LOG.info("received signal %s", signum)
+        flag.stop()
+    signal.signal(signal.SIGTERM, signal_handler)
+
+    return flag
+    
 def bootstrap():
     import argparse
     parser = argparse.ArgumentParser()
@@ -314,15 +342,6 @@ def bootstrap():
 
     do(*fn())
 
-def _setup_interrupt_flag():
-    flag = Flag()
-
-    def signal_handler(signum, _frame):
-        LOG.info("received signal %s", signum)
-        flag.stop()
-    signal.signal(signal.SIGTERM, signal_handler)
-
-    return flag
 
 if __name__ == '__main__':
     bootstrap()
