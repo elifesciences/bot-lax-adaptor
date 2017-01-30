@@ -195,7 +195,7 @@ def handler(json_request, outgoing):
             article_xml = download(request['location'])
             if not article_xml:
                 raise ValueError("no article content available")
-            
+
         except AssertionError as err:
             msg = "refusing to download article xml: %s" % err.message
             return response(mkresponse(ERROR, msg, request))
@@ -205,12 +205,12 @@ def handler(json_request, outgoing):
             return response(mkresponse(ERROR, msg, request))
 
         LOG.info("got xml")
-        
+
         try:
             article_data = main.render_single(article_xml, version=params['version'])
 
             LOG.info("rendered article data ")
-            
+
             if conf.SEND_LAX_PATCHED_AJSON: # makes in-place changes to the data
                 validate.add_placeholders_for_validation(article_data)
                 LOG.info("placeholders attached")
@@ -221,7 +221,7 @@ def handler(json_request, outgoing):
             return response(mkresponse(ERROR, msg, request))
 
         LOG.info("successful scrape")
-        
+
         try:
             article_json = utils.json_dumps(article_data)
         except ValueError as err:
@@ -229,7 +229,7 @@ def handler(json_request, outgoing):
             return response(mkresponse(ERROR, msg, request))
 
         LOG.info("successfully serialized article-data to article-json")
-        
+
         # phew! gauntlet ran, we're now confident of passing this article-json to lax
         # lax may still reject the data as invalid, but we'll proxy that back if necessary
         params['article_json'] = article_json
@@ -237,11 +237,11 @@ def handler(json_request, outgoing):
     try:
 
         LOG.info("calling lax") # with params: %r" % params)
-        
+
         lax_response = call_lax(**params)
 
         LOG.info("lax response: %r", lax_response)
-        
+
         return response(mkresponse(**lax_response))
 
     except Exception as err:
@@ -305,7 +305,7 @@ def _setup_interrupt_flag():
     signal.signal(signal.SIGTERM, signal_handler)
 
     return flag
-    
+
 def bootstrap():
     import argparse
     parser = argparse.ArgumentParser()
