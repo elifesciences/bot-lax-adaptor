@@ -419,7 +419,7 @@ SNIPPET = OrderedDict([
     ('elocationId', [jats('elocation_id')]),
     ('pdf', [(jats('display_channel'), jats('publisher_id'), getvar('version')), pdf_uri]),
     ('subjects', [jats('category'), category_codes]),
-    ('researchOrganisms', [jats('research_organism')]),
+    ('researchOrganisms', [jats('research_organism_json')]),
     ('abstract', [jats('abstract_json')]),
 ])
 # https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-poa.v1.json#L689
