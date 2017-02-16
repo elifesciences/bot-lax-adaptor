@@ -38,5 +38,11 @@ elifeLibrary({
         stage 'Master', {
             elifeGitMoveToBranch elifeGitRevision(), 'master'
         }
+
+        stage 'Downstream', {
+            build job: 'dependencies-lax-update-bot-lax-adaptor', wait: false
+        }
     }
+
+
 }, 'elife-libraries--powerful')
