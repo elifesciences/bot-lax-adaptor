@@ -125,4 +125,3 @@ class Adapt(BaseCase):
         # this is a crappy quick regex to extract the XML tags we need
         titles_of_appendices = re.findall('<title>Appendix[^<]*</title>', xml_text)
         self.assertIn(u'<title>Appendix\xa01</title>', titles_of_appendices)
-        
