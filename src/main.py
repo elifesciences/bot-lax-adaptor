@@ -144,18 +144,11 @@ LICENCE_TYPES = {
 }
 
 def related_article_to_related_articles(related_article_list):
-    related_articles = []
-    if related_article_list:
-        for related in related_article_list:
-            try:
-                doi = related["xlink_href"]
-            except KeyError:
-                continue
-            if doi:
-                related_articles.append(doi.split('.')[-1])
-    if len(related_articles) <= 0:
-        return None
-    return related_articles
+    # ll: [{'xlink_href': u'10.7554/eLife.09561', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}]
+    def et(struct):
+        return struct.get('xlink_href', '').rsplit('.', 1)[-1] or None
+    # ll: ['09561'] or None
+    return filter(None, map(et, related_article_list)) or None
 
 def cdnlink(msid, filename):
     cdn = conf.cdn(getvar('env', None)(None))
@@ -453,7 +446,7 @@ VOR_SNIPPET.update(OrderedDict([
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
-    ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
+    ('-related-articles', [jats('related_article'), related_article_to_related_articles]),
     ('digest', [jats('digest_json')]),
     ('body', [body]),
     ('references', [jats('references_json')]),
