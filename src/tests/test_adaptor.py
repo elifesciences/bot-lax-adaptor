@@ -1,4 +1,4 @@
-import os, json
+import os, json, re
 from os.path import join
 from .base import BaseCase
 import adaptor as adapt, fs_adaptor, conf
@@ -115,3 +115,13 @@ class Adapt(BaseCase):
             return {'status': conf.INGESTED, 'message': 'mock'}
         with patch('adaptor.call_lax', call_lax):
             adaptor.do(*adaptor.read_from_fs(join(self.ingest_dir, 'v3')))
+
+    def test_http_download(self):
+        # this needs to be an UTF-8 XML document
+        # without a proper 'Content-Type: application/xml; encoding=utf-8'
+        # header being attached to the response
+        test_url = 'http://publishing-cdn.elifesciences.org/18722/elife-18722-v2.xml'
+        xml_text = adaptor.http_download(test_url)
+        # this is a crappy quick regex to extract the XML tags we need
+        titles_of_appendices = re.findall('<title>Appendix[^<]*</title>', xml_text)
+        self.assertIn(u'<title>Appendix\xa01</title>', titles_of_appendices)

@@ -115,6 +115,7 @@ def http_download(location):
     resp = requests.get(location, auth=cred)
     if resp.status_code != 200:
         raise RuntimeError("failed to download xml from location %r, got response code: %s" % (location, resp.status_code))
+    resp.encoding = 'utf-8'
     return resp.text
 
 def download(location):
