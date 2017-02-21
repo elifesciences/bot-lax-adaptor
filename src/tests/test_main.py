@@ -103,7 +103,7 @@ class ArticleScrape(BaseCase):
     def test_related_article_to_related_articles_whem_empty(self):
         # For increased test coverage, test and empty list
         related_article_list = [{'junk': 'not related'}]
-        expected = None
+        expected = []
         self.assertEqual(main.related_article_to_related_articles(related_article_list), expected)
 
     '''

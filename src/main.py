@@ -149,7 +149,7 @@ def related_article_to_related_articles(related_article_list):
     def et(struct):
         return struct.get('xlink_href', '').rsplit('.', 1)[-1] or None
     # ll: ['09561'] or None
-    return filter(None, map(et, related_article_list)) or None
+    return filter(None, map(et, related_article_list))
 
 def mixed_citation_to_related_articles(mixed_citation_list):
     # ll: [{'article': {'authors': [{'given': u'R', 'surname': u'Straussman'}, ...}],
