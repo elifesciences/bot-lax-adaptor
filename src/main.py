@@ -162,9 +162,7 @@ def mixed_citation_to_related_articles(mixed_citation_list):
         return {
             'type': 'external-article',
             'articleTitle': p(struct, 'article.title'),
-            'journal': {
-                'name': [p(struct, 'journal.name')],
-            },
+            'journal': p(struct, 'journal.name'),
             'authorLine': '\n'.join(map(authorline, p(struct, 'article.authors'))),
             'uri': 'https://doi.org/%s' % p(struct, 'article.doi'),
         }

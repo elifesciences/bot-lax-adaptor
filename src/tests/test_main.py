@@ -229,9 +229,7 @@ class ArticleScrape(BaseCase):
         expected = [{
             'type': 'external-article',
             'articleTitle': u'Tumour micro-environment elicits innate resistance to RAF inhibitors through HGF secretion',
-            'journal': {
-                'name': ['Nature'],
-            },
+            'journal': 'Nature',
             'authorLine': '- R Straussman\n- T Morikawa\n- K Shee\n- M Barzily-Rokni\n- ZR Qian\n- J Du\n- A Davis\n- MM Mongare\n- J Gould\n- DT Frederick\n- ZA Cooper\n- PB Chapman\n- DB Solit\n- A Ribas\n- RS Lo\n- KT Flaherty\n- S Ogino\n- JA Wargo\n- TR Golub',
             'uri': 'https://doi.org/10.1038/nature11183',
         }]
