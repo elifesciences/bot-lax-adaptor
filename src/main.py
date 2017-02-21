@@ -4,6 +4,7 @@ from functools import partial
 import os, sys, json, copy, calendar
 import threading
 from et3.render import render, doall, EXCLUDE_ME
+from et3.extract import lookup as p
 from elifetools import parseJATS
 from functools import wraps
 import logging
@@ -149,6 +150,24 @@ def related_article_to_related_articles(related_article_list):
         return struct.get('xlink_href', '').rsplit('.', 1)[-1] or None
     # ll: ['09561'] or None
     return filter(None, map(et, related_article_list)) or None
+
+def mixed_citation_to_related_articles(mixed_citation_list):
+    # ll: [{'article': {'authors': [{'given': u'R', 'surname': u'Straussman'}, ...}],
+    #      'doi': u'10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': u'Pants-Party'},
+    #      'journal': {'volume': u'487', 'lpage': u'504', 'name': u'Nature', 'fpage': u'500'}}]
+    def authorline(a):
+        return '- %s %s' % (a['given'], a['surname'])
+
+    def et(struct):
+        return {
+            'articleTitle': p(struct, 'article.title'),
+            'journal': {
+                'name': p(struct, 'journal.name'),
+            },
+            'authorLine': '\n'.join(map(authorline, p(struct, 'article.authors'))),
+            'uri': 'https://doi.org/%s' % p(struct, 'article.doi'),
+        }
+    return map(et, mixed_citation_list)
 
 def cdnlink(msid, filename):
     cdn = conf.cdn(getvar('env', None)(None))
@@ -446,7 +465,8 @@ VOR_SNIPPET.update(OrderedDict([
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
-    ('-related-articles', [jats('related_article'), related_article_to_related_articles]),
+    ('-related-articles-internal', [jats('related_article'), related_article_to_related_articles]),
+    ('-related-articles-external', [jats('mixed_citations'), mixed_citation_to_related_articles]),
     ('digest', [jats('digest_json')]),
     ('body', [body]),
     ('references', [jats('references_json')]),
