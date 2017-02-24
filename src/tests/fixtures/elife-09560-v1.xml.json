@@ -23,9 +23,6 @@
                 "name": "Genomics and Evolutionary Biology"
             }
         ], 
-        "researchOrganisms": [
-            "None"
-        ], 
         "abstract": {
             "doi": "10.7554/eLife.09560.001", 
             "content": [
@@ -2457,9 +2454,6 @@
                 "id": "genomics-evolutionary-biology", 
                 "name": "Genomics and Evolutionary Biology"
             }
-        ], 
-        "researchOrganisms": [
-            "None"
         ], 
         "abstract": {
             "doi": "10.7554/eLife.09560.001", 
@@ -5198,7 +5192,7 @@
                         "doi": "10.7554/eLife.09560.012", 
                         "id": "tbl1", 
                         "label": "Table 1.", 
-                        "title": "Cranial and mandibular measurements for <i>H. naledi</i>, early hominins, and modern humans", 
+                        "title": "Table 1.", 
                         "caption": [
                             {
                                 "type": "paragraph", 
@@ -5272,7 +5266,7 @@
                         "doi": "10.7554/eLife.09560.013", 
                         "id": "tbl2", 
                         "label": "Table 2.", 
-                        "title": "Dental measures for <i>H. naledi</i> and comparative hominin species", 
+                        "title": "Table 2.", 
                         "caption": [
                             {
                                 "type": "paragraph", 
@@ -5429,7 +5423,7 @@
                         "doi": "10.7554/eLife.09560.014", 
                         "id": "tbl3", 
                         "label": "Table 3.", 
-                        "title": "Dinaledi body mass estimates from femur specimens preserving subtrochanteric diameters", 
+                        "title": "Table 3.", 
                         "caption": [
                             {
                                 "type": "paragraph", 
@@ -6104,11 +6098,7 @@
                     }
                 ], 
                 "articleTitle": "A juvenile early hominin skeleton from Dikika, Ethiopia", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "443", 
                 "pages": {
                     "first": "296", 
@@ -6138,11 +6128,7 @@
                     }
                 ], 
                 "articleTitle": "On manual proportions and pad-to-pad precision grasping in <i>Austalopithecus afarensis</i>", 
-                "journal": {
-                    "name": [
-                        "Journal of Human Evolution"
-                    ]
-                }, 
+                "journal": "Journal of Human Evolution", 
                 "volume": "73", 
                 "pages": {
                     "first": "88", 
@@ -6165,11 +6151,7 @@
                     }
                 ], 
                 "articleTitle": "Natural history of <i>Homo erectus</i>", 
-                "journal": {
-                    "name": [
-                        "American Journal of Physical Anthropology"
-                    ]
-                }, 
+                "journal": "American Journal of Physical Anthropology", 
                 "pages": {
                     "first": "126", 
                     "last": "170", 
@@ -6205,11 +6187,7 @@
                     }
                 ], 
                 "articleTitle": "Human evolution. Evolution of early <i>Homo</i>: an integrated biological perspective", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "345", 
                 "pages": "1236828", 
                 "doi": "10.1126/science.1236828"
@@ -6263,11 +6241,7 @@
                     }
                 ], 
                 "articleTitle": "<i>Australopithecus garhi</i>: a new species of early hominid from Ethiopia", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "284", 
                 "pages": {
                     "first": "629", 
@@ -6332,11 +6306,7 @@
                     }
                 ], 
                 "articleTitle": "<i>Australopithecus sediba</i>: a new species of <i>Homo</i>-like australopith from South Africa", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "328", 
                 "pages": {
                     "first": "195", 
@@ -6380,11 +6350,7 @@
                     }
                 ], 
                 "articleTitle": "On the variability of the Dmanisi mandibles", 
-                "journal": {
-                    "name": [
-                        "PLOS ONE"
-                    ]
-                }, 
+                "journal": "PLOS ONE", 
                 "volume": "9", 
                 "pages": "e88212", 
                 "doi": "10.1371/journal.pone.0088212"
@@ -6515,11 +6481,7 @@
                     }
                 ], 
                 "articleTitle": "Late Pliocene <i>Homo</i> and hominid land use from western Olduvai Gorge, Tanzania", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "299", 
                 "pages": {
                     "first": "1217", 
@@ -6549,11 +6511,7 @@
                     }
                 ], 
                 "articleTitle": "A gracile hominid cranium from upper member G of the Shungura formation, Ethiopia", 
-                "journal": {
-                    "name": [
-                        "American Journal of Physical Anthropology"
-                    ]
-                }, 
+                "journal": "American Journal of Physical Anthropology", 
                 "volume": "46", 
                 "pages": {
                     "first": "93", 
@@ -6611,11 +6569,7 @@
                     }
                 ], 
                 "articleTitle": "A new small-bodied hominin from the Late Pleistocene of Flores, Indonesia", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "431", 
                 "pages": {
                     "first": "1055", 
@@ -6680,11 +6634,7 @@
                     }
                 ], 
                 "articleTitle": "The endocast of MH1, <i>Australopithecus sediba</i>", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "333", 
                 "pages": {
                     "first": "1402", 
@@ -6770,11 +6720,7 @@
                     }
                 ], 
                 "articleTitle": "The upper limb of <i>Australopithecus sediba</i>", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "340", 
                 "pages": "1233477", 
                 "doi": "10.1126/science.1233477"
@@ -6823,11 +6769,7 @@
                     }
                 ], 
                 "articleTitle": "Latest information on Sterkfontein's <i>Australopithecus</i> skeleton and a new look at <i>Australopithecus</i>", 
-                "journal": {
-                    "name": [
-                        "South African Journal of Science"
-                    ]
-                }, 
+                "journal": "South African Journal of Science", 
                 "volume": "104", 
                 "pages": {
                     "first": "443", 
@@ -6871,11 +6813,7 @@
                     }
                 ], 
                 "articleTitle": "Bayesian analysis of a morphological supermatrix sheds light on controversial fossil hominin relationships", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the Royal Society B"
-                    ]
-                }, 
+                "journal": "Proceedings of the Royal Society B", 
                 "volume": "282", 
                 "pages": "20150943", 
                 "doi": "10.1098/rspb.2015.0943"
@@ -6936,11 +6874,7 @@
                     }
                 ], 
                 "articleTitle": "The lower limb and mechanics of walking in <i>Australopithecus sediba</i>", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "340", 
                 "pages": "1232999", 
                 "doi": "10.1126/science.1232999"
@@ -7120,11 +7054,7 @@
                     }
                 ], 
                 "articleTitle": "Geological and taphonomic evidence for deliberate body disposal by the primitive hominin species <i>Homo naledi</i> from the Dinaledi Chamber, South Africa", 
-                "journal": {
-                    "name": [
-                        "eLife"
-                    ]
-                }, 
+                "journal": "eLife", 
                 "volume": "4", 
                 "pages": "e09651", 
                 "doi": "10.7554/eLife.09561"
@@ -7269,11 +7199,7 @@
                     }
                 ], 
                 "articleTitle": "First partial skeleton of a 1.34-million-year-old <i>Paranthropus boisei</i> from Bed II, Olduvai Gorge, Tanzania", 
-                "journal": {
-                    "name": [
-                        "PLOS ONE"
-                    ]
-                }, 
+                "journal": "PLOS ONE", 
                 "volume": "8", 
                 "pages": "e80347", 
                 "doi": "10.1371/journal.pone.0080347"
@@ -7320,11 +7246,7 @@
                     }
                 ], 
                 "articleTitle": "Associated cranial and forelimb remains attributed to <i>Australopithecus afarensis</i> from Hadar, Ethiopia", 
-                "journal": {
-                    "name": [
-                        "Journal of Human Evolution"
-                    ]
-                }, 
+                "journal": "Journal of Human Evolution", 
                 "volume": "48", 
                 "pages": {
                     "first": "593", 
@@ -7410,11 +7332,7 @@
                     }
                 ], 
                 "articleTitle": "The brain of LB1, <i>Homo floresiensis</i>", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "308", 
                 "pages": {
                     "first": "242", 
@@ -7437,11 +7355,7 @@
                     }
                 ], 
                 "articleTitle": "Une nouvelle m\u00e9thode de d\u00e9termination de la taille", 
-                "journal": {
-                    "name": [
-                        "Annales de M\u00e9decine L\u00e9gale, Criminologie, Police Scientifique et Toxicologie"
-                    ]
-                }, 
+                "journal": "Annales de M\u00e9decine L\u00e9gale, Criminologie, Police Scientifique et Toxicologie", 
                 "volume": "36", 
                 "pages": {
                     "first": "266", 
@@ -7554,11 +7468,7 @@
                     }
                 ], 
                 "articleTitle": "Earliest Pleistocene hominid cranial remains from Dmanisi, Republic of Georgia: taxonomy, geological setting and age", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "288", 
                 "pages": {
                     "first": "1019", 
@@ -7668,11 +7578,7 @@
                     }
                 ], 
                 "articleTitle": "Taxonomic affinity of the early <i>Homo</i> cranium from Swartkrans, South Africa", 
-                "journal": {
-                    "name": [
-                        "American Journal of Physical Anthropology"
-                    ]
-                }, 
+                "journal": "American Journal of Physical Anthropology", 
                 "volume": "92", 
                 "pages": {
                     "first": "411", 
@@ -7716,11 +7622,7 @@
                     }
                 ], 
                 "articleTitle": "Fossil <i>Homo</i> femur from Berg Aukas, northern Namibia", 
-                "journal": {
-                    "name": [
-                        "American Journal of Physical Anthropology"
-                    ]
-                }, 
+                "journal": "American Journal of Physical Anthropology", 
                 "volume": "97", 
                 "pages": {
                     "first": "151", 
@@ -7757,11 +7659,7 @@
                     }
                 ], 
                 "articleTitle": "Phenetic affinities among early <i>Homo crania</i> from East and South Africa", 
-                "journal": {
-                    "name": [
-                        "Journal of Human Evolution"
-                    ]
-                }, 
+                "journal": "Journal of Human Evolution", 
                 "volume": "30", 
                 "pages": "189", 
                 "doi": "10.1006/jhev.1996.0019"
@@ -7836,11 +7734,7 @@
                     }
                 ], 
                 "articleTitle": "An early <i>Australopithecus afarensis</i> postcranium from Woranso-Mille, Ethiopia", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of USA"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of USA", 
                 "volume": "107", 
                 "pages": {
                     "first": "12121", 
@@ -7956,11 +7850,7 @@
                     }
                 ], 
                 "articleTitle": "Population bottlenecks and Pleistocene human evolution", 
-                "journal": {
-                    "name": [
-                        "Molecular Biology and Evolution"
-                    ]
-                }, 
+                "journal": "Molecular Biology and Evolution", 
                 "volume": "17", 
                 "pages": {
                     "first": "2", 
@@ -7983,11 +7873,7 @@
                     }
                 ], 
                 "articleTitle": "Body size, body shape, and the circumscription of the genus <i>Homo</i>", 
-                "journal": {
-                    "name": [
-                        "Current Anthropology"
-                    ]
-                }, 
+                "journal": "Current Anthropology", 
                 "volume": "53", 
                 "pages": {
                     "first": "S330", 
@@ -8073,11 +7959,7 @@
                     }
                 ], 
                 "articleTitle": "New partial skeleton of <i>Homo habilis</i> from Olduvai Gorge, Tanzania", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "327", 
                 "pages": {
                     "first": "205", 
@@ -8114,11 +7996,7 @@
                     }
                 ], 
                 "articleTitle": "Pliocene hominids from the Hadar formation, Ethiopia (1973\u20131977): Stratigraphic, chronologic, and paleoenvironmental contexts, with notes on hominid morphology and systematics", 
-                "journal": {
-                    "name": [
-                        "American Journal of Physical Anthropology"
-                    ]
-                }, 
+                "journal": "American Journal of Physical Anthropology", 
                 "volume": "57", 
                 "pages": {
                     "first": "373", 
@@ -8191,11 +8069,7 @@
                     }
                 ], 
                 "articleTitle": "The foot of <i>Homo floresiensis</i>", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "459", 
                 "pages": {
                     "first": "81", 
@@ -8261,11 +8135,7 @@
                     }
                 ], 
                 "articleTitle": "Descriptions of the lower limb skeleton of <i>Homo floresiensis</i>", 
-                "journal": {
-                    "name": [
-                        "Journal of Human Evolution"
-                    ]
-                }, 
+                "journal": "Journal of Human Evolution", 
                 "volume": "57", 
                 "pages": {
                     "first": "538", 
@@ -8288,11 +8158,7 @@
                     }
                 ], 
                 "articleTitle": "The Drimolen skull: the most complete australopithecine cranium and mandible to date", 
-                "journal": {
-                    "name": [
-                        "South African Journal of Science"
-                    ]
-                }, 
+                "journal": "South African Journal of Science", 
                 "volume": "96", 
                 "pages": {
                     "first": "189", 
@@ -8342,11 +8208,7 @@
                     }
                 ], 
                 "articleTitle": "Drimolen: a new hominin-bearing site in Gauteng, South Africa", 
-                "journal": {
-                    "name": [
-                        "South African Journal of Science"
-                    ]
-                }, 
+                "journal": "South African Journal of Science", 
                 "volume": "96", 
                 "pages": {
                     "first": "193", 
@@ -8433,11 +8295,7 @@
                     }
                 ], 
                 "articleTitle": "Systematic assessment of a maxilla of Homo from Hadar, Ethiopia", 
-                "journal": {
-                    "name": [
-                        "American Journal of Physical Anthropology"
-                    ]
-                }, 
+                "journal": "American Journal of Physical Anthropology", 
                 "volume": "103", 
                 "pages": {
                     "first": "235", 
@@ -8488,11 +8346,7 @@
                     }
                 ], 
                 "articleTitle": "<i>Australopithecus sediba</i> hand demonstrates mosaic evolution of locomotor and manipulative abilities", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "333", 
                 "pages": {
                     "first": "1411", 
@@ -8622,11 +8476,7 @@
                     }
                 ], 
                 "articleTitle": "New fossils from Koobi Fora in northern Kenya confirm taxonomic diversity in early Homo", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "488", 
                 "pages": {
                     "first": "201", 
@@ -8649,11 +8499,7 @@
                     }
                 ], 
                 "articleTitle": "Assigned resampling method: a new method to estimate size sexual dimorphism in samples of unknown sex", 
-                "journal": {
-                    "name": [
-                        "Przegla\u0328d Antropologiczny Anthropological Review"
-                    ]
-                }, 
+                "journal": "Przegla\u0328d Antropologiczny Anthropological Review", 
                 "volume": "64", 
                 "pages": {
                     "first": "21", 
@@ -8794,11 +8640,7 @@
                     }
                 ], 
                 "articleTitle": "Postcranial evidence from early <i>Homo</i> from Dmanisi, Georgia", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "449", 
                 "pages": {
                     "first": "305", 
@@ -8863,11 +8705,7 @@
                     }
                 ], 
                 "articleTitle": "A complete skull from Dmanisi, Georgia, and the evolutionary biology of early <i>Homo</i>", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "342", 
                 "pages": {
                     "first": "326", 
@@ -8897,11 +8735,7 @@
                     }
                 ], 
                 "articleTitle": "How humans differ from other animals in their levels of morphological variation", 
-                "journal": {
-                    "name": [
-                        "PLOS ONE"
-                    ]
-                }, 
+                "journal": "PLOS ONE", 
                 "volume": "4", 
                 "pages": "e6876", 
                 "doi": "10.1371/journal.pone.0006876"
@@ -8983,11 +8817,7 @@
                     }
                 ], 
                 "articleTitle": "Further evidence for small-bodied hominins from the Late Pleistocene of Flores, Indonesia", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "437", 
                 "pages": {
                     "first": "1012", 
@@ -9073,11 +8903,7 @@
                     }
                 ], 
                 "articleTitle": "New wrist bones for <i>Homo floresiensis</i> from liang bua (Flores, Indonesia)", 
-                "journal": {
-                    "name": [
-                        "Journal of Human Evolution"
-                    ]
-                }, 
+                "journal": "Journal of Human Evolution", 
                 "volume": "64", 
                 "pages": {
                     "first": "109", 
@@ -9114,11 +8940,7 @@
                     }
                 ], 
                 "articleTitle": "Revision of the fully technique for estimating statures", 
-                "journal": {
-                    "name": [
-                        "American Journal of Physical Anthropology"
-                    ]
-                }, 
+                "journal": "American Journal of Physical Anthropology", 
                 "volume": "130", 
                 "pages": {
                     "first": "374", 
@@ -9155,11 +8977,7 @@
                     }
                 ], 
                 "articleTitle": "Anatomical descriptions, comparative studies and evolutionary significance of the hominin skulls from Dmanisi, Republic of Georgia", 
-                "journal": {
-                    "name": [
-                        "Journal of Human Evolution"
-                    ]
-                }, 
+                "journal": "Journal of Human Evolution", 
                 "volume": "50", 
                 "pages": {
                     "first": "115", 
@@ -9189,11 +9007,7 @@
                     }
                 ], 
                 "articleTitle": "Reassessing manual proportions in <i>Australopithecus afarensis</i>", 
-                "journal": {
-                    "name": [
-                        "American Journal of Physical Anthropology"
-                    ]
-                }, 
+                "journal": "American Journal of Physical Anthropology", 
                 "volume": "152", 
                 "pages": {
                     "first": "393", 
@@ -9230,11 +9044,7 @@
                     }
                 ], 
                 "articleTitle": "Body mass and encephalization in Pleistocene <i>Homo</i>", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "387", 
                 "pages": {
                     "first": "173", 
@@ -9299,11 +9109,7 @@
                     }
                 ], 
                 "articleTitle": "Mosaic morphology in the thorax of <i>Australopithecus sediba</i>", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "340", 
                 "pages": "1234598", 
                 "doi": "10.1126/science.1234598"
@@ -9350,11 +9156,7 @@
                     }
                 ], 
                 "articleTitle": "Oldest <i>Homo</i> and Pliocene biogeography of the Malawi rift", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "365", 
                 "pages": {
                     "first": "833", 
@@ -9433,11 +9235,7 @@
                     }
                 ], 
                 "articleTitle": "Implications of new early <i>Homo</i> fossils from Ileret, east of Lake Turkana, Kenya", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "448", 
                 "pages": {
                     "first": "688", 
@@ -9460,11 +9258,7 @@
                     }
                 ], 
                 "articleTitle": "The skeletal phenotype of \u2018Negritos\u2019 from the Andaman Islands and Philippines relative to global variation among hunter-gatherers", 
-                "journal": {
-                    "name": [
-                        "Human Biology"
-                    ]
-                }, 
+                "journal": "Human Biology", 
                 "volume": "85", 
                 "pages": {
                     "first": "67", 
@@ -9487,11 +9281,7 @@
                     }
                 ], 
                 "articleTitle": "Hand of <i>Paranthropus robustus</i> from Member 1, Swartkrans: fossil evidence for tool behavior", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "240", 
                 "pages": {
                     "first": "781", 
@@ -9528,11 +9318,7 @@
                     }
                 ], 
                 "articleTitle": "Recently identified postcranial remains of <i>Paranthropus</i> and early <i>Homo</i> from Swartkrans Cave, South Africa", 
-                "journal": {
-                    "name": [
-                        "Journal of Human Evolution"
-                    ]
-                }, 
+                "journal": "Journal of Human Evolution", 
                 "volume": "41", 
                 "pages": {
                     "first": "607", 
@@ -9618,11 +9404,7 @@
                     }
                 ], 
                 "articleTitle": "The first skull of <i>Australopithecus boisei</i>", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature", 
                 "volume": "389", 
                 "pages": {
                     "first": "489", 
@@ -9659,11 +9441,7 @@
                     }
                 ], 
                 "articleTitle": "Mandibular postcanine dentition from the Shungura formation, Ethiopia: crown morphology, taxonomic allocations, and Plio-Pleistocene hominid evolution", 
-                "journal": {
-                    "name": [
-                        "American Journal of Physical Anthropology"
-                    ]
-                }, 
+                "journal": "American Journal of Physical Anthropology", 
                 "volume": "101", 
                 "pages": {
                     "first": "247", 
@@ -9742,11 +9520,7 @@
                     }
                 ], 
                 "articleTitle": "Early pleistocene <i>Homo erectus</i> fossils from konso, southern Ethiopia", 
-                "journal": {
-                    "name": [
-                        "Anthropological Science"
-                    ]
-                }, 
+                "journal": "Anthropological Science", 
                 "volume": "115", 
                 "pages": {
                     "first": "133", 
@@ -9892,11 +9666,7 @@
                     }
                 ], 
                 "articleTitle": "The primitive wrist of <i>Homo floresiensis</i> and its implicatiosn for hominin evolution", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "317", 
                 "pages": {
                     "first": "1743", 
@@ -9940,11 +9710,7 @@
                     }
                 ], 
                 "articleTitle": "A 3D quantitative comparison of trapezium and trapezoid relative articular and nonarticular surface areas in modern humans and great apes", 
-                "journal": {
-                    "name": [
-                        "Journal of Human Evolution"
-                    ]
-                }, 
+                "journal": "Journal of Human Evolution", 
                 "volume": "49", 
                 "pages": {
                     "first": "570", 
@@ -10044,11 +9810,7 @@
                     }
                 ], 
                 "articleTitle": "A new skull of early <i>Homo</i> from Dmanisi, Georgia", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "297", 
                 "pages": {
                     "first": "85", 
@@ -10092,11 +9854,7 @@
                     }
                 ], 
                 "articleTitle": "New postcranial fossils of <i>Australopithecus afarensis</i> from hadar, Ethiopia (1990\u20132007)", 
-                "journal": {
-                    "name": [
-                        "Journal of Human Evolution"
-                    ]
-                }, 
+                "journal": "Journal of Human Evolution", 
                 "volume": "63", 
                 "pages": {
                     "first": "1", 
@@ -10147,11 +9905,7 @@
                     }
                 ], 
                 "articleTitle": "Early Pleistocene third metacarpal from Kenya and the evolution of modern human-like hand morphology", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of USA"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of USA", 
                 "volume": "111", 
                 "pages": {
                     "first": "121", 
@@ -10174,11 +9928,7 @@
                     }
                 ], 
                 "articleTitle": "The skull of <i>Sinanthropus</i>", 
-                "journal": {
-                    "name": [
-                        "Palaeontologia Sinica"
-                    ]
-                }, 
+                "journal": "Palaeontologia Sinica", 
                 "volume": "10", 
                 "pages": "1"
             }, 
@@ -10233,11 +9983,7 @@
                     }
                 ], 
                 "articleTitle": "The human genus", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "284", 
                 "pages": {
                     "first": "65", 
@@ -10295,11 +10041,7 @@
                     }
                 ], 
                 "articleTitle": "The foot and ankle of <i>Australopithecus sediba</i>", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science", 
                 "volume": "333", 
                 "pages": {
                     "first": "1417", 
