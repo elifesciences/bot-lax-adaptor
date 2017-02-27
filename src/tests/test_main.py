@@ -273,10 +273,10 @@ class KitchenSink(BaseCase):
             "height": 720,
             "width": 1280,
             'sources': [{'mediaType': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
-            'uri': 'https://static-movie-usa.glencoesoftware.com/mp4/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.mp4'},
-               {'mediaType': 'video/ogg; codecs="theora, vorbis"',
-                'uri': 'https://static-movie-usa.glencoesoftware.com/ogv/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.ogv'},
-               {'mediaType': 'video/webm; codecs="vp8.0, vorbis"',
-                'uri': 'https://static-movie-usa.glencoesoftware.com/webm/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.webm'}]
-	}
+                         'uri': 'https://static-movie-usa.glencoesoftware.com/mp4/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.mp4'},
+                        {'mediaType': 'video/ogg; codecs="theora, vorbis"',
+                         'uri': 'https://static-movie-usa.glencoesoftware.com/ogv/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.ogv'},
+                        {'mediaType': 'video/webm; codecs="vp8.0, vorbis"',
+                         'uri': 'https://static-movie-usa.glencoesoftware.com/webm/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.webm'}]
+        }
         self.assertEqual(tod(expected_media), tod(media))
