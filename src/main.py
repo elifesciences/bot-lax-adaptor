@@ -43,12 +43,13 @@ def setvar(**kwargs):
 # utils
 #
 
-def test_msid(msid):
+def video_msid(msid):
+    """Replaces the msid of testing articles with the reference one they were generated from.
+
+    Leaves real articles untouched"""
     if int(msid) > 100000:
-        return True, pad_msid(str(msid[-5:]))
-    if int(msid) == conf.KITCHEN_SINK_MSID:
-        return True, msid
-    return False, msid
+        return pad_msid(str(msid[-5:]))
+    return msid
 
 def doi(item):
     return parseJATS.doi(item)
@@ -289,12 +290,11 @@ def visit(data, pred, fn, coll=None):
 
 def expand_videos(data):
     msid = data['snippet']['id']
-    fake, msid = test_msid(msid)
 
     def pred(element):
         return isinstance(element, dict) and element.get("type") == "video"
 
-    return visit(data, pred, partial(glencoe.expand_videos, msid))
+    return visit(data, pred, partial(glencoe.expand_videos, video_msid(msid)))
 
 def expand_uris(msid, data):
     "any 'uri' element is given a proper cdn link"
