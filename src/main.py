@@ -291,12 +291,6 @@ def expand_videos(data):
     msid = data['snippet']['id']
     fake, msid = test_msid(msid)
 
-    # testing hack
-    # if no gc data for fake article, return immediately or
-    # if gc_data and we're using the kitchen sink, return immediately.
-    if fake and int(msid) == conf.KITCHEN_SINK_MSID:
-        return data
-
     def pred(element):
         return isinstance(element, dict) and element.get("type") == "video"
 
