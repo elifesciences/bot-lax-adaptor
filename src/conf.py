@@ -90,8 +90,6 @@ def cdn(env=None):
 
 GLENCOE_CACHE = '/tmp/glencoe-cache'
 
-KITCHEN_SINK_MSID = 666
-
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 
 JOURNAL_INCEPTION = 2012 # used to calculate volumes
