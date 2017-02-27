@@ -4,6 +4,7 @@ from functools import partial
 import os, sys, json, copy, calendar
 import threading
 from et3.render import render, doall, EXCLUDE_ME
+from et3.extract import lookup as p
 from elifetools import parseJATS
 from functools import wraps
 import logging
@@ -144,18 +145,28 @@ LICENCE_TYPES = {
 }
 
 def related_article_to_related_articles(related_article_list):
-    related_articles = []
-    if related_article_list:
-        for related in related_article_list:
-            try:
-                doi = related["xlink_href"]
-            except KeyError:
-                continue
-            if doi:
-                related_articles.append(doi.split('.')[-1])
-    if len(related_articles) <= 0:
-        return None
-    return related_articles
+    # ll: [{'xlink_href': u'10.7554/eLife.09561', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}]
+    def et(struct):
+        return struct.get('xlink_href', '').rsplit('.', 1)[-1] or None
+    # ll: ['09561'] or None
+    return filter(None, map(et, related_article_list))
+
+def mixed_citation_to_related_articles(mixed_citation_list):
+    # ll: [{'article': {'authors': [{'given': u'R', 'surname': u'Straussman'}, ...}],
+    #      'doi': u'10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': u'Pants-Party'},
+    #      'journal': {'volume': u'487', 'lpage': u'504', 'name': u'Nature', 'fpage': u'500'}}]
+    def authorline(a):
+        return '- %s %s' % (a['given'], a['surname'])
+
+    def et(struct):
+        return {
+            'type': 'external-article',
+            'articleTitle': p(struct, 'article.title'),
+            'journal': p(struct, 'journal.name'),
+            'authorLine': '\n'.join(map(authorline, p(struct, 'article.authors'))),
+            'uri': 'https://doi.org/%s' % p(struct, 'article.doi'),
+        }
+    return map(et, mixed_citation_list)
 
 def cdnlink(msid, filename):
     cdn = conf.cdn(getvar('env', None)(None))
@@ -453,7 +464,8 @@ VOR_SNIPPET.update(OrderedDict([
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
-    ('relatedArticles', [jats('related_article'), related_article_to_related_articles]),
+    ('-related-articles-internal', [jats('related_article'), related_article_to_related_articles]),
+    ('-related-articles-external', [jats('mixed_citations'), mixed_citation_to_related_articles]),
     ('digest', [jats('digest_json')]),
     ('body', [body]),
     ('references', [jats('references_json')]),

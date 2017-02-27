@@ -34,11 +34,6 @@ def add_placeholders_for_validation(contents):
     art['statusDate'] = '2099-01-01T00:00:00Z'
     art['versionDate'] = '2099-01-01T00:00:00Z'
 
-    # relatedArticles are not part of article deliverables
-    if 'relatedArticles' in art:
-        del art['relatedArticles']
-
-
 def main(doc, quiet=False):
     contents = json.load(doc)
     add_placeholders_for_validation(contents)
