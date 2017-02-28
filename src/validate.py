@@ -11,7 +11,6 @@ _handler.setLevel(logging.ERROR)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
 
-
 def is_poa(contents):
     try:
         return contents["article"]["status"] == "poa"
@@ -33,6 +32,10 @@ def add_placeholders_for_validation(contents):
     art['stage'] = 'published'
     art['statusDate'] = '2099-01-01T00:00:00Z'
     art['versionDate'] = '2099-01-01T00:00:00Z'
+
+#
+#
+#
 
 def main(doc, quiet=False):
     contents = json.load(doc)

@@ -5,6 +5,31 @@ import utils, conf
 
 LOG = logging.getLogger(__name__)
 
+def mkreq(path, **overrides):
+    path = 'file://' + path if not path.startswith('https://') else path
+    msid, ver = utils.version_from_path(path)
+    request = {
+        'action': conf.INGEST,
+        'location': path,
+        'id': msid,
+        'version': ver,
+        'force': False,
+        'token': 'pants-party'
+    }
+    request.update(overrides)
+    # don't ever generate an invalid request
+    utils.validate_request(request)
+    return request
+
+class SimpleQueue(object):
+    def __init__(self, path_list):
+        self.paths = path_list
+
+    def __iter__(self):
+        for path in self.paths:
+            LOG.debug("processing path: %s", path)
+            yield path
+
 class IncomingQueue(object):
     def __init__(self, path, action=conf.INGEST, force=False):
         self.action = action
@@ -22,19 +47,8 @@ class IncomingQueue(object):
                 # hidden or not xml, skip
                 continue
             path = join(self.dirname, fname)
-            msid, ver = utils.version_from_path(path)
             LOG.debug("processing file: %s", path)
-            request = {
-                'action': self.action,
-                'location': 'file://' + path,
-                'id': msid,
-                'version': ver,
-                'force': self.force,
-                'token': 'pants-party'
-            }
-            # don't ever generate an invalid request
-            utils.validate_request(request)
-            yield request
+            yield mkreq(path, force=self.force, action=self.action)
 
 class OutgoingQueue(object):
     def __init__(self):

@@ -215,6 +215,11 @@ def handler(json_request, outgoing):
             if conf.SEND_LAX_PATCHED_AJSON: # makes in-place changes to the data
                 validate.add_placeholders_for_validation(article_data)
                 LOG.info("placeholders attached")
+
+            article_data['article']['-meta'] = {
+                'location': request['location'],
+            }
+
         except Exception as err:
             error = err.message if hasattr(err, 'message') else err
             msg = "failed to render article-json from article-xml: %s" % error
@@ -283,7 +288,6 @@ class Flag:
         self.should_stop = True
 
 def do(incoming, outgoing):
-
     # we'll see how far this abstraction gets us...
     try:
         for request in incoming:
