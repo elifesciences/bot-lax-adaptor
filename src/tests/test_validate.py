@@ -1,5 +1,5 @@
 from StringIO import StringIO
-#import sys
+import main
 import json
 from os.path import join
 from .base import BaseCase
@@ -11,7 +11,7 @@ class TestArticleValidate(BaseCase):
         self.doc_json = join(self.fixtures_dir, 'elife-09560-v1.xml.json')
 
     def tearDown(self):
-        pass
+        main.rmvars()
 
     def test_main_bootstrap(self):
         "valid output is returned"
@@ -31,7 +31,9 @@ class TestArticleValidate(BaseCase):
         article = {'article': {'id': 12345, 'version': 2}}
         expected = {
             'article': {
-                '-patched': True,
+                '-meta': {
+                    'patched': True,
+                },
                 'id': 12345,
                 'version': 2,
                 'stage': 'published',

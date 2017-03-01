@@ -2,7 +2,7 @@ import os, json, re
 from os.path import join
 from .base import BaseCase
 import adaptor as adapt, fs_adaptor, conf
-import adaptor
+import adaptor, main
 import unittest
 from mock import patch
 
@@ -21,7 +21,7 @@ class Ingest(BaseCase):
         self.num_ingest_dir_xml = self.num_ingest_dir - spanner
 
     def tearDown(self):
-        pass
+        main.rmvars()
 
     # still really handy to tests integration locally
     @unittest.skip("requires lax IN A CERTAIN STATE :( disabling for now")
@@ -44,7 +44,7 @@ class Adapt(BaseCase):
         self.valid_request = list(self.inc)[0]
 
     def tearDown(self):
-        pass
+        main.rmvars()
 
     def test_handler_bad_json(self):
         "bad json request generates an error"
@@ -102,10 +102,9 @@ class Adapt(BaseCase):
         with patch('sys.argv', args):
             adapt.bootstrap()
 
-    # what a hack this test is!
-    @patch('conf.SEND_LAX_PATCHED_AJSON', True)
+    @patch('conf.PATCH_AJSON_FOR_VALIDATION', True)
     def test_patched_data(self):
-        "we can optionally send lax the patched version of the article-json"
+        "we can optionally patch the article-json rendered to fill any gaps for validation"
         expected = {'-patched': True}
 
         def call_lax(*args, **kwargs):

@@ -7,7 +7,7 @@ import requests
 import signal
 import main, fs_adaptor, sqs_adaptor
 from functools import partial
-import validate, utils
+import utils
 from utils import subdict, renkeys
 
 from awsauth import S3Auth
@@ -208,17 +208,9 @@ def handler(json_request, outgoing):
         LOG.info("got xml")
 
         try:
+            main.setvar(location=request['location'])
             article_data = main.render_single(article_xml, version=params['version'])
-
             LOG.info("rendered article data ")
-
-            if conf.SEND_LAX_PATCHED_AJSON: # makes in-place changes to the data
-                validate.add_placeholders_for_validation(article_data)
-                LOG.info("placeholders attached")
-
-            article_data['article']['-meta'] = {
-                'location': request['location'],
-            }
 
         except Exception as err:
             error = err.message if hasattr(err, 'message') else err
@@ -291,10 +283,8 @@ def do(incoming, outgoing):
     # we'll see how far this abstraction gets us...
     try:
         for request in incoming:
-            print 'doing ...'
             LOG.info("received request %s", request)
             handler(request, outgoing)
-            print '....done'
 
     except KeyboardInterrupt:
         LOG.warn("stopping abruptly due to KeyboardInterrupt")

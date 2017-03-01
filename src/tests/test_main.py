@@ -9,7 +9,7 @@ class ArticleScrape(BaseCase):
         self.soup = main.to_soup(self.doc)
 
     def tearDown(self):
-        pass
+        main.rmvars()
 
     def test_item_id(self):
         expected_item_id = '10.7554/eLife.09560'

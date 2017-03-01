@@ -1,4 +1,3 @@
-import utils
 import os, sys, json
 import conf
 import jsonschema
@@ -20,16 +19,20 @@ def is_poa(contents):
 def add_placeholders_for_validation(contents):
     """these placeholder values are now making their way into production.
     please make them OBVIOUS placeholders while still remaining valid data."""
-
     art = contents['article']
 
+    if not '-meta' in art:
+        # probably a bad scrape or an old fixture or ...
+        art['-meta'] = {}
+
     # simple indicator that this article content contains patched values
-    art['-patched'] = True
+    art['-meta']['patched'] = True
 
-    if 'published' in art:
-        art['published'] = utils.ymdhms(art['published'])
+    # this is weird. disabling, `toisoformat` already calls ymdhms on `published`
+    # if 'published' in art:
+    #    art['published'] = utils.ymdhms(art['published'])
 
-    art['stage'] = 'published'
+    art['stage'] = 'published' # an article will always have a pubdate, so we don't know if it's actually published or not...
     art['statusDate'] = '2099-01-01T00:00:00Z'
     art['versionDate'] = '2099-01-01T00:00:00Z'
 
@@ -39,6 +42,9 @@ def add_placeholders_for_validation(contents):
 
 def main(doc, quiet=False):
     contents = json.load(doc)
+
+    # this will just overwrite previous values if originally scraped with placeholders
+    # we can't guarantee the state of the original scrape though.
     add_placeholders_for_validation(contents)
 
     schema = conf.POA_SCHEMA if is_poa(contents) else conf.VOR_SCHEMA

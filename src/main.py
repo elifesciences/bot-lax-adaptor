@@ -12,7 +12,7 @@ from collections import OrderedDict
 from datetime import datetime
 from slugify import slugify
 import conf, utils, glencoe
-from utils import pad_msid
+import validate
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler('scrape.log')
@@ -39,6 +39,10 @@ def getvar(key, default=0xDEADBEEF):
 def setvar(**kwargs):
     [setattr(VARS, key, val) for key, val in kwargs.items()]
 
+def rmvars():
+    "empties the thread-local variables"
+    VARS.__dict__.clear()
+
 #
 # utils
 #
@@ -48,7 +52,7 @@ def video_msid(msid):
 
     Leaves real articles untouched"""
     if int(msid) > 100000:
-        return pad_msid(str(msid[-5:]))
+        return utils.pad_msid(str(msid[-5:]))
     return msid
 
 def doi(item):
@@ -172,7 +176,7 @@ def mixed_citation_to_related_articles(mixed_citation_list):
 def cdnlink(msid, filename):
     cdn = conf.cdn(getvar('env', None)(None))
     kwargs = {
-        'padded-msid': pad_msid(msid),
+        'padded-msid': utils.pad_msid(msid),
         'fname': filename
     }
     return cdn % kwargs
@@ -188,7 +192,7 @@ def pdf_uri(triple):
     content_type, msid, version = triple
     if content_type in ['Correction']:
         return EXCLUDE_ME
-    filename = "elife-%s-v%s.pdf" % (pad_msid(msid), version) # ll: elife-09560-v1.pdf
+    filename = "elife-%s-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-v1.pdf
     return cdnlink(msid, filename)
 
 def category_codes(cat_list):
@@ -410,6 +414,9 @@ JOURNAL = OrderedDict([
 ])
 
 SNIPPET = OrderedDict([
+    ('-meta', OrderedDict([
+        ('location', [getvar('location')]),
+    ])),
     ('status', [jats('is_poa'), is_poa_to_status]),
     ('id', [jats('publisher_id')]),
     ('version', [getvar('version')]),
@@ -486,14 +493,37 @@ def render_single(doc, **overrides):
         setvar(**overrides)
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
-        return postprocess(render(description, [soup])[0])
+        article_data = postprocess(render(description, [soup])[0])
+
+        if conf.PATCH_AJSON_FOR_VALIDATION: # makes in-place changes to the data
+            validate.add_placeholders_for_validation(article_data)
+            LOG.debug("placeholders attached")
+
+        return article_data
+
     except Exception as err:
         LOG.error("failed to render doc with error: %s", err)
         raise
 
+def expand_location(path):
+    if path.startswith('article-xml/articles/'):
+        # this article is coming from the local ./article-xml/ directory, which
+        # is almost certainly a git checkout. we want a location that looks like:
+        # https://raw.githubusercontent.com/elifesciences/elife-article-xml/5f1179c24c9b8a8b700c5f5bf3543d16a32fbe2f/articles/elife-00003-v1.xml
+        rc, rawsha = utils.run_script(["cat", "elife-article-xml.sha1"])
+        utils.ensure(rc == 0, "failed to read the contents of './elife-article-xml.sha1'")
+        sha = rawsha.strip()
+        fname = os.path.basename(path)
+        return "https://raw.githubusercontent.com/elifesciences/elife-article-xml/%s/articles/%s" % (sha, fname)
+
+    # who knows what this path is
+    LOG.warn("scraping article content in a non-repeatable way. please don't send the results to lax")
+    return path
+
 def main(doc):
     msid, version = utils.version_from_path(getattr(doc, 'name', doc))
     try:
+        setvar(location=expand_location(getattr(doc, 'name', '')))
         article_json = render_single(doc, version=version)
         return json.dumps(article_json, indent=4)
     except Exception:

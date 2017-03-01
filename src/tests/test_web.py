@@ -1,6 +1,7 @@
 import os, shutil, tempfile
 from os.path import join
 from flask_testing import TestCase
+import main
 
 class Web(TestCase):
     maxDiff = None
@@ -38,8 +39,9 @@ class Web(TestCase):
         return web.app
 
     def tearDown(self):
-        print 'removing', self.temp_dir
+        # print 'removing', self.temp_dir
         shutil.rmtree(self.temp_dir)
+        main.rmvars()
 
     def test_index(self):
         response = self.client.get('/')

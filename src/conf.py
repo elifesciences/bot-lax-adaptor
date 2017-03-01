@@ -50,12 +50,16 @@ def multiprocess_log(filename, name=__name__):
     return log
 
 DEBUG = False
+
+# where can we find lax when we need to speak to it?
 PATHS_TO_LAX = map(os.path.expanduser, [
     '/srv/lax/',
     '~/dev/python/lax/'
 ])
 
-SEND_LAX_PATCHED_AJSON = True
+# certain values that can't be known at render time are
+# added so the result can be validated against the schema
+PATCH_AJSON_FOR_VALIDATION = True
 
 PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
