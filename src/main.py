@@ -484,7 +484,7 @@ def expand_location(path):
         # just ensure we have a string to work with
         path = path or ''
 
-    if re.match(r".+article-xml/articles/.+\.xml$", path):
+    if re.match(r".*article-xml/articles/.+\.xml$", path):
         # this article is coming from the local ./article-xml/ directory, which
         # is almost certainly a git checkout. we want a location that looks like:
         # https://raw.githubusercontent.com/elifesciences/elife-article-xml/5f1179c24c9b8a8b700c5f5bf3543d16a32fbe2f/articles/elife-00003-v1.xml
