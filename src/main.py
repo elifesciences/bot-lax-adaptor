@@ -66,22 +66,6 @@ def to_isoformat(time_struct):
     ts = datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
     return utils.ymdhms(ts)
 
-def note(msg, level=logging.DEBUG):
-    "a note logs some message about the value but otherwise doesn't interrupt the pipeline"
-    # if this is handy, consider adding to et3?
-    def fn(val):
-        LOG.log(level, msg, extra={'value': val})
-        return val
-    return fn
-
-def todo(msg):
-    "this value requires more work"
-    return note("todo: %s" % msg, logging.INFO)
-
-def nonxml(msg):
-    "we're scraping a value that doesn't appear in the XML"
-    return note("nonxml: %s" % msg, logging.WARN)
-
 def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
 

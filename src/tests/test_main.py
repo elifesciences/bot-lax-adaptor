@@ -7,10 +7,20 @@ import main
 class ArticleScrape(BaseCase):
     def setUp(self):
         self.doc = join(self.fixtures_dir, 'elife-09560-v1.xml')
+        self.small_doc = join(self.fixtures_dir, 'elife-16695-v1.xml')
         self.soup = main.to_soup(self.doc)
 
     def tearDown(self):
         main.rmvars()
+
+    def test_missing_var(self):
+        self.assertRaises(AttributeError, main.getvar('foo'), None)
+
+    def test_video_msid(self):
+        self.assertEqual(9560, main.video_msid(9560))
+        self.assertEqual('9560', main.video_msid('9560'))
+        self.assertEqual('09560', main.video_msid('09560'))
+        self.assertEqual('09560', main.video_msid('10009560'))
 
     def test_item_id(self):
         expected_item_id = '10.7554/eLife.09560'
@@ -63,7 +73,7 @@ class ArticleScrape(BaseCase):
 
     def test_main_bootstrap(self):
         "json is written to stdout"
-        results = main.main(self.doc) # writes article json to stdout
+        results = main.main(self.small_doc) # writes article json to stdout
         results = json.loads(results)
         self.assertTrue('article' in results)
         self.assertTrue('journal' in results)
@@ -76,12 +86,12 @@ class ArticleScrape(BaseCase):
     @patch('conf.PATCH_AJSON_FOR_VALIDATION', False)
     def test_main_published_excluded_if_v2(self):
         # when version == 1, we just use the pubdate in the xml
-        results = main.render_single(self.doc, version=1)
+        results = main.render_single(self.small_doc, version=1)
         self.assertTrue('versionDate' in results['article'])
         # when version > 1, we exclude it from the scrape and rely on lax to fill in the gap
         # HOWEVER - we patch scrapes by default now and versionDate is filled in with a dummy value,
         # so we turn the option off above
-        results = main.render_single(self.doc, version=2)
+        results = main.render_single(self.small_doc, version=2)
         self.assertFalse('versionDate' in results['article'])
 
     def test_category_codes(self):
@@ -90,21 +100,6 @@ class ArticleScrape(BaseCase):
                     {"id": "microbiology-infectious-disease",
                      "name": "Microbiology and Infectious Disease"}]
         self.assertEqual(main.category_codes(cat_list), expected)
-
-    def test_note(self):
-        # For test coverage
-        msg = 'message'
-        self.assertIsNotNone(main.note(msg))
-
-    def test_todo(self):
-        # For test coverage
-        msg = 'message'
-        self.assertIsNotNone(main.todo(msg))
-
-    def test_nonxml(self):
-        # For test coverage
-        msg = 'message'
-        self.assertIsNotNone(main.nonxml(msg))
 
     def test_related_article_to_related_articles_whem_empty(self):
         # For increased test coverage, test and empty list

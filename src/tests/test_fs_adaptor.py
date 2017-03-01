@@ -59,3 +59,8 @@ class FS(BaseCase):
         "purely for code coverage"
         out = fs_adaptor.OutgoingQueue()
         out.dump()
+
+    def test_simple_queue(self):
+        inst = fs_adaptor.SimpleQueue(path_list=['foo', 'bar'])
+        expected = ['foo', 'bar']
+        self.assertEqual(expected, list(inst))
