@@ -12,7 +12,7 @@ module=""
 if [ ! -z "$args" ]; then
     module=".$args"
 fi
-green src"$module" --run-coverage
+green src"$module" --run-coverage -vvv
 
 # run coverage test
 # only report coverage if we're running a complete set of tests
