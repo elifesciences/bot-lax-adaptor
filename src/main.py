@@ -473,7 +473,18 @@ def mkdescription(poa=True):
 #
 
 def expand_location(path):
-    if path.startswith('article-xml/articles/'):
+    if isinstance(path, file):
+        path = doc.name
+
+    elif os.path.exists(path):
+        # so we always have an absolute path
+        path = os.path.join(conf.PROJECT_DIR, path)
+
+    else:
+        # just ensure we have a string to work with
+        path = path or ''
+
+    if re.match(r".+article-xml/articles/.+\.xml$", path):
         # this article is coming from the local ./article-xml/ directory, which
         # is almost certainly a git checkout. we want a location that looks like:
         # https://raw.githubusercontent.com/elifesciences/elife-article-xml/5f1179c24c9b8a8b700c5f5bf3543d16a32fbe2f/articles/elife-00003-v1.xml
@@ -491,11 +502,10 @@ def expand_location(path):
     LOG.warn("scraping article content in a non-repeatable way. please don't send the results to lax")
     return path
 
-def render_single(doc, **vars):
+def render_single(doc, **tvars):
     try:
-        # prefer the override, but if not provided, use the path from the given doc or empty string ultimately
-        vars['location'] = expand_location(vars.get('location', getattr(doc, 'name', '')))
-        setvar(**vars)
+        tvars['location'] = expand_location(doc)
+        setvar(**tvars)
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
         article_data = postprocess(render(description, [soup])[0])
