@@ -32,9 +32,14 @@ def add_placeholders_for_validation(contents):
     # if 'published' in art:
     #    art['published'] = utils.ymdhms(art['published'])
 
-    art['stage'] = 'published' # an article will always have a pubdate, so we don't know if it's actually published or not...
+    # an article will always have a pubdate, so we don't know if it's actually published or not...
+    art['stage'] = 'published'
+
     art['statusDate'] = '2099-01-01T00:00:00Z'
-    art['versionDate'] = '2099-01-01T00:00:00Z'
+
+    if 'versionDate' not in art:
+        # a versionDate wouldn't be present if we're dealing with a version > 1
+        art['versionDate'] = '2099-01-01T00:00:00Z'
 
 #
 #

@@ -488,9 +488,30 @@ def mkdescription(poa=True):
 # bootstrap
 #
 
-def render_single(doc, **overrides):
+def expand_location(path):
+    if path.startswith('article-xml/articles/'):
+        # this article is coming from the local ./article-xml/ directory, which
+        # is almost certainly a git checkout. we want a location that looks like:
+        # https://raw.githubusercontent.com/elifesciences/elife-article-xml/5f1179c24c9b8a8b700c5f5bf3543d16a32fbe2f/articles/elife-00003-v1.xml
+        rc, rawsha = utils.run_script(["cat", "elife-article-xml.sha1"])
+        utils.ensure(rc == 0, "failed to read the contents of './elife-article-xml.sha1'")
+        sha = rawsha.strip()
+        fname = os.path.basename(path)
+        return "https://raw.githubusercontent.com/elifesciences/elife-article-xml/%s/articles/%s" % (sha, fname)
+
+    elif path.startswith('https://s3.amazonaws.com'):
+        # it's being downloaded from a bucket, no worries
+        return path
+
+    # who knows what this path is ...
+    LOG.warn("scraping article content in a non-repeatable way. please don't send the results to lax")
+    return path
+
+def render_single(doc, **vars):
     try:
-        setvar(**overrides)
+        # prefer the override, but if not provided, use the path from the given doc or empty string ultimately
+        vars['location'] = expand_location(vars.get('location', getattr(doc, 'name', '')))
+        setvar(**vars)
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
         article_data = postprocess(render(description, [soup])[0])
@@ -505,25 +526,9 @@ def render_single(doc, **overrides):
         LOG.error("failed to render doc with error: %s", err)
         raise
 
-def expand_location(path):
-    if path.startswith('article-xml/articles/'):
-        # this article is coming from the local ./article-xml/ directory, which
-        # is almost certainly a git checkout. we want a location that looks like:
-        # https://raw.githubusercontent.com/elifesciences/elife-article-xml/5f1179c24c9b8a8b700c5f5bf3543d16a32fbe2f/articles/elife-00003-v1.xml
-        rc, rawsha = utils.run_script(["cat", "elife-article-xml.sha1"])
-        utils.ensure(rc == 0, "failed to read the contents of './elife-article-xml.sha1'")
-        sha = rawsha.strip()
-        fname = os.path.basename(path)
-        return "https://raw.githubusercontent.com/elifesciences/elife-article-xml/%s/articles/%s" % (sha, fname)
-
-    # who knows what this path is
-    LOG.warn("scraping article content in a non-repeatable way. please don't send the results to lax")
-    return path
-
 def main(doc):
     msid, version = utils.version_from_path(getattr(doc, 'name', doc))
     try:
-        setvar(location=expand_location(getattr(doc, 'name', '')))
         article_json = render_single(doc, version=version)
         return json.dumps(article_json, indent=4)
     except Exception:

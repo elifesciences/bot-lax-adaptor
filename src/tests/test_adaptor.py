@@ -1,4 +1,4 @@
-import os, json, re
+import os, re
 from os.path import join
 from .base import BaseCase
 import adaptor as adapt, fs_adaptor, conf
@@ -101,19 +101,6 @@ class Adapt(BaseCase):
         args.extend(argstr.split())
         with patch('sys.argv', args):
             adapt.bootstrap()
-
-    @patch('conf.PATCH_AJSON_FOR_VALIDATION', True)
-    def test_patched_data(self):
-        "we can optionally patch the article-json rendered to fill any gaps for validation"
-        expected = {'-patched': True}
-
-        def call_lax(*args, **kwargs):
-            art = json.loads(kwargs['article_json'])['article']
-            for key, val in expected.items():
-                self.assertEqual(art[key], val)
-            return {'status': conf.INGESTED, 'message': 'mock'}
-        with patch('adaptor.call_lax', call_lax):
-            adaptor.do(*adaptor.read_from_fs(join(self.ingest_dir, 'v3')))
 
     def test_http_download(self):
         # this needs to be an UTF-8 XML document

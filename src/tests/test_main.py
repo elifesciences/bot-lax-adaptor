@@ -1,4 +1,5 @@
 import json
+from mock import patch
 from os.path import join
 from .base import BaseCase
 import main
@@ -72,9 +73,14 @@ class ArticleScrape(BaseCase):
         # TODO: lets make this behaviour a bit nicer
         self.assertRaises(Exception, main.main, "aaaaaaaaaaaaaa")
 
+    @patch('conf.PATCH_AJSON_FOR_VALIDATION', False)
     def test_main_published_excluded_if_v2(self):
+        # when version == 1, we just use the pubdate in the xml
         results = main.render_single(self.doc, version=1)
         self.assertTrue('versionDate' in results['article'])
+        # when version > 1, we exclude it from the scrape and rely on lax to fill in the gap
+        # HOWEVER - we patch scrapes by default now and versionDate is filled in with a dummy value,
+        # so we turn the option off above
         results = main.render_single(self.doc, version=2)
         self.assertFalse('versionDate' in results['article'])
 
@@ -280,3 +286,12 @@ class KitchenSink(BaseCase):
                          'uri': 'https://static-movie-usa.glencoesoftware.com/webm/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.webm'}]
         }
         self.assertEqual(tod(expected_media), tod(media))
+
+    @patch('conf.PATCH_AJSON_FOR_VALIDATION', False)
+    def test_patched_data_not_present(self):
+        """patched values are not present when patching-for-validation is turned off.
+
+        by default, rendered article-json contains patched values to allow it to validate
+        without relying on lax to fill in the blanks. the defaults are obviously dummy values."""
+        result = main.render_single(self.doc, version=1)
+        self.assertFalse('patched' in result['article']['-meta'])
