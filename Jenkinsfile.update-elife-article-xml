@@ -1,0 +1,14 @@
+def elifeArticleXmlSummary;
+elifeUpdatePipeline(
+    { commit ->
+        sh "./update-elife-xml.sh"
+        sh "git add elife-article-xml.sha1"
+        def gitLogCommand = "cd article-xml; git log -1 --pretty=%ci"
+        elifeArticleXmlSummary = sh(script: gitLogCommand, returnStdout: true).trim()
+    },
+    {
+        return "Updated elife-article-xml to: ${elifeArticleXmlSummary}"
+    },
+    'update_elife_article_xml_',
+    true
+)
