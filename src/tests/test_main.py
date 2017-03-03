@@ -280,3 +280,22 @@ class KitchenSink(BaseCase):
                          'uri': 'https://static-movie-usa.glencoesoftware.com/webm/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.webm'}]
         }
         self.assertEqual(tod(expected_media), tod(media))
+
+    def test_expanded_inline_urls(self):
+        result = main.render_single(self.doc, version=1)
+        given = result['article']['body'][1]['content'][-1]['content'][-3]
+
+        expected = {
+            'content': [{
+                'text': ' Here is an example of pulling in an inline graphic <img src="https://publishing-cdn.elifesciences.org/00666/elife-00666-inf001.jpeg"/>.',
+                'type': 'paragraph'
+            }],
+            'id': 's2-6-4',
+            'title': 'Inline graphics',
+            'type': 'section'
+        }
+
+        def tod(d):
+            return json.loads(json.dumps(d))
+
+        self.assertEqual(tod(given), tod(expected))
