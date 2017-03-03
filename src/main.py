@@ -2,9 +2,9 @@ from isbnlib import mask, to_isbn13
 import re
 from functools import partial
 import os, sys, json, copy, calendar
-import threading
 from et3.render import render, doall, EXCLUDE_ME
 from et3.extract import lookup as p
+from et3.utils import requires_context
 from elifetools import parseJATS
 from functools import wraps
 import logging
@@ -19,29 +19,6 @@ _handler = logging.FileHandler('scrape.log')
 _handler.setLevel(logging.INFO)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
-
-#
-# global mutable state! warning!
-#
-
-# not sure where I'm going with this, but I might send each
-# action to it's own subprocess
-VARS = threading.local()
-
-def getvar(key, default=0xDEADBEEF):
-    def fn(v):
-        var = getattr(VARS, key, default)
-        if var == 0xDEADBEEF:
-            raise AttributeError("no var %r found" % key)
-        return var
-    return fn
-
-def setvar(**kwargs):
-    [setattr(VARS, key, val) for key, val in kwargs.items()]
-
-def rmvars():
-    "empties the thread-local variables"
-    VARS.__dict__.clear()
 
 #
 # utils
@@ -158,7 +135,8 @@ def mixed_citation_to_related_articles(mixed_citation_list):
     return map(et, mixed_citation_list)
 
 def cdnlink(msid, filename):
-    cdn = conf.cdn(getvar('env', None)(None))
+    #cdn = conf.cdn(getvar('env', None)(None))
+    cdn = conf.cdn(env=None)
     kwargs = {
         'padded-msid': utils.pad_msid(msid),
         'fname': filename
@@ -215,11 +193,18 @@ def to_volume_incorrect(pair):
 
 to_volume = to_volume_incorrect
 
-def discard_if_not_v1(v):
+@requires_context
+def discard_if_not_v1(ctx, ver):
     "discards given value if the version of the article being worked on is not a v1"
-    if getvar('version')(v) == 1:
-        return v
+    if ctx['version'] == 1:
+        return ver
     return EXCLUDE_ME
+
+def getvar(varname):
+    @requires_context
+    def fn(ctx, _):
+        return ctx[varname]
+    return fn
 
 '''
 def discard_if(pred): # can also be used like: discard_if(None)
@@ -502,13 +487,12 @@ def expand_location(path):
     LOG.warn("scraping article content in a non-repeatable way. please don't send the results to lax")
     return path
 
-def render_single(doc, **tvars):
+def render_single(doc, **ctx):
     try:
-        tvars['location'] = expand_location(doc)
-        setvar(**tvars)
+        ctx['location'] = expand_location(doc)
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
-        article_data = postprocess(render(description, [soup])[0])
+        article_data = postprocess(render(description, [soup], ctx)[0])
 
         if conf.PATCH_AJSON_FOR_VALIDATION: # makes in-place changes to the data
             validate.add_placeholders_for_validation(article_data)

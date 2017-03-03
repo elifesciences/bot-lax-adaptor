@@ -1,5 +1,4 @@
 from StringIO import StringIO
-import main
 import json
 from os.path import join
 from .base import BaseCase
@@ -11,7 +10,7 @@ class TestArticleValidate(BaseCase):
         self.doc_json = join(self.fixtures_dir, 'elife-09560-v1.xml.json')
 
     def tearDown(self):
-        main.rmvars()
+        pass
 
     def test_main_bootstrap(self):
         "valid output is returned"

@@ -11,10 +11,10 @@ class ArticleScrape(BaseCase):
         self.soup = main.to_soup(self.doc)
 
     def tearDown(self):
-        main.rmvars()
+        pass
 
     def test_missing_var(self):
-        self.assertRaises(AttributeError, main.getvar('foo'), None)
+        self.assertRaises(KeyError, main.getvar('foo'), {}, None)
 
     def test_video_msid(self):
         self.assertEqual(9560, main.video_msid(9560))

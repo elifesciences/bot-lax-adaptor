@@ -2,7 +2,7 @@ import os, re
 from os.path import join
 from .base import BaseCase
 import adaptor as adapt, fs_adaptor, conf
-import adaptor, main
+import adaptor
 import unittest
 from mock import patch
 
@@ -21,7 +21,7 @@ class Ingest(BaseCase):
         self.num_ingest_dir_xml = self.num_ingest_dir - spanner
 
     def tearDown(self):
-        main.rmvars()
+        pass
 
     # still really handy to tests integration locally
     @unittest.skip("requires lax IN A CERTAIN STATE :( disabling for now")
@@ -44,7 +44,7 @@ class Adapt(BaseCase):
         self.valid_request = list(self.inc)[0]
 
     def tearDown(self):
-        main.rmvars()
+        pass
 
     def test_handler_bad_json(self):
         "bad json request generates an error"

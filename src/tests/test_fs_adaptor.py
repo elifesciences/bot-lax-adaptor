@@ -2,7 +2,7 @@ import os
 from os.path import join
 from .base import BaseCase
 import utils
-import adaptor as adapt, conf, fs_adaptor, main
+import adaptor as adapt, conf, fs_adaptor
 from jsonschema import ValidationError
 
 class FS(BaseCase):
@@ -13,7 +13,7 @@ class FS(BaseCase):
         self.num_ingest_dir_xml = self.num_ingest_dir - spanner
 
     def tearDown(self):
-        main.rmvars()
+        pass
 
     def test_incoming(self):
         "the number of messages to be ingested match the number of xml files in directory to be ingested"

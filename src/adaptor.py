@@ -208,8 +208,9 @@ def handler(json_request, outgoing):
         LOG.info("got xml")
 
         try:
-            main.setvar(location=request['location'])
-            article_data = main.render_single(article_xml, version=params['version'])
+            article_data = main.render_single(article_xml,
+                                              version=params['version'],
+                                              location=request['location'])
             LOG.info("rendered article data ")
 
         except Exception as err:
@@ -316,7 +317,8 @@ def bootstrap():
 
     args = parser.parse_args()
 
-    main.setvar(env=args.instance_id)
+    # TODO: how to pass this to render?
+    # main.setvar(env=args.instance_id)
 
     adaptors = {
         'fs': partial(read_from_fs, args.target),
