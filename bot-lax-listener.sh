@@ -3,4 +3,4 @@
 set -e
 
 . install.sh
-./.bot-lax-listener.sh $1
+exec ./.bot-lax-listener.sh $1
