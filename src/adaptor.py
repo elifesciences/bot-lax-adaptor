@@ -7,14 +7,14 @@ import requests
 import signal
 import main, fs_adaptor, sqs_adaptor
 from functools import partial
-import validate, utils
-from utils import subdict, renkeys
+import utils
+from utils import subdict, renkeys, ensure
 
 from awsauth import S3Auth
 import botocore.session
 
 import conf
-from conf import PATHS_TO_LAX, PROJECT_DIR
+from conf import PROJECT_DIR
 from conf import INVALID, ERROR, INGESTED, PUBLISHED, INGEST, PUBLISH, INGEST_PUBLISH
 
 import logging
@@ -62,10 +62,9 @@ def send_response(outgoing, response):
     return response
 
 def find_lax():
-    dirname = filter(os.path.exists, PATHS_TO_LAX)
-    assert dirname, "could not find lax"
-    script = join(dirname[0], "manage.sh")
-    assert os.path.exists(script), "could not find lax's manage.sh script"
+    ensure(os.path.exists(conf.PATH_TO_LAX), "could not find lax")
+    script = join(conf.PATH_TO_LAX, "manage.sh")
+    ensure(os.path.exists(script), "could not find lax's manage.sh script")
     return script
 
 def call_lax(action, id, version, token, article_json=None, force=False, dry_run=False):
@@ -98,8 +97,8 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
                            (err.message, lax_stdout))
 
 def file_handler(path):
-    assert path.startswith(PROJECT_DIR), \
-        "unsafe operation - refusing to read from a file location outside of project root. %r does not start with %r" % (path, PROJECT_DIR)
+    ensure(path.startswith(PROJECT_DIR),
+           "unsafe operation - refusing to read from a file location outside of project root. %r does not start with %r" % (path, PROJECT_DIR))
     xml = open(path, 'r').read()
     # write cache?
     return xml
@@ -208,13 +207,11 @@ def handler(json_request, outgoing):
         LOG.info("got xml")
 
         try:
-            article_data = main.render_single(article_xml, version=params['version'])
-
+            article_data = main.render_single(article_xml,
+                                              version=params['version'],
+                                              location=request['location'])
             LOG.info("rendered article data ")
 
-            if conf.SEND_LAX_PATCHED_AJSON: # makes in-place changes to the data
-                validate.add_placeholders_for_validation(article_data)
-                LOG.info("placeholders attached")
         except Exception as err:
             error = err.message if hasattr(err, 'message') else err
             msg = "failed to render article-json from article-xml: %s" % error
@@ -262,10 +259,10 @@ except ImportError:
 #
 #
 
-def read_from_sqs(instance_id='temp', **kwargs):
+def read_from_sqs(env, **kwargs):
     "reads messages from an SQS queue, writes responses to another SQS queue"
-    incoming = sqs_adaptor.IncomingQueue('bot-lax-%s-inc' % instance_id, **kwargs)
-    outgoing = sqs_adaptor.OutgoingQueue('bot-lax-%s-out' % instance_id)
+    incoming = sqs_adaptor.IncomingQueue('bot-lax-%s-inc' % env, **kwargs) # ll: bot-lax-end2end-inc
+    outgoing = sqs_adaptor.OutgoingQueue('bot-lax-%s-out' % env)           # ll: bot-lax-end2end-out
     return incoming, outgoing
 
 def read_from_fs(path, **kwargs):
@@ -283,14 +280,11 @@ class Flag:
         self.should_stop = True
 
 def do(incoming, outgoing):
-
     # we'll see how far this abstraction gets us...
     try:
         for request in incoming:
-            print 'doing ...'
             LOG.info("received request %s", request)
             handler(request, outgoing)
-            print '....done'
 
     except KeyboardInterrupt:
         LOG.warn("stopping abruptly due to KeyboardInterrupt")
@@ -317,12 +311,7 @@ def bootstrap():
     parser.add_argument('--force', action='store_true', default=False)
     parser.add_argument('--action', choices=[INGEST, PUBLISH, INGEST_PUBLISH])
 
-    # sqs options
-    parser.add_argument('--instance', dest='instance_id', help='the "ci" in "lax--ci"')
-
     args = parser.parse_args()
-
-    main.setvar(env=args.instance_id)
 
     adaptors = {
         'fs': partial(read_from_fs, args.target),
@@ -336,10 +325,7 @@ def bootstrap():
     if adaptor_type == 'fs':
         fn = partial(fn, action=args.action, force=args.force)
     else:
-        if not args.instance_id:
-            parser.error("--instance is required when --type=sqs")
-        else:
-            fn = partial(fn, args.instance_id, flag=flag)
+        fn = partial(fn, env=conf.ENV, flag=flag)
 
     do(*fn())
 

@@ -1,5 +1,4 @@
 from StringIO import StringIO
-#import sys
 import json
 from os.path import join
 from .base import BaseCase
@@ -31,7 +30,9 @@ class TestArticleValidate(BaseCase):
         article = {'article': {'id': 12345, 'version': 2}}
         expected = {
             'article': {
-                '-patched': True,
+                '-meta': {
+                    'patched': True,
+                },
                 'id': 12345,
                 'version': 2,
                 'stage': 'published',

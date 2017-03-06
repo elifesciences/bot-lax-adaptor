@@ -73,7 +73,7 @@ def upload():
 
     # generate
     try:
-        print 'generating'
+        # print 'generating'
         results = scraper.main(path)
         json_filename = filename + '.json'
         json_path = join(app.config['UPLOAD_FOLDER'], json_filename)
@@ -85,7 +85,7 @@ def upload():
 
     # validate
     try:
-        print 'validating'
+        # print 'validating'
         validate.main(open(json_path, 'r'))
         flash("valid")
     except jsonschema.ValidationError as err:

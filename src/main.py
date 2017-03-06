@@ -2,9 +2,9 @@ from isbnlib import mask, to_isbn13
 import re
 from functools import partial
 import os, sys, json, copy, calendar
-import threading
 from et3.render import render, doall, EXCLUDE_ME
 from et3.extract import lookup as p
+from et3.utils import requires_context
 from elifetools import parseJATS
 from functools import wraps
 import logging
@@ -12,32 +12,13 @@ from collections import OrderedDict
 from datetime import datetime
 from slugify import slugify
 import conf, utils, glencoe
-from utils import pad_msid
+import validate
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler('scrape.log')
 _handler.setLevel(logging.INFO)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
-
-#
-# global mutable state! warning!
-#
-
-# not sure where I'm going with this, but I might send each
-# action to it's own subprocess
-VARS = threading.local()
-
-def getvar(key, default=0xDEADBEEF):
-    def fn(v):
-        var = getattr(VARS, key, default)
-        if var == 0xDEADBEEF:
-            raise AttributeError("no var %r found" % key)
-        return var
-    return fn
-
-def setvar(**kwargs):
-    [setattr(VARS, key, val) for key, val in kwargs.items()]
 
 #
 # utils
@@ -48,7 +29,7 @@ def video_msid(msid):
 
     Leaves real articles untouched"""
     if int(msid) > 100000:
-        return pad_msid(str(msid[-5:]))
+        return utils.pad_msid(str(msid[-5:]))
     return msid
 
 def doi(item):
@@ -61,22 +42,6 @@ def to_isoformat(time_struct):
     ts = calendar.timegm(time_struct) # ll: 1441843200
     ts = datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
     return utils.ymdhms(ts)
-
-def note(msg, level=logging.DEBUG):
-    "a note logs some message about the value but otherwise doesn't interrupt the pipeline"
-    # if this is handy, consider adding to et3?
-    def fn(val):
-        LOG.log(level, msg, extra={'value': val})
-        return val
-    return fn
-
-def todo(msg):
-    "this value requires more work"
-    return note("todo: %s" % msg, logging.INFO)
-
-def nonxml(msg):
-    "we're scraping a value that doesn't appear in the XML"
-    return note("nonxml: %s" % msg, logging.WARN)
 
 def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
@@ -170,12 +135,11 @@ def mixed_citation_to_related_articles(mixed_citation_list):
     return map(et, mixed_citation_list)
 
 def cdnlink(msid, filename):
-    cdn = conf.cdn(getvar('env', None)(None))
     kwargs = {
-        'padded-msid': pad_msid(msid),
+        'padded-msid': utils.pad_msid(msid),
         'fname': filename
     }
-    return cdn % kwargs
+    return conf.CDN % kwargs
 
 def base_url(msid):
     return cdnlink(msid, '')
@@ -188,7 +152,7 @@ def pdf_uri(triple):
     content_type, msid, version = triple
     if content_type in ['Correction']:
         return EXCLUDE_ME
-    filename = "elife-%s-v%s.pdf" % (pad_msid(msid), version) # ll: elife-09560-v1.pdf
+    filename = "elife-%s-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-v1.pdf
     return cdnlink(msid, filename)
 
 def category_codes(cat_list):
@@ -227,11 +191,18 @@ def to_volume_incorrect(pair):
 
 to_volume = to_volume_incorrect
 
-def discard_if_not_v1(v):
+@requires_context
+def discard_if_not_v1(ctx, ver):
     "discards given value if the version of the article being worked on is not a v1"
-    if getvar('version')(v) == 1:
-        return v
+    if ctx['version'] == 1:
+        return ver
     return EXCLUDE_ME
+
+def getvar(varname):
+    @requires_context
+    def fn(ctx, _):
+        return ctx[varname]
+    return fn
 
 '''
 def discard_if(pred): # can also be used like: discard_if(None)
@@ -410,6 +381,9 @@ JOURNAL = OrderedDict([
 ])
 
 SNIPPET = OrderedDict([
+    ('-meta', OrderedDict([
+        ('location', [getvar('location')]),
+    ])),
     ('status', [jats('is_poa'), is_poa_to_status]),
     ('id', [jats('publisher_id')]),
     ('version', [getvar('version')]),
@@ -481,12 +455,50 @@ def mkdescription(poa=True):
 # bootstrap
 #
 
-def render_single(doc, **overrides):
+def expand_location(path):
+    if isinstance(path, file):
+        path = doc.name
+
+    elif os.path.exists(path):
+        # so we always have an absolute path
+        path = os.path.join(conf.PROJECT_DIR, path)
+
+    else:
+        # just ensure we have a string to work with
+        path = path or ''
+
+    if re.match(r".*article-xml/articles/.+\.xml$", path):
+        # this article is coming from the local ./article-xml/ directory, which
+        # is almost certainly a git checkout. we want a location that looks like:
+        # https://raw.githubusercontent.com/elifesciences/elife-article-xml/5f1179c24c9b8a8b700c5f5bf3543d16a32fbe2f/articles/elife-00003-v1.xml
+        rc, rawsha = utils.run_script(["cat", "elife-article-xml.sha1"])
+        utils.ensure(rc == 0, "failed to read the contents of './elife-article-xml.sha1'")
+        sha = rawsha.strip()
+        fname = os.path.basename(path)
+        return "https://raw.githubusercontent.com/elifesciences/elife-article-xml/%s/articles/%s" % (sha, fname)
+
+    elif path.startswith('https://s3.amazonaws.com'):
+        # it's being downloaded from a bucket, no worries
+        return path
+
+    # who knows what this path is ...
+    LOG.warn("scraping article content in a non-repeatable way. please don't send the results to lax")
+    return path
+
+def render_single(doc, **ctx):
     try:
-        setvar(**overrides)
+        # passing a 'location' value will override pulling the value from the doc
+        ctx['location'] = expand_location(ctx.get('location', doc))
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
-        return postprocess(render(description, [soup])[0])
+        article_data = postprocess(render(description, [soup], ctx)[0])
+
+        if conf.PATCH_AJSON_FOR_VALIDATION: # makes in-place changes to the data
+            validate.add_placeholders_for_validation(article_data)
+            LOG.debug("placeholders attached")
+
+        return article_data
+
     except Exception as err:
         LOG.error("failed to render doc with error: %s", err)
         raise

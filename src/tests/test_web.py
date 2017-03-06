@@ -38,7 +38,7 @@ class Web(TestCase):
         return web.app
 
     def tearDown(self):
-        print 'removing', self.temp_dir
+        # print 'removing', self.temp_dir
         shutil.rmtree(self.temp_dir)
 
     def test_index(self):
