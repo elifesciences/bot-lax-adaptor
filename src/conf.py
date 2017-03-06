@@ -1,6 +1,7 @@
 import os, json, logging
 from os.path import join
 from pythonjsonlogger import jsonlogger
+import configparser as configparser
 
 ROOTLOG = logging.getLogger("")
 
@@ -49,19 +50,44 @@ def multiprocess_log(filename, name=__name__):
         log.addHandler(_handler)
     return log
 
-DEBUG = False
+#
+#
+#
 
-# where can we find lax when we need to speak to it?
-PATHS_TO_LAX = map(os.path.expanduser, [
-    '/srv/lax/',
-    '~/dev/python/lax/'
-])
+PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
+
+CFG_NAME = 'app.cfg'
+DYNCONFIG = configparser.SafeConfigParser(**{
+    'allow_no_value': True,
+    # these can be used like template variables
+    # https://docs.python.org/2/library/configparser.html
+    'defaults': {'dir': PROJECT_DIR}})
+DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # ll: /path/to/lax/app.cfg
+
+def cfg(path, default=0xDEADBEEF):
+    lu = {'True': True, 'true': True, 'False': False, 'false': False} # cast any obvious booleans
+    try:
+        val = DYNCONFIG.get(*path.split('.'))
+        return lu.get(val, val)
+    except (configparser.NoOptionError, configparser.NoSectionError): # given key in section hasn't been defined
+        if default == 0xDEADBEEF:
+            raise ValueError("no value/section set for setting at %r" % path)
+        return default
+    except Exception:
+        raise
+
+#
+#
+#
+
+ENV = cfg('general.env')
+
+PATH_TO_LAX = cfg('lax.location')
 
 # certain values that can't be known at render time are
 # added so the result can be validated against the schema
 PATCH_AJSON_FOR_VALIDATION = True
 
-PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error'
 
@@ -84,14 +110,15 @@ RESPONSE_SCHEMA = json_load('response-schema.json')
 CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
 CDN2 = 'publishing-cdn.elifesciences.org/%(padded-msid)s/%(fname)s'
 
-DEFAULT_CDN = CDN1 if False else CDN2
+DEFAULT_CDN = CDN1 if False else CDN2 # 'False' until we finish switching to a single CDN :(
 CDNS_BY_ENV = {
     'end2end': 'end2end-' + CDN2,
 }
+CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
-def cdn(env=None):
-    return 'https://' + CDNS_BY_ENV.get(env, DEFAULT_CDN)
-
+# TODO: when a machine is stopped and started, /tmp is cleared
+# thus our testing instances are thrashing glencoe.
+# make this PROJECT_DIR + 'glencoe-cache'
 GLENCOE_CACHE = '/tmp/glencoe-cache'
 
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()

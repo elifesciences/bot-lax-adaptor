@@ -135,13 +135,11 @@ def mixed_citation_to_related_articles(mixed_citation_list):
     return map(et, mixed_citation_list)
 
 def cdnlink(msid, filename):
-    #cdn = conf.cdn(getvar('env', None)(None))
-    cdn = conf.cdn(env=None)
     kwargs = {
         'padded-msid': utils.pad_msid(msid),
         'fname': filename
     }
-    return cdn % kwargs
+    return conf.CDN % kwargs
 
 def base_url(msid):
     return cdnlink(msid, '')
@@ -489,7 +487,8 @@ def expand_location(path):
 
 def render_single(doc, **ctx):
     try:
-        ctx['location'] = expand_location(doc)
+        # passing a 'location' value will override pulling the value from the doc
+        ctx['location'] = expand_location(ctx.get('location', doc))
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
         article_data = postprocess(render(description, [soup], ctx)[0])

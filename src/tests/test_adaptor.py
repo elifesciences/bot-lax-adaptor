@@ -92,7 +92,6 @@ class Adapt(BaseCase):
         self.assertEqual(len(self.out.errors), 1)
         self.assertTrue(self.out.errors[0]['message'].startswith("failed to render"))
 
-    @patch('conf.DEBUG', True)
     @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.INVALID, 'message': 'mock'})
     def test_bootstrap(self):
         v3_dir = join(self.ingest_dir, 'v3')

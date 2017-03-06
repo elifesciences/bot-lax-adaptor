@@ -4,6 +4,7 @@
 *.orig
 *.log
 venv/
+app.cfg
 *.swp
 .coverage
 article-xml/
