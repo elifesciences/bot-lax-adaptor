@@ -2,5 +2,5 @@
 
 set -e
 
-. install.sh
-exec ./.bot-lax-listener.sh $1
+source venv/bin/activate
+exec ./.bot-lax-listener.sh
