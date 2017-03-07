@@ -56,7 +56,6 @@ class FS(BaseCase):
         self.assertEqual(len(out.errors), 0)
 
     def test_fs_outgoing_dump(self):
-        "purely for code coverage :("
         out = fs_adaptor.OutgoingQueue()
         expected = {
             'valid': [],
