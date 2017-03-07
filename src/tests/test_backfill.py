@@ -106,7 +106,6 @@ class One(BaseCase):
         actual = bfup.do_paths(paths)
         self.assertEqual(actual, expected)
 
-'''
 class Two(BaseCase):
     def setUp(self):
         pass
@@ -114,5 +113,71 @@ class Two(BaseCase):
     def tearDown(self):
         pass
 
-    def test_
-'''
+    def test_bootstrap_read_paths(self):
+        path = 'article-xml/articles/elife-09560-v1.xml'
+        given = [path, '--dry-run'] # order is important, dry-run comes last (like kwargs)
+        expected = [            
+            {
+                "force": True,
+                "token": "pants-party", 
+                "version": 1, 
+                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml", 
+                "action": "ingest", 
+                "id": "09560"
+            }
+        ]
+        self.assertEqual(bfup.main(given), expected)
+
+    def test_bootstrap_read_multiple_paths(self):
+        path = 'article-xml/articles/elife-09560-v1.xml'
+        given = [path, path, '--dry-run'] # order is important, dry-run comes last (like kwargs)
+        expected = [            
+            {
+                "force": True,
+                "token": "pants-party", 
+                "version": 1, 
+                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml", 
+                "action": "ingest", 
+                "id": "09560"
+            },
+            {
+                "force": True,
+                "token": "pants-party", 
+                "version": 1, 
+                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml", 
+                "action": "ingest", 
+                "id": "09560"
+            }
+        ]
+        self.assertEqual(bfup.main(given), expected)
+
+    def test_bootstrap_read_json_object(self):
+        "json objects can be read from stdin as well, they must be line-delimited though"
+        jsonobj = '''{"msid":16695,"version":1,"location":"https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}'''
+        expected = [{
+            'force': True,
+            'token': 'pants-party',
+            'version': 1,
+            'location': u'https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
+            'action': 'ingest',
+            'id': u'16695'
+        }]
+        with mock.patch('backfill.read_from_stdin', return_value=[jsonobj]):
+            actual = bfup.main(['--dry-run'])
+            self.assertEqual(actual, expected)
+
+    def test_bootstrap_read_multiple_json_objects(self):
+        "json objects can be read from stdin as well, they must be line-delimited though"
+        jsonobj = '''{"msid":16695,"version":1,"location":"https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}
+{"msid":1968,"version":1,"location":"no-location-stored"}'''
+        expected = [{
+            'force': True,
+            'token': 'pants-party',
+            'version': 1,
+            'location': u'https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
+            'action': 'ingest',
+            'id': u'16695'
+        }]
+        with mock.patch('backfill.read_from_stdin', return_value=jsonobj.splitlines()):
+            actual = bfup.main(['--dry-run'])
+            self.assertEqual(actual, expected)

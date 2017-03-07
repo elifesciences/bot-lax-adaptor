@@ -26,17 +26,22 @@ def mkreq(path):
     except KeyError:
         LOG.warning("unhandled input type, %r" % type(path))
 
-def do_paths(paths):
-    to_be_reingested = filter(None, map(mkreq, paths))
-    return send_ingest_requests_to_lax(to_be_reingested)
+def do_paths(paths, dry_run=False):
+    ingest_requests = filter(None, map(mkreq, paths))
+    if dry_run:
+        return ingest_requests
+    return send_ingest_requests_to_lax(ingest_requests)
 
 #
 # bootstrap
 #
 
+read_from_stdin = sys.stdin.readlines
+
 def main(args):
     import argparse
     parser = argparse.ArgumentParser()
+    parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('paths', nargs="*")
     args = parser.parse_args(args)
 
@@ -45,16 +50,14 @@ def main(args):
 
     # failing that, try reading from stdin
     if not paths:
-        paths = sys.stdin.readlines()
+        paths = read_from_stdin()
         try:
             paths = map(json.loads, paths)
         except ValueError:
             raise
 
-    print paths
-
-    return do_paths(paths)
+    return do_paths(paths, dry_run=args.dry_run)
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    print(json.dumps(main(sys.argv[1:]), indent=4))
     exit(0)

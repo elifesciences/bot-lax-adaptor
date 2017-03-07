@@ -17,7 +17,7 @@ def mkreq(path, **overrides):
         'location': path,
         'id': msid,
         'version': ver,
-        'force': False,
+        'force': True,
         'token': 'pants-party'
     }
     request.update(overrides)
