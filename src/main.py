@@ -167,7 +167,7 @@ def category_codes(cat_list):
 def handle_isbn(val):
     return mask(to_isbn13(str(val)))
 
-def to_volume_correct(pair):
+def to_volume(pair):
     pub_date, volume = pair
     if not volume:
         # no volume on unpublished PoA articles, calculate based on year published
@@ -179,17 +179,6 @@ def to_volume_correct(pair):
             pub_year = pub_date[0]  # to_isoformat(pub_date)[:4]
         volume = pub_year - (conf.JOURNAL_INCEPTION - 1) # 2011 for elife
     return int(volume)
-
-def to_volume_incorrect(pair):
-    pub_date, volume = pair
-    if not volume:
-        # no volume on unpublished PoA articles, calculate based on current year
-        # (preserving behaviour in EIF generation)
-        year = datetime.now().year
-        volume = year - (conf.JOURNAL_INCEPTION - 1) # 2011 for elife
-    return int(volume)
-
-to_volume = to_volume_incorrect
 
 @requires_context
 def discard_if_not_v1(ctx, ver):

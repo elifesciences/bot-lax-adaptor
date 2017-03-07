@@ -26,7 +26,7 @@ class ArticleScrape(BaseCase):
         expected_item_id = '10.7554/eLife.09560'
         self.assertEqual(main.doi(self.soup), expected_item_id)
 
-    def test_to_volume_correct(self):
+    def test_to_volume(self):
         cases = [
             (('2012-12-31', None), 1),
             (('2013-12-31', None), 2),
@@ -42,26 +42,7 @@ class ArticleScrape(BaseCase):
             (('2016-12-31', []), 5),
         ]
         for year_volume_pair, expected in cases:
-            got = main.to_volume_correct(year_volume_pair)
-            self.assertEqual(expected, got, "given %r, I expected %r got %r" % (year_volume_pair, expected, got))
-
-    def test_to_volume_incorrect(self):
-        cases = [
-            (('2012-12-31', None), 6),
-            (('2013-12-31', None), 6),
-            (('2014-12-31', None), 6),
-            (('2015-12-31', None), 6),
-            (('2016-12-31', None), 6),
-            (('2017-12-31', None), 6),
-            (('2018-12-31', None), 6), # etc
-
-            # various other empty values
-            (('2016-12-31', ""), 6),
-            (('2016-12-31', {}), 6),
-            (('2016-12-31', []), 6),
-        ]
-        for year_volume_pair, expected in cases:
-            got = main.to_volume_incorrect(year_volume_pair)
+            got = main.to_volume(year_volume_pair)
             self.assertEqual(expected, got, "given %r, I expected %r got %r" % (year_volume_pair, expected, got))
 
     def test_render_single(self):
