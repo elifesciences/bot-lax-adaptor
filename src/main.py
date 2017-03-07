@@ -457,7 +457,7 @@ def mkdescription(poa=True):
 
 def expand_location(path):
     if isinstance(path, file):
-        path = doc.name
+        path = path.name
 
     elif os.path.exists(path):
         # so we always have an absolute path
