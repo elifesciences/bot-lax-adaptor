@@ -14,7 +14,7 @@ class One(BaseCase):
     def tearDown(self):
         pass
 
-    def test_backfill_unpublished_path(self):
+    def test_request_valid_path(self):
         "sends article to lax given a path to an xml file"
         paths = [self.small_doc]
 
@@ -33,7 +33,7 @@ class One(BaseCase):
             actual = bfup.main(paths)
             self.assertTrue(partial_match(expected, actual))
 
-    def test_backfill_unpublished_paths(self):
+    def test_request_multiple_valid_paths(self):
         "sends multiple articles to lax given paths to xml files"
         paths = [self.small_doc] * 3 # send the same article three times
 
@@ -67,9 +67,30 @@ class One(BaseCase):
         expected = None
         self.assertEqual(bfup.mkreq(Bah()), expected)
 
-    def test_backfill_unpublished_invalid_paths(self):
+    def test_request_invalid_path(self):
         "something invalid that initially looks valid fails when we try to use it"
-        paths = ['elife-09561-v9.xml']
+        paths = ['elife-09561-v1.xml'] # msid and version can be extracted, but it's not a path
         expected = {'valid': [], 'errors': [{'status': 'error', 'requested-action': 'ingest'}], 'invalid': []}
         actual = bfup.main(paths)
         self.assertTrue(partial_match(expected, actual))
+
+    def test_request_lax_style(self):
+        "dictionaries of article information can be fed in"
+        paths = [{
+            'msid': 16695,
+            'version': 1,
+            'location': 'https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
+        }]
+        expected_lax_response = {
+            "id": "16695",
+            "requested-action": 'ingest',
+            "token": 'pants-party',
+            "status": conf.INGESTED,
+            "message": '...?',
+            "datetime": utils.ymdhms(datetime.now())
+        }
+        expected = {'valid': [expected_lax_response], 'errors': [], 'invalid': []}
+        with mock.patch('adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
+            # mock the download from s3?
+            actual = bfup.do_paths(paths)
+            self.assertTrue(partial_match(expected, actual))

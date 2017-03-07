@@ -50,40 +50,30 @@ def send_ingest_requests_to_lax(request_list):
     finally:
         print "done"
 
-def mkreq_from_lax_result(lax_report_result):
-    "wrangle some basic info into a proper request to lax"
-    ensure(isinstance(lax_report_result, dict), "expected type dict, got %r" % type(lax_report_result))
-    return fs_adaptor.mkreq(lax_report_result['location'])
-
-def mkreq_from_path(path):
+def mkreq(path):
     try:
-        return fs_adaptor.mkreq(path)
-    except ValueError:
+        handlers = {
+            str: fs_adaptor.mkreq,
+            dict: lambda lax_result: fs_adaptor.mkreq(lax_result['location']),
+        }
+        return handlers[type(path)](path)
+    except (KeyError, ValueError):
         LOG.warning("skipping path %r as I can't extract the msid and version from it", path)
 
-def bad_request(x):
-    LOG.warning("skipping given value %s - I don't know how to extract a path from it" % x)
+def do_paths(paths):
+    to_be_reingested = filter(None, map(mkreq, paths))
+    return send_ingest_requests_to_lax(to_be_reingested)
 
-def mkreq(x):
-    handlers = {
-        str: mkreq_from_path,
-        dict: mkreq_from_lax_result,
-        None: bad_request,
-    }
-    key = type(x)
-    if not key in handlers:
-        key = None
-    return handlers[key](x)
+#
+# bootstrap
+#
 
 def main(args):
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('paths', nargs="*")
     args = parser.parse_args(map(str, args))
-    paths = args.paths
-
-    to_be_reingested = filter(None, map(mkreq, paths or invalid_unpublished_list_from_lax()))
-    return send_ingest_requests_to_lax(to_be_reingested)
+    return do_paths(args.paths or invalid_unpublished_list_from_lax())
 
 if __name__ == '__main__':
     main(sys.argv)

@@ -121,7 +121,7 @@ def version_from_path(path):
     return msid, ver
 
 def partial_match(pattern, actual):
-    # print 'testing %s against %s' % (pattern,actual)
+    # print 'testing %s against %s' % (pattern, actual)
     t1, t2 = type(pattern), type(actual)
     ensure(isinstance(t2, type(t1)), "type error, expecting %r got %r" % (t1, t2))
     if isinstance(pattern, dict):
@@ -129,6 +129,8 @@ def partial_match(pattern, actual):
             partial_match(val, actual[key])
 
     elif isinstance(pattern, list):
+        l1, l2 = len(pattern), len(actual)
+        ensure(l1 == l2, "wrong number of elements, expecting %r got %r on %r" % (l1, l2, pattern))
         for idx, val in enumerate(pattern):
             partial_match(val, actual[idx])
 

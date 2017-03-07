@@ -2,10 +2,12 @@ import os, json
 from os.path import join
 import logging
 import utils, conf
+from utils import ensure
 
 LOG = logging.getLogger(__name__)
 
 def mkreq(path, **overrides):
+    ensure(not path.startswith('http://'), "no insecure requests, please")
     path = 'file://' + path if not path.startswith('https://') else path
     msid, ver = utils.version_from_path(path)
     request = {
