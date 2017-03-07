@@ -76,6 +76,8 @@ class OutgoingQueue(object):
             self.errors.append(string)
 
     def dump(self):
-        print 'valid ::', self.valids
-        print 'invalid ::', self.invalids
-        print 'errors ::', self.errors
+        return {
+            'valid': self.valids,
+            'invalid': self.invalids,
+            'errors': self.errors
+        }

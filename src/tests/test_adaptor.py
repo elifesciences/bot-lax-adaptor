@@ -1,4 +1,4 @@
-import os, re
+import re
 from os.path import join
 from .base import BaseCase
 import adaptor as adapt, fs_adaptor, conf
@@ -61,7 +61,6 @@ class Adapt(BaseCase):
         "article xml fails to convert truncated xml to article-json"
         self.valid_request['location'] = 'file://' + join(self.ingest_dir, 'bad', 'truncated.xml')
         adapt.handler(self.valid_request, self.out)
-        self.out.dump()
         self.assertEqual(len(self.out.errors), 1)
         self.assertTrue(self.out.errors[0]['message'].startswith("failed to render"))
 

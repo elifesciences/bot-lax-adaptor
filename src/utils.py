@@ -120,6 +120,22 @@ def version_from_path(path):
     ver = int(ver[1]) # "v1.xml" -> 1
     return msid, ver
 
+def partial_match(pattern, actual):
+    # print 'testing %s against %s' % (pattern,actual)
+    t1, t2 = type(pattern), type(actual)
+    ensure(isinstance(t2, type(t1)), "type error, expecting %r got %r" % (t1, t2))
+    if isinstance(pattern, dict):
+        for key, val in pattern.items():
+            partial_match(val, actual[key])
+
+    elif isinstance(pattern, list):
+        for idx, val in enumerate(pattern):
+            partial_match(val, actual[idx])
+
+    else:
+        ensure(actual == pattern, "%r != %r" % (actual, pattern))
+
+    return True
 
 #
 #
