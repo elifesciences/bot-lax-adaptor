@@ -91,9 +91,9 @@ class One(BaseCase):
         }
         expected = {'valid': [expected_lax_response], 'errors': [], 'invalid': []}
         with mock.patch('adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
-            # mock the download from s3?
-            actual = bfup.do_paths(paths)
-            self.assertTrue(partial_match(expected, actual))
+            with mock.patch('adaptor.http_download', autospec=True, return_value=open(self.small_doc, 'r')):
+                actual = bfup.do_paths(paths)
+                self.assertTrue(partial_match(expected, actual))
 
     def test_request_lax_style_missing_location(self):
         "dictionaries of article information can be fed in"
