@@ -121,7 +121,7 @@ class Two(BaseCase):
                 "force": True,
                 "token": "pants-party",
                 "version": 1,
-                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml",
+                "location": "file://" + join(conf.PROJECT_DIR, path),
                 "action": "ingest",
                 "id": "09560"
             }
@@ -136,19 +136,11 @@ class Two(BaseCase):
                 "force": True,
                 "token": "pants-party",
                 "version": 1,
-                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml",
-                "action": "ingest",
-                "id": "09560"
-            },
-            {
-                "force": True,
-                "token": "pants-party",
-                "version": 1,
-                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml",
+                "location": "file://" + join(conf.PROJECT_DIR, path),
                 "action": "ingest",
                 "id": "09560"
             }
-        ]
+        ] * 2
         self.assertEqual(bfup.main(given), expected)
 
     def test_bootstrap_read_paths_from_stdin(self):
