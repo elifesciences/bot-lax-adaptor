@@ -152,9 +152,14 @@ class ArticleScrape(BaseCase):
         self.assertEqual(expected, main.base_url(given))
 
     def test_pdf_uri(self):
-        given = ('research-article', 1234, 1)
+        given = (['research-article'], 1234, 1)
         #expected = 'https://cdn.elifesciences.org/articles/01234/elife-01234-v1.pdf'
         expected = 'https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf'
+        self.assertEqual(expected, main.pdf_uri(given))
+
+    def test_pdf_uri_correction(self):
+        given = (['Correction'], 1234, 1)
+        expected = main.EXCLUDE_ME
         self.assertEqual(expected, main.pdf_uri(given))
 
     def test_pdf_uri_bad(self):
