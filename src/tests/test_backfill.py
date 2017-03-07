@@ -116,13 +116,13 @@ class Two(BaseCase):
     def test_bootstrap_read_paths(self):
         path = 'article-xml/articles/elife-09560-v1.xml'
         given = [path, '--dry-run'] # order is important, dry-run comes last (like kwargs)
-        expected = [            
+        expected = [
             {
                 "force": True,
-                "token": "pants-party", 
-                "version": 1, 
-                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml", 
-                "action": "ingest", 
+                "token": "pants-party",
+                "version": 1,
+                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml",
+                "action": "ingest",
                 "id": "09560"
             }
         ]
@@ -131,27 +131,58 @@ class Two(BaseCase):
     def test_bootstrap_read_multiple_paths(self):
         path = 'article-xml/articles/elife-09560-v1.xml'
         given = [path, path, '--dry-run'] # order is important, dry-run comes last (like kwargs)
-        expected = [            
+        expected = [
             {
                 "force": True,
-                "token": "pants-party", 
-                "version": 1, 
-                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml", 
-                "action": "ingest", 
+                "token": "pants-party",
+                "version": 1,
+                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml",
+                "action": "ingest",
                 "id": "09560"
             },
             {
                 "force": True,
-                "token": "pants-party", 
-                "version": 1, 
-                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml", 
-                "action": "ingest", 
+                "token": "pants-party",
+                "version": 1,
+                "location": "file:///home/luke/dev/python/bot-lax-adaptor/article-xml/articles/elife-09560-v1.xml",
+                "action": "ingest",
                 "id": "09560"
             }
         ]
         self.assertEqual(bfup.main(given), expected)
 
-    def test_bootstrap_read_json_object(self):
+    def test_bootstrap_read_paths_from_stdin(self):
+        "paths can be read from stdin, one per line"
+        path = "article-xml/articles/elife-16695-v1.xml"
+        expected = [{
+            'force': True,
+            'token': 'pants-party',
+            'version': 1,
+            'location': 'file://' + join(conf.PROJECT_DIR, path),
+            'action': 'ingest',
+            'id': u'16695'
+        }]
+        with mock.patch('backfill.read_from_stdin', return_value=[path]):
+            actual = bfup.main(['--dry-run'])
+            self.assertEqual(actual, expected)
+
+    def test_bootstrap_read_multiple_paths_from_stdin(self):
+        "paths can be read from stdin, one per line"
+        path = "article-xml/articles/elife-16695-v1.xml"
+        paths = "\n".join([path] * 3)
+        expected = [{
+            'force': True,
+            'token': 'pants-party',
+            'version': 1,
+            'location': 'file://' + join(conf.PROJECT_DIR, path),
+            'action': 'ingest',
+            'id': u'16695'
+        }] * 3
+        with mock.patch('backfill.read_from_stdin', return_value=paths.splitlines()):
+            actual = bfup.main(['--dry-run'])
+            self.assertEqual(actual, expected)
+
+    def test_bootstrap_read_json_object_from_stdin(self):
         "json objects can be read from stdin as well, they must be line-delimited though"
         jsonobj = '''{"msid":16695,"version":1,"location":"https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}'''
         expected = [{
@@ -166,7 +197,7 @@ class Two(BaseCase):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, expected)
 
-    def test_bootstrap_read_multiple_json_objects(self):
+    def test_bootstrap_read_multiple_json_objects_from_stdin(self):
         "json objects can be read from stdin as well, they must be line-delimited though"
         jsonobj = '''{"msid":16695,"version":1,"location":"https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}
 {"msid":1968,"version":1,"location":"no-location-stored"}'''

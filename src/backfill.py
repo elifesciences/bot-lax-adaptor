@@ -54,7 +54,8 @@ def main(args):
         try:
             paths = map(json.loads, paths)
         except ValueError:
-            raise
+            # assume filenames.
+            pass
 
     return do_paths(paths, dry_run=args.dry_run)
 
