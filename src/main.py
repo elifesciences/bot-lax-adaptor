@@ -150,7 +150,7 @@ def pdf_uri(triple):
     older articles that should have a pdf, don't. this function doesn't
     concern itself with those latter exceptions."""
     content_type, msid, version = triple
-    if content_type in ['Correction']:
+    if content_type and True in map(lambda type: type in ['Correction'], content_type):
         return EXCLUDE_ME
     filename = "elife-%s-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-v1.pdf
     return cdnlink(msid, filename)
