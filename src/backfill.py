@@ -1,7 +1,6 @@
 import sys
-from utils import ensure
-import adaptor, fs_adaptor, utils
-import json
+import adaptor, fs_adaptor
+#import json
 from conf import logging
 
 LOG = logging.getLogger(__name__)
@@ -19,6 +18,7 @@ our schema may change on us and what was once valid no longer is.
 if there are unpublished articles in lax when this happens, they will fail to publish.
 """
 
+'''
 def invalid_unpublished_list_from_lax():
     "returns a list of articles that are invalid+unpublished after talking to lax."
     # lax has a 'status' report that will give us a list of unpublished + invalid articles
@@ -36,19 +36,16 @@ def invalid_unpublished_list_from_lax():
     #   'location': "https://s3.amazonaws.com/elife-publishing-expanded/25532.2/7f768a31-95e6-452d-9b86-2fdc2150a3fe/elife-25532-v2.xml"
     # }, ... ]
     return json.loads(lax_stdout).get('article-versions.invalid-unpublished.list', [])
+'''
 
 def send_ingest_requests_to_lax(request_list):
     "for each article we want to send a request "
-    try:
-        incoming = fs_adaptor.SimpleQueue(path_list=request_list)
-        outgoing = fs_adaptor.OutgoingQueue()
-        adaptor.do(incoming, outgoing)
-        # ... ?
-        LOG.info("done - %s requests consumed" % len(request_list))
-        return outgoing.dump()
-
-    finally:
-        print "done"
+    incoming = fs_adaptor.SimpleQueue(path_list=request_list)
+    outgoing = fs_adaptor.OutgoingQueue()
+    adaptor.do(incoming, outgoing)
+    # ... ?
+    LOG.info("done - %s requests consumed" % len(request_list))
+    return outgoing.dump()
 
 def mkreq(path):
     try:
@@ -73,7 +70,7 @@ def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('paths', nargs="*")
     args = parser.parse_args(map(str, args))
-    return do_paths(args.paths or invalid_unpublished_list_from_lax())
+    return do_paths(args.paths) # or invalid_unpublished_list_from_lax())
 
 if __name__ == '__main__':
     main(sys.argv)

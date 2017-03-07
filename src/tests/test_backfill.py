@@ -3,7 +3,7 @@ import conf
 from os.path import join
 from base import BaseCase
 from utils import partial_match
-import utils, backfill_unpublished as bfup
+import utils, backfill as bfup
 import mock
 
 class One(BaseCase):
@@ -94,3 +94,14 @@ class One(BaseCase):
             # mock the download from s3?
             actual = bfup.do_paths(paths)
             self.assertTrue(partial_match(expected, actual))
+
+    def test_request_lax_style_missing_location(self):
+        "dictionaries of article information can be fed in"
+        paths = [{
+            'msid': 16695,
+            'version': 1,
+            'location': 'no-location-stored' # could be anything really
+        }]
+        expected = {'valid': [], 'errors': [], 'invalid': []}
+        actual = bfup.do_paths(paths)
+        self.assertEqual(actual, expected)
