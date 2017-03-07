@@ -8,6 +8,8 @@ LOG = logging.getLogger(__name__)
 
 def mkreq(path, **overrides):
     ensure(not path.startswith('http://'), "no insecure requests, please")
+    if path.lstrip('/').startswith('article-xml/articles/'):
+        path = os.path.abspath(path)
     path = 'file://' + path if not path.startswith('https://') else path
     msid, ver = utils.version_from_path(path)
     request = {

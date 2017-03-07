@@ -30,7 +30,7 @@ class One(BaseCase):
         expected = {'valid': [expected_lax_response], 'errors': [], 'invalid': []}
 
         with mock.patch('adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
-            actual = bfup.main(paths)
+            actual = bfup.do_paths(paths)
             self.assertTrue(partial_match(expected, actual))
 
     def test_request_multiple_valid_paths(self):
@@ -49,7 +49,7 @@ class One(BaseCase):
         expected = {'valid': [expected_lax_response] * 3, 'errors': [], 'invalid': []}
 
         with mock.patch('adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
-            actual = bfup.main(paths)
+            actual = bfup.do_paths(paths)
             self.assertTrue(partial_match(expected, actual))
 
     def test_request_bad_paths(self):
@@ -57,7 +57,7 @@ class One(BaseCase):
         paths = ['a', 'b', 'c', [], None, BaseCase]
         # invalids (above) never make it pass path extraction
         expected = {'valid': [], 'errors': [], 'invalid': []}
-        actual = bfup.main(paths)
+        actual = bfup.do_paths(paths)
         self.assertEqual(actual, expected)
 
     def test_request_bad_paths2(self):
@@ -71,7 +71,7 @@ class One(BaseCase):
         "something invalid that initially looks valid fails when we try to use it"
         paths = ['elife-09561-v1.xml'] # msid and version can be extracted, but it's not a path
         expected = {'valid': [], 'errors': [{'status': 'error', 'requested-action': 'ingest'}], 'invalid': []}
-        actual = bfup.main(paths)
+        actual = bfup.do_paths(paths)
         self.assertTrue(partial_match(expected, actual))
 
     def test_request_lax_style(self):
@@ -105,3 +105,14 @@ class One(BaseCase):
         expected = {'valid': [], 'errors': [], 'invalid': []}
         actual = bfup.do_paths(paths)
         self.assertEqual(actual, expected)
+
+'''
+class Two(BaseCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_
+'''
