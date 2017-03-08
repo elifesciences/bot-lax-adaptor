@@ -1,15 +1,11 @@
 #!/bin/bash
-# the purpose of the bot-lax-adaptor project is to do the necessary data 
-# wrangling of article data from the bot before sending it to lax. 
-# this takes several forms:
-# * listening to a queue for messages about which articles to process
-# * processing directories of article xml from the filesystem
-#
-# this script is used to update the article-json stored in lax, performing just
-# the ingestion of content - *no* PUBLISH events whatsoever.
-#
-# when pubdates need to be changed they must be issued as SILENT CORRECTIONS
-# from the production workflow.
+# this script is used to update the article-json stored in lax for PUBLISHED
+# articles only, performing just an ingestion of content - *no* new PUBLISH 
+# events whatsoever.
+
+# talking to lax via the adaptor.py script for many thousands of articles is
+# extremely slow, so this script bypasses all that, bulk generates articles,
+# bulk validates them then tells lax to a bulk ingest.
 
 set -euo pipefail # strict mode
 
@@ -30,7 +26,7 @@ function ctrl_c() {
     exit 1
 }
 
-echo "backfill.sh
+echo "backfill-published.sh
 
 this script will:
 1. pull latest article-xml from elifesciences/elife-article-xml

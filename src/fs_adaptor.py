@@ -2,10 +2,14 @@ import os, json
 from os.path import join
 import logging
 import utils, conf
+from utils import ensure
 
 LOG = logging.getLogger(__name__)
 
 def mkreq(path, **overrides):
+    ensure(not path.startswith('http://'), "no insecure requests, please")
+    if path.lstrip('/').startswith('article-xml/articles/'):
+        path = os.path.abspath(path)
     path = 'file://' + path if not path.startswith('https://') else path
     msid, ver = utils.version_from_path(path)
     request = {
@@ -13,7 +17,7 @@ def mkreq(path, **overrides):
         'location': path,
         'id': msid,
         'version': ver,
-        'force': False,
+        'force': True,
         'token': 'pants-party'
     }
     request.update(overrides)
@@ -76,6 +80,8 @@ class OutgoingQueue(object):
             self.errors.append(string)
 
     def dump(self):
-        print 'valid ::', self.valids
-        print 'invalid ::', self.invalids
-        print 'errors ::', self.errors
+        return {
+            'valid': self.valids,
+            'invalid': self.invalids,
+            'errors': self.errors
+        }

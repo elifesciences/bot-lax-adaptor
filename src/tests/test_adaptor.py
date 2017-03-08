@@ -1,37 +1,10 @@
-import os, re
+import re
 from os.path import join
 from .base import BaseCase
 import adaptor as adapt, fs_adaptor, conf
 import adaptor
 import unittest
 from mock import patch
-
-def requires_lax(fn):
-    try:
-        adapt.find_lax()
-        return fn
-    except AssertionError:
-        return unittest.skip("missing lax")(fn)
-
-class Ingest(BaseCase):
-    def setUp(self):
-        self.ingest_dir = join(self.fixtures_dir, 'dir-ingest', 'v1')
-        self.num_ingest_dir = len(os.listdir(self.ingest_dir))
-        spanner = 1
-        self.num_ingest_dir_xml = self.num_ingest_dir - spanner
-
-    def tearDown(self):
-        pass
-
-    # still really handy to tests integration locally
-    @unittest.skip("requires lax IN A CERTAIN STATE :( disabling for now")
-    @requires_lax
-    def test_adaptor_v1(self):
-        inc, out = adaptor.read_from_fs(self.ingest_dir)
-        adaptor.do(inc, out)
-        self.assertEqual(len(out.invalids), 0)
-        self.assertEqual(len(out.errors), 0)
-        self.assertEqual(len(out.valids), self.num_ingest_dir_xml)
 
 class Adapt(BaseCase):
     def setUp(self):
@@ -88,7 +61,6 @@ class Adapt(BaseCase):
         "article xml fails to convert truncated xml to article-json"
         self.valid_request['location'] = 'file://' + join(self.ingest_dir, 'bad', 'truncated.xml')
         adapt.handler(self.valid_request, self.out)
-        self.out.dump()
         self.assertEqual(len(self.out.errors), 1)
         self.assertTrue(self.out.errors[0]['message'].startswith("failed to render"))
 
