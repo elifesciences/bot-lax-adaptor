@@ -70,6 +70,7 @@ def find_lax():
 def call_lax(action, id, version, token, article_json=None, force=False, dry_run=False):
     cmd = [
         find_lax(), # /srv/lax/manage.sh
+        "--skip-install",
         "ingest",
         "--" + action, # ll: --ingest+publish
         "--id", str(id),
