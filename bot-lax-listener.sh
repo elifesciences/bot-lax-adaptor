@@ -1,6 +1,5 @@
 #!/bin/bash
-
 set -e
 
 . install.sh
-exec ./.bot-lax-listener.sh $1
+exec ./.bot-lax-listener.sh
