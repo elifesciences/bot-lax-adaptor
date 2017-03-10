@@ -380,7 +380,7 @@ SNIPPET = OrderedDict([
     ('doi', [jats('doi')]),
     ('authorLine', [jats('author_line'), discard_if_none_or_empty]),
     ('title', [jats('full_title_json')]),
-    ('titlePrefix', [jats('title_prefix')]),
+    ('titlePrefix', [jats('title_prefix_json')]),
     ('published', [jats('pub_date'), to_isoformat]), # 'published' is the pubdate of the v1 article
     ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
     ('volume', [(jats('pub_date'), jats('volume')), to_volume]),
