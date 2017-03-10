@@ -402,6 +402,7 @@ POA.update(OrderedDict([
         ('statement', [jats('license')]),
     ])),
     ('authors', [jats('authors_json'), discard_if_none_or_empty]),
+    ('reviewers', [jats('editors_json'), discard_if_none_or_empty]),
     ('ethics', [jats('ethics_json')]),
     ('funding', OrderedDict([
         ('awards', [jats('funding_awards_json'), discard_if_none_or_empty]),
