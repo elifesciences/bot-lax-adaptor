@@ -399,7 +399,7 @@ POA.update(OrderedDict([
     ('copyright', OrderedDict([
         ('license', [jats('license_url'), LICENCE_TYPES.get]),
         ('holder', [(jats('copyright_holder'), jats('license')), discard_if_none_or_cc0]),
-        ('statement', [jats('license')]),
+        ('statement', [jats('license_json')]),
     ])),
     ('authors', [jats('authors_json'), discard_if_none_or_empty]),
     ('reviewers', [jats('editors_json'), discard_if_none_or_empty]),
