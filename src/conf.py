@@ -116,10 +116,8 @@ CDNS_BY_ENV = {
 }
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
-# TODO: when a machine is stopped and started, /tmp is cleared
-# thus our testing instances are thrashing glencoe.
-# make this PROJECT_DIR + 'glencoe-cache'
-GLENCOE_CACHE = '/tmp/glencoe-cache'
+# NOTE: do not move to /tmp
+GLENCOE_CACHE = join(PROJECT_DIR, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
 
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 

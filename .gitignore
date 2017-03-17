@@ -14,3 +14,4 @@ api-raml/
 htmlcov/
 elife-tools/
 src/elifetools
+glencoe-cache.sqlite3
