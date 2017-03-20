@@ -319,13 +319,14 @@ def fix_extensions(data):
 def prune(data):
     prune_if_none = [
         "pdf", "relatedArticles", "digest", "abstract", "titlePrefix",
-        "acknowledgements"
+        "acknowledgements",
     ]
     prune_if_empty = [
         "impactStatement", "decisionLetter", "authorResponse",
         "researchOrganisms", "keywords", "references",
         "ethics", "appendices", "dataSets", "additionalFiles",
-        "funding"
+        "funding",
+        "-history",
     ]
     empty = [[], {}, ""]
 
@@ -372,6 +373,10 @@ JOURNAL = OrderedDict([
 SNIPPET = OrderedDict([
     ('-meta', OrderedDict([
         ('location', [getvar('location')]),
+    ])),
+    ('-history', OrderedDict([
+        ('received', [jats('history_date', date_type='received'), to_isoformat, discard_if_none_or_empty]),
+        ('accepted', [jats('history_date', date_type='accepted'), to_isoformat, discard_if_none_or_empty]),
     ])),
     ('status', [jats('is_poa'), is_poa_to_status]),
     ('id', [jats('publisher_id')]),
