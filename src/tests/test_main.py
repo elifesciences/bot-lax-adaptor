@@ -269,7 +269,7 @@ class KitchenSink(BaseCase):
                 "uri": main.cdnlink("00666", "elife-00666-video4-data1.xlsx"),
                 "filename": "elife-00666-video4-data1.xlsx"
             }],
-            "image": main.iiiflink("00666", "https://static-movie-usa.glencoesoftware.com/jpg/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.jpg"),
+            "image": main.iiiflink("00666", "elife-00666-video1.jpg"),
             "height": 720,
             "width": 1280,
             'sources': [{'mediaType': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
