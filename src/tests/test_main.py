@@ -189,18 +189,6 @@ class ArticleScrape(BaseCase):
         ]
         self.assertEqual(main.expand_uris(msid, given), expected)
 
-    def test_expand_inline_graphics(self):
-        msid = 1234
-        given = [
-            {"text": '<img src="http://www.foo.bar">'},
-            {"text": '<img src="' + main.cdnlink(msid, "foo.bar") + '">'},
-        ]
-        expected = [
-            {"text": '<img src="http://www.foo.bar">'},
-            {"text": '<img src="' + main.iiiflink(msid, "foo.bar") + '">'},
-        ]
-        self.assertEqual(main.expand_inline_graphics(msid, given), expected)
-
     def test_isbn(self):
         cases = [
             # 10 digits => formatted 13 digits

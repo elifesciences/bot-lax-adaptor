@@ -299,19 +299,6 @@ def expand_uris(msid, data):
         return element
     return visit(data, pred, fn)
 
-def expand_inline_graphics(msid, data):
-    def pred(element):
-        # all elements with text and text contains a link to the cdn
-        return isinstance(element, dict) \
-            and "text" in element \
-            and cdnlink(msid, '') in element["text"]
-
-    def fn(element):
-        element["text"] = element["text"].replace('<img src="' + cdnlink(msid, ''),
-                                                  '<img src="' + iiiflink(msid, ''))
-        return element
-    return visit(data, pred, fn)
-
 def fix_extensions(data):
     "in some older articles there are uris with no file extensions. call before expand_uris"
 
@@ -378,7 +365,6 @@ def postprocess(data):
         fix_extensions,
         expand_videos,
         partial(expand_uris, msid),
-        partial(expand_inline_graphics, msid),
         format_isbns,
         prune
     ])
