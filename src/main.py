@@ -373,6 +373,10 @@ SNIPPET = OrderedDict([
     ('-meta', OrderedDict([
         ('location', [getvar('location')]),
     ])),
+    ('-history', OrderedDict([
+        ('received', [jats('history_date', date_type='received'), to_isoformat]),
+        ('accepted', [jats('history_date', date_type='accepted'), to_isoformat]),
+    ])),
     ('status', [jats('is_poa'), is_poa_to_status]),
     ('id', [jats('publisher_id')]),
     ('version', [getvar('version')]),
