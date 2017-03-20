@@ -263,6 +263,20 @@ def expand_videos(data):
 
     return visit(data, pred, partial(glencoe.expand_videos, video_msid(msid)))
 
+def expand_video_image(msid, data):
+    "video image load from IIIF server"
+
+    def pred(element):
+        # dictionary with 'uri' key exists that hasn't been expanded yet
+        return isinstance(element, dict) \
+            and element.get("type") == "video" \
+            and "image" in element
+
+    def fn(element):
+        element["image"] = iiiflink(msid, element["image"].split('/')[-1])
+        return element
+    return visit(data, pred, fn)
+
 def expand_uris(msid, data):
     "any 'uri' element is given a proper cdn link"
 
@@ -364,6 +378,7 @@ def postprocess(data):
     data = doall(data, [
         fix_extensions,
         expand_videos,
+        partial(expand_video_image, msid),
         partial(expand_uris, msid),
         format_isbns,
         prune

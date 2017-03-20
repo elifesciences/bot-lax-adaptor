@@ -189,6 +189,17 @@ class ArticleScrape(BaseCase):
         ]
         self.assertEqual(main.expand_uris(msid, given), expected)
 
+    def test_expand_video_image(self):
+        msid = 1234
+        given = [
+            {"type": "video", "image": "https://foo.bar/baz.bup"},
+        ]
+        expected = [
+            {"type": "video", "image": main.iiiflink(msid, "baz.bup")},
+        ]
+
+        self.assertEqual(main.expand_video_image(msid, given), expected)
+
     def test_isbn(self):
         cases = [
             # 10 digits => formatted 13 digits
