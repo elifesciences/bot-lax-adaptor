@@ -165,6 +165,7 @@ class ArticleScrape(BaseCase):
         msid = 1234
         given = [
             {"uri": "foo.bar"},
+            {"type": "image", "uri": "foo.bar"},
             {"uri": "www.foo.bar"},
             {"uri": "doi:10.7554/eLife.09560"},
             {"uri": "http://foo.bar/baz.bup"},
@@ -175,6 +176,7 @@ class ArticleScrape(BaseCase):
         expected = [
             # filename => https://cdn.tld/path/filename
             {"uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
+            {"type": "image", "uri": main.iiiflink(msid, "foo.bar"), "filename": "foo.bar"},
             # www => http://www.
             {"uri": "http://www.foo.bar"},
             # doi:... => https://doi.org/...
@@ -186,6 +188,18 @@ class ArticleScrape(BaseCase):
             {"uri": "ftps://user:pass@foo.bar/baz.bup"},
         ]
         self.assertEqual(main.expand_uris(msid, given), expected)
+
+    def test_expand_inline_graphics(self):
+        msid = 1234
+        given = [
+            {"text": '<img src="http://www.foo.bar">'},
+            {"text": '<img src="' + main.cdnlink(msid, "foo.bar") + '">'},
+        ]
+        expected = [
+            {"text": '<img src="http://www.foo.bar">'},
+            {"text": '<img src="' + main.iiiflink(msid, "foo.bar") + '">'},
+        ]
+        self.assertEqual(main.expand_inline_graphics(msid, given), expected)
 
     def test_isbn(self):
         cases = [

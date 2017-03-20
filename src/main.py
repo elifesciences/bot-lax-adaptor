@@ -144,6 +144,13 @@ def cdnlink(msid, filename):
 def base_url(msid):
     return cdnlink(msid, '')
 
+def iiiflink(msid, filename):
+    kwargs = {
+        'padded-msid': utils.pad_msid(msid),
+        'fname': filename
+    }
+    return conf.IIIF % kwargs
+
 def pdf_uri(triple):
     """predict an article's pdf url.
     some article types don't have a PDF (like corrections) and some
@@ -285,7 +292,23 @@ def expand_uris(msid, data):
             return element
         # normal case: cdn link
         element["filename"] = os.path.basename(element["uri"]) # basename here redundant?
-        element["uri"] = cdnlink(msid, element["uri"])
+        if element.get("type") == "image":
+            element["uri"] = iiiflink(msid, element["uri"])
+        else:
+            element["uri"] = cdnlink(msid, element["uri"])
+        return element
+    return visit(data, pred, fn)
+
+def expand_inline_graphics(msid, data):
+    def pred(element):
+        # all elements with text and text contains a link to the cdn
+        return isinstance(element, dict) \
+            and "text" in element \
+            and cdnlink(msid, '') in element["text"]
+
+    def fn(element):
+        element["text"] = element["text"].replace('<img src="' + cdnlink(msid, ''),
+                                                  '<img src="' + iiiflink(msid, ''))
         return element
     return visit(data, pred, fn)
 
@@ -355,6 +378,7 @@ def postprocess(data):
         fix_extensions,
         expand_videos,
         partial(expand_uris, msid),
+        partial(expand_inline_graphics, msid),
         format_isbns,
         prune
     ])
