@@ -116,6 +116,8 @@ CDNS_BY_ENV = {
 }
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
+IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+
 # NOTE: do not move to /tmp
 GLENCOE_CACHE = join(PROJECT_DIR, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
 

@@ -144,6 +144,13 @@ def cdnlink(msid, filename):
 def base_url(msid):
     return cdnlink(msid, '')
 
+def iiiflink(msid, filename):
+    kwargs = {
+        'padded-msid': utils.pad_msid(msid),
+        'fname': filename
+    }
+    return conf.IIIF % kwargs
+
 def pdf_uri(triple):
     """predict an article's pdf url.
     some article types don't have a PDF (like corrections) and some
@@ -256,6 +263,20 @@ def expand_videos(data):
 
     return visit(data, pred, partial(glencoe.expand_videos, video_msid(msid)))
 
+def expand_video_image(msid, data):
+    "video image load from IIIF server"
+
+    def pred(element):
+        # dictionary with 'uri' key exists that hasn't been expanded yet
+        return isinstance(element, dict) \
+            and element.get("type") == "video" \
+            and "image" in element
+
+    def fn(element):
+        element["image"] = iiiflink(msid, element["image"].split('/')[-1])
+        return element
+    return visit(data, pred, fn)
+
 def expand_uris(msid, data):
     "any 'uri' element is given a proper cdn link"
 
@@ -285,7 +306,10 @@ def expand_uris(msid, data):
             return element
         # normal case: cdn link
         element["filename"] = os.path.basename(element["uri"]) # basename here redundant?
-        element["uri"] = cdnlink(msid, element["uri"])
+        if element.get("type") == "image":
+            element["uri"] = iiiflink(msid, element["uri"])
+        else:
+            element["uri"] = cdnlink(msid, element["uri"])
         return element
     return visit(data, pred, fn)
 
@@ -355,6 +379,7 @@ def postprocess(data):
     data = doall(data, [
         fix_extensions,
         expand_videos,
+        partial(expand_video_image, msid),
         partial(expand_uris, msid),
         format_isbns,
         prune

@@ -165,6 +165,7 @@ class ArticleScrape(BaseCase):
         msid = 1234
         given = [
             {"uri": "foo.bar"},
+            {"type": "image", "uri": "foo.bar"},
             {"uri": "www.foo.bar"},
             {"uri": "doi:10.7554/eLife.09560"},
             {"uri": "http://foo.bar/baz.bup"},
@@ -175,6 +176,7 @@ class ArticleScrape(BaseCase):
         expected = [
             # filename => https://cdn.tld/path/filename
             {"uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
+            {"type": "image", "uri": main.iiiflink(msid, "foo.bar"), "filename": "foo.bar"},
             # www => http://www.
             {"uri": "http://www.foo.bar"},
             # doi:... => https://doi.org/...
@@ -186,6 +188,17 @@ class ArticleScrape(BaseCase):
             {"uri": "ftps://user:pass@foo.bar/baz.bup"},
         ]
         self.assertEqual(main.expand_uris(msid, given), expected)
+
+    def test_expand_video_image(self):
+        msid = 1234
+        given = [
+            {"type": "video", "image": "https://foo.bar/baz.bup"},
+        ]
+        expected = [
+            {"type": "video", "image": main.iiiflink(msid, "baz.bup")},
+        ]
+
+        self.assertEqual(main.expand_video_image(msid, given), expected)
 
     def test_isbn(self):
         cases = [
@@ -256,7 +269,7 @@ class KitchenSink(BaseCase):
                 "uri": main.cdnlink("00666", "elife-00666-video4-data1.xlsx"),
                 "filename": "elife-00666-video4-data1.xlsx"
             }],
-            "image": "https://static-movie-usa.glencoesoftware.com/jpg/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.jpg",
+            "image": main.iiiflink("00666", "elife-00666-video1.jpg"),
             "height": 720,
             "width": 1280,
             'sources': [{'mediaType': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
