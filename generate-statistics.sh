@@ -3,6 +3,7 @@
 set -e
 
 log=$1
+maximum_not_generatable=1
 article_pattern='\- elife-[0-9]\+-v[0-9]\+\.xml ->'
 
 generated_green=$(grep "$article_pattern" "$log" | grep success | wc -l)
@@ -19,8 +20,8 @@ if [ ! "$generated_total" -eq "$input" ]; then
     exit 2
 fi
 
-if [ "$generated_red" -gt 0 ]; then
+if [ "$generated_red" -gt "$maximum_not_generatable" ]; then
     echo "No articles should be failing generation"
     grep "${article_pattern}" "$log" | grep -v success
-    exit $generated_red
+    exit "${generated_red}"
 fi
