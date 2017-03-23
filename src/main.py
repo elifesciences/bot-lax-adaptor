@@ -263,13 +263,13 @@ def expand_videos(data):
 
     return visit(data, pred, partial(glencoe.expand_videos, video_msid(msid)))
 
-def expand_video_image(msid, data):
-    "video image load from IIIF server"
+def expand_image(msid, data):
+    "image load from IIIF server"
 
     def pred(element):
         # dictionary with 'uri' key exists that hasn't been expanded yet
         return isinstance(element, dict) \
-            and element.get("type") == "video" \
+            and element.get("type") in ["image", "video"] \
             and "image" in element
 
     def fn(element):
@@ -306,10 +306,7 @@ def expand_uris(msid, data):
             return element
         # normal case: cdn link
         element["filename"] = os.path.basename(element["uri"]) # basename here redundant?
-        if element.get("type") == "image":
-            element["uri"] = iiiflink(msid, element["uri"])
-        else:
-            element["uri"] = cdnlink(msid, element["uri"])
+        element["uri"] = cdnlink(msid, element["uri"])
         return element
     return visit(data, pred, fn)
 
@@ -379,7 +376,7 @@ def postprocess(data):
     data = doall(data, [
         fix_extensions,
         expand_videos,
-        partial(expand_video_image, msid),
+        partial(expand_image, msid),
         partial(expand_uris, msid),
         format_isbns,
         prune
