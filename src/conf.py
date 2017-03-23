@@ -113,6 +113,7 @@ CDN2 = 'publishing-cdn.elifesciences.org/%(padded-msid)s/%(fname)s'
 DEFAULT_CDN = CDN1 if False else CDN2 # 'False' until we finish switching to a single CDN :(
 CDNS_BY_ENV = {
     'end2end': 'end2end-' + CDN2,
+    'continuumtest': 'continuumtest-' + CDN2,
 }
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
