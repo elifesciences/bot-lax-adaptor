@@ -176,7 +176,7 @@ class ArticleScrape(BaseCase):
         expected = [
             # filename => https://cdn.tld/path/filename
             {"uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
-            {"type": "image", "uri": main.iiiflink(msid, "foo.bar"), "filename": "foo.bar"},
+            {"type": "image", "uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
             # www => http://www.
             {"uri": "http://www.foo.bar"},
             # doi:... => https://doi.org/...
@@ -189,16 +189,18 @@ class ArticleScrape(BaseCase):
         ]
         self.assertEqual(main.expand_uris(msid, given), expected)
 
-    def test_expand_video_image(self):
+    def test_expand_image(self):
         msid = 1234
         given = [
             {"type": "video", "image": "https://foo.bar/baz.bup"},
+            {"type": "image", "image": "https://foo.bar/baz.bup"},
         ]
         expected = [
             {"type": "video", "image": main.iiiflink(msid, "baz.bup")},
+            {"type": "image", "image": main.iiiflink(msid, "baz.bup")},
         ]
 
-        self.assertEqual(main.expand_video_image(msid, given), expected)
+        self.assertEqual(main.expand_image(msid, given), expected)
 
     def test_isbn(self):
         cases = [
