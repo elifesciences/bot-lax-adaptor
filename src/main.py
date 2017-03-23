@@ -149,7 +149,9 @@ def iiiflink(msid, filename):
         'padded-msid': utils.pad_msid(msid),
         'fname': filename
     }
-    return conf.IIIF % kwargs
+    raw_link = (conf.IIIF % kwargs)
+    # Rename the file itself for end2end tests
+    return raw_link.replace('-' + str(video_msid(msid)), '-' + str(utils.pad_msid(msid)))
 
 def pdf_uri(triple):
     """predict an article's pdf url.
