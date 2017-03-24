@@ -192,9 +192,8 @@ class ArticleScrape(BaseCase):
 
     def test_pad_filename(self):
         cases = [
-            ((1234, "https://foo.bar/baz.bup"),  "https://foo.bar/baz.bup"),
-            ((10001234, "https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf"),
-                "https://publishing-cdn.elifesciences.org/01234/elife-10001234-v1.pdf"),
+            ((1234, "https://foo.bar/baz.bup"), "https://foo.bar/baz.bup"),
+            ((10001234, "https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf"), "https://publishing-cdn.elifesciences.org/01234/elife-10001234-v1.pdf"),
         ]
         for (msid, filename), expected in cases:
             self.assertEqual(main.pad_filename(msid, filename), expected)
