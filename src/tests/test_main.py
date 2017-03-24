@@ -208,7 +208,6 @@ class ArticleScrape(BaseCase):
             {"type": "video", "image": main.cdnlink(msid, "baz.bup")},
             {"type": "image", "image": {"uri" : main.iiiflink(msid, "baz.bup")}},
         ]
-
         self.assertEqual(main.expand_image(msid, given), expected)
 
     def test_expand_placeholder(self):
@@ -219,7 +218,6 @@ class ArticleScrape(BaseCase):
         expected = [
             {"type": "video", "placeholder": {"uri" : main.iiiflink(msid, "baz.bup")}},
         ]
-
         self.assertEqual(main.expand_placeholder(msid, given), expected)
 
     def test_isbn(self):
