@@ -177,7 +177,7 @@ class ArticleScrape(BaseCase):
         expected = [
             # filename => https://cdn.tld/path/filename
             {"uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
-            {"type": "image", "uri": main.iiiflink(msid, "foo.bar"), "filename": "foo.bar"},
+            {"type": "image", "uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
             # www => http://www.
             {"uri": "http://www.foo.bar"},
             # doi:... => https://doi.org/...
