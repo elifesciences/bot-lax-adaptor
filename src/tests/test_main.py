@@ -206,7 +206,7 @@ class ArticleScrape(BaseCase):
         ]
         expected = [
             {"type": "video", "image": main.cdnlink(msid, "baz.bup")},
-            {"type": "image", "image": {"uri" : main.iiiflink(msid, "baz.bup")}},
+            {"type": "image", "image": {"uri": main.iiiflink(msid, "baz.bup")}},
         ]
         self.assertEqual(main.expand_image(msid, given), expected)
 
@@ -216,7 +216,7 @@ class ArticleScrape(BaseCase):
             {"type": "video", "placeholder": {"uri": "https://foo.bar/baz.bup"}},
         ]
         expected = [
-            {"type": "video", "placeholder": {"uri" : main.iiiflink(msid, "baz.bup")}},
+            {"type": "video", "placeholder": {"uri": main.iiiflink(msid, "baz.bup")}},
         ]
         self.assertEqual(main.expand_placeholder(msid, given), expected)
 

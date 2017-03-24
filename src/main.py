@@ -290,8 +290,7 @@ def expand_image(msid, data):
 
     def pred(element):
         # dictionary with 'uri' key exists that hasn't been expanded yet
-        return isinstance(element, dict) \
-            and "image" in element \
+        return isinstance(element, dict) and "image" in element
 
     def fn(element):
         if element.get("type") == "video":
