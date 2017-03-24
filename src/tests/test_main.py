@@ -21,6 +21,7 @@ class ArticleScrape(BaseCase):
         self.assertEqual('9560', main.video_msid('9560'))
         self.assertEqual('09560', main.video_msid('09560'))
         self.assertEqual('09560', main.video_msid('10009560'))
+        self.assertEqual('09560', main.video_msid(10009560))
 
     def test_item_id(self):
         expected_item_id = '10.7554/eLife.09560'
@@ -189,18 +190,35 @@ class ArticleScrape(BaseCase):
         ]
         self.assertEqual(main.expand_uris(msid, given), expected)
 
+    def test_pad_filename(self):
+        cases = [
+            ((1234, "https://foo.bar/baz.bup"), "https://foo.bar/baz.bup"),
+            ((10001234, "https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf"), "https://publishing-cdn.elifesciences.org/01234/elife-10001234-v1.pdf"),
+        ]
+        for (msid, filename), expected in cases:
+            self.assertEqual(main.pad_filename(msid, filename), expected)
+
     def test_expand_image(self):
         msid = 1234
         given = [
             {"type": "video", "image": "https://foo.bar/baz.bup"},
-            {"type": "image", "image": "https://foo.bar/baz.bup"},
+            {"type": "image", "image": {"uri": "https://foo.bar/baz.bup"}},
         ]
         expected = [
-            {"type": "video", "image": main.iiiflink(msid, "baz.bup")},
-            {"type": "image", "image": main.iiiflink(msid, "baz.bup")},
+            {"type": "video", "image": main.cdnlink(msid, "baz.bup")},
+            {"type": "image", "image": {"uri": main.iiiflink(msid, "baz.bup")}},
         ]
-
         self.assertEqual(main.expand_image(msid, given), expected)
+
+    def test_expand_placeholder(self):
+        msid = 1234
+        given = [
+            {"type": "video", "placeholder": {"uri": "https://foo.bar/baz.bup"}},
+        ]
+        expected = [
+            {"type": "video", "placeholder": {"uri": main.iiiflink(msid, "baz.bup")}},
+        ]
+        self.assertEqual(main.expand_placeholder(msid, given), expected)
 
     def test_isbn(self):
         cases = [
@@ -271,7 +289,7 @@ class KitchenSink(BaseCase):
                 "uri": main.cdnlink("00666", "elife-00666-video4-data1.xlsx"),
                 "filename": "elife-00666-video4-data1.xlsx"
             }],
-            "image": main.iiiflink("00666", "elife-00666-video1.jpg"),
+            "image": main.cdnlink("00666", "elife-00666-video1.jpg"),
             "height": 720,
             "width": 1280,
             'sources': [{'mediaType': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',

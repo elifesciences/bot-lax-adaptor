@@ -29,7 +29,7 @@ def video_msid(msid):
 
     Leaves real articles untouched"""
     if int(msid) > 100000:
-        return utils.pad_msid(str(msid[-5:]))
+        return utils.pad_msid(str(msid)[-5:])
     return msid
 
 def doi(item):
@@ -144,14 +144,19 @@ def cdnlink(msid, filename):
 def base_url(msid):
     return cdnlink(msid, '')
 
+def pad_filename(msid, filename):
+    # Rename the file itself for end2end tests
+    match = '-' + str(video_msid(msid)) + '-'
+    replacement = '-' + str(utils.pad_msid(msid)) + '-'
+    return filename.replace(match, replacement)
+
 def iiiflink(msid, filename):
     kwargs = {
         'padded-msid': utils.pad_msid(msid),
         'fname': filename
     }
     raw_link = (conf.IIIF % kwargs)
-    # Rename the file itself for end2end tests
-    return raw_link.replace('-' + str(video_msid(msid)), '-' + str(utils.pad_msid(msid)))
+    return pad_filename(msid, raw_link)
 
 def pdf_uri(triple):
     """predict an article's pdf url.
@@ -265,17 +270,35 @@ def expand_videos(data):
 
     return visit(data, pred, partial(glencoe.expand_videos, video_msid(msid)))
 
+def expand_placeholder(msid, data):
+
+    def pred(element):
+        # dictionary with 'uri' key exists that hasn't been expanded yet
+        return isinstance(element, dict) \
+            and element.get("type") == "video" \
+            and "placeholder" in element
+
+    def fn(element):
+        if isinstance(element.get("placeholder"), dict) and element.get("placeholder").get("uri"):
+            element["placeholder"]["uri"] = iiiflink(msid, element["placeholder"]["uri"].split('/')[-1])
+        return element
+    return visit(data, pred, fn)
+
+
 def expand_image(msid, data):
     "image load from IIIF server"
 
     def pred(element):
         # dictionary with 'uri' key exists that hasn't been expanded yet
-        return isinstance(element, dict) \
-            and element.get("type") in ["image", "video"] \
-            and "image" in element
+        return isinstance(element, dict) and "image" in element
 
     def fn(element):
-        element["image"] = iiiflink(msid, element["image"].split('/')[-1])
+        if element.get("type") == "video":
+            element["image"] = cdnlink(msid, element["image"].split('/')[-1])
+            element["image"] = pad_filename(msid, element["image"])
+        else:
+            if isinstance(element.get("image"), dict) and element.get("image").get("uri"):
+                element["image"]["uri"] = iiiflink(msid, element["image"]["uri"].split('/')[-1])
         return element
     return visit(data, pred, fn)
 
@@ -378,8 +401,9 @@ def postprocess(data):
     data = doall(data, [
         fix_extensions,
         expand_videos,
-        partial(expand_image, msid),
         partial(expand_uris, msid),
+        partial(expand_image, msid),
+        partial(expand_placeholder, msid),
         format_isbns,
         prune
     ])
