@@ -289,7 +289,7 @@ def expand_placeholder(msid, data):
 
     def fn(element):
         if isinstance(element.get("placeholder"), dict) and element.get("placeholder").get("uri"):
-            element["placeholder"]["uri"] = iiiflink(msid, element["placeholder"]["uri"].split('/')[-1])
+            expand_iiif_uri(msid, element, "placeholder")
         return element
     return visit(data, pred, fn)
 
@@ -307,13 +307,22 @@ def expand_image(msid, data):
             element["image"] = pad_filename(msid, element["image"])
         else:
             if isinstance(element.get("image"), dict) and element.get("image").get("uri"):
-                element["image"]["uri"] = iiiflink(msid, element["image"]["uri"].split('/')[-1])
-                # Size - TODO!!
-                element["image"]["size"] = {"width": 1, "height": 1}
-                element["image"]["source"] = iiifsource(msid, element["image"]["uri"].split('/')[-1])
-
+                element = expand_iiif_uri(msid, element, "image")
         return element
     return visit(data, pred, fn)
+
+def expand_iiif_uri(msid, element, element_type):
+    element[element_type]["uri"] = iiiflink(msid, element[element_type]["uri"].split('/')[-1])
+    # Size - TODO!!
+    element[element_type]["size"] = {"width": 1, "height": 1}
+    element[element_type]["source"] = iiifsource(msid, element[element_type]["uri"].split('/')[-1])
+    # Temporarily copy some attributes to pass validation on older schema
+    if element_type == "image":
+        if not element.get("uri"):
+            element["uri"] = cdnlink(msid, element[element_type]["uri"].split('/')[-1])
+        if not element.get("alt") and element.get(element_type).get("alt") is not None:
+            element["alt"] = element[element_type]["alt"]
+    return element
 
 def expand_uris(msid, data):
     "any 'uri' element is given a proper cdn link"

@@ -153,12 +153,12 @@ class ArticleScrape(BaseCase):
 
     def test_fix_filenames(self):
         given = [
-            {"type": "image", "uri": "foo"},
-            {"type": "image", "uri": "foo.bar"}
+            {"type": "image", "image": {"uri": "foo"}},
+            {"type": "image", "image": { "uri": "foo.bar"}}
         ]
         expected = [
-            {"type": "image", "uri": "foo.jpg"},
-            {"type": "image", "uri": "foo.bar"}, # no clobbering
+            {"type": "image", "image": { "uri": "foo.jpg"}},
+            {"type": "image", "image": { "uri": "foo.bar"}}, # no clobbering
         ]
         self.assertEqual(main.fix_extensions(given), expected)
 
@@ -205,8 +205,8 @@ class ArticleScrape(BaseCase):
             {"type": "image", "image": {"uri": "https://foo.bar/baz.bup"}},
         ]
         expected = [
-            {"type": "video", "image": main.cdnlink(msid, "baz.bup")},
-            {"type": "image", "image": {"uri": main.iiiflink(msid, "baz.bup")}},
+            {"type": "video", "image": main.pad_filename(msid, main.cdnlink(msid, "baz.bup"))},
+            main.expand_iiif_uri(msid, {"type": "image", "image": {"uri": "https://foo.bar/baz.bup"}}, "image"),
         ]
         self.assertEqual(main.expand_image(msid, given), expected)
 
@@ -216,7 +216,7 @@ class ArticleScrape(BaseCase):
             {"type": "video", "placeholder": {"uri": "https://foo.bar/baz.bup"}},
         ]
         expected = [
-            {"type": "video", "placeholder": {"uri": main.iiiflink(msid, "baz.bup")}},
+            main.expand_iiif_uri(msid, {"type": "video", "placeholder": {"uri": "https://foo.bar/baz.bup"}}, "placeholder"),
         ]
         self.assertEqual(main.expand_placeholder(msid, given), expected)
 
@@ -274,6 +274,20 @@ class KitchenSink(BaseCase):
             "id": "video1",
             "label": "Video 1.",
             "title": "\n                                A descirption of the eLife editorial process.\n                            ",
+            "placeholder": {
+                "alt": "",
+                "filename": "elife-00666-video1.jpg",
+                "size": {
+                    "height": 1,
+                    "width": 1
+                },
+                "source": {
+                    "filename": "elife-00666-video1.jpg",
+                    "mediaType": "image/jpeg",
+                    "uri": "https://dev--iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg/full/full/0/default.jpg"
+                },
+                "uri": "https://dev--iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg"
+            },
             "sourceData": [{
                 "doi": "10.7554/eLife.00666.036",
                 "id": "video1sdata1",
