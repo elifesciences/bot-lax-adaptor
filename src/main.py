@@ -158,6 +158,15 @@ def iiiflink(msid, filename):
     raw_link = (conf.IIIF % kwargs)
     return pad_filename(msid, raw_link)
 
+def iiifsource(msid, filename):
+    source = OrderedDict()
+    image_uri = iiiflink(msid, filename)
+    source_uri = image_uri + '/full/full/0/default.jpg'
+    source["mediaType"] = "image/jpeg"
+    source["uri"] = source_uri
+    source["filename"] = filename
+    return source
+
 def pdf_uri(triple):
     """predict an article's pdf url.
     some article types don't have a PDF (like corrections) and some
@@ -299,6 +308,10 @@ def expand_image(msid, data):
         else:
             if isinstance(element.get("image"), dict) and element.get("image").get("uri"):
                 element["image"]["uri"] = iiiflink(msid, element["image"]["uri"].split('/')[-1])
+                # Size - TODO!!
+                element["image"]["size"] = {"width": 1, "height": 1}
+                element["image"]["source"] = iiifsource(msid, element["image"]["uri"].split('/')[-1])
+
         return element
     return visit(data, pred, fn)
 
@@ -342,11 +355,13 @@ def fix_extensions(data):
     def pred(element):
         return isinstance(element, dict) \
             and element.get("type") == "image" \
-            and not os.path.splitext(element["uri"])[1] # ext in pair of (fname, ext) is empty
+            and element.get("image") \
+            and isinstance(element["image"], dict) \
+            and not os.path.splitext(element["image"]["uri"])[1] # ext in pair of (fname, ext) is empty
 
     def fn(element, missing):
         missing.append(utils.subdict(element, ['type', 'id', 'uri']))
-        element["uri"] += ".jpg"
+        element["image"]["uri"] += ".jpg"
         return element
 
     missing = []
