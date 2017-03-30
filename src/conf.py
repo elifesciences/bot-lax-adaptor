@@ -125,6 +125,7 @@ IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)
 
 # NOTE: do not move to /tmp
 GLENCOE_CACHE = join(PROJECT_DIR, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
+IIIF_CACHE = join(PROJECT_DIR, 'iiif-cache')
 
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 

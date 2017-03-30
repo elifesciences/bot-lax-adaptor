@@ -11,7 +11,7 @@ import logging
 from collections import OrderedDict
 from datetime import datetime
 from slugify import slugify
-import conf, utils, glencoe
+import conf, utils, glencoe, iiif
 import validate
 
 LOG = logging.getLogger(__name__)
@@ -157,15 +157,6 @@ def iiiflink(msid, filename):
     }
     raw_link = (conf.CDN_IIIF % kwargs)
     return pad_filename(msid, raw_link)
-
-def iiifsource(msid, filename):
-    source = OrderedDict()
-    image_uri = iiiflink(msid, filename)
-    source_uri = image_uri + '/full/full/0/default.jpg'
-    source["mediaType"] = "image/jpeg"
-    source["uri"] = source_uri
-    source["filename"] = filename
-    return source
 
 def pdf_uri(triple):
     """predict an article's pdf url.
@@ -313,9 +304,11 @@ def expand_image(msid, data):
 
 def expand_iiif_uri(msid, element, element_type):
     element[element_type]["uri"] = iiiflink(msid, element[element_type]["uri"].split('/')[-1])
-    # Size - TODO!!
-    element[element_type]["size"] = {"width": 1, "height": 1}
-    element[element_type]["source"] = iiifsource(msid, element[element_type]["uri"].split('/')[-1])
+
+    (source, width, height) = iiif.basic_info(msid, element[element_type]["uri"].split('/')[-1])
+    element[element_type]["size"] = {"width": width, "height": height}
+    element[element_type]["source"] = source
+
     # Temporarily copy some attributes to pass validation on older schema
     if element_type == "image":
         if not element.get("uri"):
