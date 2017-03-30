@@ -25,7 +25,6 @@ LOG.addHandler(_handler)
 #
 
 
-
 def doi(item):
     return parseJATS.doi(item)
 
@@ -149,7 +148,7 @@ def iiiflink(msid, filename):
 def iiifsource(msid, filename):
     source = OrderedDict()
     source["mediaType"] = "image/jpeg"
-    source["uri"] = iiiflink(msid, filename)+ '/full/full/0/default.jpg'
+    source["uri"] = iiiflink(msid, filename) + '/full/full/0/default.jpg'
     source["filename"] = filename
     return source
 
