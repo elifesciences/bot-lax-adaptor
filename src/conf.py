@@ -117,6 +117,10 @@ CDNS_BY_ENV = {
 }
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
+# this coincides with the IIIF server now, but it will be put behind a CDN soon
+# used for generating public links
+CDN_IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+# used for direct access to the IIIF server
 IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
 
 # NOTE: do not move to /tmp

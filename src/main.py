@@ -155,7 +155,7 @@ def iiiflink(msid, filename):
         'padded-msid': utils.pad_msid(msid),
         'fname': filename
     }
-    raw_link = (conf.IIIF % kwargs)
+    raw_link = (conf.CDN_IIIF % kwargs)
     return pad_filename(msid, raw_link)
 
 def iiifsource(msid, filename):
