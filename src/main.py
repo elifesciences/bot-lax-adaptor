@@ -24,13 +24,7 @@ LOG.addHandler(_handler)
 # utils
 #
 
-def video_msid(msid):
-    """Replaces the msid of testing articles with the reference one they were generated from.
 
-    Leaves real articles untouched"""
-    if int(msid) > 100000:
-        return utils.pad_msid(str(msid)[-5:])
-    return msid
 
 def doi(item):
     return parseJATS.doi(item)
@@ -144,19 +138,20 @@ def cdnlink(msid, filename):
 def base_url(msid):
     return cdnlink(msid, '')
 
-def pad_filename(msid, filename):
-    # Rename the file itself for end2end tests
-    match = '-' + str(video_msid(msid)) + '-'
-    replacement = '-' + str(utils.pad_msid(msid)) + '-'
-    return filename.replace(match, replacement)
-
 def iiiflink(msid, filename):
     kwargs = {
         'padded-msid': utils.pad_msid(msid),
         'fname': filename
     }
     raw_link = (conf.CDN_IIIF % kwargs)
-    return pad_filename(msid, raw_link)
+    return utils.pad_filename(msid, raw_link)
+
+def iiifsource(msid, filename):
+    source = OrderedDict()
+    source["mediaType"] = "image/jpeg"
+    source["uri"] = iiiflink(msid, filename)+ '/full/full/0/default.jpg'
+    source["filename"] = filename
+    return source
 
 def pdf_uri(triple):
     """predict an article's pdf url.
@@ -268,7 +263,7 @@ def expand_videos(data):
     def pred(element):
         return isinstance(element, dict) and element.get("type") == "video"
 
-    return visit(data, pred, partial(glencoe.expand_videos, video_msid(msid)))
+    return visit(data, pred, partial(glencoe.expand_videos, utils.video_msid(msid)))
 
 def expand_placeholder(msid, data):
 
@@ -295,7 +290,7 @@ def expand_image(msid, data):
     def fn(element):
         if element.get("type") == "video":
             element["image"] = cdnlink(msid, element["image"].split('/')[-1])
-            element["image"] = pad_filename(msid, element["image"])
+            element["image"] = utils.pad_filename(msid, element["image"])
         else:
             if isinstance(element.get("image"), dict) and element.get("image").get("uri"):
                 element = expand_iiif_uri(msid, element, "image")
@@ -305,9 +300,9 @@ def expand_image(msid, data):
 def expand_iiif_uri(msid, element, element_type):
     element[element_type]["uri"] = iiiflink(msid, element[element_type]["uri"].split('/')[-1])
 
-    (source, width, height) = iiif.basic_info(msid, element[element_type]["uri"].split('/')[-1])
+    (width, height) = iiif.basic_info(msid, element[element_type]["uri"].split('/')[-1])
     element[element_type]["size"] = {"width": width, "height": height}
-    element[element_type]["source"] = source
+    element[element_type]["source"] = iiifsource(msid, element[element_type]["uri"].split('/')[-1])
 
     # Temporarily copy some attributes to pass validation on older schema
     if element_type == "image":

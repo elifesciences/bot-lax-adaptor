@@ -27,3 +27,18 @@ class Utils(BaseCase):
     def test_run_script_stdin(self):
         retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'pants-party')
         self.assertEqual(stdout, 'pants-party')
+
+    def test_video_msid(self):
+        self.assertEqual(9560, utils.video_msid(9560))
+        self.assertEqual('9560', utils.video_msid('9560'))
+        self.assertEqual('09560', utils.video_msid('09560'))
+        self.assertEqual('09560', utils.video_msid('10009560'))
+        self.assertEqual('09560', utils.video_msid(10009560))
+
+    def test_pad_filename(self):
+        cases = [
+            ((1234, "https://foo.bar/baz.bup"), "https://foo.bar/baz.bup"),
+            ((10001234, "https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf"), "https://publishing-cdn.elifesciences.org/01234/elife-10001234-v1.pdf"),
+        ]
+        for (msid, filename), expected in cases:
+            self.assertEqual(utils.pad_filename(msid, filename), expected)

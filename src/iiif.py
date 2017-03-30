@@ -2,7 +2,6 @@ import requests, requests_cache
 import logging
 import conf
 import utils
-from main import pad_filename, iiiflink
 
 LOG = logging.getLogger(__name__)
 requests_cache.install_cache(**{
@@ -35,21 +34,13 @@ def iiif_info_url(msid, filename):
         'fname': filename
     }
     raw_link = (conf.IIIF % kwargs)
-    return pad_filename(msid, raw_link)
-
-def iiifsource(msid, filename):
-    source = {}
-    source["mediaType"] = "image/jpeg"
-    source["uri"] = iiiflink(msid, filename)+ '/full/full/0/default.jpg'
-    source["filename"] = filename
-    return source
+    return utils.pad_filename(msid, raw_link)
 
 def basic_info(msid, filename):
     info_data = iiif_info(msid, filename)
-    source = iiifsource(msid, filename)
     width = iiif_width(info_data)
     height = iiif_height(info_data)
-    return source, width, height
+    return width, height
 
 def iiif_info(msid, filename):
     context = {'msid': msid, 'iiif_filename': filename,

@@ -2,7 +2,7 @@ import json
 from mock import patch
 from os.path import join
 from .base import BaseCase
-import main
+import main, utils
 
 class ArticleScrape(BaseCase):
     def setUp(self):
@@ -15,13 +15,6 @@ class ArticleScrape(BaseCase):
 
     def test_missing_var(self):
         self.assertRaises(KeyError, main.getvar('foo'), {}, None)
-
-    def test_video_msid(self):
-        self.assertEqual(9560, main.video_msid(9560))
-        self.assertEqual('9560', main.video_msid('9560'))
-        self.assertEqual('09560', main.video_msid('09560'))
-        self.assertEqual('09560', main.video_msid('10009560'))
-        self.assertEqual('09560', main.video_msid(10009560))
 
     def test_item_id(self):
         expected_item_id = '10.7554/eLife.09560'
@@ -190,14 +183,6 @@ class ArticleScrape(BaseCase):
         ]
         self.assertEqual(main.expand_uris(msid, given), expected)
 
-    def test_pad_filename(self):
-        cases = [
-            ((1234, "https://foo.bar/baz.bup"), "https://foo.bar/baz.bup"),
-            ((10001234, "https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf"), "https://publishing-cdn.elifesciences.org/01234/elife-10001234-v1.pdf"),
-        ]
-        for (msid, filename), expected in cases:
-            self.assertEqual(main.pad_filename(msid, filename), expected)
-
     def test_expand_image(self):
         msid = 1234
         given = [
@@ -205,7 +190,7 @@ class ArticleScrape(BaseCase):
             {"type": "image", "image": {"uri": "https://foo.bar/baz.bup"}},
         ]
         expected = [
-            {"type": "video", "image": main.pad_filename(msid, main.cdnlink(msid, "baz.bup"))},
+            {"type": "video", "image": utils.pad_filename(msid, main.cdnlink(msid, "baz.bup"))},
             main.expand_iiif_uri(msid, {"type": "image", "image": {"uri": "https://foo.bar/baz.bup"}}, "image"),
         ]
         self.assertEqual(main.expand_image(msid, given), expected)
