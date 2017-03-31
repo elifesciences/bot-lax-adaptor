@@ -126,8 +126,8 @@ CDN_IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fn
 IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
 
 # NOTE: do not move to /tmp
-GLENCOE_CACHE = join(PROJECT_DIR, CACHE_PATH, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
-IIIF_CACHE = join(PROJECT_DIR, CACHE_PATH, 'iiif-cache')
+GLENCOE_CACHE = join(CACHE_PATH, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
+IIIF_CACHE = join(CACHE_PATH, 'iiif-cache')
 
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 
