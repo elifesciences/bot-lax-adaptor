@@ -84,6 +84,8 @@ ENV = cfg('general.env')
 
 PATH_TO_LAX = cfg('lax.location')
 
+CACHE_PATH = cfg('lax.cache_path')
+
 # certain values that can't be known at render time are
 # added so the result can be validated against the schema
 PATCH_AJSON_FOR_VALIDATION = True
@@ -117,14 +119,20 @@ CDNS_BY_ENV = {
 }
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
-# this coincides with the IIIF server now, but it will be put behind a CDN soon
-# used for generating public links
-CDN_IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
-# used for direct access to the IIIF server
-IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+if ENV in ['prod', 'continuumtest', 'end2end']:
+    # this coincides with the IIIF server now, but it will be put behind a CDN soon
+    # used for generating public links
+    CDN_IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+    # used for direct access to the IIIF server
+    IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+else:
+    # default to prod as a data source for testing
+    CDN_IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+    IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
 
 # NOTE: do not move to /tmp
-GLENCOE_CACHE = join(PROJECT_DIR, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
+GLENCOE_CACHE = join(CACHE_PATH, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
+IIIF_CACHE = join(CACHE_PATH, 'iiif-cache')
 
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 

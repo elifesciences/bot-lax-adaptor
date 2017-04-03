@@ -107,4 +107,9 @@ def expand_videos(msid, video):
 
     del video['uri'] # returned by elife-tools, not part of spec
 
+    # Add placeholder, the video thumbnail image
+    video["placeholder"] = {}
+    video["placeholder"]["uri"] = video["image"].split('/')[-1]
+    video["placeholder"]["alt"] = ""
+
     return video

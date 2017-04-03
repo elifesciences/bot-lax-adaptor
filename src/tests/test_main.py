@@ -2,7 +2,7 @@ import json
 from mock import patch
 from os.path import join
 from .base import BaseCase
-import main
+import main, utils
 
 class ArticleScrape(BaseCase):
     def setUp(self):
@@ -15,13 +15,6 @@ class ArticleScrape(BaseCase):
 
     def test_missing_var(self):
         self.assertRaises(KeyError, main.getvar('foo'), {}, None)
-
-    def test_video_msid(self):
-        self.assertEqual(9560, main.video_msid(9560))
-        self.assertEqual('9560', main.video_msid('9560'))
-        self.assertEqual('09560', main.video_msid('09560'))
-        self.assertEqual('09560', main.video_msid('10009560'))
-        self.assertEqual('09560', main.video_msid(10009560))
 
     def test_item_id(self):
         expected_item_id = '10.7554/eLife.09560'
@@ -153,12 +146,12 @@ class ArticleScrape(BaseCase):
 
     def test_fix_filenames(self):
         given = [
-            {"type": "image", "uri": "foo"},
-            {"type": "image", "uri": "foo.bar"}
+            {"type": "image", "image": {"uri": "foo"}},
+            {"type": "image", "image": {"uri": "foo.bar"}}
         ]
         expected = [
-            {"type": "image", "uri": "foo.jpg"},
-            {"type": "image", "uri": "foo.bar"}, # no clobbering
+            {"type": "image", "image": {"uri": "foo.jpg"}},
+            {"type": "image", "image": {"uri": "foo.bar"}}, # no clobbering
         ]
         self.assertEqual(main.fix_extensions(given), expected)
 
@@ -190,14 +183,6 @@ class ArticleScrape(BaseCase):
         ]
         self.assertEqual(main.expand_uris(msid, given), expected)
 
-    def test_pad_filename(self):
-        cases = [
-            ((1234, "https://foo.bar/baz.bup"), "https://foo.bar/baz.bup"),
-            ((10001234, "https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf"), "https://publishing-cdn.elifesciences.org/01234/elife-10001234-v1.pdf"),
-        ]
-        for (msid, filename), expected in cases:
-            self.assertEqual(main.pad_filename(msid, filename), expected)
-
     def test_expand_image(self):
         msid = 1234
         given = [
@@ -205,8 +190,8 @@ class ArticleScrape(BaseCase):
             {"type": "image", "image": {"uri": "https://foo.bar/baz.bup"}},
         ]
         expected = [
-            {"type": "video", "image": main.cdnlink(msid, "baz.bup")},
-            {"type": "image", "image": {"uri": main.iiiflink(msid, "baz.bup")}},
+            {"type": "video", "image": utils.pad_filename(msid, main.cdnlink(msid, "baz.bup"))},
+            main.expand_iiif_uri(msid, {"type": "image", "image": {"uri": "https://foo.bar/baz.bup"}}, "image"),
         ]
         self.assertEqual(main.expand_image(msid, given), expected)
 
@@ -216,7 +201,7 @@ class ArticleScrape(BaseCase):
             {"type": "video", "placeholder": {"uri": "https://foo.bar/baz.bup"}},
         ]
         expected = [
-            {"type": "video", "placeholder": {"uri": main.iiiflink(msid, "baz.bup")}},
+            main.expand_iiif_uri(msid, {"type": "video", "placeholder": {"uri": "https://foo.bar/baz.bup"}}, "placeholder"),
         ]
         self.assertEqual(main.expand_placeholder(msid, given), expected)
 
@@ -274,6 +259,20 @@ class KitchenSink(BaseCase):
             "id": "video1",
             "label": "Video 1.",
             "title": "\n                                A descirption of the eLife editorial process.\n                            ",
+            "placeholder": {
+                "alt": "",
+                "filename": "elife-00666-video1.jpg",
+                "size": {
+                    "height": 1,
+                    "width": 1
+                },
+                "source": {
+                    "filename": "elife-00666-video1.jpg",
+                    "mediaType": "image/jpeg",
+                    "uri": "https://prod--iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg/full/full/0/default.jpg"
+                },
+                "uri": "https://prod--iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg"
+            },
             "sourceData": [{
                 "doi": "10.7554/eLife.00666.036",
                 "id": "video1sdata1",

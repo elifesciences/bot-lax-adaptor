@@ -11,7 +11,7 @@ import logging
 from collections import OrderedDict
 from datetime import datetime
 from slugify import slugify
-import conf, utils, glencoe
+import conf, utils, glencoe, iiif
 import validate
 
 LOG = logging.getLogger(__name__)
@@ -24,13 +24,6 @@ LOG.addHandler(_handler)
 # utils
 #
 
-def video_msid(msid):
-    """Replaces the msid of testing articles with the reference one they were generated from.
-
-    Leaves real articles untouched"""
-    if int(msid) > 100000:
-        return utils.pad_msid(str(msid)[-5:])
-    return msid
 
 def doi(item):
     return parseJATS.doi(item)
@@ -144,19 +137,20 @@ def cdnlink(msid, filename):
 def base_url(msid):
     return cdnlink(msid, '')
 
-def pad_filename(msid, filename):
-    # Rename the file itself for end2end tests
-    match = '-' + str(video_msid(msid)) + '-'
-    replacement = '-' + str(utils.pad_msid(msid)) + '-'
-    return filename.replace(match, replacement)
-
 def iiiflink(msid, filename):
     kwargs = {
         'padded-msid': utils.pad_msid(msid),
         'fname': filename
     }
     raw_link = (conf.CDN_IIIF % kwargs)
-    return pad_filename(msid, raw_link)
+    return utils.pad_filename(msid, raw_link)
+
+def iiifsource(msid, filename):
+    source = OrderedDict()
+    source["mediaType"] = "image/jpeg"
+    source["uri"] = iiiflink(msid, filename) + '/full/full/0/default.jpg'
+    source["filename"] = filename
+    return source
 
 def pdf_uri(triple):
     """predict an article's pdf url.
@@ -268,7 +262,7 @@ def expand_videos(data):
     def pred(element):
         return isinstance(element, dict) and element.get("type") == "video"
 
-    return visit(data, pred, partial(glencoe.expand_videos, video_msid(msid)))
+    return visit(data, pred, partial(glencoe.expand_videos, utils.video_msid(msid)))
 
 def expand_placeholder(msid, data):
 
@@ -280,7 +274,7 @@ def expand_placeholder(msid, data):
 
     def fn(element):
         if isinstance(element.get("placeholder"), dict) and element.get("placeholder").get("uri"):
-            element["placeholder"]["uri"] = iiiflink(msid, element["placeholder"]["uri"].split('/')[-1])
+            expand_iiif_uri(msid, element, "placeholder")
         return element
     return visit(data, pred, fn)
 
@@ -295,12 +289,27 @@ def expand_image(msid, data):
     def fn(element):
         if element.get("type") == "video":
             element["image"] = cdnlink(msid, element["image"].split('/')[-1])
-            element["image"] = pad_filename(msid, element["image"])
+            element["image"] = utils.pad_filename(msid, element["image"])
         else:
             if isinstance(element.get("image"), dict) and element.get("image").get("uri"):
-                element["image"]["uri"] = iiiflink(msid, element["image"]["uri"].split('/')[-1])
+                element = expand_iiif_uri(msid, element, "image")
         return element
     return visit(data, pred, fn)
+
+def expand_iiif_uri(msid, element, element_type):
+    element[element_type]["uri"] = iiiflink(msid, element[element_type]["uri"].split('/')[-1])
+
+    (width, height) = iiif.basic_info(msid, element[element_type]["uri"].split('/')[-1])
+    element[element_type]["size"] = {"width": width, "height": height}
+    element[element_type]["source"] = iiifsource(msid, element[element_type]["uri"].split('/')[-1])
+
+    # Temporarily copy some attributes to pass validation on older schema
+    if element_type == "image":
+        if not element.get("uri"):
+            element["uri"] = cdnlink(msid, element[element_type]["uri"].split('/')[-1])
+        if not element.get("alt") and element.get(element_type).get("alt") is not None:
+            element["alt"] = element[element_type]["alt"]
+    return element
 
 def expand_uris(msid, data):
     "any 'uri' element is given a proper cdn link"
@@ -342,11 +351,13 @@ def fix_extensions(data):
     def pred(element):
         return isinstance(element, dict) \
             and element.get("type") == "image" \
-            and not os.path.splitext(element["uri"])[1] # ext in pair of (fname, ext) is empty
+            and element.get("image") \
+            and isinstance(element["image"], dict) \
+            and not os.path.splitext(element["image"]["uri"])[1] # ext in pair of (fname, ext) is empty
 
     def fn(element, missing):
         missing.append(utils.subdict(element, ['type', 'id', 'uri']))
-        element["uri"] += ".jpg"
+        element["image"]["uri"] += ".jpg"
         return element
 
     missing = []
