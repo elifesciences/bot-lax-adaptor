@@ -269,9 +269,9 @@ class KitchenSink(BaseCase):
                 "source": {
                     "filename": "elife-00666-video1.jpg",
                     "mediaType": "image/jpeg",
-                    "uri": "https://prod--iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg/full/full/0/default.jpg"
+                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg/full/full/0/default.jpg"
                 },
-                "uri": "https://prod--iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg"
+                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg"
             },
             "sourceData": [{
                 "doi": "10.7554/eLife.00666.036",
