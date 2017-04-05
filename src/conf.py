@@ -120,14 +120,13 @@ CDNS_BY_ENV = {
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
 if ENV in ['prod', 'continuumtest', 'end2end']:
-    # this coincides with the IIIF server now, but it will be put behind a CDN soon
     # used for generating public links
-    CDN_IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+    CDN_IIIF = 'https://' + ENV + '-cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
     # used for direct access to the IIIF server
     IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
 else:
     # default to prod as a data source for testing
-    CDN_IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+    CDN_IIIF = 'https://prod--cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
     IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
 
 # NOTE: do not move to /tmp
