@@ -10,8 +10,9 @@ app.cfg
 article-xml/
 article-json/
 guinea-pigs/
+kitchen-sinks/
 api-raml/
 htmlcov/
 elife-tools/
 src/elifetools
-glencoe-cache.sqlite3
+/*.sqlite3

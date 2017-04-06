@@ -1,5 +1,5 @@
 #!/bin/bash
-# generates a validate a small subset of articles that should always pass
+# generates and validate a small subset of articles that should always pass
 
 set -e
 
@@ -28,3 +28,4 @@ for article in $guinea_pigs; do
     ./scrape-article.sh article-xml/articles/$article >> guinea-pigs/$article.json
     ./validate-json.sh guinea-pigs/$article.json >> guinea-pigs.log
 done
+
