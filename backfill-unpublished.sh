@@ -11,4 +11,4 @@
 # if there are unpublished articles in lax when this happens, they will fail to publish.
 
 set -ev
-/srv/lax/manage.sh status article-versions.invalid-unpublished.list | jq '.[][]' --compact-output | python src/backfill.py
+/srv/lax/manage.sh status article-versions.invalid-unpublished.list | jq '.[][]' --compact-output | venv/bin/python src/backfill.py
