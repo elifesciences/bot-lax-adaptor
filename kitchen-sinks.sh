@@ -4,7 +4,7 @@
 set -e
 
 kitchen_sinks="
-elife-8290954859392900666-v1.xml
+elife-00666-v1.xml
 "
 
 mkdir -p kitchen-sinks
