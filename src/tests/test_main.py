@@ -258,7 +258,7 @@ class KitchenSink(BaseCase):
             "doi": "10.7554/eLife.00666.016",
             "id": "video1",
             "label": "Video 1.",
-            "title": "\n                                A descirption of the eLife editorial process.\n                            ",
+            "title": "\n                                A description of the eLife editorial process.\n                            ",
             "placeholder": {
                 "alt": "",
                 "filename": "elife-00666-video1.jpg",
@@ -274,19 +274,19 @@ class KitchenSink(BaseCase):
                 "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg"
             },
             "sourceData": [{
-                "doi": "10.7554/eLife.00666.036",
+                "doi": "10.7554/eLife.00666.037",
                 "id": "video1sdata1",
                 "label": u"Video 1\u2014Source data 1.",
                 "title": "Title of the source code.",
-                "mediaType": "application/xml",
+                "mediaType": "application/xlsx",
                 "caption": [
                     {
                         "type": "paragraph",
                         "text": "Legend of the source code.",
                     },
                 ],
-                "uri": main.cdnlink("00666", "elife-00666-video4-data1.xlsx"),
-                "filename": "elife-00666-video4-data1.xlsx"
+                "uri": main.cdnlink("00666", "elife-00666-video1-data1.xlsx"),
+                "filename": "elife-00666-video1-data1.xlsx"
             }],
             "image": main.cdnlink("00666", "elife-00666-video1.jpg"),
             "height": 720,
