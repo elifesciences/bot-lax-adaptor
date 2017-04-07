@@ -121,7 +121,7 @@ CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
 if ENV in ['prod', 'continuumtest', 'end2end']:
     # used for generating public links
-    CDN_IIIF = 'https://' + ENV + '-cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+    CDN_IIIF = 'https://' + ENV + '--cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
     # used for direct access to the IIIF server
     IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
 else:
