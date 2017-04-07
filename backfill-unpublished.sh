@@ -9,6 +9,6 @@
 # 2. we change what 'valid' means
 # our schema may change on us and what was once valid no longer is.
 # if there are unpublished articles in lax when this happens, they will fail to publish.
-
-set -ev
-/srv/lax/manage.sh status article-versions.invalid-unpublished.list | jq '.[][]' --compact-output | venv/bin/python src/backfill.py
+set -e
+source venv/bin/activate
+/srv/lax/manage.sh status article-versions.unpublished.list | jq '.[][]' --compact-output | venv/bin/python src/backfill.py
