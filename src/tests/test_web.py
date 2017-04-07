@@ -62,7 +62,7 @@ class Web(TestCase):
         self.assert_flashes(lambda message: message.startswith('valid'))
 
     def test_upload_invalid(self):
-        xml_fname = 'elife-00666-v1.xml'
+        xml_fname = 'elife-00666-v1-invalid.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
         self.client.post('/upload/', **{
@@ -70,10 +70,10 @@ class Web(TestCase):
             'content_type': 'multipart/form-data',
             'data': {
                 # data, filename
-                'xml': (open(xml_fixture, 'r'), xml_fname),
+                'xml': (open(xml_fixture, 'r'), 'elife-00666-v1.xml'),
             }
         })
-        expected_path = join(self.temp_dir, xml_fname)
+        expected_path = join(self.temp_dir, 'elife-00666-v1.xml')
         self.assertTrue(os.path.exists(expected_path))
         self.assertTrue(os.path.isfile(expected_path))
         self.assert_flashes(lambda message: message.startswith('invalid'))

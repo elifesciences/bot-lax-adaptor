@@ -14,6 +14,10 @@ elifeLibrary({
         sh './guinea-pigs.sh'
     }
 
+    stage 'Kitchen sinks', {
+        sh './kitchen-sinks.sh'
+    }
+
     stage 'Corpus generation', {
         sh 'rm -f generation.log'
         sh './generate-article-json.sh'
