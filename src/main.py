@@ -85,6 +85,7 @@ DISPLAY_CHANNEL_TYPES = {
     # NOTE: have not seen the below ones yet, guessing
     "Research exchange": "research-exchange",
     "Retraction": "retraction",
+    "Scientific Correspondence": "scientific-correspondence",
 }
 
 def display_channel_to_article_type(display_channel_list):
