@@ -1,0 +1,14 @@
+def apiRamlSummary;
+elifeUpdatePipeline(
+    { commit ->
+        sh "./update-api-raml.sh"
+        sh "git add api-raml.sha1"
+        def gitLogCommand = "cd schema/api-raml; git log -1 --pretty=%ci"
+        apiRamlSummary = sh(script: gitLogCommand, returnStdout: true).trim()
+    },
+    {
+        return "Updated api-raml to: ${apiRamlSummary}"
+    },
+    'update_api_raml_',
+    true
+)
