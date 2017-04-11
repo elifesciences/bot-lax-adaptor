@@ -150,7 +150,7 @@ def iiifsource(msid, filename):
     source = OrderedDict()
     source["mediaType"] = "image/jpeg"
     source["uri"] = iiiflink(msid, filename) + '/full/full/0/default.jpg'
-    source["filename"] = filename
+    source["filename"] = re.sub('\.tif$', '.jpg', filename)
     return source
 
 def pdf_uri(triple):

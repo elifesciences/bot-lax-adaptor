@@ -246,12 +246,39 @@ class KitchenSink(BaseCase):
         self.doc = join(self.fixtures_dir, 'elife-00666-v1.xml')
         self.soup = main.to_soup(self.doc)
 
-    def test_video(self):
+    def test_figure_and_video(self):
         result = main.render_single(self.doc, version=1)
+        figure = result['article']['body'][1]['content'][4]['content'][2]
         media = result['article']['body'][1]['content'][5]['content'][1]
 
         def tod(d):
             return json.loads(json.dumps(d))
+
+        expected_figure = {
+            'alt': '',
+            'attribution': ['For the purpose having a example of how to tag a separate license for an item, we have indicated in the XML and display this is a\n                                        copyrighted figure; however it is not.'],
+            'doi': '10.7554/eLife.00666.007',
+            'id': 'fig1',
+            'image': {
+                'alt': '',
+                'filename': 'elife-00666-fig1.tif',
+                'size': {
+                    'height': 1,
+                    'width': 1
+                },
+                'source': {
+                    'filename': 'elife-00666-fig1.jpg',
+                    'mediaType': 'image/jpeg',
+                    'uri': 'https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif/full/full/0/default.jpg'
+                },
+                'uri': 'https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif'},
+            'label': 'Figure 1.',
+            'title': 'Single figure: The header of an eLife article example on the HTML page. In the PDf this is represented as a single column.',
+            'type': 'image',
+            'uri': 'https://publishing-cdn.elifesciences.org/00666/elife-00666-fig1.tif'
+        }
+
+        self.assertEqual(tod(expected_figure), tod(figure))
 
         expected_media = {
             "type": "video",
