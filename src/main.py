@@ -408,9 +408,19 @@ def format_isbns(data):
 
     return visit(data, pred, fn)
 
+def check_authors(data):
+    "in postprocessing, check all authors have competingInterests except in certain article types"
+    skip_types = ['correction']
+    if data['snippet']['type'] not in skip_types:
+        for author in data['snippet']['authors']:
+            if author.get('competingInterests') is None:
+                raise ValueError("Author missing required competingInterests")
+    return data
+
 def postprocess(data):
     msid = data['snippet']['id']
     data = doall(data, [
+        check_authors,
         fix_extensions,
         expand_videos,
         partial(expand_uris, msid),
