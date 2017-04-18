@@ -415,8 +415,8 @@ def check_authors(data):
         return data
     # continue
     context = {
-        'msid': data['snippet']['id'],
-        'version': data['snippet']['version']
+        'msid': data['snippet'].get('id'),
+        'version': data['snippet'].get('version')
     }
     if 'authors' in data['snippet']:
         for author in data['snippet']['authors']:
