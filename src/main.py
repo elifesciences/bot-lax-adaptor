@@ -412,9 +412,10 @@ def check_authors(data):
     "in postprocessing, check all authors have competingInterests except in certain article types"
     skip_types = ['correction']
     if data['snippet']['type'] not in skip_types:
-        for author in data['snippet']['authors']:
-            if author.get('competingInterests') is None:
-                raise ValueError("Author missing required competingInterests")
+        if 'authors' in data['snippet']:
+            for author in data['snippet']['authors']:
+                if author.get('competingInterests') is None:
+                    raise ValueError("Author missing required competingInterests")
     return data
 
 def postprocess(data):
