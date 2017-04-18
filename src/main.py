@@ -414,11 +414,15 @@ def check_authors(data):
     if data['snippet']['type'] in skip_types:
         return data
     # continue
+    context = {
+        'msid': data['snippet']['id'],
+        'version': data['snippet']['version']
+    }
     if 'authors' in data['snippet']:
         for author in data['snippet']['authors']:
             if (author.get('type') in ['person', 'group']
                     and author.get('competingInterests') is None):
-                raise ValueError("Author missing required competingInterests")
+                raise ValueError("Author missing required competingInterests", context)
     return data
 
 def postprocess(data):
