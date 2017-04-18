@@ -417,7 +417,7 @@ def check_authors(data):
     if 'authors' in data['snippet']:
         for author in data['snippet']['authors']:
             if (author.get('type') in ['person', 'group']
-                and author.get('competingInterests') is None):
+                    and author.get('competingInterests') is None):
                 raise ValueError("Author missing required competingInterests")
     return data
 
