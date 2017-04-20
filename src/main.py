@@ -107,7 +107,7 @@ LICENCE_TYPES = {
 def related_article_to_related_articles(related_article_list):
     # ll: [{'xlink_href': u'10.7554/eLife.09561', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}]
     def et(struct):
-        return struct.get('xlink_href', '').rsplit('.', 1)[-1] or None
+        return (struct.get('xlink_href') or '').rsplit('.', 1)[-1] or None
     # ll: ['09561'] or None
     return filter(None, map(et, related_article_list))
 
