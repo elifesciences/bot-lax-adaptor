@@ -451,7 +451,7 @@ SNIPPET = OrderedDict([
     ('volume', [(jats('pub_date'), jats('volume')), to_volume]),
     ('elocationId', [jats('elocation_id')]),
     ('pdf', [(jats('display_channel'), jats('publisher_id'), getvar('version')), pdf_uri]),
-    ('subjects', [jats('category'), category_codes]),
+    ('subjects', [jats('category'), category_codes, discard_if_none_or_empty]),
     ('researchOrganisms', [jats('research_organism_json')]),
     ('abstract', [jats('abstract_json')]),
 ])
