@@ -114,7 +114,7 @@ def http_download(location):
             cred = S3Auth(*cred)
     resp = requests.get(location, auth=cred)
     if resp.status_code != 200:
-        raise RuntimeError("failed to download xml from location %r, got response code: %s" % (location, resp.status_code))
+        raise RuntimeError("failed to load %r, got response code: %s\n%s" % (location, resp.status_code, resp.content))
     resp.encoding = 'utf-8'
     return resp.text
 
@@ -157,7 +157,7 @@ def mkresponse(status, message, request={}, **kwargs):
         INGESTED: logging.DEBUG,
         PUBLISHED: logging.DEBUG
     }
-    LOG.log(levels[packet["status"]], "%s response", packet['status'], extra=context)
+    LOG.log(levels[packet["status"]], "%s response: %s", packet['status'], context)
 
     # bit ick
     if not packet['message']:
