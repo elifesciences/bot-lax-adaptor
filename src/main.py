@@ -550,7 +550,7 @@ def expand_location(path):
         fname = os.path.basename(path)
         return "https://raw.githubusercontent.com/elifesciences/elife-article-xml/%s/articles/%s" % (sha, fname)
 
-    elif path.startswith('https://s3-external-1.amazonaws.com'):
+    elif path.startswith('https://s3-external-1.amazonaws.com/') or path.startswith('https://s3.amazonaws.com/'):
         # it's being downloaded from a bucket, no worries
         return path
 
