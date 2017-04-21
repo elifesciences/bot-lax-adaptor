@@ -76,6 +76,18 @@ class ArticleScrape(BaseCase):
                      "name": "Microbiology and Infectious Disease"}]
         self.assertEqual(main.category_codes(cat_list), expected)
 
+    def test_check_authors(self):
+        cases = [
+            {"snippet": {"type": "research-article", "authors": [{"type": "person", "competingInterests": "A competing interest"}]}},
+            {"snippet": {"type": "correction", "authors": [{"type": "person"}]}}
+        ]
+        for snippet in cases:
+            self.assertEqual(main.check_authors(snippet), snippet)
+
+    def test_check_authors_failure(self):
+        snippet = {"snippet": {"type": "research-article", "authors": [{"type": "person"}]}}
+        self.assertRaises(ValueError, main.check_authors, snippet)
+
     def test_related_article_to_related_articles_whem_empty(self):
         # For increased test coverage, test and empty list
         related_article_list = [{'junk': 'not related'}]
