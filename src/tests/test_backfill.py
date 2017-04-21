@@ -79,7 +79,7 @@ class One(BaseCase):
         paths = [{
             'msid': 16695,
             'version': 1,
-            'location': 'https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
+            'location': 'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
         }]
         expected_lax_response = {
             "id": "16695",
@@ -176,12 +176,12 @@ class Two(BaseCase):
 
     def test_bootstrap_read_json_object_from_stdin(self):
         "json objects can be read from stdin as well, they must be line-delimited though"
-        jsonobj = '''{"msid":16695,"version":1,"location":"https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}'''
+        jsonobj = '''{"msid":16695,"version":1,"location":"https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}'''
         expected = [{
             'force': True,
             'token': 'pants-party',
             'version': 1,
-            'location': u'https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
+            'location': u'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
             'action': 'ingest',
             'id': u'16695'
         }]
@@ -191,13 +191,13 @@ class Two(BaseCase):
 
     def test_bootstrap_read_multiple_json_objects_from_stdin(self):
         "json objects can be read from stdin as well, they must be line-delimited though"
-        jsonobj = '''{"msid":16695,"version":1,"location":"https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}
+        jsonobj = '''{"msid":16695,"version":1,"location":"https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}
 {"msid":1968,"version":1,"location":"no-location-stored"}'''
         expected = [{
             'force': True,
             'token': 'pants-party',
             'version': 1,
-            'location': u'https://s3.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
+            'location': u'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
             'action': 'ingest',
             'id': u'16695'
         }]
