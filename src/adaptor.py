@@ -157,7 +157,7 @@ def mkresponse(status, message, request={}, **kwargs):
         INGESTED: logging.DEBUG,
         PUBLISHED: logging.DEBUG
     }
-    LOG.log(levels[packet["status"]], "%s response: %s", packet['status'], context)
+    LOG.log(levels[packet["status"]], "%s response", packet['status'], extra=context)
 
     # bit ick
     if not packet['message']:
