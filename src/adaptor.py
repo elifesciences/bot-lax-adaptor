@@ -106,7 +106,7 @@ def file_handler(path):
 
 def http_download(location):
     cred = None
-    if location.startswith('https://s3.amazonaws.com'):
+    if location.startswith('https://s3-external-1.amazonaws.com/') or location.startswith('https://s3.amazonaws.com/'):
         # if we can find credentials, attach them
         session = botocore.session.get_session()
         cred = [getattr(session.get_credentials(), attr) for attr in ['access_key', 'secret_key']]
