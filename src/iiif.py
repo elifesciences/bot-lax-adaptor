@@ -2,6 +2,7 @@ import requests, requests_cache
 import logging
 import conf
 import utils
+import os
 
 LOG = logging.getLogger(__name__)
 requests_cache.install_cache(**{
@@ -40,6 +41,8 @@ def basic_info(msid, filename):
     info_data = iiif_info(msid, filename)
     width = iiif_width(info_data)
     height = iiif_height(info_data)
+    if 'FORCED_IIIF' in os.environ and int(os.environ['FORCED_IIIF']):
+        return 1, 1
     return width, height
 
 def iiif_info(msid, filename):
