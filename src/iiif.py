@@ -72,12 +72,10 @@ def iiif_info(msid, filename):
         raise
 
 def iiif_width(info_data):
-    # Return a default of 1 pixel if not found for now
-    return info_data.get("width", 1)
+    return info_data.get("width")
 
 def iiif_height(info_data):
-    # Return a default of 1 pixel if not found for now
-    return info_data.get("height", 1)
+    return info_data.get("height")
 
 def clear_cache(msid, filename):
     requests_cache.core.get_cache().delete_url(iiif_info_url(msid, filename))
