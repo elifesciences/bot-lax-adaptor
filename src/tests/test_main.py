@@ -162,7 +162,7 @@ class ArticleScrape(BaseCase):
             {"type": "image", "image": {"uri": "foo.bar"}}
         ]
         expected = [
-            {"type": "image", "image": {"uri": "foo.jpg"}},
+            {"type": "image", "image": {"uri": "foo.tif"}},
             {"type": "image", "image": {"uri": "foo.bar"}}, # no clobbering
         ]
         self.assertEqual(main.fix_extensions(given), expected)
@@ -275,8 +275,8 @@ class KitchenSink(BaseCase):
                 'alt': '',
                 'filename': 'elife-00666-fig1.tif',
                 'size': {
-                    'height': None,
-                    'width': None
+                    'height': 1,
+                    'width': 1,
                 },
                 'source': {
                     'filename': 'elife-00666-fig1.jpg',
@@ -302,8 +302,8 @@ class KitchenSink(BaseCase):
                 "alt": "",
                 "filename": "elife-00666-video1.jpg",
                 "size": {
-                    "height": None,
-                    "width": None
+                    "height": 1,
+                    "width": 1,
                 },
                 "source": {
                     "filename": "elife-00666-video1.jpg",

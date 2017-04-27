@@ -358,7 +358,7 @@ def fix_extensions(data):
 
     def fn(element, missing):
         missing.append(utils.subdict(element, ['type', 'id', 'uri']))
-        element["image"]["uri"] += ".jpg"
+        element["image"]["uri"] += ".tif"
         return element
 
     missing = []
