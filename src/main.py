@@ -340,7 +340,6 @@ def expand_uris(msid, data):
             element['uri'] = fixed
             return element
         # normal case: cdn link
-        element["filename"] = os.path.basename(element["uri"]) # basename here redundant?
         element["uri"] = cdnlink(msid, element["uri"])
         return element
     return visit(data, pred, fn)

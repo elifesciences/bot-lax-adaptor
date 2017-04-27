@@ -273,7 +273,6 @@ class KitchenSink(BaseCase):
             'id': 'fig1',
             'image': {
                 'alt': '',
-                'filename': 'elife-00666-fig1.tif',
                 'size': {
                     'height': 1,
                     'width': 1,
@@ -300,7 +299,6 @@ class KitchenSink(BaseCase):
             "title": "\n                                A description of the eLife editorial process.\n                            ",
             "placeholder": {
                 "alt": "",
-                "filename": "elife-00666-video1.jpg",
                 "size": {
                     "height": 1,
                     "width": 1,
