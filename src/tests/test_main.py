@@ -181,8 +181,8 @@ class ArticleScrape(BaseCase):
         ]
         expected = [
             # filename => https://cdn.tld/path/filename
-            {"uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
-            {"type": "image", "uri": main.cdnlink(msid, "foo.bar"), "filename": "foo.bar"},
+            {"uri": main.cdnlink(msid, "foo.bar")},
+            {"type": "image", "uri": main.cdnlink(msid, "foo.bar")},
             # www => http://www.
             {"uri": "http://www.foo.bar"},
             # doi:... => https://doi.org/...
@@ -267,7 +267,6 @@ class KitchenSink(BaseCase):
             return json.loads(json.dumps(d))
 
         expected_figure = {
-            'alt': '',
             'attribution': ['For the purpose having a example of how to tag a separate license for an item, we have indicated in the XML and display this is a\n                                        copyrighted figure; however it is not.'],
             'doi': '10.7554/eLife.00666.007',
             'id': 'fig1',
@@ -286,7 +285,6 @@ class KitchenSink(BaseCase):
             'label': 'Figure 1.',
             'title': 'Single figure: The header of an eLife article example on the HTML page. In the PDf this is represented as a single column.',
             'type': 'image',
-            'uri': 'https://publishing-cdn.elifesciences.org/00666/elife-00666-fig1.tif'
         }
 
         self.assertEqual(tod(expected_figure), tod(figure))

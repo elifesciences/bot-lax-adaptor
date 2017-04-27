@@ -304,12 +304,6 @@ def expand_iiif_uri(msid, element, element_type):
     element[element_type]["size"] = {"width": width, "height": height}
     element[element_type]["source"] = iiifsource(msid, element[element_type]["uri"].split('/')[-1])
 
-    # Temporarily copy some attributes to pass validation on older schema
-    if element_type == "image":
-        if not element.get("uri"):
-            element["uri"] = cdnlink(msid, element[element_type]["uri"].split('/')[-1])
-        if not element.get("alt") and element.get(element_type).get("alt") is not None:
-            element["alt"] = element[element_type]["alt"]
     return element
 
 def expand_uris(msid, data):
