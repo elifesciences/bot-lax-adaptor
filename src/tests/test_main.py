@@ -275,8 +275,8 @@ class KitchenSink(BaseCase):
                 'alt': '',
                 'filename': 'elife-00666-fig1.tif',
                 'size': {
-                    'height': None,
-                    'width': None
+                    'height': 1,
+                    'width': 1,
                 },
                 'source': {
                     'filename': 'elife-00666-fig1.jpg',
@@ -302,8 +302,8 @@ class KitchenSink(BaseCase):
                 "alt": "",
                 "filename": "elife-00666-video1.jpg",
                 "size": {
-                    "height": None,
-                    "width": None
+                    "height": 1,
+                    "width": 1,
                 },
                 "source": {
                     "filename": "elife-00666-video1.jpg",

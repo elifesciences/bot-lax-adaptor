@@ -75,10 +75,12 @@ def iiif_info(msid, filename):
         raise
 
 def iiif_width(info_data):
-    return info_data.get("width")
+    # DEPRECATED: remove default value after elife-11407-v2 is corrected
+    return info_data.get("width", 1)
 
 def iiif_height(info_data):
-    return info_data.get("height")
+    # DEPRECATED: remove default value after elife-11407-v2 is corrected
+    return info_data.get("height", 1)
 
 def clear_cache(msid, filename):
     requests_cache.core.get_cache().delete_url(iiif_info_url(msid, filename))
