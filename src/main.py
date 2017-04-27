@@ -370,7 +370,7 @@ def fix_extensions(data):
             'version': data['snippet']['version'],
             'missing': missing
         }
-        LOG.info("encountered article with %s images with missing file extensions. assuming .jpg", len(missing), extra=context)
+        LOG.info("encountered article with %s images with missing file extensions. assuming .tif", len(missing), extra=context)
 
     return data
 
