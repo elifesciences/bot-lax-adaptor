@@ -162,7 +162,7 @@ class ArticleScrape(BaseCase):
             {"type": "image", "image": {"uri": "foo.bar"}}
         ]
         expected = [
-            {"type": "image", "image": {"uri": "foo.jpg"}},
+            {"type": "image", "image": {"uri": "foo.tif"}},
             {"type": "image", "image": {"uri": "foo.bar"}}, # no clobbering
         ]
         self.assertEqual(main.fix_extensions(given), expected)
