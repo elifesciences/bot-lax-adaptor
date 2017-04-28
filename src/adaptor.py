@@ -116,7 +116,7 @@ def http_download(location):
             cred = S3Auth(*cred, service_url=s3_base)
     resp = requests.get(location, auth=cred)
     if resp.status_code != 200:
-        raise RuntimeError("failed to download xml from location %r, got response code: %s" % (location, resp.status_code))
+        raise RuntimeError("failed to download xml from %r, got response code: %s\n%s" % (location, resp.status_code, resp.content))
     resp.encoding = 'utf-8'
     return resp.text
 

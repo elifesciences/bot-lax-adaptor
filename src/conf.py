@@ -32,7 +32,24 @@ _formatter = jsonlogger.JsonFormatter(_log_format)
 # output to stderr
 _handler = logging.StreamHandler()
 _handler.setLevel(logging.INFO)
-_handler.setFormatter(logging.Formatter('%(levelname)s - %(asctime)s - %(message)s'))
+
+class FormatterWithEncodedExtras(logging.Formatter):
+    def format(self, record):
+        # exclude all known keys in Record
+        # bundle the remainder into an 'extra' field,
+        # bypassing attempt to make Record read-only
+        _known_keys = [
+            'asctime', 'created', 'filename', 'funcName', 'levelname', 'levelno', 'lineno',
+            'module', 'msecs', 'message', 'name', 'pathname', 'process', 'processName',
+            'relativeCreated', 'thread', 'threadName',
+            # non-formatting fields present in __dict__
+            'exc_text', 'exc_info', 'msg', 'args',
+        ]
+        unknown_fields = {key: val for key, val in record.__dict__.items() if key not in _known_keys}
+        record.__dict__['extra'] = json.dumps(unknown_fields)
+        return super(FormatterWithEncodedExtras, self).format(record)
+
+_handler.setFormatter(FormatterWithEncodedExtras('%(levelname)s - %(asctime)s - %(message)s -- %(extra)s'))
 
 ROOTLOG.addHandler(_handler)
 ROOTLOG.setLevel(logging.DEBUG)
@@ -136,3 +153,9 @@ IIIF_CACHE = join(CACHE_PATH, 'iiif-cache')
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 
 JOURNAL_INCEPTION = 2012 # used to calculate volumes
+
+if __name__ == '__main__':
+    # test logging handlers
+    # $ python src/conf.py
+    LOG = logging.getLogger(__name__)
+    LOG.info("something", extra={'pants': 'party'})
