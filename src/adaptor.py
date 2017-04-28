@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 import os
 from os.path import join
+from urlparse import urlparse
 import requests
 import signal
 import main, fs_adaptor, sqs_adaptor
@@ -107,11 +108,12 @@ def file_handler(path):
 def http_download(location):
     cred = None
     if location.startswith('https://s3-external-1.amazonaws.com/') or location.startswith('https://s3.amazonaws.com/'):
+        s3_base = urlparse(location).hostname
         # if we can find credentials, attach them
         session = botocore.session.get_session()
         cred = [getattr(session.get_credentials(), attr) for attr in ['access_key', 'secret_key']]
         if filter(None, cred): # remove any empty values
-            cred = S3Auth(*cred)
+            cred = S3Auth(*cred, service_url=s3_base)
     resp = requests.get(location, auth=cred)
     if resp.status_code != 200:
         raise RuntimeError("failed to download xml from location %r, got response code: %s" % (location, resp.status_code))
