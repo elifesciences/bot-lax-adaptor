@@ -77,7 +77,7 @@ class Adapt(BaseCase):
         # this needs to be an UTF-8 XML document
         # without a proper 'Content-Type: application/xml; encoding=utf-8'
         # header being attached to the response
-        test_url = 'http://publishing-cdn.elifesciences.org/18722/elife-18722-v2.xml'
+        test_url = 'https://cdn.elifesciences.org/articles/18722/elife-18722-v2.xml'
         xml_text = adaptor.http_download(test_url)
         # this is a crappy quick regex to extract the XML tags we need
         titles_of_appendices = re.findall('<title>Appendix[^<]*</title>', xml_text)
