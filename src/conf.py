@@ -127,12 +127,11 @@ REQUEST_SCHEMA = json_load('request-schema.json')
 RESPONSE_SCHEMA = json_load('response-schema.json')
 
 CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
-CDN2 = 'publishing-cdn.elifesciences.org/%(padded-msid)s/%(fname)s'
 
 DEFAULT_CDN = CDN1
 CDNS_BY_ENV = {
-    'end2end': 'end2end-' + CDN2,
-    'continuumtest': 'continuumtest-' + CDN2,
+    'end2end': 'end2end-' + CDN1,
+    'continuumtest': 'continuumtest-' + CDN1,
 }
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
