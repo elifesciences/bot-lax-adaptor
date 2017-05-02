@@ -129,7 +129,7 @@ RESPONSE_SCHEMA = json_load('response-schema.json')
 CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
 CDN2 = 'publishing-cdn.elifesciences.org/%(padded-msid)s/%(fname)s'
 
-DEFAULT_CDN = CDN1 if False else CDN2 # 'False' until we finish switching to a single CDN :(
+DEFAULT_CDN = CDN1
 CDNS_BY_ENV = {
     'end2end': 'end2end-' + CDN2,
     'continuumtest': 'continuumtest-' + CDN2,
