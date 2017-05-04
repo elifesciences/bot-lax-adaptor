@@ -3,7 +3,7 @@
 set -e
 
 log=$1
-maximum_not_generatable=1
+maximum_not_generatable=0
 article_pattern='\- elife-[0-9]\+-v[0-9]\+\.xml ->'
 
 generated_green=$(grep "$article_pattern" "$log" | grep success | wc -l)
