@@ -20,8 +20,9 @@ if [ ! -d article-xml ]; then
 fi
 
 if [ -f elife-article-xml.sha1 ]; then
+    bot_lax_adaptor=$(pwd)
     cd article-xml
     git fetch origin
-    git checkout "$(cat ../elife-article-xml.sha1)"
+    git checkout "$(cat "${bot_lax_adaptor}/elife-article-xml.sha1")"
     cd ..
 fi
