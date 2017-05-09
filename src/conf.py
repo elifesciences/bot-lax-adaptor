@@ -149,6 +149,10 @@ else:
 GLENCOE_CACHE = join(CACHE_PATH, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
 IIIF_CACHE = join(CACHE_PATH, 'iiif-cache')
 
+# *may* improve locked db problem
+# https://requests-cache.readthedocs.io/en/latest/api.html#backends-dbdict
+ASYNC_CACHE_WRITES = False
+
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 
 JOURNAL_INCEPTION = 2012 # used to calculate volumes
