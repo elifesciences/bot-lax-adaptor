@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 requests_cache.install_cache(**{
     'cache_name': conf.GLENCOE_CACHE,
     'backend': 'sqlite',
-    'fast_save': True,
+    'fast_save': conf.ASYNC_CACHE_WRITES,
     'extension': '.sqlite3'})
 
 '''
