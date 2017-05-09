@@ -69,7 +69,7 @@ def iiif_info(msid, filename):
     try:
         info_data = resp.json()
         return info_data
-    except AssertionError:
+    except:
         # clear cache, we don't want bad data hanging around
         clear_cache(msid, filename)
         raise
