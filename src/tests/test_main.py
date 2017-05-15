@@ -292,7 +292,7 @@ class KitchenSink(BaseCase):
             "type": "video",
             "doi": "10.7554/eLife.00666.016",
             "id": "video1",
-            "label": "Video 1.",
+            "label": "Video 1",
             "title": "\n                                A description of the eLife editorial process.\n                            ",
             "placeholder": {
                 "alt": "",
