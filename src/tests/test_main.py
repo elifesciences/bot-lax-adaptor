@@ -281,7 +281,7 @@ class KitchenSink(BaseCase):
                     'uri': 'https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif/full/full/0/default.jpg'
                 },
                 'uri': 'https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif'},
-            'label': 'Figure 1.',
+            'label': 'Figure 1',
             'title': 'Single figure: The header of an eLife article example on the HTML page. In the PDf this is represented as a single column.',
             'type': 'image',
         }
@@ -292,7 +292,7 @@ class KitchenSink(BaseCase):
             "type": "video",
             "doi": "10.7554/eLife.00666.016",
             "id": "video1",
-            "label": "Video 1.",
+            "label": "Video 1",
             "title": "\n                                A description of the eLife editorial process.\n                            ",
             "placeholder": {
                 "alt": "",
@@ -310,7 +310,7 @@ class KitchenSink(BaseCase):
             "sourceData": [{
                 "doi": "10.7554/eLife.00666.037",
                 "id": "video1sdata1",
-                "label": u"Video 1\u2014Source data 1.",
+                "label": u"Video 1\u2014Source data 1",
                 "title": "Title of the source code.",
                 "mediaType": "application/xlsx",
                 "caption": [
