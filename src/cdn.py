@@ -16,7 +16,7 @@ def url_exists(url, msid=None):
 
     context['status-code'] = resp.status_code
 
-    if resp.status_code == requests.codes.ok:
+    if resp.status_code == 200:
         return url
     elif resp.status_code == 404:
         LOG.debug("CDN url not found", extra=context)
