@@ -1,15 +1,11 @@
-import requests, requests_cache
+import requests
+import cache_requests
 import logging
 import conf
 import utils
 import os
 
 LOG = logging.getLogger(__name__)
-requests_cache.install_cache(**{
-    'cache_name': conf.IIIF_CACHE,
-    'backend': 'sqlite',
-    'fast_save': conf.ASYNC_CACHE_WRITES,
-    'extension': '.sqlite3'})
 
 '''
 iiif_resp = {

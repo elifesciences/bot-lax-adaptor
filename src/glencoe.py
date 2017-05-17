@@ -1,4 +1,5 @@
-import requests, requests_cache
+import requests
+import cache_requests
 import logging
 #from os.path import join
 import conf
@@ -6,11 +7,6 @@ import utils
 from utils import ensure
 
 LOG = logging.getLogger(__name__)
-requests_cache.install_cache(**{
-    'cache_name': conf.GLENCOE_CACHE,
-    'backend': 'sqlite',
-    'fast_save': conf.ASYNC_CACHE_WRITES,
-    'extension': '.sqlite3'})
 
 '''
 glencoe_resp = {
