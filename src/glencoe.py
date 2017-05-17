@@ -1,12 +1,12 @@
 import requests, requests_cache
-import cache_requests
+from cache_requests import install_cache_requests
 import logging
 #from os.path import join
-import conf
 import utils
 from utils import ensure
 
 LOG = logging.getLogger(__name__)
+install_cache_requests()
 
 '''
 glencoe_resp = {

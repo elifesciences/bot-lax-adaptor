@@ -1,11 +1,12 @@
 import requests, requests_cache
-import cache_requests
+from cache_requests import install_cache_requests
 import logging
 import conf
 import utils
 import os
 
 LOG = logging.getLogger(__name__)
+install_cache_requests()
 
 '''
 iiif_resp = {
