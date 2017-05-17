@@ -1,4 +1,4 @@
-import requests
+import requests, requests_cache
 import cache_requests
 import logging
 #from os.path import join

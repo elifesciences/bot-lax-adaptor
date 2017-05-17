@@ -66,7 +66,7 @@ def main(doc, quiet=False):
     try:
         jsonschema.validate(contents["article"], schema)
         LOG.info("validated %s", msid, extra=log_context)
-        return True, contents
+        #return True, contents
     except jsonschema.ValidationError as err:
         LOG.error("failed to validate %s: %s", msid, err, extra=log_context)
         if quiet:
