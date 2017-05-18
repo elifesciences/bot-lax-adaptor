@@ -266,71 +266,77 @@ class KitchenSink(BaseCase):
             return json.loads(json.dumps(d))
 
         expected_figure = {
-            'attribution': ['For the purpose having a example of how to tag a separate license for an item, we have indicated in the XML and display this is a\n                                        copyrighted figure; however it is not.'],
-            'doi': '10.7554/eLife.00666.007',
-            'id': 'fig1',
-            'image': {
-                'alt': '',
-                'size': {
-                    'height': None,
-                    'width': None,
-                },
-                'source': {
-                    'filename': 'elife-00666-fig1.jpg',
-                    'mediaType': 'image/jpeg',
-                    'uri': 'https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif/full/full/0/default.jpg'
-                },
-                'uri': 'https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif'},
-            'label': 'Figure 1',
-            'title': 'Single figure: The header of an eLife article example on the HTML page. In the PDf this is represented as a single column.',
-            'type': 'image',
+            'type': 'figure',
+            'assets': [{
+                'attribution': ['For the purpose having a example of how to tag a separate license for an item, we have indicated in the XML and display this is a\n                                        copyrighted figure; however it is not.'],
+                'doi': '10.7554/eLife.00666.007',
+                'id': 'fig1',
+                'image': {
+                    'alt': '',
+                    'size': {
+                        'height': None,
+                        'width': None,
+                    },
+                    'source': {
+                        'filename': 'elife-00666-fig1.jpg',
+                        'mediaType': 'image/jpeg',
+                        'uri': 'https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif/full/full/0/default.jpg'
+                    },
+                    'uri': 'https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif'},
+                'label': 'Figure 1',
+                'title': 'Single figure: The header of an eLife article example on the HTML page. In the PDf this is represented as a single column.',
+                'type': 'image',
+            }]
         }
 
         self.assertEqual(tod(expected_figure), tod(figure))
 
         expected_media = {
-            "type": "video",
-            "doi": "10.7554/eLife.00666.016",
-            "id": "video1",
-            "label": "Video 1",
-            "title": "\n                                A description of the eLife editorial process.\n                            ",
-            "placeholder": {
-                "alt": "",
-                "size": {
-                    "height": None,
-                    "width": None,
-                },
-                "source": {
-                    "filename": "elife-00666-video1.jpg",
-                    "mediaType": "image/jpeg",
-                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg/full/full/0/default.jpg"
-                },
-                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg"
-            },
-            "sourceData": [{
-                "doi": "10.7554/eLife.00666.037",
-                "id": "video1sdata1",
-                "label": u"Video 1\u2014Source data 1",
-                "title": "Title of the source code.",
-                "mediaType": "application/xlsx",
-                "caption": [
-                    {
-                        "type": "paragraph",
-                        "text": "Legend of the source code.",
+            'type': 'figure',
+            'assets': [{
+                "type": "video",
+                "doi": "10.7554/eLife.00666.016",
+                "id": "video1",
+                "label": "Video 1",
+                "title": "\n                                A description of the eLife editorial process.\n                            ",
+                "placeholder": {
+                    "alt": "",
+                    "size": {
+                        "height": None,
+                        "width": None,
                     },
-                ],
-                "uri": main.cdnlink("00666", "elife-00666-video1-data1.xlsx"),
-                "filename": "elife-00666-video1-data1.xlsx"
-            }],
-            "image": main.cdnlink("00666", "elife-00666-video1.jpg"),
-            "height": 720,
-            "width": 1280,
-            'sources': [{'mediaType': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
-                         'uri': 'https://static-movie-usa.glencoesoftware.com/mp4/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.mp4'},
-                        {'mediaType': 'video/ogg; codecs="theora, vorbis"',
-                         'uri': 'https://static-movie-usa.glencoesoftware.com/ogv/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.ogv'},
-                        {'mediaType': 'video/webm; codecs="vp8.0, vorbis"',
-                         'uri': 'https://static-movie-usa.glencoesoftware.com/webm/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.webm'}]
+                    "source": {
+                        "filename": "elife-00666-video1.jpg",
+                        "mediaType": "image/jpeg",
+                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg/full/full/0/default.jpg"
+                    },
+                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg"
+                },
+                "sourceData": [{
+                    "doi": "10.7554/eLife.00666.037",
+                    "id": "video1sdata1",
+                    "label": u"Video 1\u2014Source data 1",
+                    "title": "Title of the source code.",
+                    "mediaType": "application/xlsx",
+                    "caption": [
+                        {
+                            "type": "paragraph",
+                            "text": "Legend of the source code.",
+                        },
+                    ],
+                    "uri": main.cdnlink("00666", "elife-00666-video1-data1.xlsx"),
+                    "filename": "elife-00666-video1-data1.xlsx"
+                }],
+                "image": main.cdnlink("00666", "elife-00666-video1.jpg"),
+                "height": 720,
+                "width": 1280,
+                'sources': [{'mediaType': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
+                             'uri': 'https://static-movie-usa.glencoesoftware.com/mp4/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.mp4'},
+                            {'mediaType': 'video/ogg; codecs="theora, vorbis"',
+                             'uri': 'https://static-movie-usa.glencoesoftware.com/ogv/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.ogv'},
+                            {'mediaType': 'video/webm; codecs="vp8.0, vorbis"',
+                             'uri': 'https://static-movie-usa.glencoesoftware.com/webm/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.webm'}]
+            }]
         }
         self.assertEqual(tod(expected_media), tod(media))
 

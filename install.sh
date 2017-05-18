@@ -20,3 +20,8 @@ fi
 pip install -r requirements.txt
 
 . download-api-raml.sh
+
+cd schema/api-raml
+npm install
+node compile.js
+cd -
