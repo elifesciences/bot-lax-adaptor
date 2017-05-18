@@ -274,8 +274,8 @@ class KitchenSink(BaseCase):
                 'image': {
                     'alt': '',
                     'size': {
-                        'height': 1,
-                        'width': 1,
+                        'height': None,
+                        'width': None,
                     },
                     'source': {
                         'filename': 'elife-00666-fig1.jpg',
@@ -302,8 +302,8 @@ class KitchenSink(BaseCase):
                 "placeholder": {
                     "alt": "",
                     "size": {
-                        "height": 1,
-                        "width": 1,
+                        "height": None,
+                        "width": None,
                     },
                     "source": {
                         "filename": "elife-00666-video1.jpg",
