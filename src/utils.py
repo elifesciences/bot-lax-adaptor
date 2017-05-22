@@ -1,14 +1,12 @@
-import inspect
-from itertools import ifilter, islice
+import sqlite3
+import requests
 import os, copy
 import subprocess
 import json
 import jsonschema
 from jsonschema import validate as validator
 from jsonschema import ValidationError
-#from os.path import join
 import conf
-from functools import partial
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -159,60 +157,29 @@ def partial_match(pattern, actual):
 
     return True
 
-def fqfn(fn):
-    "given a function, returns a dotted path to it"
-    mod = inspect.getmodule(fn)
-    return '.'.join([mod.__name__, fn.__name__])
-
-def firstnn(x):
-    "given sequential `x`, returns the first non-nil value"
-    return first(ifilter(None, x))
-
-# https://docs.python.org/2/library/itertools.html#recipes
-def take(n, iterable):
-    "Returns first n items of the iterable as a lazy sequence"
-    return list(islice(iterable, n))
-
-def repeatedly(fn):
-    "given a function, calls it repeatedly, forever"
-    while True:
-        yield fn()
-
-def safely(fn, protect_from):
-    """do something, but safely. returns the same function but wrapped in
-    an error handler that swallows errors in `protect_from` list and returns None"""
-    def wrapper():
-        try:
-            return fn()
-        except BaseException as err:
-            if type(err) in protect_from:
-                LOG.error("caught exception: %s", err)
-                return None
-            raise
-    return wrapper
-
 #
 #
 #
 
-def do_safe_from(fn, protect_from, num_attempts=3):
-    """wraps a function, protecting it from exceptions in the `protect_from` list for `num_attempts`.
-    a nil result after `num_attempts` will raise a ValueError"""
+def call_n_times(fn, protect_from, num_attempts=3):
+    "if after calling `num_attempts` it fails to return a value, it will return None"
     def wrap(*args, **kwargs):
-        safe_fn = safely(partial(fn, *args, **kwargs), protect_from)
-        res = firstnn(take(num_attempts, repeatedly(safe_fn)))
-        if not res:
-            ns = fqfn(fn)
-            # after num_attempts we still got a nil result :(
-            raise ValueError("failed to call %s with args:%s and kwargs:%s after %s attempts"
-                             % (ns, args, kwargs, num_attempts))
-        return res
+        for i in xrange(0, num_attempts):
+            try:
+                return fn(*args, **kwargs)
+            except BaseException as err:
+                if type(err) in protect_from:
+                    LOG.error("caught error: %s" % err)
+                    continue
+                raise
     return wrap
 
-#
-#
-#
+def requests_get(*args, **kwargs):
+    return call_n_times(requests.get, [sqlite3.OperationalError])(*args, **kwargs)
 
+#
+#
+#
 
 import pytz
 from datetime import datetime

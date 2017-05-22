@@ -5,6 +5,8 @@ import configparser as configparser
 
 ROOTLOG = logging.getLogger("")
 
+REQUESTS_CACHING = True
+
 _supported_keys = [
     #'asctime',
     #'created',

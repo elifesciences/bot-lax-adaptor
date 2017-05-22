@@ -1,4 +1,3 @@
-from functools import partial
 from base import BaseCase
 import utils
 from datetime import datetime
@@ -44,33 +43,25 @@ class Utils(BaseCase):
         for (msid, filename), expected in cases:
             self.assertEqual(utils.pad_filename(msid, filename), expected)
 
-    def test_take_repeatedly(self):
-        expected = [
-            "hello, world",
-            "hello, world",
-            "hello, world"
-        ]
-        self.assertEqual(utils.take(3, utils.repeatedly(lambda: "hello, world")), expected)
+    def test_call_n_times(self):
+        def fn(sideaffected):
+            if sideaffected != [2]:
+                sideaffected[0] += 1
+                raise ValueError('KABOOOM')
+            return True
 
-    def test_safely(self):
-        def doomed_to_fail():
-            raise ValueError("pants")
+        # called once, it explodes
+        sideeffect = [0]
+        self.assertRaises(ValueError, fn, sideeffect)
 
-        safefn = utils.safely(doomed_to_fail, [ValueError])
-        self.assertEqual(safefn(), None)
+        # called with call_n_times, it eventually returns True
+        sideeffect = [0]
+        func = utils.call_n_times(fn, [ValueError])
+        self.assertTrue(func(sideeffect))
 
-        unsafefn = utils.safely(doomed_to_fail, [TypeError])
-        self.assertRaises(ValueError, unsafefn)
-
-    def test_take_repeatedly_from_safe_fn(self):
-        expected = 5
-        side_effect = [0]
-
-        def unsafe_fn_with_side_effects(side_effect):
-            if side_effect[0] != expected:
-                side_effect[0] += 1
-                raise ValueError("!")
-            return side_effect
-        safefn = utils.safely(partial(unsafe_fn_with_side_effects, side_effect), [ValueError])
-        # call the safefn, executing the sideeffect, until we get a non-nil result
-        self.assertEqual(utils.firstnn(utils.repeatedly(safefn)), [5])
+        # function is only called when we explicitly call it
+        sideeffect = [0]
+        func = utils.call_n_times(fn, [ValueError], num_attempts=1)
+        func(sideeffect) # call once
+        self.assertRaises(ValueError, fn, sideeffect) # call again
+        self.assertEqual(func(sideeffect), True) # call a final time

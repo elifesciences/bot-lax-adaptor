@@ -3,16 +3,15 @@ import logging
 import conf
 import utils
 import os
-import sqlite3
 
 LOG = logging.getLogger(__name__)
-requests_cache.install_cache(**{
-    'cache_name': conf.IIIF_CACHE,
-    'backend': 'sqlite',
-    'fast_save': conf.ASYNC_CACHE_WRITES,
-    'extension': '.sqlite3'})
 
-requests.get = utils.do_safe_from(requests.get, [sqlite3.OperationalError])
+if conf.REQUESTS_CACHING:
+    requests_cache.install_cache(**{
+        'cache_name': conf.IIIF_CACHE,
+        'backend': 'sqlite',
+        'fast_save': conf.ASYNC_CACHE_WRITES,
+        'extension': '.sqlite3'})
 
 '''
 iiif_resp = {
@@ -53,7 +52,7 @@ def iiif_info(msid, filename):
                'iiif_info_url': iiif_info_url(msid, filename)}
 
     try:
-        resp = requests.get(iiif_info_url(msid, filename))
+        resp = utils.requests_get(iiif_info_url(msid, filename))
     except requests.ConnectionError:
         LOG.debug("IIIF request failed", extra=context)
         return {}
