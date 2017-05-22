@@ -1,16 +1,17 @@
-import requests, requests_cache
+import requests_cache
 import logging
-#from os.path import join
 import conf
 import utils
 from utils import ensure
 
 LOG = logging.getLogger(__name__)
-requests_cache.install_cache(**{
-    'cache_name': conf.GLENCOE_CACHE,
-    'backend': 'sqlite',
-    'fast_save': conf.ASYNC_CACHE_WRITES,
-    'extension': '.sqlite3'})
+
+if conf.REQUESTS_CACHING:
+    requests_cache.install_cache(**{
+        'cache_name': conf.GLENCOE_CACHE,
+        'backend': 'sqlite',
+        'fast_save': conf.ASYNC_CACHE_WRITES,
+        'extension': '.sqlite3'})
 
 '''
 glencoe_resp = {
@@ -67,7 +68,7 @@ def clear_cache(msid):
     requests_cache.core.get_cache().delete_url(glencoe_url(msid))
 
 def metadata(msid):
-    resp = requests.get(glencoe_url(msid))
+    resp = utils.requests_get(glencoe_url(msid))
     context = {'msid': msid, 'status-code': resp.status_code}
     if resp.status_code == 404:
         LOG.debug("article has no videos", extra=context)

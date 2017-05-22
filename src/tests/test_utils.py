@@ -42,3 +42,26 @@ class Utils(BaseCase):
         ]
         for (msid, filename), expected in cases:
             self.assertEqual(utils.pad_filename(msid, filename), expected)
+
+    def test_call_n_times(self):
+        def fn(sideaffected):
+            if sideaffected != [2]:
+                sideaffected[0] += 1
+                raise ValueError('KABOOOM')
+            return True
+
+        # called once, it explodes
+        sideeffect = [0]
+        self.assertRaises(ValueError, fn, sideeffect)
+
+        # called with call_n_times, it eventually returns True
+        sideeffect = [0]
+        func = utils.call_n_times(fn, [ValueError])
+        self.assertTrue(func(sideeffect))
+
+        # function is only called when we explicitly call it
+        sideeffect = [0]
+        func = utils.call_n_times(fn, [ValueError], num_attempts=1)
+        func(sideeffect) # call once
+        self.assertRaises(ValueError, fn, sideeffect) # call again
+        self.assertEqual(func(sideeffect), True) # call a final time
