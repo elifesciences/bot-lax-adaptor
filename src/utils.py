@@ -1,3 +1,5 @@
+import inspect
+from itertools import ifilter, islice
 import os, copy
 import subprocess
 import json
@@ -6,6 +8,7 @@ from jsonschema import validate as validator
 from jsonschema import ValidationError
 #from os.path import join
 import conf
+from functools import partial
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -64,8 +67,11 @@ def subdict(data, lst):
 
 def first(x):
     try:
+        # if we've been given an iterator, use `next` instead
+        if hasattr(x, 'next'):
+            return next(x)
         return x[0]
-    except (IndexError, TypeError):
+    except (StopIteration, IndexError, TypeError):
         return None
 
 def validate(struct, schema):
@@ -152,6 +158,56 @@ def partial_match(pattern, actual):
         ensure(actual == pattern, "%r != %r" % (actual, pattern))
 
     return True
+
+def fqfn(fn):
+    "given a function, returns a dotted path to it"
+    mod = inspect.getmodule(fn)
+    return '.'.join([mod.__name__, fn.__name__])
+
+def firstnn(x):
+    "given sequential `x`, returns the first non-nil value"
+    return first(ifilter(None, x))
+
+# https://docs.python.org/2/library/itertools.html#recipes
+def take(n, iterable):
+    "Returns first n items of the iterable as a lazy sequence"
+    return list(islice(iterable, n))
+
+def repeatedly(fn):
+    "given a function, calls it repeatedly, forever"
+    while True:
+        yield fn()
+
+def safely(fn, protect_from):
+    """do something, but safely. returns the same function but wrapped in
+    an error handler that swallows errors in `protect_from` list and returns None"""
+    def wrapper():
+        try:
+            return fn()
+        except BaseException as err:
+            if type(err) in protect_from:
+                LOG.error("caught exception: %s", err)
+                return None
+            raise
+    return wrapper
+
+#
+#
+#
+
+def do_safe_from(fn, protect_from, num_attempts=3):
+    """wraps a function, protecting it from exceptions in the `protect_from` list for `num_attempts`.
+    a nil result after `num_attempts` will raise a ValueError"""
+    def wrap(*args, **kwargs):
+        safe_fn = safely(partial(fn, *args, **kwargs), protect_from)
+        res = firstnn(take(num_attempts, repeatedly(safe_fn)))
+        if not res:
+            ns = fqfn(fn)
+            # after num_attempts we still got a nil result :(
+            raise ValueError("failed to call %s with args:%s and kwargs:%s after %s attempts"
+                             % (ns, args, kwargs, num_attempts))
+        return res
+    return wrap
 
 #
 #

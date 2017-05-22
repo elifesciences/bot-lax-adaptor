@@ -3,6 +3,7 @@ import logging
 import conf
 import utils
 import os
+import sqlite3
 
 LOG = logging.getLogger(__name__)
 requests_cache.install_cache(**{
@@ -10,6 +11,8 @@ requests_cache.install_cache(**{
     'backend': 'sqlite',
     'fast_save': conf.ASYNC_CACHE_WRITES,
     'extension': '.sqlite3'})
+
+requests.get = utils.do_safe_from(requests.get, [sqlite3.OperationalError])
 
 '''
 iiif_resp = {
