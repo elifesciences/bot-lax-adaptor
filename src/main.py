@@ -165,10 +165,15 @@ def pdf_uri(triple):
     return cdnlink(msid, filename)
 
 def figures_pdf_uri(triple):
-    content_type, msid, version = triple
-    filename = "elife-%s-figures-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-figures-v1.pdf
-    figures_pdf_cdnlink = cdnlink(msid, filename)
-    return cdn.url_exists(figures_pdf_cdnlink, msid)
+    graphics, msid, version = triple
+    filename_match = '-figsupp'
+    if (True in map(lambda graphic: graphic.get('xlink_href') and
+                    filename_match in graphic.get('xlink_href'), graphics)):
+        filename = "elife-%s-figures-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-figures-v1.pdf
+        figures_pdf_cdnlink = cdnlink(msid, filename)
+        return cdn.url_exists(figures_pdf_cdnlink, msid)
+    else:
+        return None
 
 def category_codes(cat_list):
     subjects = []
@@ -468,7 +473,7 @@ SNIPPET = OrderedDict([
     ('volume', [(jats('pub_date'), jats('volume')), to_volume]),
     ('elocationId', [jats('elocation_id')]),
     ('pdf', [(jats('display_channel'), jats('publisher_id'), getvar('version')), pdf_uri]),
-    ('figuresPdf', [(jats('display_channel'), jats('publisher_id'), getvar('version')), figures_pdf_uri, discard_if_none_or_empty]),
+    ('figuresPdf', [(jats('graphics'), jats('publisher_id'), getvar('version')), figures_pdf_uri, discard_if_none_or_empty]),
     ('subjects', [jats('category'), category_codes, discard_if_none_or_empty]),
     ('researchOrganisms', [jats('research_organism_json')]),
     ('abstract', [jats('abstract_json')]),
