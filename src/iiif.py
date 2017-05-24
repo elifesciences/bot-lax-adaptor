@@ -8,6 +8,13 @@ import os
 LOG = logging.getLogger(__name__)
 install_cache_requests()
 
+if conf.REQUESTS_CACHING:
+    requests_cache.install_cache(**{
+        'cache_name': conf.IIIF_CACHE,
+        'backend': 'sqlite',
+        'fast_save': conf.ASYNC_CACHE_WRITES,
+        'extension': '.sqlite3'})
+
 '''
 iiif_resp = {
     "profile": [
@@ -47,7 +54,7 @@ def iiif_info(msid, filename):
                'iiif_info_url': iiif_info_url(msid, filename)}
 
     try:
-        resp = requests.get(iiif_info_url(msid, filename))
+        resp = utils.requests_get(iiif_info_url(msid, filename))
     except requests.ConnectionError:
         LOG.debug("IIIF request failed", extra=context)
         return {}
@@ -72,12 +79,10 @@ def iiif_info(msid, filename):
         raise
 
 def iiif_width(info_data):
-    # DEPRECATED: remove default value after elife-11407-v2 is corrected
-    return info_data.get("width", 1)
+    return info_data.get("width")
 
 def iiif_height(info_data):
-    # DEPRECATED: remove default value after elife-11407-v2 is corrected
-    return info_data.get("height", 1)
+    return info_data.get("height")
 
 def clear_cache(msid, filename):
     requests_cache.core.get_cache().delete_url(iiif_info_url(msid, filename))

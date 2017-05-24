@@ -1,10 +1,11 @@
+import sqlite3
+import requests
 import os, copy
 import subprocess
 import json
 import jsonschema
 from jsonschema import validate as validator
 from jsonschema import ValidationError
-#from os.path import join
 import conf
 
 import logging
@@ -64,8 +65,11 @@ def subdict(data, lst):
 
 def first(x):
     try:
+        # if we've been given an iterator, use `next` instead
+        if hasattr(x, 'next'):
+            return next(x)
         return x[0]
-    except (IndexError, TypeError):
+    except (StopIteration, IndexError, TypeError):
         return None
 
 def validate(struct, schema):
@@ -157,6 +161,25 @@ def partial_match(pattern, actual):
 #
 #
 
+def call_n_times(fn, protect_from, num_attempts=3):
+    "if after calling `num_attempts` it fails to return a value, it will return None"
+    def wrap(*args, **kwargs):
+        for i in xrange(0, num_attempts):
+            try:
+                return fn(*args, **kwargs)
+            except BaseException as err:
+                if type(err) in protect_from:
+                    LOG.error("caught error: %s" % err)
+                    continue
+                raise
+    return wrap
+
+def requests_get(*args, **kwargs):
+    return call_n_times(requests.get, [sqlite3.OperationalError])(*args, **kwargs)
+
+#
+#
+#
 
 import pytz
 from datetime import datetime
