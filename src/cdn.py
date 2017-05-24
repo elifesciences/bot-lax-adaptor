@@ -1,9 +1,12 @@
 import requests, requests_cache
 from cache_requests import install_cache_requests
 import logging
+import conf
 
 LOG = logging.getLogger(__name__)
-install_cache_requests()
+
+if conf.REQUESTS_CACHING:
+    install_cache_requests()
 
 def url_exists(url, msid=None):
     context = {'msid': msid, 'url': url}
