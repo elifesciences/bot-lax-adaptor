@@ -8,7 +8,7 @@ ROOTLOG = logging.getLogger("")
 REQUESTS_CACHING = True
 
 _supported_keys = [
-    #'asctime',
+    'asctime',
     #'created',
     'filename',
     'funcName',
@@ -16,7 +16,7 @@ _supported_keys = [
     #'levelno',
     'lineno',
     'module',
-    'msecs',
+    #'msecs',
     'message',
     'name',
     'pathname',
