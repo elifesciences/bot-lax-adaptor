@@ -153,6 +153,7 @@ else:
 # NOTE: do not move to /tmp
 GLENCOE_CACHE = join(CACHE_PATH, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
 IIIF_CACHE = join(CACHE_PATH, 'iiif-cache')
+REQUESTS_CACHE = join(CACHE_PATH, 'requests-cache')
 
 # *may* improve locked db problem
 # https://requests-cache.readthedocs.io/en/latest/api.html#backends-dbdict
