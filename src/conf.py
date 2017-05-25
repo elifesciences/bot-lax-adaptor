@@ -141,14 +141,14 @@ if ENV == 'prod':
     # used for generating public links
     CDN_IIIF = 'https://iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
     # used for direct access to the IIIF server
-    IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+    IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
 elif ENV in ['continuumtest', 'end2end']:
     CDN_IIIF = 'https://' + ENV + '--cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
-    IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+    IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
 else:
     # default to prod as a data source for testing
     CDN_IIIF = 'https://prod--cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
-    IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
+    IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
 
 # NOTE: do not move to /tmp
 GLENCOE_CACHE = join(CACHE_PATH, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
