@@ -112,18 +112,17 @@ def related_article_to_related_articles(related_article_list):
     return filter(None, map(et, related_article_list))
 
 def mixed_citation_to_related_articles(mixed_citation_list):
-    # ll: [{'article': {'authors': [{'given': u'R', 'surname': u'Straussman'}, ...}],
+    # ll: [{'article': {'authorLine': 'R Straussman et al',
+    #      'authors': [{'given': u'R', 'surname': u'Straussman'}, ...}],
     #      'doi': u'10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': u'Pants-Party'},
     #      'journal': {'volume': u'487', 'lpage': u'504', 'name': u'Nature', 'fpage': u'500'}}]
-    def authorline(a):
-        return '- %s %s' % (a['given'], a['surname'])
 
     def et(struct):
         return {
             'type': 'external-article',
             'articleTitle': p(struct, 'article.title'),
             'journal': p(struct, 'journal.name'),
-            'authorLine': '\n'.join(map(authorline, p(struct, 'article.authors'))),
+            'authorLine': p(struct, 'article.authorLine'),
             'uri': 'https://doi.org/%s' % p(struct, 'article.doi'),
         }
     return map(et, mixed_citation_list)
