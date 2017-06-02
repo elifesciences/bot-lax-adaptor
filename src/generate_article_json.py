@@ -24,8 +24,10 @@ def render(path):
         log = conf.multiprocess_log('generation.log', __name__)
         log.info(strbuffer.getvalue())
 
-def main():
-    paths = map(lambda fname: join(conf.XML_DIR, fname), os.listdir(conf.XML_DIR))
+def main(args):
+    xml_dir = args[0]
+    xml_dir = xml_dir is os.path.exists(xml_dir) else conf.XML_DIR
+    paths = map(lambda fname: join(xml_dir, fname), os.listdir(xml_dir))
     paths = filter(lambda path: path.lower().endswith('.xml'), paths)
     paths = sorted(paths, reverse=True)
     #paths_sizes = zip(paths, map(os.path.getsize, paths))
@@ -39,4 +41,4 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     args = parser.parse_args()
     '''
-    main()
+    main(sys.argv[1:])
