@@ -1,3 +1,14 @@
+"""
+adhoc_backfill.py provides support for backfilling small numbers of arbitrary articles.
+
+it accepts a list of paths to xml files from the command line:
+  ./adhoc_backfill.py /path/to/file1.xml /path/to/file2.xml
+
+or it accepts a list of json dictionaries (one per line) whose values will override the
+default values in making a request via adaptor.py. these values can be seen in `fs_adaptor.mkreq`
+
+"""
+
 import sys
 import adaptor, fs_adaptor
 import json
