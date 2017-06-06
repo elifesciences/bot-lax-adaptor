@@ -536,13 +536,9 @@ def expand_location(path):
     if isinstance(path, file):
         path = path.name
 
-    elif os.path.exists(path):
-        # so we always have an absolute path
-        path = os.path.join(conf.PROJECT_DIR, path)
-
-    else:
-        # just ensure we have a string to work with
-        path = path or ''
+    # resolve any symlinks
+    # the backfill uses symlinks to the article-xml dir
+    path = os.path.abspath(os.path.realpath(path))
 
     if re.match(r".*article-xml/articles/.+\.xml$", path):
         # this article is coming from the local ./article-xml/ directory, which
@@ -559,7 +555,7 @@ def expand_location(path):
         return path
 
     # who knows what this path is ...
-    LOG.warn("scraping article content in a non-repeatable way. please don't send the results to lax")
+    LOG.warn("scraping article content in a non-repeatable way. path %r not found in article-xml dir. please don't send the results to lax", path)
     return path
 
 def render_single(doc, **ctx):
@@ -577,7 +573,7 @@ def render_single(doc, **ctx):
         return article_data
 
     except Exception as err:
-        LOG.error("failed to render doc with error: %s", err)
+        LOG.error("failed to render doc %r with error: %s", ctx['location'], err)
         raise
 
 def main(doc):

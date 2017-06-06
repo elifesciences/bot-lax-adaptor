@@ -14,11 +14,19 @@ xmlrepodir="$thisdir/article-xml/articles"
 
 # where to download unpublished xml to
 unpubxmldir="$thisdir/unpub-article-xml"
-mkdir -p "$unpubxmldir"
+mkdir -p "$unpubxmldir" # (create if necessary)
 
 # where articles will be linked to/downloaded for backfill
 runpath="backfill-run-$(date +'%Y%m%d%H%M%S')"
 mkdir "$runpath"
+
+# where generated article-json will be stored
+ajsondir="$runpath/ajson"
+mkdir "$ajsondir"
+
+#
+#
+#
 
 # switch to the run dir
 cd "$runpath"
@@ -30,7 +38,6 @@ OLDIFS=$IFS
 IFS=,
 /srv/lax/manage.sh --skip-install report all-article-versions-as-csv | while read msid version remotepath
 do
-
 
     # ll: elife-00003-v1.xml
     fname="elife-$msid-v$version.xml" 
@@ -50,8 +57,8 @@ do
 
     if [ ! -f $xmlpath ] && [ ! -f $xmlunpubpath ]; then
         # xml absent, download it
-        # TODO: attach credentials to request
-        curl "$remotepath" > "$xmlunpubpath"
+        # download.py reuses code in the adaptor and does an authenticated requests to s3
+        python $thisdir/src/download.py "$remotepath" "$xmlunpubpath"
     fi
 
     # link it in to the run dir
@@ -66,15 +73,14 @@ IFS=$OLDIFS
 # switch back to bot-lax dir
 cd -
 
-# it works up to here. I need to look at generate+validate now
+# generate article-json 
+# generated files are stored in $runpath/ajson/
+time python src/generate_article_json.py "$runpath"
 
 exit
 
-# generate article-json
-time python src/generate_article_json.py $runpath
-
-# validate it all
-time python src/validate_article_json.py $runpath
+# validate all generated article-json
+time python src/validate_article_json.py "$runpath"
 
 lax="/srv/lax/"
 

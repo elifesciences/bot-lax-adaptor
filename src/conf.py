@@ -1,3 +1,4 @@
+import inspect
 import os, json, logging
 from os.path import join
 from pythonjsonlogger import jsonlogger
@@ -73,7 +74,8 @@ def multiprocess_log(filename, name=__name__):
 #
 #
 
-PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
+SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
+PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/adaptor/
 
 CFG_NAME = 'app.cfg'
 DYNCONFIG = configparser.SafeConfigParser(**{

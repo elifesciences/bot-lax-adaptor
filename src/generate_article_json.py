@@ -8,6 +8,7 @@ import main as scraper
 from StringIO import StringIO
 from joblib import Parallel, delayed
 import conf
+from utils import ensure
 
 def render(path):
     try:
@@ -15,7 +16,9 @@ def render(path):
         fname = os.path.basename(path)
         strbuffer.write("%s -> %s => " % (fname, fname + '.json'))
         json_result = scraper.main(path)
-        outfname = join(conf.JSON_DIR, fname + '.json')
+
+        json_output_dir = join(os.path.dirname(path), 'ajson') # ll: backfill-run-1234567890/ajson/
+        outfname = join(json_output_dir, fname + '.json') # ll: backfill-run-1234567890/ajson/elife-09560-v1.xml.ajson
         open(outfname, 'w').write(json_result)
         strbuffer.write("success")
     except BaseException as err:
@@ -24,9 +27,7 @@ def render(path):
         log = conf.multiprocess_log('generation.log', __name__)
         log.info(strbuffer.getvalue())
 
-def main(args):
-    xml_dir = args[0]
-    xml_dir = xml_dir is os.path.exists(xml_dir) else conf.XML_DIR
+def main(xml_dir):
     paths = map(lambda fname: join(xml_dir, fname), os.listdir(xml_dir))
     paths = filter(lambda path: path.lower().endswith('.xml'), paths)
     paths = sorted(paths, reverse=True)
@@ -36,9 +37,11 @@ def main(args):
     print 'see scrape.log for errors'
 
 if __name__ == '__main__':
-    '''
     import argparse
     parser = argparse.ArgumentParser()
-    args = parser.parse_args()
-    '''
-    main(sys.argv[1:])
+    parser.add_argument('xml-dir', default=conf.XML_DIR)
+    args = vars(parser.parse_args())
+    args['xml-dir'] = os.path.abspath(args['xml-dir'])
+    ensure(os.path.exists(args['xml-dir']), "the path %r doesn't exist" % args['xml-dir'])
+    main(args['xml-dir'])
+    exit(0)
