@@ -1,28 +1,76 @@
 #!/bin/bash
-set -e
+# this script is used to update the article-json stored in lax
+# performing just an INGEST of content, *no* PUBLISH events are
+# sent whatsoever.
 
-. venv/bin/activate
+# talking to lax via the adaptor.py script for many thousands of articles is
+# extremely slow, so this script bypasses all that, bulk generates articles,
+# bulk validates them then tells lax to do a bulk ingest.
 
-set -xv # debug
+set -euo pipefail # strict mode
+#set -xv # debugging
 
 # housekeeping
-thisdir=$(pwd)
+
+trap ctrl_c INT
+function ctrl_c() {
+    echo "caught ctrl-c"
+    exit 1
+}
+
+srcdir=$(pwd)
 errcho(){ >&2 echo $@; }
 
+# where articles will be linked to/downloaded for backfill
+defaultrunpath="backfill-run-$(date +'%Y%m%d%H%M%S')"
+runpath=${1:-$defaultrunpath}
+runpath=$(realpath $runpath) # realpath needs to be installed :(
+mkdir -p "$runpath"
+
+shift # something downstream depends on the first arg ...?
+
+# confirm
+
+echo "backfill.sh
+
+this script will:
+1. pull latest article-xml from elifesciences/elife-article-xml (large repo)
+2. download any missing/unpublished articles after consulting Lax (needs /srv/lax, s3 auth)
+3. create a 'backfill-run' directory with symbolic links to the xml to be processed
+4. generate article-json from ALL xml in the ./articles-xml/articles/ directory (long process)
+5. validate all generated article-json, failing if any are invalid
+6. force an INGEST into Lax for all valid articles (needs /srv/lax)"
+
+read -p "any key to continue (ctrl-c to quit) "
+
+# begin
+
+. download-elife-xml.sh
+
+# activate venv
+set +o nounset; . install.sh; set -o nounset; # virtualenv has unset vars we can't control
+
 # where to find xml on the fs
-xmlrepodir="$thisdir/article-xml/articles"
+xmlrepodir="$srcdir/article-xml/articles"
 
 # where to download unpublished xml to
-unpubxmldir="$thisdir/unpub-article-xml"
+unpubxmldir="$srcdir/unpub-article-xml"
 mkdir -p "$unpubxmldir" # (create if necessary)
-
-# where articles will be linked to/downloaded for backfill
-runpath="backfill-run-$(date +'%Y%m%d%H%M%S')"
-mkdir "$runpath"
 
 # where generated article-json will be stored
 ajsondir="$runpath/ajson"
-mkdir "$ajsondir"
+mkdir -p "$ajsondir"
+
+# where the results of validation will be stored
+validdir="$ajsondir/valid"
+invaliddir="$ajsondir/invalid"
+patcheddir="$ajsondir/patched"
+
+# because we can choose an existing directory for the run
+# ensure the results of any previous run are empty
+rm -rf "$validdir" "$invaliddir" "$patcheddir"
+mkdir "$validdir" "$invaliddir" "$patcheddir"
+
 
 #
 #
@@ -38,14 +86,8 @@ OLDIFS=$IFS
 IFS=,
 /srv/lax/manage.sh --skip-install report all-article-versions-as-csv | while read msid version remotepath
 do
-
     # ll: elife-00003-v1.xml
     fname="elife-$msid-v$version.xml" 
-
-    if [ $remotepath = "no-location-stored" ]; then
-        errcho "OMG - NO LOCATION FOR $fname"
-        continue
-    fi
 
     # ll: /home/user/bot-lax/article-xml/articles/elife-00003-v1.xml
     xmlpath="$xmlrepodir/$fname"
@@ -56,10 +98,18 @@ do
     # we look in both places for xml and if it's in neither, we download it
 
     if [ ! -f $xmlpath ] && [ ! -f $xmlunpubpath ]; then
+        # lax doesn't know where the remote location and it's not on the fs
+        if [ $remotepath = "no-location-stored" ]; then
+            errcho "$fname not found, skipping"
+            continue
+        fi
+
         # xml absent, download it
         # download.py reuses code in the adaptor and does an authenticated requests to s3
-        python $thisdir/src/download.py "$remotepath" "$xmlunpubpath"
+        python $srcdir/src/download.py "$remotepath" "$xmlunpubpath"
     fi
+
+    #errcho "linking $fname"
 
     # link it in to the run dir
     if [ -f $xmlpath ]; then
@@ -74,18 +124,16 @@ IFS=$OLDIFS
 cd -
 
 # generate article-json 
-# generated files are stored in $runpath/ajson/
+# generated files are stored in $ajsondir
+echo > "$srcdir/scrape.log"
 time python src/generate_article_json.py "$runpath"
 
-exit
-
 # validate all generated article-json
-time python src/validate_article_json.py "$runpath"
+echo > "$srcdir/validate.log"
+time python src/validate_article_json.py "$ajsondir"
 
-lax="/srv/lax/"
-
-# call the lax 'ingest' command with a directory of valid article json
-time "$lax/manage.sh" ingest "$action" --force --dir "$runpath"
+# call the lax 'ingest' command with a directory of valid+patched article json
+time /srv/lax/manage.sh --skip-install ingest --ingest --force --dir "$patcheddir"
 
 # clean up
 # rm unpubdir/*; rmdir unpubdir

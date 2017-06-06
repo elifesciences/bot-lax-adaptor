@@ -116,9 +116,6 @@ INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error
 
 XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')
 JSON_DIR = join(PROJECT_DIR, 'article-json')
-VALID_JSON_DIR = join(JSON_DIR, 'valid')
-INVALID_JSON_DIR = join(JSON_DIR, 'invalid')
-VALID_PATCHED_JSON_DIR = join(JSON_DIR, 'patched') # only valid json is output to the patched dir
 
 def json_load(path):
     path = join(PROJECT_DIR, 'schema', path)
