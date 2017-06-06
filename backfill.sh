@@ -27,7 +27,7 @@ runpath=${1:-$defaultrunpath}
 runpath=$(realpath $runpath) # realpath needs to be installed :(
 mkdir -p "$runpath"
 
-shift # something downstream depends on the first arg ...?
+shift # download-api-raml.sh takes an arg :P
 
 # confirm
 
@@ -126,7 +126,7 @@ cd -
 # generate article-json 
 # generated files are stored in $ajsondir
 echo > "$srcdir/scrape.log"
-time python src/generate_article_json.py "$runpath"
+time python src/generate_article_json.py "$runpath" "$ajsondir"
 
 # validate all generated article-json
 echo > "$srcdir/validate.log"
