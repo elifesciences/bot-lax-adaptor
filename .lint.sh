@@ -1,14 +1,22 @@
 #!/bin/bash
 set -e
 
+echo "[-] .lint.sh"
+
 export PYTHONPATH="src/"
 
-echo "* calling pyflakes"
-# if grep has output, fail
-pyflakes src/
+# remove any old compiled python files
+# pylint likes to lint them
+find src/ -name '*.py[c|~]' -delete
+find src/ -regex "\(.*__pycache__.*\|*.py[co]\)" -delete
 
-echo "* calling pylint"
+echo "pyflakes"
+pyflakes ./src/
+
+echo "pylint"
 pylint -E src/* 2> /dev/null
 
-echo "* scrubbing"
-. .scrub.sh
+echo "scrubbing"
+. .scrub.sh 2> /dev/null
+
+echo "[✓] .lint.sh"

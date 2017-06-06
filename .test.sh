@@ -6,7 +6,6 @@ export PYTHONPATH="src"
 
 pyflakes src/
 
-# run tests
 args="$@"
 module=""
 if [ ! -z "$args" ]; then
