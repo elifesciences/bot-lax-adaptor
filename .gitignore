@@ -16,5 +16,5 @@ htmlcov/
 elife-tools/
 src/elifetools
 /*.sqlite3
-backfill-run-*/
+run-*/
 unpub-article-xml/

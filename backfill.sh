@@ -22,7 +22,7 @@ srcdir=$(pwd)
 errcho(){ >&2 echo $@; }
 
 # where articles will be linked to/downloaded for backfill
-defaultrunpath="backfill-run-$(date +'%Y%m%d%H%M%S')"
+defaultrunpath="run-$(date +'%Y%m%d%H%M%S')"
 runpath=${1:-$defaultrunpath}
 runpath=$(realpath $runpath) # realpath needs to be installed :(
 mkdir -p "$runpath"
