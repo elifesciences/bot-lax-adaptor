@@ -72,4 +72,3 @@ def main(args):
 
 if __name__ == '__main__':
     print(json.dumps(main(sys.argv[1:]), indent=4))
-    exit(0)

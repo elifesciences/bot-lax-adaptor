@@ -7,4 +7,3 @@ if __name__ == '__main__':
     inloc, outloc = args
     with io.open(outloc, 'w', encoding='utf-8') as fh:
         fh.write(adaptor.download(inloc))
-    exit(0)

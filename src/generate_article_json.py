@@ -48,4 +48,3 @@ if __name__ == '__main__':
     ensure(os.path.exists(outdir), "the path %r doesn't exist" % outdir)
 
     main(indir, outdir)
-    exit(0)
