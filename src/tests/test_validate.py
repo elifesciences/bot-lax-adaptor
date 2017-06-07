@@ -26,22 +26,6 @@ class TestArticleValidate(BaseCase):
         strbuffer.name = self.doc_json
         self.assertRaises(jsonschema.ValidationError, validate.main, strbuffer)
 
-    def test_add_placeholders_for_validation(self):
-        article = {'article': {'id': 12345, 'version': 2}}
-        expected = {
-            'article': {
-                '-meta': {
-                    'patched': True,
-                },
-                'id': 12345,
-                'version': 2,
-                'stage': 'published',
-                'versionDate': '2099-01-01T00:00:00Z',
-                'statusDate': '2099-01-01T00:00:00Z',
-            }}
-        validate.add_placeholders_for_validation(article)
-        self.assertEqual(article, expected)
-
     def test_is_poa_not_poa(self):
         # For test coverage
         self.assertFalse(validate.is_poa({}))

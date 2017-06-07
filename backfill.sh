@@ -12,6 +12,11 @@ set -euo pipefail # strict mode
 
 # housekeeping
 
+type realpath &> /dev/null || { 
+    echo '"realpath" is required'
+    exit 1
+}
+
 trap ctrl_c INT
 function ctrl_c() {
     echo "caught ctrl-c"
@@ -24,10 +29,13 @@ errcho(){ >&2 echo $@; }
 # where articles will be linked to/downloaded for backfill
 defaultrunpath="run-$(date +'%Y%m%d%H%M%S')"
 runpath=${1:-$defaultrunpath}
-runpath=$(realpath $runpath) # realpath needs to be installed :(
+runpath=$(realpath $runpath)
 mkdir -p "$runpath"
 
-shift # download-api-raml.sh takes an arg :P
+if [ ! -z "$@" ]; then
+    # args were provided to backfill.sh
+    shift # download-api-raml.sh also takes an arg
+fi
 
 # confirm
 
@@ -64,12 +72,11 @@ mkdir -p "$ajsondir"
 # where the results of validation will be stored
 validdir="$ajsondir/valid"
 invaliddir="$ajsondir/invalid"
-patcheddir="$ajsondir/patched"
 
 # because we can choose an existing directory for the run
 # ensure the results of any previous run are empty
-rm -rf "$validdir" "$invaliddir" "$patcheddir"
-mkdir "$validdir" "$invaliddir" "$patcheddir"
+rm -rf "$validdir" "$invaliddir"
+mkdir "$validdir" "$invaliddir"
 
 
 #
@@ -84,6 +91,8 @@ cd "$runpath"
 # https://www.cyberciti.biz/faq/unix-linux-bash-read-comma-separated-cvsfile/
 OLDIFS=$IFS
 IFS=,
+
+errcho "fetching articles from lax"
 /srv/lax/manage.sh --skip-install report all-article-versions-as-csv | while read msid version remotepath
 do
     # ll: elife-00003-v1.xml
@@ -132,8 +141,8 @@ time python src/generate_article_json.py "$runpath" "$ajsondir"
 echo > "$srcdir/validate.log"
 time python src/validate_article_json.py "$ajsondir"
 
-# call the lax 'ingest' command with a directory of valid+patched article json
-time /srv/lax/manage.sh --skip-install ingest --ingest --force --dir "$patcheddir"
+# call the lax 'ingest' command with a directory of valid article json
+time /srv/lax/manage.sh --skip-install ingest --ingest --force --dir "$validdir"
 
 # clean up
 # rm unpubdir/*; rmdir unpubdir
