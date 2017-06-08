@@ -1,5 +1,4 @@
 import json
-from mock import patch
 from os.path import join
 from .base import BaseCase
 import main, utils
@@ -58,16 +57,14 @@ class ArticleScrape(BaseCase):
         # TODO: lets make this behaviour a bit nicer
         self.assertRaises(Exception, main.main, "aaaaaaaaaaaaaa")
 
-    @patch('conf.PATCH_AJSON_FOR_VALIDATION', False)
-    def test_main_published_excluded_if_v2(self):
+    def test_main_published_dummied_if_v2(self):
         # when version == 1, we just use the pubdate in the xml
         results = main.render_single(self.small_doc, version=1)
-        self.assertTrue('versionDate' in results['article'])
-        # when version > 1, we exclude it from the scrape and rely on lax to fill in the gap
-        # HOWEVER - we patch scrapes by default now and versionDate is filled in with a dummy value,
-        # so we turn the option off above
+        self.assertEqual(results['article']['versionDate'], '2016-08-16T00:00:00Z')
+        # when version > 1, we rely on lax to fill in the actual value,
+        # passing an obviously false placeholder to avoid validation failure
         results = main.render_single(self.small_doc, version=2)
-        self.assertFalse('versionDate' in results['article'])
+        self.assertEqual(results['article']['versionDate'], main.DUMMY_DATE)
 
     def test_category_codes(self):
         cat_list = ['Immunology', 'Microbiology and Infectious Disease']
@@ -340,11 +337,9 @@ class KitchenSink(BaseCase):
         }
         self.assertEqual(tod(expected_media), tod(media))
 
-    @patch('conf.PATCH_AJSON_FOR_VALIDATION', False)
-    def test_patched_data_not_present(self):
-        """patched values are not present when patching-for-validation is turned off.
-
-        by default, rendered article-json contains patched values to allow it to validate
-        without relying on lax to fill in the blanks. the defaults are obviously dummy values."""
+    def test_patched_data_present(self):
+        """an indication article-json contains patched values is present.
+        rendered article-json contains patched values to allow it to validate
+        prior to lax filling in the blanks."""
         result = main.render_single(self.doc, version=1)
-        self.assertFalse('patched' in result['article']['-meta'])
+        self.assertTrue('patched' in result['article']['-meta'])

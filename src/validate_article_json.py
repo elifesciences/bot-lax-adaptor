@@ -3,27 +3,16 @@
 this should be run using the ./validate-json.sh script in the project's root.
 it preps and cleans the environment."""
 
-import os, platform, shutil
+import os, sys
 from utils import first
 from os.path import join
 import validate
-import sys, json
 from StringIO import StringIO
 from joblib import Parallel, delayed
 import conf
 from conf import JSON_DIR
 
-def copyfile(src, dest):
-    if os.path.exists(dest):
-        os.unlink(dest)
-    return shutil.copyfile(src, dest)
-
-if platform.system().lower() == 'windows':
-    copyfn = copyfile
-else:
-    copyfn = os.symlink
-
-VALIDDIR, INVALIDDIR, PATCHEDDIR = 'valid', 'invalid', 'patched'
+VALIDDIR, INVALIDDIR = 'valid', 'invalid'
 
 def job(path):
     strbuffer = StringIO()
@@ -38,13 +27,10 @@ def job(path):
 
         if valid:
             strbuffer.write("success")
-            copyfn(path, join(dirname, VALIDDIR, fname))
+            os.symlink(path, join(dirname, VALIDDIR, fname))
         else:
             strbuffer.write("failed")
-            copyfn(path, join(dirname, INVALIDDIR, fname))
-
-        # write the patched data regardless of validity
-        json.dump(article_with_placeholders, open(join(dirname, PATCHEDDIR, fname), 'w'), indent=4)
+            os.symlink(path, join(dirname, INVALIDDIR, fname))
 
     except BaseException as err:
         strbuffer.write("error (%s)" % err)

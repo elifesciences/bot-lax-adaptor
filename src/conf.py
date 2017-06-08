@@ -107,10 +107,6 @@ PATH_TO_LAX = cfg('lax.location')
 
 CACHE_PATH = cfg('lax.cache_path')
 
-# certain values that can't be known at render time are
-# added so the result can be validated against the schema
-PATCH_AJSON_FOR_VALIDATION = True
-
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error'
 
