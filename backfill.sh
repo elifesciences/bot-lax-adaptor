@@ -12,29 +12,37 @@ set -euo pipefail # strict mode
 
 # housekeeping
 
-type realpath &> /dev/null || { 
-    echo '"realpath" is required'
-    exit 1
-}
-
 trap ctrl_c INT
 function ctrl_c() {
     echo "caught ctrl-c"
     exit 1
 }
 
-srcdir=$(pwd)
+mustexist() {
+    if [ ! -e "$1" ]; then errcho "$1 does not exist. quitting."; exit 1; fi
+}
+
 errcho(){ >&2 echo $@; }
 
+#
+#
+#
+
+srcdir=$(pwd) # bot-lax project, where this script lives
+tmpdir=/tmp # where we do our work
+if [ -e /ext ]; then
+    # an external store has been mounted. do our work there
+    tmpdir=/ext
+fi
+
 # where articles will be linked to/downloaded for backfill
-defaultrunpath="run-$(date +'%Y%m%d%H%M%S')"
-runpath=${1:-$defaultrunpath}
-runpath=$(realpath $runpath)
-mkdir -p "$runpath"
+runpath="run-$(date +'%Y-%m-%d-%H-%M-%S')" # ll: run-2017-01-31-23-59-59
 
 if [ ! -z "$@" ]; then
-    # args were provided to backfill.sh
-    shift # download-api-raml.sh also takes an arg
+    # args were provided to backfill.sh. 
+    runpath=$1
+    # remove them for downstream scripts (download-api-raml.sh)
+    shift
 fi
 
 # confirm
@@ -56,13 +64,24 @@ read -p "any key to continue (ctrl-c to quit) "
 . download-elife-xml.sh
 
 # activate venv
-set +o nounset; . install.sh; set -o nounset; # virtualenv has unset vars we can't control
+# virtualenv script has unset vars we can't control
+set +o nounset; . install.sh; set -o nounset;
+
+# ll: /tmp/run-2017-01-31-23-59-59 
+# or: /ext/run-2017-01-31-23-59-59
+runpath="$tmpdir/$runpath" 
+mkdir -p "$runpath"
+
+# where to find lax
+laxdir="/srv/lax"
+mustexist $laxdir
 
 # where to find xml on the fs
 xmlrepodir="$srcdir/article-xml/articles"
+mustexist $xmlrepodir
 
-# where to download unpublished xml to
-unpubxmldir="$srcdir/unpub-article-xml"
+# where to download unpublished xml
+unpubxmldir="$tmpdir/unpub-article-xml"
 mkdir -p "$unpubxmldir" # (create if necessary)
 
 # where generated article-json will be stored
@@ -78,12 +97,11 @@ invaliddir="$ajsondir/invalid"
 rm -rf "$validdir" "$invaliddir"
 mkdir "$validdir" "$invaliddir"
 
-
 #
 #
 #
 
-# switch to the run dir
+# switch to the run dir (/tmp/run-something)
 cd "$runpath"
 
 # iterate over response from lax about the articles it knows about
@@ -145,5 +163,4 @@ time python src/validate_article_json.py "$ajsondir"
 time /srv/lax/manage.sh --skip-install ingest --ingest --force --dir "$validdir"
 
 # clean up
-# rm unpubdir/*; rmdir unpubdir
-# rm rundir/*; rmdir rundir
+# rm -rf "$rundir/"
