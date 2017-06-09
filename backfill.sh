@@ -56,7 +56,6 @@ mustexist "$laxdir"
 
 # where to find xml on the fs
 xmlrepodir="$prjdir/article-xml/articles"
-mustexist "$xmlrepodir"
 
 # where to download unpublished xml
 unpubxmldir="$tmpdir/unpub-article-xml"
