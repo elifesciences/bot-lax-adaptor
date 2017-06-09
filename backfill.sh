@@ -28,12 +28,13 @@ errcho(){ >&2 echo $@; }
 #
 #
 
-srcdir=$(pwd) # bot-lax project, where this script lives
+prjdir=$(pwd) # bot-lax project, where this script lives
 tmpdir=/tmp # where we do our work
 if [ -e /ext ]; then
-    # an external store has been mounted. do our work there
+    # an external store has been mounted. do our work there.
     tmpdir=/ext
 fi
+mustexist "$tmpdir"
 
 # where articles will be linked to/downloaded for backfill
 runpath="run-$(date +'%Y-%m-%d-%H-%M-%S')" # ll: run-2017-01-31-23-59-59
@@ -44,6 +45,28 @@ if [ ! -z "$@" ]; then
     # remove them for downstream scripts (download-api-raml.sh)
     shift
 fi
+
+# ll: /tmp/run-2017-01-31-23-59-59 
+# or: /ext/run-2017-01-31-23-59-59
+runpath="$tmpdir/$runpath" 
+
+# where to find lax
+laxdir="/srv/lax"
+mustexist "$laxdir"
+
+# where to find xml on the fs
+xmlrepodir="$prjdir/article-xml/articles"
+mustexist "$xmlrepodir"
+
+# where to download unpublished xml
+unpubxmldir="$tmpdir/unpub-article-xml"
+
+# where generated article-json will be stored
+ajsondir="$runpath/ajson"
+
+# where the results of validation will be stored
+validdir="$ajsondir/valid"
+invaliddir="$ajsondir/invalid"
 
 # confirm
 
@@ -61,106 +84,88 @@ read -p "any key to continue (ctrl-c to quit) "
 
 # begin
 
-. download-elife-xml.sh
-
-# activate venv
-# virtualenv script has unset vars we can't control
-set +o nounset; . install.sh; set -o nounset;
-
-# ll: /tmp/run-2017-01-31-23-59-59 
-# or: /ext/run-2017-01-31-23-59-59
-runpath="$tmpdir/$runpath" 
-mkdir -p "$runpath"
-
-# where to find lax
-laxdir="/srv/lax"
-mustexist $laxdir
-
-# where to find xml on the fs
-xmlrepodir="$srcdir/article-xml/articles"
-mustexist $xmlrepodir
-
-# where to download unpublished xml
-unpubxmldir="$tmpdir/unpub-article-xml"
-mkdir -p "$unpubxmldir" # (create if necessary)
-
-# where generated article-json will be stored
-ajsondir="$runpath/ajson"
-mkdir -p "$ajsondir"
-
-# where the results of validation will be stored
-validdir="$ajsondir/valid"
-invaliddir="$ajsondir/invalid"
+# create our dirs
+mkdir -p "$unpubxmldir" "$runpath" "$ajsondir"
 
 # because we can choose an existing directory for the run
 # ensure the results of any previous run are empty
 rm -rf "$validdir" "$invaliddir"
 mkdir "$validdir" "$invaliddir"
 
-#
-#
-#
+# wrangle our xml
+# we ingest from the latest on the master branch
+(
+    . download-elife-xml.sh
+    cd $xmlrepodir
+    git reset --hard
+    git checkout master
+    git pull
+)
 
-# switch to the run dir (/tmp/run-something)
-cd "$runpath"
+# activate venv
+# virtualenv script has unset vars we can't control
+set +o nounset; . install.sh; set -o nounset;
 
-# iterate over response from lax about the articles it knows about
-# (should be *all* articles, lax is now the publishing authority)
-# https://www.cyberciti.biz/faq/unix-linux-bash-read-comma-separated-cvsfile/
-OLDIFS=$IFS
-IFS=,
+# create a list of articles to backfill in this run
+(
+    # switch to the run dir (/tmp/run-something)
+    cd "$runpath"
 
-errcho "fetching articles from lax"
-/srv/lax/manage.sh --skip-install report all-article-versions-as-csv | while read msid version remotepath
-do
-    # ll: elife-00003-v1.xml
-    fname="elife-$msid-v$version.xml" 
+    # iterate over response from lax about the articles it knows about
+    # (should be *all* articles, lax is now the publishing authority)
+    # https://www.cyberciti.biz/faq/unix-linux-bash-read-comma-separated-cvsfile/
+    OLDIFS=$IFS
+    IFS=,
 
-    # ll: /home/user/bot-lax/article-xml/articles/elife-00003-v1.xml
-    xmlpath="$xmlrepodir/$fname"
-    
-    # ll: /home/user/bot-lax/unpub-article-xml/elife-00003-v1.xml
-    xmlunpubpath="$unpubxmldir/$fname"
-    
-    # we look in both places for xml and if it's in neither, we download it
+    errcho "fetching articles from lax"
+    $laxdir/manage.sh --skip-install report all-article-versions-as-csv | while read msid version remotepath
+    do
+        # ll: elife-00003-v1.xml
+        fname="elife-$msid-v$version.xml" 
 
-    if [ ! -f $xmlpath ] && [ ! -f $xmlunpubpath ]; then
-        # lax doesn't know where the remote location and it's not on the fs
-        if [ $remotepath = "no-location-stored" ]; then
-            errcho "$fname not found, skipping"
-            continue
+        # ll: /home/user/bot-lax/article-xml/articles/elife-00003-v1.xml
+        xmlpath="$xmlrepodir/$fname"
+        
+        # ll: /home/user/bot-lax/unpub-article-xml/elife-00003-v1.xml
+        xmlunpubpath="$unpubxmldir/$fname"
+        
+        # we look in both places for xml and if it's in neither, we download it
+
+        if [ ! -f $xmlpath ] && [ ! -f $xmlunpubpath ]; then
+            # lax doesn't know where the remote location and it's not on the fs
+            if [ $remotepath = "no-location-stored" ]; then
+                errcho "$fname not found, skipping"
+                continue
+            fi
+
+            # xml absent, download it
+            # download.py reuses code in the adaptor and does an authenticated requests to s3
+            python $prjdir/src/download.py "$remotepath" "$xmlunpubpath"
         fi
 
-        # xml absent, download it
-        # download.py reuses code in the adaptor and does an authenticated requests to s3
-        python $srcdir/src/download.py "$remotepath" "$xmlunpubpath"
-    fi
+        #errcho "linking $fname"
 
-    #errcho "linking $fname"
-
-    # link it in to the run dir
-    if [ -f $xmlpath ]; then
-        ln -sfT $xmlpath $fname
-    else
-        ln -sfT $xmlunpubpath $fname
-    fi
-done
-IFS=$OLDIFS
-
-# switch back to bot-lax dir
-cd -
+        # link it in to the run dir
+        if [ -f $xmlpath ]; then
+            ln -sfT $xmlpath $fname
+        else
+            ln -sfT $xmlunpubpath $fname
+        fi
+    done
+    IFS=$OLDIFS
+)
 
 # generate article-json 
 # generated files are stored in $ajsondir
-echo > "$srcdir/scrape.log"
-time python src/generate_article_json.py "$runpath" "$ajsondir"
+echo > "$prjdir/scrape.log"
+time python $prjdir/src/generate_article_json.py "$runpath" "$ajsondir"
 
 # validate all generated article-json
-echo > "$srcdir/validate.log"
-time python src/validate_article_json.py "$ajsondir"
+echo > "$prjdir/validate.log"
+time python $prjdir/src/validate_article_json.py "$ajsondir"
 
 # call the lax 'ingest' command with a directory of valid article json
-time /srv/lax/manage.sh --skip-install ingest --ingest --force --dir "$validdir"
+time $laxdir/manage.sh --skip-install ingest --ingest --force --dir "$validdir"
 
 # clean up
 # rm -rf "$rundir/"
