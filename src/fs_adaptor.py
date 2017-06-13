@@ -22,7 +22,7 @@ def mkreq(path, **overrides):
     }
     request.update(overrides)
     # don't ever generate an invalid request
-    utils.validate_request(request)
+    utils.validate(request, conf.REQUEST_SCHEMA)
     return request
 
 class SimpleQueue(object):

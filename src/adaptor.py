@@ -51,7 +51,7 @@ def timeit(fn):
 def send_response(outgoing, response):
     # `response` here is the result of `mkresponse` below
     try:
-        utils.validate_response(response)
+        utils.validate(response, conf.RESPONSE_SCHEMA)
         channel = outgoing.write
     except ValidationError as err:
         # response doesn't validate. this probably means
@@ -172,7 +172,7 @@ def handler(json_request, outgoing):
     response = partial(send_response, outgoing)
 
     try:
-        request = utils.validate_request(json_request)
+        request = utils.validate(json_request, conf.REQUEST_SCHEMA)
     except ValueError as err:
         # given bad data. who knows what it was. die
         return response(mkresponse(ERROR, "request could not be parsed: %s" % json_request))

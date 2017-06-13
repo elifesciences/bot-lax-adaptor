@@ -1,6 +1,7 @@
 import os, json, logging
 from os.path import join
 from pythonjsonlogger import jsonlogger
+import utils
 import configparser as configparser
 
 ROOTLOG = logging.getLogger("")
@@ -48,7 +49,7 @@ class FormatterWithEncodedExtras(logging.Formatter):
             'exc_text', 'exc_info', 'msg', 'args',
         ]
         unknown_fields = {key: val for key, val in record.__dict__.items() if key not in _known_keys}
-        record.__dict__['extra'] = json.dumps(unknown_fields)
+        record.__dict__['extra'] = utils.json_dumps(unknown_fields)
         return super(FormatterWithEncodedExtras, self).format(record)
 
 _handler.setFormatter(FormatterWithEncodedExtras('%(levelname)s - %(asctime)s - %(message)s -- %(extra)s'))

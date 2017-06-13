@@ -23,7 +23,7 @@ class FS(BaseCase):
     def test_incoming_messages(self):
         "each message generated is a valid request"
         inst = fs_adaptor.IncomingQueue(self.ingest_dir, 'ingest')
-        map(utils.validate_request, list(inst)) # raises ValidationException if invalid
+        map(lambda req: utils.validate(req, conf.REQUEST_SCHEMA), list(inst)) # raises ValidationException if invalid
 
     def test_fs_incoming_never_generates_invalid_requests(self):
         "invalid requests never generate a message"

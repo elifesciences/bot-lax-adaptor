@@ -6,7 +6,7 @@ import json
 import jsonschema
 from jsonschema import validate as validator
 from jsonschema import ValidationError
-import conf
+# import conf # don't do this, conf.py depends on utils.py
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -96,14 +96,6 @@ def validate(struct, schema):
         # your json is incorrect
         LOG.error("struct failed to validate against schema: %s" % err.message)
         raise
-
-def validate_request(request):
-    "validates incoming request"
-    return validate(request, conf.REQUEST_SCHEMA)
-
-def validate_response(response):
-    "validates outgoing response"
-    return validate(response, conf.RESPONSE_SCHEMA)
 
 def json_dumps(obj, **kwargs):
     "drop-in for json.dumps that handles datetime objects."
