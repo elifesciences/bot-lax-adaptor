@@ -1,59 +1,46 @@
-"""validates ALL article-json in the article-json directory, creating symlinks to the
-valid/invalid files.
+"""validates ALL article-json in the given directory, creating symlinks to valid/invalid files.
 
-this should be run using the ./validate-json.sh script in the project's root. it preps
-and cleans the environment."""
+this should be run using the ./validate-json.sh script in the project's root.
+it preps and cleans the environment."""
 
-import os, platform, shutil
+import os, sys
 from utils import first
 from os.path import join
 import validate
-import sys, json
 from StringIO import StringIO
 from joblib import Parallel, delayed
 import conf
-from conf import JSON_DIR, VALID_JSON_DIR, INVALID_JSON_DIR, VALID_PATCHED_JSON_DIR
+from conf import JSON_DIR
 
-WINDOWS = platform.system().lower() == 'windows'
+VALIDDIR, INVALIDDIR = 'valid', 'invalid'
 
 def job(path):
     strbuffer = StringIO()
 
-    def copyfn(src, dest):
-        if os.path.exists(dest):
-            os.unlink(dest)
-        return shutil.copyfile(src, dest)
-
-    fn = copyfn
-    if not WINDOWS:
-        fn = os.symlink
-
     try:
         fname = os.path.basename(path)
+        dirname = os.path.dirname(path)
+
         strbuffer.write("%s => " % fname)
         doc = open(path, 'r')
         valid, article_with_placeholders = validate.main(doc, quiet=True)
 
         if valid:
             strbuffer.write("success")
-            fn(path, join(VALID_JSON_DIR, fname))
+            os.symlink(path, join(dirname, VALIDDIR, fname))
         else:
             strbuffer.write("failed")
-            fn(path, join(INVALID_JSON_DIR, fname))
-
-        # write the patched data regardless of validity
-        json.dump(article_with_placeholders, open(join(VALID_PATCHED_JSON_DIR, fname), 'w'), indent=4)
+            os.symlink(path, join(dirname, INVALIDDIR, fname))
 
     except BaseException as err:
         strbuffer.write("error (%s)" % err)
+
     finally:
         log = conf.multiprocess_log('validation.log', __name__)
         log.info(strbuffer.getvalue())
 
 def main(args=None):
-    target = first(args)
-    if not target:
-        target = JSON_DIR
+    target = first(args) or JSON_DIR
 
     if os.path.isdir(target):
         paths = map(lambda fname: join(target, fname), os.listdir(target))

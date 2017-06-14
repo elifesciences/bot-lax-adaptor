@@ -3,7 +3,7 @@ import conf
 from os.path import join
 from base import BaseCase
 from utils import partial_match
-import utils, backfill as bfup
+import utils, adhoc_backfill as bfup
 import mock
 
 class One(BaseCase):
@@ -154,7 +154,7 @@ class Two(BaseCase):
             'action': 'ingest',
             'id': u'16695'
         }]
-        with mock.patch('backfill.read_from_stdin', return_value=[path]):
+        with mock.patch('adhoc_backfill.read_from_stdin', return_value=[path]):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, expected)
 
@@ -170,7 +170,7 @@ class Two(BaseCase):
             'action': 'ingest',
             'id': u'16695'
         }] * 3
-        with mock.patch('backfill.read_from_stdin', return_value=paths.splitlines()):
+        with mock.patch('adhoc_backfill.read_from_stdin', return_value=paths.splitlines()):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, expected)
 
@@ -185,7 +185,7 @@ class Two(BaseCase):
             'action': 'ingest',
             'id': u'16695'
         }]
-        with mock.patch('backfill.read_from_stdin', return_value=[jsonobj]):
+        with mock.patch('adhoc_backfill.read_from_stdin', return_value=[jsonobj]):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, expected)
 
@@ -201,6 +201,6 @@ class Two(BaseCase):
             'action': 'ingest',
             'id': u'16695'
         }]
-        with mock.patch('backfill.read_from_stdin', return_value=jsonobj.splitlines()):
+        with mock.patch('adhoc_backfill.read_from_stdin', return_value=jsonobj.splitlines()):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, expected)

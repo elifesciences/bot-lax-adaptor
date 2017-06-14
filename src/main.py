@@ -12,7 +12,6 @@ from collections import OrderedDict
 from datetime import datetime
 from slugify import slugify
 import conf, utils, glencoe, iiif, cdn
-import validate
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler('scrape.log')
@@ -428,6 +427,38 @@ def check_authors(data):
                 raise ValueError("Author missing required competingInterests", context)
     return data
 
+DUMMY_DATE = '2099-01-01T00:00:00Z'
+
+def placeholders_for_validation(data):
+    """add any missing values to allow article-json to pass json schema validation
+    please make any placeholders OBVIOUS while still remaining valid data."""
+
+    art = data['article']
+
+    if not '-meta' in art:
+        # probably a bad scrape or an old fixture or ...
+        art['-meta'] = {}
+
+    # simple indicator that this article content contains patched values
+    art['-meta']['patched'] = True
+
+    # an article will always have a pubdate, so we don't know if it's actually published or not...
+    art['stage'] = 'published'
+
+    # the statusDate is when an article transitioned from POA to VOR and can't be known
+    # in all cases without consulting the article history
+    art['statusDate'] = DUMMY_DATE
+
+    if 'versionDate' not in art:
+        # a versionDate is when this specific version of an article was published
+        # a versionDate wouldn't be present if we're dealing with a version > 1
+        art['versionDate'] = DUMMY_DATE
+
+    data['article'] = art
+
+    return data
+
+
 def postprocess(data):
     msid = data['snippet']['id']
     data = doall(data, [
@@ -438,7 +469,8 @@ def postprocess(data):
         partial(expand_image, msid),
         partial(expand_placeholder, msid),
         format_isbns,
-        prune
+        prune,
+        placeholders_for_validation,
     ])
     return data
 #
@@ -536,13 +568,9 @@ def expand_location(path):
     if isinstance(path, file):
         path = path.name
 
-    elif os.path.exists(path):
-        # so we always have an absolute path
-        path = os.path.join(conf.PROJECT_DIR, path)
-
-    else:
-        # just ensure we have a string to work with
-        path = path or ''
+    # resolve any symlinks
+    # the backfill uses symlinks to the article-xml dir
+    path = os.path.abspath(os.path.realpath(path))
 
     if re.match(r".*article-xml/articles/.+\.xml$", path):
         # this article is coming from the local ./article-xml/ directory, which
@@ -559,7 +587,7 @@ def expand_location(path):
         return path
 
     # who knows what this path is ...
-    LOG.warn("scraping article content in a non-repeatable way. please don't send the results to lax")
+    LOG.warn("scraping article content in a non-repeatable way. path %r not found in article-xml dir. please don't send the results to lax", path)
     return path
 
 def render_single(doc, **ctx):
@@ -569,15 +597,10 @@ def render_single(doc, **ctx):
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
         article_data = postprocess(render(description, [soup], ctx)[0])
-
-        if conf.PATCH_AJSON_FOR_VALIDATION: # makes in-place changes to the data
-            validate.add_placeholders_for_validation(article_data)
-            LOG.debug("placeholders attached")
-
         return article_data
 
     except Exception as err:
-        LOG.error("failed to render doc with error: %s", err)
+        LOG.error("failed to render doc %r with error: %s", ctx['location'], err)
         raise
 
 def main(doc):

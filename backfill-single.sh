@@ -11,4 +11,4 @@ msid="$1"
 version="$2"
 location="$3"
 
-echo "{\"msid\":$msid, \"version\":$version, \"location\":\"$location\"}" | venv/bin/python src/backfill.py
+echo "{\"msid\":$msid, \"version\":$version, \"location\":\"$location\"}" | venv/bin/python src/adhoc_backfill.py

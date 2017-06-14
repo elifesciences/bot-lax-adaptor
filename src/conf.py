@@ -1,3 +1,4 @@
+import inspect
 import os, json, logging
 from os.path import join
 from pythonjsonlogger import jsonlogger
@@ -74,7 +75,8 @@ def multiprocess_log(filename, name=__name__):
 #
 #
 
-PROJECT_DIR = os.getcwdu() # ll: /path/to/adaptor/
+SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
+PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/adaptor/
 
 CFG_NAME = 'app.cfg'
 DYNCONFIG = configparser.SafeConfigParser(**{
@@ -106,18 +108,11 @@ PATH_TO_LAX = cfg('lax.location')
 
 CACHE_PATH = cfg('lax.cache_path')
 
-# certain values that can't be known at render time are
-# added so the result can be validated against the schema
-PATCH_AJSON_FOR_VALIDATION = True
-
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error'
 
 XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')
 JSON_DIR = join(PROJECT_DIR, 'article-json')
-VALID_JSON_DIR = join(JSON_DIR, 'valid')
-INVALID_JSON_DIR = join(JSON_DIR, 'invalid')
-VALID_PATCHED_JSON_DIR = join(JSON_DIR, 'patched') # only valid json is output to the patched dir
 
 def json_load(path):
     path = join(PROJECT_DIR, 'schema', path)
