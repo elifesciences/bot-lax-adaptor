@@ -30,9 +30,9 @@ errcho(){ >&2 echo $@; }
 
 prjdir=$(pwd) # bot-lax project, where this script lives
 tmpdir=/tmp # where we do our work
-if [ -e /ext ]; then
+if [ -e /ext/tmp ]; then
     # an external store has been mounted. do our work there.
-    tmpdir=/ext
+    tmpdir=/ext/tmp
 fi
 mustexist "$tmpdir"
 
@@ -47,7 +47,7 @@ if [ ! -z "$@" ]; then
 fi
 
 # ll: /tmp/run-2017-01-31-23-59-59 
-# or: /ext/run-2017-01-31-23-59-59
+# or: /ext/tmp/run-2017-01-31-23-59-59
 runpath="$tmpdir/$runpath" 
 
 # where to find lax

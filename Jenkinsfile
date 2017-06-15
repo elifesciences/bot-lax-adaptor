@@ -33,12 +33,6 @@ elifeLibrary({
     }
 
     elifeMainlineOnly {    
-        //stage 'Push updated article JSON', {
-        //    sh './clone-article-json.sh /ext/tmp/elife-article-json'
-        //    sh './copy-json.sh /ext/tmp/elife-article-json'
-        //    sh 'cd /ext/tmp/elife-article-json; git push'
-        //}
-
         stage 'Master', {
             elifeGitMoveToBranch elifeGitRevision(), 'master'
         }
