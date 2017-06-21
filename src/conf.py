@@ -109,7 +109,7 @@ PATH_TO_LAX = cfg('lax.location')
 CACHE_PATH = cfg('lax.cache_path')
 
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
-INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error'
+VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
 
 XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')
 JSON_DIR = join(PROJECT_DIR, 'article-json')

@@ -16,7 +16,7 @@ import botocore.session
 
 import conf
 from conf import PROJECT_DIR
-from conf import INVALID, ERROR, INGESTED, PUBLISHED, INGEST, PUBLISH, INGEST_PUBLISH
+from conf import INVALID, ERROR, VALIDATED, INGESTED, PUBLISHED, INGEST, PUBLISH, INGEST_PUBLISH
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -156,6 +156,7 @@ def mkresponse(status, message, request={}, **kwargs):
     levels = {
         INVALID: logging.ERROR,
         ERROR: logging.ERROR,
+        VALIDATED: logging.INFO,
         INGESTED: logging.DEBUG,
         PUBLISHED: logging.DEBUG
     }
@@ -174,7 +175,7 @@ def handler(json_request, outgoing):
     try:
         request = utils.validate(json_request, conf.REQUEST_SCHEMA)
     except ValueError as err:
-        # given bad data. who knows what it was. die
+        # bad data. who knows what it was. die
         return response(mkresponse(ERROR, "request could not be parsed: %s" % json_request))
 
     except ValidationError as err:
@@ -189,8 +190,8 @@ def handler(json_request, outgoing):
     # we have a valid request :)
     LOG.info("valid request")
 
-    params = subdict(request, ['action', 'id', 'token', 'version'])
-    params['force'] = request.get('force') # optional value
+    params = subdict(request, ['action', 'id', 'token', 'version', 'force', 'validate-only'])
+    params = renkeys(params, [('validate-only', 'dry_run')])
 
     # if we're to ingest/publish, then we expect a location to download article data
     if params['action'] in [INGEST, INGEST_PUBLISH]:
@@ -236,7 +237,6 @@ def handler(json_request, outgoing):
         params['article_json'] = article_json
 
     try:
-
         LOG.info("calling lax") # with params: %r" % params)
 
         lax_response = call_lax(**params)
@@ -313,6 +313,7 @@ def bootstrap():
     parser.add_argument('--target', default=join(PROJECT_DIR, 'article-xml', 'articles'))
     parser.add_argument('--force', action='store_true', default=False)
     parser.add_argument('--action', choices=[INGEST, PUBLISH, INGEST_PUBLISH])
+    parser.add_argument('--validate-only', action='store_true', default=False)
 
     args = parser.parse_args()
 

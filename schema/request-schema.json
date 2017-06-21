@@ -9,10 +9,10 @@
         "enum": [ "ingest", "publish", "ingest+publish" ]
     },
     "location": {
-        "description": "the location of the article to validate/ingest/publish",
-        "type": "string",
-        "format": "uri",
-        "pattern": "^(https|file)://"
+            "description": "the location of the article to validate/ingest/publish",
+            "type": "string",
+            "format": "uri",
+            "pattern": "^(https|file)://"
     },
     "id": {
         "description": "article identifier",
@@ -22,10 +22,10 @@
         "type": "integer",
         "minimum": 1
     },
-        "force": {
-            "description": "force ingest/publish action. intended for silent corrections. use with caution.",
-            "type": "boolean"
-        },
+    "force": {
+        "description": "force ingest/publish action. intended for silent corrections. use with caution.",
+        "type": "boolean"
+    },
     "validate-only": {
         "description": "any changes will be rolled back.",
         "type": "boolean"

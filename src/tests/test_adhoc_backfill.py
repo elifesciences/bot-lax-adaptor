@@ -108,68 +108,42 @@ class One(BaseCase):
 
 class Two(BaseCase):
     def setUp(self):
-        pass
+        self.path = 'article-xml/articles/elife-09560-v1.xml'
+        self.expected = [
+            {
+                "validate-only": False,
+                "force": True,
+                "token": "pants-party",
+                "version": 1,
+                "location": "file://" + join(conf.PROJECT_DIR, self.path),
+                "action": "ingest",
+                "id": "09560"
+            }
+        ]
 
     def tearDown(self):
         pass
 
     def test_bootstrap_read_paths(self):
-        path = 'article-xml/articles/elife-09560-v1.xml'
-        given = [path, '--dry-run'] # order is important, dry-run comes last (like kwargs)
-        expected = [
-            {
-                "force": True,
-                "token": "pants-party",
-                "version": 1,
-                "location": "file://" + join(conf.PROJECT_DIR, path),
-                "action": "ingest",
-                "id": "09560"
-            }
-        ]
-        self.assertEqual(bfup.main(given), expected)
+        "a path can be read from stdin"
+        given = [self.path, '--dry-run'] # order is important, dry-run comes last (like kwargs)
+        self.assertEqual(bfup.main(given), self.expected)
 
     def test_bootstrap_read_multiple_paths(self):
-        path = 'article-xml/articles/elife-09560-v1.xml'
-        given = [path, path, '--dry-run'] # order is important, dry-run comes last (like kwargs)
-        expected = [
-            {
-                "force": True,
-                "token": "pants-party",
-                "version": 1,
-                "location": "file://" + join(conf.PROJECT_DIR, path),
-                "action": "ingest",
-                "id": "09560"
-            }
-        ] * 2
-        self.assertEqual(bfup.main(given), expected)
+        "many paths can be read from stdin, single line"
+        given = [self.path, self.path, '--dry-run'] # order is important, dry-run comes last (like kwargs)
+        self.assertEqual(bfup.main(given), self.expected * 2)
 
     def test_bootstrap_read_paths_from_stdin(self):
         "paths can be read from stdin, one per line"
-        path = "article-xml/articles/elife-16695-v1.xml"
-        expected = [{
-            'force': True,
-            'token': 'pants-party',
-            'version': 1,
-            'location': 'file://' + join(conf.PROJECT_DIR, path),
-            'action': 'ingest',
-            'id': u'16695'
-        }]
-        with mock.patch('adhoc_backfill.read_from_stdin', return_value=[path]):
+        with mock.patch('adhoc_backfill.read_from_stdin', return_value=[self.path]):
             actual = bfup.main(['--dry-run'])
-            self.assertEqual(actual, expected)
+            self.assertEqual(actual, self.expected)
 
     def test_bootstrap_read_multiple_paths_from_stdin(self):
         "paths can be read from stdin, one per line"
-        path = "article-xml/articles/elife-16695-v1.xml"
-        paths = "\n".join([path] * 3)
-        expected = [{
-            'force': True,
-            'token': 'pants-party',
-            'version': 1,
-            'location': 'file://' + join(conf.PROJECT_DIR, path),
-            'action': 'ingest',
-            'id': u'16695'
-        }] * 3
+        paths = "\n".join([self.path] * 3)
+        expected = self.expected * 3
         with mock.patch('adhoc_backfill.read_from_stdin', return_value=paths.splitlines()):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, expected)
@@ -177,30 +151,22 @@ class Two(BaseCase):
     def test_bootstrap_read_json_object_from_stdin(self):
         "json objects can be read from stdin as well, they must be line-delimited though"
         jsonobj = '''{"msid":16695,"version":1,"location":"https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}'''
-        expected = [{
-            'force': True,
-            'token': 'pants-party',
-            'version': 1,
-            'location': u'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
-            'action': 'ingest',
-            'id': u'16695'
-        }]
+        self.expected[0].update({
+            'id': '16695',
+            'location': 'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
+        })
         with mock.patch('adhoc_backfill.read_from_stdin', return_value=[jsonobj]):
             actual = bfup.main(['--dry-run'])
-            self.assertEqual(actual, expected)
+            self.assertEqual(actual, self.expected)
 
     def test_bootstrap_read_multiple_json_objects_from_stdin(self):
         "json objects can be read from stdin as well, they must be line-delimited though"
         jsonobj = '''{"msid":16695,"version":1,"location":"https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}
 {"msid":1968,"version":1,"location":"no-location-stored"}'''
-        expected = [{
-            'force': True,
-            'token': 'pants-party',
-            'version': 1,
+        self.expected[0].update({
             'location': u'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
-            'action': 'ingest',
             'id': u'16695'
-        }]
+        })
         with mock.patch('adhoc_backfill.read_from_stdin', return_value=jsonobj.splitlines()):
             actual = bfup.main(['--dry-run'])
-            self.assertEqual(actual, expected)
+            self.assertEqual(actual, self.expected)

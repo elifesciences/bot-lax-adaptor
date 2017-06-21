@@ -6,7 +6,7 @@ import adaptor
 import unittest
 from mock import patch
 
-class Adapt(BaseCase):
+class Logic(BaseCase):
     def setUp(self):
         self.ingest_dir = join(self.fixtures_dir, 'dir-ingest')
         self.ingest_v1_dir = join(self.ingest_dir, 'v1')
@@ -64,15 +64,6 @@ class Adapt(BaseCase):
         self.assertEqual(len(self.out.errors), 1)
         self.assertTrue(self.out.errors[0]['message'].startswith("failed to render"))
 
-    @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.INVALID, 'message': 'mock'})
-    def test_bootstrap(self):
-        v3_dir = join(self.ingest_dir, 'v3')
-        argstr = '--type fs --action ingest+publish --target %s' % v3_dir
-        args = ['adaptor.py']
-        args.extend(argstr.split())
-        with patch('sys.argv', args):
-            adapt.bootstrap()
-
     def test_http_download(self):
         # this needs to be an UTF-8 XML document
         # without a proper 'Content-Type: application/xml; encoding=utf-8'
@@ -82,3 +73,38 @@ class Adapt(BaseCase):
         # this is a crappy quick regex to extract the XML tags we need
         titles_of_appendices = re.findall('<title>Appendix[^<]*</title>', xml_text)
         self.assertIn(u'<title>Appendix\xa01</title>', titles_of_appendices)
+
+
+class Bootstrap(BaseCase):
+    def setUp(self):
+        self.ingest_dir = join(self.fixtures_dir, 'dir-ingest-small', 'v1')
+
+    def tearDown(self):
+        pass
+
+    @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.INVALID, 'message': 'mock'})
+    def test_invalid_ingest_publish(self):
+        "ingest+publish actions handle 'invalid' responses"
+        args = ['adaptor.py']
+        argstr = '--type fs --action ingest+publish --target %s' % self.ingest_dir
+        args.extend(argstr.split())
+        with patch('sys.argv', args):
+            adapt.bootstrap()
+
+    @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.ERROR, 'message': 'mock'})
+    def test_error_ingest_publish(self):
+        "ingest+publish actions handle 'error' responses"
+        args = ['adaptor.py']
+        argstr = '--type fs --action ingest+publish --target %s' % self.ingest_dir
+        args.extend(argstr.split())
+        with patch('sys.argv', args):
+            adapt.bootstrap()
+
+    @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.VALIDATED, 'message': 'mock'})
+    def test_validated_ingest_publish(self):
+        "ingest+publish actions handle 'validated' responses"
+        args = ['adaptor.py']
+        argstr = '--type fs --action ingest+publish --validate-only --target %s' % self.ingest_dir
+        args.extend(argstr.split())
+        with patch('sys.argv', args):
+            adapt.bootstrap()
