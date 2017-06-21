@@ -10,4 +10,36 @@ schemes:
 
 host: lax.elifesciences.org:8080
 basePath: /
-paths: {}
+paths:
+  /xml:
+    post:
+      description: upload an xml file
+      responses:
+        2000:
+          description: the remote name of the uploaded xml file
+
+  /xml/{filename}/generate:
+    post:
+      description: generate article-json from an uploaded xml file
+      parameters:
+        - name: filename
+          in: path
+          type: string
+          required: true
+          description: name of remote xml file
+      responses:
+        200:
+          description: the remote name of the generated article-json file
+
+  /ajson/{filename}/validate:
+    post:
+      description: validate generated article-json
+      parameters:
+        - name: filename
+          in: path
+          type: string
+          required: true
+          description: name of remote article-json file
+      responses:
+        200:
+          description: success or failure details of the validation attempt
