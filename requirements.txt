@@ -4,7 +4,7 @@ coverage==4.1
 et3==1.4
 Flask==0.11.1
 Flask-Testing==0.6.1
-git+https://github.com/elifesciences/elife-tools.git@5102cbfc42bc29cc040e9498e225e36f2ba35ccc#egg=elifetools
+git+https://github.com/elifesciences/elife-tools.git@78ab73c8f657dc64f00d94cd76675f597ab9ab0c#egg=elifetools
 green==2.5.0
 isbnlib==3.6.5
 joblib==0.10.3
