@@ -4,6 +4,7 @@ from os.path import join
 from pythonjsonlogger import jsonlogger
 import utils
 import configparser as configparser
+import yaml
 
 ROOTLOG = logging.getLogger("")
 
@@ -114,15 +115,20 @@ VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'publi
 XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')
 JSON_DIR = join(PROJECT_DIR, 'article-json')
 
-def json_load(path):
+def load(path):
     path = join(PROJECT_DIR, 'schema', path)
-    return json.load(open(path, 'r'))
+    if path.endswith('.json'):
+        return json.load(open(path, 'r'))
+    elif path.endswith('.yaml'):
+        return yaml.load(open(path, 'r'))
 
-POA_SCHEMA = json_load('api-raml/dist/model/article-poa.v1.json')
-VOR_SCHEMA = json_load('api-raml/dist/model/article-vor.v1.json')
+POA_SCHEMA = load('api-raml/dist/model/article-poa.v1.json')
+VOR_SCHEMA = load('api-raml/dist/model/article-vor.v1.json')
 
-REQUEST_SCHEMA = json_load('request-schema.json')
-RESPONSE_SCHEMA = json_load('response-schema.json')
+REQUEST_SCHEMA = load('request-schema.json')
+RESPONSE_SCHEMA = load('response-schema.json')
+
+API_SCHEMA = load('api.yaml')
 
 CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
 

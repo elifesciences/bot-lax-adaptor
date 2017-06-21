@@ -14,10 +14,12 @@ pylint==1.6.4
 python-json-logger==0.1.5
 python-slugify==1.2.0
 python-dateutil==2.5.3
+PyYAML==3.12
 requests==2.11.1
 requests-aws==0.1.8
 requests-cache==0.4.12
 newrelic==2.72.1.53
 pytz==2016.7
 strict-rfc3339==0.7
+swagger-spec-validator==2.1.0
 rfc3339==5

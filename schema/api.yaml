@@ -1,0 +1,13 @@
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: bot-lax-adaptor api
+  description: a web interface to interacting with lax via the bot-lax-adaptor
+
+schemes:
+  - https
+
+host: lax.elifesciences.org:8080
+basePath: /
+paths: {}
