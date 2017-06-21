@@ -27,15 +27,15 @@ class Web(TestCase):
             assert expected_category == category
 
     def create_app(self):
-        import web
+        import flask_web
         self.temp_dir = tempfile.mkdtemp(suffix='bot-lax-test')
         assert self.temp_dir.startswith('/tmp/'), '!!!'
-        web.app.config.update(**{
+        flask_web.app.config.update(**{
             'TESTING': True, # necessary?
             'SECRET_KEY': os.urandom(24), # necessary for uploads apparently
             'UPLOAD_FOLDER': self.temp_dir
         })
-        return web.app
+        return flask_web.app
 
     def tearDown(self):
         # print 'removing', self.temp_dir
