@@ -1,3 +1,3 @@
 #!/bin/bash
 . install.sh
-python src/web.py
+python src/flask_web.py
