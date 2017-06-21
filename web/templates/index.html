@@ -6,6 +6,8 @@
 <title>bot-lax-adaptor web form</title>
 </head>
 <body>
+<h1>bot-lax-adaptor</h1>
+
 
 <div id="uploads">
 
@@ -20,9 +22,9 @@
     {% endwith %}
 
     {% if uploaded_files %}
-    <h2>results</h2>
+    <h2>uploaded files</h2>
     
-    <table id="results">
+    <table id="uploaded-files">
     {% for path, fname in uploaded_files %}
         <tr class="{{ loop.cycle('odd', 'even') }}">
             <td>
@@ -32,26 +34,37 @@
            </td>
             {% if fname.endswith('.xml') %}
             <td>
-                <form method="POST" action="/generate/{{ fname }}"><input type="submit" value="generate json" /></form>
+                <form method="POST" action="/generate/{{ fname }}">
+                    <input type="submit" value="generate json" />
+                </form>
             </td>
             {% endif %}           
             
             {% if fname.endswith('.json') %}
             <td>
-                <form method="POST" action="/validate/{{ fname }}"><input type="submit" value="validate json" /></form>
+                <form method="POST" action="/validate/{{ fname }}">
+                    <input type="submit" value="validate json" />
+                </form>
             </td>
             {% endif %}
             
             <td>
-                <form method="POST" action="/delete/{{ fname }}"><input type="submit" value="delete" /></form>
+                <form method="POST" action="/delete/{{ fname }}">
+                    <input type="submit" value="delete" />
+                </form>
+            </td>
+            <td>
+                <form method="POST" action="/send/{{ fname }}">
+                    <input type="submit" value="send to lax" />
+                </form>
             </td>
         </tr>
     {% endfor %}
     </table>
     {% endif %}
 
-    <h2>upload</h2>
-    <p>upload article xml, convert to article-json, validate article-json</p>
+    <h2>upload new</h2>
+    <p>uploads article xml, converts to article-json, validates article-json</p>
 
     <form method="POST" action="/upload/" enctype="multipart/form-data" >
         <input type="file" name="xml" />
@@ -61,9 +74,9 @@
 </div><!-- ends uploads -->
 
 <div id="github">
-    <h2>search</h2>
+    <h2>search repo</h2>
     <p>
-        searches the elife-article-xml corpus and generates article-json. 
+        searches the <a href="https://github.com/elifesciences/elife-article-xml">elife-article-xml</a> corpus and generates article-json. 
         pinned at revision: <a target="_blank" href="https://github.com/elifesciences/elife-article-xml/tree/{{ xml_rev }}">{{ xml_rev[:7] }}</a>
     </p>
     
