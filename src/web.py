@@ -186,6 +186,8 @@ def start_server():
         'SECRET_KEY': os.urandom(24),
         # http://flask.pocoo.org/docs/0.11/config/#instance-folders
         'UPLOAD_FOLDER': join(PROJECT_DIR, 'web', 'uploads'),
+        # Flask/Jinja caches templates
+        'TEMPLATES_AUTO_RELOAD': True
     })
     app.run()
 
