@@ -1,4 +1,10 @@
-from swagger_spec_validator.validator20 import validate_spec
+from os.path import join
+import conf
+from flex.core import validate
+import flex
 
 def validates(spec):
-    return validate_spec(spec)
+    path = join(conf.PROJECT_DIR, 'schema', 'api.yaml')
+    spec = flex.load(path)
+    validate(spec)
+    return True
