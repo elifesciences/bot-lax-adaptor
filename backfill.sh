@@ -132,7 +132,7 @@ set +o nounset; . install.sh; set -o nounset;
 
         if [ ! -f $xmlpath ] && [ ! -f $xmlunpubpath ]; then
             # lax doesn't know where the remote location and it's not on the fs
-            if [ "$remotepath" == "no-location-stored\r" ]; then
+            if [ "$remotepath" = "no-location-stored" ]; then
                 errcho "$fname not found, skipping"
                 continue
             fi
