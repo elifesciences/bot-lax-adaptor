@@ -136,6 +136,14 @@ set +o nounset; . install.sh; set -o nounset;
                 errcho "$fname not found, skipping"
                 continue
             fi
+            
+            # edge case: previous backfill stored a path to the unpubdir for this article
+            # if it's made it this far, it's *still* not present in the xml repo and it's original remote
+            # path has been overwritten.
+            if [ "$remotepath" = "$xmlunpubpath" ]; then
+                errcho "$fname still not published since previous backfill, remote path unknown, skipping"
+                continue
+            fi
 
             # xml absent, download it
             # download.py reuses code in the adaptor and does an authenticated requests to s3
@@ -157,7 +165,7 @@ set +o nounset; . install.sh; set -o nounset;
 # generate article-json 
 # generated files are stored in $ajsondir
 echo > "$prjdir/scrape.log"
-time python $prjdir/src/generate_article_json.py "$runpath" "$ajsondir"
+#time python $prjdir/src/generate_article_json.py "$runpath" "$ajsondir"
 
 # validate all generated article-json
 echo > "$prjdir/validate.log"
