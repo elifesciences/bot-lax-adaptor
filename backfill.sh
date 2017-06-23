@@ -165,7 +165,7 @@ set +o nounset; . install.sh; set -o nounset;
 # generate article-json 
 # generated files are stored in $ajsondir
 echo > "$prjdir/scrape.log"
-#time python $prjdir/src/generate_article_json.py "$runpath" "$ajsondir"
+time python $prjdir/src/generate_article_json.py "$runpath" "$ajsondir"
 
 # validate all generated article-json
 echo > "$prjdir/validate.log"
