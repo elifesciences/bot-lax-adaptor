@@ -8,17 +8,34 @@ info:
 schemes:
   - https
 
-host: lax.elifesciences.org:8080
+#host: lax.elifesciences.org:8080
 basePath: /
 paths:
   /xml:
-    post:
-      description: upload an xml file
+    get:
       responses:
-        2000:
-          description: the remote name of the uploaded xml file
+        200:
+          description: a list of all article xml files that have been uploaded
+    post:
+      description: upload an xml file, generate article-json from it, validate article-json
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: xml
+          type: file
+          description: the xml file to upload          
+      responses:
+        200:
+          description: xml, article-json and validation all completed successfully
 
-  /xml/{filename}/generate:
+  /ajson:
+    get:
+      responses:
+        200:
+          description: a list of all article json files that have been generated from uploaded xml
+
+  /ajson/generate/{filename}:
     post:
       description: generate article-json from an uploaded xml file
       parameters:
@@ -31,7 +48,7 @@ paths:
         200:
           description: the remote name of the generated article-json file
 
-  /ajson/{filename}/validate:
+  /ajson/validate/{filename}:
     post:
       description: validate generated article-json
       parameters:
