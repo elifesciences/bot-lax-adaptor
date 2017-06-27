@@ -24,3 +24,4 @@ newrelic==2.72.1.53
 pytz==2016.7
 strict-rfc3339==0.7
 rfc3339==5
+#swagger-tester==0.2.7

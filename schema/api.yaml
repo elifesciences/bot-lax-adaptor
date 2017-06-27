@@ -8,8 +8,7 @@ info:
 schemes:
   - https
 
-#host: lax.elifesciences.org:8080
-basePath: /
+#basePath: /
 paths:
   /xml:
     get:
@@ -17,7 +16,7 @@ paths:
         200:
           description: a list of all article xml files that have been uploaded
     post:
-      description: upload an xml file, generate article-json from it, validate article-json
+      description: upload an xml file, generate article-json from it, validate article-json, send article-json to test ingest
       consumes:
         - multipart/form-data
       parameters:
@@ -29,28 +28,15 @@ paths:
         200:
           description: xml, article-json and validation all completed successfully
 
-  /ajson:
+  /article-json:
     get:
       responses:
         200:
           description: a list of all article json files that have been generated from uploaded xml
 
-  /ajson/generate/{filename}:
-    post:
-      description: generate article-json from an uploaded xml file
-      parameters:
-        - name: filename
-          in: path
-          type: string
-          required: true
-          description: name of remote xml file
-      responses:
-        200:
-          description: the remote name of the generated article-json file
-
-  /ajson/validate/{filename}:
-    post:
-      description: validate generated article-json
+  /article-json/{filename}:
+    get:
+      description: download an article-json file
       parameters:
         - name: filename
           in: path
@@ -59,4 +45,6 @@ paths:
           description: name of remote article-json file
       responses:
         200:
-          description: success or failure details of the validation attempt
+          description: the remote article-json
+        404:
+          description: given remote article-json file not found
