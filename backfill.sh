@@ -132,8 +132,16 @@ set +o nounset; . install.sh; set -o nounset;
 
         if [ ! -f $xmlpath ] && [ ! -f $xmlunpubpath ]; then
             # lax doesn't know where the remote location and it's not on the fs
-            if [ $remotepath = "no-location-stored" ]; then
+            if [ "$remotepath" = "no-location-stored" ]; then
                 errcho "$fname not found, skipping"
+                continue
+            fi
+            
+            # edge case: previous backfill stored a path to the unpubdir for this article
+            # if it's made it this far, it's *still* not present in the xml repo and it's original remote
+            # path has been overwritten.
+            if [ "$remotepath" = "$xmlunpubpath" ]; then
+                errcho "$fname still not published since previous backfill, remote path unknown, skipping"
                 continue
             fi
 
