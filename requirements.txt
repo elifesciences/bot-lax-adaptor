@@ -25,3 +25,4 @@ pytz==2016.7
 strict-rfc3339==0.7
 rfc3339==5
 #swagger-tester==0.2.7
+uWSGI==2.0.15
