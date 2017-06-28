@@ -12,7 +12,7 @@ from connexion.resolver import RestyResolver
 from werkzeug.exceptions import HTTPException
 
 # just the default, can be overriden when creating an app
-UPLOAD_FOLDER = join(conf.PROJECT_DIR, 'web', 'uploads') 
+UPLOAD_FOLDER = join(conf.PROJECT_DIR, 'web', 'uploads')
 
 #
 # utils

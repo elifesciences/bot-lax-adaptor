@@ -1,0 +1,524 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "snippet": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/6b463b2b469748cbc03b571122377cc9191cd7aa/articles/elife-16695-v1.xml"
+        }, 
+        "-history": {
+            "received": "2016-04-06T00:00:00Z", 
+            "accepted": "2016-08-14T00:00:00Z"
+        }, 
+        "status": "poa", 
+        "id": "16695", 
+        "version": 1, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.16695", 
+        "authorLine": "Arisa Hirano et al", 
+        "title": "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", 
+        "published": "2016-08-16T00:00:00Z", 
+        "versionDate": "2016-08-16T00:00:00Z", 
+        "volume": 5, 
+        "elocationId": "e16695", 
+        "pdf": "https://cdn.elifesciences.org/articles/16695/elife-16695-v1.pdf", 
+        "subjects": [
+            {
+                "id": "human-biology-medicine", 
+                "name": "Human Biology and Medicine"
+            }, 
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
+        ], 
+        "researchOrganisms": [
+            "Human", 
+            "Mouse"
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (CRY2) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the CRY2 mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
+                }
+            ]
+        }
+    }, 
+    "article": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/6b463b2b469748cbc03b571122377cc9191cd7aa/articles/elife-16695-v1.xml", 
+            "patched": true
+        }, 
+        "-history": {
+            "received": "2016-04-06T00:00:00Z", 
+            "accepted": "2016-08-14T00:00:00Z"
+        }, 
+        "status": "poa", 
+        "id": "16695", 
+        "version": 1, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.16695", 
+        "authorLine": "Arisa Hirano et al", 
+        "title": "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", 
+        "published": "2016-08-16T00:00:00Z", 
+        "versionDate": "2016-08-16T00:00:00Z", 
+        "volume": 5, 
+        "elocationId": "e16695", 
+        "pdf": "https://cdn.elifesciences.org/articles/16695/elife-16695-v1.pdf", 
+        "subjects": [
+            {
+                "id": "human-biology-medicine", 
+                "name": "Human Biology and Medicine"
+            }, 
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
+        ], 
+        "researchOrganisms": [
+            "Human", 
+            "Mouse"
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (CRY2) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the CRY2 mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC-BY-4.0", 
+            "holder": "Hirano et al", 
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Arisa Hirano", 
+                    "index": "Hirano, Arisa"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Guangsen Shi", 
+                    "index": "Shi, Guangsen"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Christopher R Jones", 
+                    "index": "Jones, Christopher R"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of Utah"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Salt Lake City", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Salt Lake City"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Anna Lipzen", 
+                    "index": "Lipzen, Anna"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Energy Joint Genome Institute", 
+                            "Lawrence Berkeley National Laboratory"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Walnut Creek", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Walnut Creek"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Len A Pennacchio", 
+                    "index": "Pennacchio, Len A"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "DOE Joint Genome Institute", 
+                            "Lawrence Berkeley National Laboratory"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Walnut Creek", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Walnut Creek"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Ying Xu", 
+                    "index": "Xu, Ying"
+                }, 
+                "orcid": "0000-0002-6689-7768", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Center for System Biology", 
+                            "Soochow University"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Suzhou", 
+                                "China"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Suzhou"
+                                ], 
+                                "country": "China"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "William C Hallows", 
+                    "index": "Hallows, William C"
+                }, 
+                "orcid": "0000-0001-8306-8438", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Thomas McMahon", 
+                    "index": "McMahon, Thomas"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Maya Yamazaki", 
+                    "index": "Yamazaki, Maya"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Louis J Pt\u00e1\u010dek", 
+                    "index": "Pt\u00e1\u010dek, Louis J"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "ljp@ucsf.edu"
+                ], 
+                "competingInterests": "Louis J Pt\u00e1\u010dek, Reviewing editor, eLife."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Ying-Hui Fu", 
+                    "index": "Fu, Ying-Hui"
+                }, 
+                "orcid": "0000-0002-6628-0266", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "ying-hui.fu@ucsf.edu"
+                ], 
+                "competingInterests": "No competing interests declared."
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Joseph G Gleeson", 
+                    "index": "Gleeson, Joseph G"
+                }, 
+                "role": "Reviewing Editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Howard Hughes Medical Institute, The Rockefeller University"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "United States"
+                            ], 
+                            "components": {
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ]
+            }
+        ], 
+        "ethics": [
+            {
+                "type": "paragraph", 
+                "text": "Animal experimentation: All experimental protocols (Protocol no. AN111686-02) were conducted according to US National Institutes of Health guidelines for animal research andwere approved by the Institutional Animal Care and Use Committee at the University of California, San Francisco."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "Human subjects: All human subjects signed a consent form approved by the Institutional Review Boards at the University of Utah and the University of California, San Francisco (IRB# 10-03952). The consent form includes all confidentiality and ethic guidelines and also indicates not revealing subject information in the publication."
+            }
+        ], 
+        "funding": {
+            "awards": [
+                {
+                    "id": "par-1", 
+                    "source": {
+                        "funderId": "10.13039/100000050", 
+                        "name": [
+                            "National Heart, Lung, and Blood Institute"
+                        ]
+                    }, 
+                    "awardId": "HL059596", 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Louis J Pt\u00e1\u010dek", 
+                                "index": "Pt\u00e1\u010dek, Louis J"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-2", 
+                    "source": {
+                        "name": [
+                            "National Institute of General Medical Sciences"
+                        ]
+                    }, 
+                    "awardId": "GM079180", 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Ying-Hui Fu", 
+                                "index": "Fu, Ying-Hui"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-3", 
+                    "source": {
+                        "funderId": "10.13039/501100001691", 
+                        "name": [
+                            "Japan Society for the Promotion of Science"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Arisa Hirano", 
+                                "index": "Hirano, Arisa"
+                            }
+                        }
+                    ]
+                }
+            ], 
+            "statement": "The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication."
+        }, 
+        "additionalFiles": [
+            {
+                "mediaType": "application/zip", 
+                "uri": "https://cdn.elifesciences.org/articles/16695/elife-16695-supp-v1.zip", 
+                "filename": "elife-16695-supp-v1.zip", 
+                "id": "SD1-data", 
+                "title": "Supplementary file 1."
+            }
+        ], 
+        "stage": "published", 
+        "statusDate": "2099-01-01T00:00:00Z"
+    }
+}

@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "src/tests/fixtures/elife-09560-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/6b463b2b469748cbc03b571122377cc9191cd7aa/articles/elife-09560-v1.xml"
         }, 
         "-history": {
             "received": "2015-06-19T00:00:00Z", 
@@ -23,7 +23,7 @@
         "versionDate": "2015-09-10T00:00:00Z", 
         "volume": 4, 
         "elocationId": "e09560", 
-        "pdf": "https://publishing-cdn.elifesciences.org/09560/elife-09560-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/09560/elife-09560-v1.pdf", 
         "subjects": [
             {
                 "id": "genomics-evolutionary-biology", 
@@ -2316,7 +2316,7 @@
                     "preferred": "Johannes Krause", 
                     "index": "Krause, Johannes"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
@@ -2339,7 +2339,7 @@
                     "preferred": "Nicholas J Conard", 
                     "index": "Conard, Nicholas J"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
@@ -2473,19 +2473,29 @@
             {
                 "doi": "10.7554/eLife.09560.028", 
                 "id": "SD1-data", 
-                "label": "Supplementary file 1.", 
-                "title": "Holotype and paratype specimens and referred materials.", 
+                "caption": [
+                    {
+                        "type": "paragraph", 
+                        "text": "Holotype and paratype specimens and referred materials."
+                    }
+                ], 
+                "title": "Supplementary file 1.", 
                 "mediaType": "application/docx", 
-                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-supp1-v1.docx", 
+                "uri": "https://cdn.elifesciences.org/articles/09560/elife-09560-supp1-v1.docx", 
                 "filename": "elife-09560-supp1-v1.docx"
             }, 
             {
                 "doi": "10.7554/eLife.09560.029", 
                 "id": "SD2-data", 
-                "label": "Supplementary file 2.", 
-                "title": "Traits of <i>H</i>. <i>naledi</i> and comparative species.", 
+                "caption": [
+                    {
+                        "type": "paragraph", 
+                        "text": "Traits of <i>H</i>. <i>naledi</i> and comparative species."
+                    }
+                ], 
+                "title": "Supplementary file 2.", 
                 "mediaType": "application/docx", 
-                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-supp2-v1.docx", 
+                "uri": "https://cdn.elifesciences.org/articles/09560/elife-09560-supp2-v1.docx", 
                 "filename": "elife-09560-supp2-v1.docx"
             }
         ], 
@@ -2493,7 +2503,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "src/tests/fixtures/elife-09560-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/6b463b2b469748cbc03b571122377cc9191cd7aa/articles/elife-09560-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -2511,7 +2521,7 @@
         "versionDate": "2015-09-10T00:00:00Z", 
         "volume": 4, 
         "elocationId": "e09560", 
-        "pdf": "https://publishing-cdn.elifesciences.org/09560/elife-09560-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/09560/elife-09560-v1.pdf", 
         "subjects": [
             {
                 "id": "genomics-evolutionary-biology", 
@@ -4804,7 +4814,7 @@
                     "preferred": "Johannes Krause", 
                     "index": "Krause, Johannes"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
@@ -4827,7 +4837,7 @@
                     "preferred": "Nicholas J Conard", 
                     "index": "Conard, Nicholas J"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
@@ -4961,19 +4971,29 @@
             {
                 "doi": "10.7554/eLife.09560.028", 
                 "id": "SD1-data", 
-                "label": "Supplementary file 1.", 
-                "title": "Holotype and paratype specimens and referred materials.", 
+                "caption": [
+                    {
+                        "type": "paragraph", 
+                        "text": "Holotype and paratype specimens and referred materials."
+                    }
+                ], 
+                "title": "Supplementary file 1.", 
                 "mediaType": "application/docx", 
-                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-supp1-v1.docx", 
+                "uri": "https://cdn.elifesciences.org/articles/09560/elife-09560-supp1-v1.docx", 
                 "filename": "elife-09560-supp1-v1.docx"
             }, 
             {
                 "doi": "10.7554/eLife.09560.029", 
                 "id": "SD2-data", 
-                "label": "Supplementary file 2.", 
-                "title": "Traits of <i>H</i>. <i>naledi</i> and comparative species.", 
+                "caption": [
+                    {
+                        "type": "paragraph", 
+                        "text": "Traits of <i>H</i>. <i>naledi</i> and comparative species."
+                    }
+                ], 
+                "title": "Supplementary file 2.", 
                 "mediaType": "application/docx", 
-                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-supp2-v1.docx", 
+                "uri": "https://cdn.elifesciences.org/articles/09560/elife-09560-supp2-v1.docx", 
                 "filename": "elife-09560-supp2-v1.docx"
             }
         ], 
@@ -5020,33 +5040,35 @@
                         "text": "Fossil hominins were first recognized in the Dinaledi Chamber in the Rising Star cave system in October 2013. During a relatively short excavation, our team recovered an extensive collection of 1550 hominin specimens, representing nearly every element of the skeleton multiple times (<a href=\"#fig1\">Figure 1</a>), including many complete elements and morphologically informative fragments, some in articulation, as well as smaller fragments many of which could be refit into more complete elements. The collection is a morphologically homogeneous sample that can be attributed to no previously-known hominin species. Here we describe this new species, <i>Homo naledi</i>. We have not defined <i>H. naledi</i> narrowly based on a single jaw or skull because the entire body of material has informed our understanding of its biology."
                     }, 
                     {
-                        "type": "image", 
-                        "doi": "10.7554/eLife.09560.003", 
-                        "id": "fig1", 
-                        "label": "Figure 1.", 
-                        "title": "Dinaledi skeletal specimens.", 
-                        "caption": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "type": "paragraph", 
-                                "text": "The figure includes approximately all of the material incorporated in this diagnosis, including the holotype specimen, paratypes and referred material. These make up 737 partial or complete anatomical elements, many of which consist of several refitted specimens. Specimens not identified to element, such as non-diagnostic long bone or cranial fragments, and a subset of fragile specimens are not shown here. The \u2018skeleton\u2019 layout in the center of the photo is a composite of elements that represent multiple individuals. This view is foreshortened; the table upon which the bones are arranged is 120-cm wide for scale."
+                                "type": "image", 
+                                "doi": "10.7554/eLife.09560.003", 
+                                "id": "fig1", 
+                                "label": "Figure 1", 
+                                "title": "Dinaledi skeletal specimens.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "The figure includes approximately all of the material incorporated in this diagnosis, including the holotype specimen, paratypes and referred material. These make up 737 partial or complete anatomical elements, many of which consist of several refitted specimens. Specimens not identified to element, such as non-diagnostic long bone or cranial fragments, and a subset of fragile specimens are not shown here. The \u2018skeleton\u2019 layout in the center of the photo is a composite of elements that represent multiple individuals. This view is foreshortened; the table upon which the bones are arranged is 120-cm wide for scale."
+                                    }
+                                ], 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig1-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-09560-fig1-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig1-v1.tif", 
+                                    "size": {
+                                        "width": 4194, 
+                                        "height": 4714
+                                    }
+                                }
                             }
-                        ], 
-                        "image": {
-                            "source": {
-                                "mediaType": "image/jpeg", 
-                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig1-v1.tif/full/full/0/default.jpg", 
-                                "filename": "elife-09560-fig1-v1.jpg"
-                            }, 
-                            "alt": "", 
-                            "size": {
-                                "width": 4194, 
-                                "height": 4714
-                            }, 
-                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig1-v1.tif", 
-                            "filename": "elife-09560-fig1-v1.tif"
-                        }, 
-                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig1-v1.tif", 
-                        "alt": ""
+                        ]
                     }, 
                     {
                         "type": "paragraph", 
@@ -5136,33 +5158,35 @@
                                         "text": "Dinaledi Hominin 1 (DH1) comprises the partial calvaria, partial maxilla, and nearly complete mandible of a presumed male individual, based on size and morphology within the sample (<a href=\"#fig2\">Figure 2</a>; <a href=\"#SD1-data\">Supplementary file 1</a>). The holotype was recovered in situ during excavations within the Dinaledi Chamber in March of 2014, embedded in unconsolidated fine clay matrix (<a href=\"#bib17\">Dirks et al., 2015</a>). The holotype is housed in the Evolutionary Studies Institute at the University of the Witwatersrand, Johannesburg, South Africa."
                                     }, 
                                     {
-                                        "type": "image", 
-                                        "doi": "10.7554/eLife.09560.019", 
-                                        "id": "fig2", 
-                                        "label": "Figure 2.", 
-                                        "title": "Holotype specimen of <i>Homo naledi</i>, Dinaledi Hominin 1 (DH1).", 
-                                        "caption": [
+                                        "type": "figure", 
+                                        "assets": [
                                             {
-                                                "type": "paragraph", 
-                                                "text": "U.W. 101-1473 cranium in (<b>A</b>) posterior and (<b>B</b>) frontal views (frontal view minus the frontal fragment to show calvaria interior). U.W. 101-1277 maxilla in (<b>C</b>) medial, (<b>D</b>) frontal, (<b>E</b>) superior, and (<b>F</b>) occlusal views. (<b>G</b>) U.W. 101-1473 cranium in anatomical alignment with occluded U.W. 101-1277 maxilla and U.W. 101-1261 mandible in left lateral view. U.W. 101-1277 mandible in (<b>H</b>) occlusal, (<b>I</b>) basal, (<b>J</b>) right lateral, and (<b>K</b>) anterior views. Scale bar = 10 cm."
+                                                "type": "image", 
+                                                "doi": "10.7554/eLife.09560.019", 
+                                                "id": "fig2", 
+                                                "label": "Figure 2", 
+                                                "title": "Holotype specimen of <i>Homo naledi</i>, Dinaledi Hominin 1 (DH1).", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "U.W. 101-1473 cranium in (<b>A</b>) posterior and (<b>B</b>) frontal views (frontal view minus the frontal fragment to show calvaria interior). U.W. 101-1277 maxilla in (<b>C</b>) medial, (<b>D</b>) frontal, (<b>E</b>) superior, and (<b>F</b>) occlusal views. (<b>G</b>) U.W. 101-1473 cranium in anatomical alignment with occluded U.W. 101-1277 maxilla and U.W. 101-1261 mandible in left lateral view. U.W. 101-1277 mandible in (<b>H</b>) occlusal, (<b>I</b>) basal, (<b>J</b>) right lateral, and (<b>K</b>) anterior views. Scale bar = 10 cm."
+                                                    }
+                                                ], 
+                                                "image": {
+                                                    "source": {
+                                                        "mediaType": "image/jpeg", 
+                                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig2-v1.tif/full/full/0/default.jpg", 
+                                                        "filename": "elife-09560-fig2-v1.jpg"
+                                                    }, 
+                                                    "alt": "", 
+                                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig2-v1.tif", 
+                                                    "size": {
+                                                        "width": 2750, 
+                                                        "height": 2095
+                                                    }
+                                                }
                                             }
-                                        ], 
-                                        "image": {
-                                            "source": {
-                                                "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig2-v1.tif/full/full/0/default.jpg", 
-                                                "filename": "elife-09560-fig2-v1.jpg"
-                                            }, 
-                                            "alt": "", 
-                                            "size": {
-                                                "width": 2750, 
-                                                "height": 2095
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig2-v1.tif", 
-                                            "filename": "elife-09560-fig2-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig2-v1.tif", 
-                                        "alt": ""
+                                        ]
                                     }
                                 ]
                             }, 
@@ -5176,211 +5200,225 @@
                                         "text": "Dinaledi Hominin 2 (DH2) is a partial calvaria that preserves parts of the frontal, left and right parietals, right temporal, and occipital (<a href=\"#fig3\">Figure 3</a>; <a href=\"#SD1-data\">Supplementary file 1</a>). Dinaledi Hominin 3 (DH3) is a partial calvaria of a presumed female individual that preserves parts of the frontal, left parietal, left temporal, and sphenoid (<a href=\"#fig4\">Figure 4</a>, <a href=\"#SD1-data\">Supplementary file 1</a>). Dinaledi Hominin 4 (DH4) is a partial calvaria that preserves parts of the right temporal, right parietal, and occipital (<a href=\"#fig3\">Figure 3</a>; <a href=\"#SD1-data\">Supplementary file 1</a>). Dinaledi Hominin 5 (DH5) is a partial calvaria that preserves part of the left temporal and occipital (<a href=\"#fig3\">Figure 3</a>; <a href=\"#SD1-data\">Supplementary file 1</a>). U.W. 101-377 is a mandibular fragment that preserves dental anatomy in an unworn state; at present it cannot be definitively associated with any of these Dinaledi Hominin (DH) individuals, and indeed might represent another individual (<a href=\"#fig5\">Figure 5</a>; <a href=\"#SD1-data\">Supplementary file 1</a>). These cranial specimens agree closely in nearly all morphological details where they overlap in areas preserved except those we interpret as related to sex."
                                     }, 
                                     {
-                                        "type": "image", 
-                                        "doi": "10.7554/eLife.09560.005", 
-                                        "id": "fig3", 
-                                        "label": "Figure 3.", 
-                                        "title": "Cranial paratypes.", 
-                                        "caption": [
+                                        "type": "figure", 
+                                        "assets": [
                                             {
-                                                "type": "paragraph", 
-                                                "text": "(<b>A</b>) DH2, right lateral view. (<b>B</b>) DH5, left lateral view. (<b>C</b>) DH4, right lateral view. (<b>D</b>) DH4, posterior view. Scale bar = 10 cm."
+                                                "type": "image", 
+                                                "doi": "10.7554/eLife.09560.005", 
+                                                "id": "fig3", 
+                                                "label": "Figure 3", 
+                                                "title": "Cranial paratypes.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "(<b>A</b>) DH2, right lateral view. (<b>B</b>) DH5, left lateral view. (<b>C</b>) DH4, right lateral view. (<b>D</b>) DH4, posterior view. Scale bar = 10 cm."
+                                                    }
+                                                ], 
+                                                "image": {
+                                                    "source": {
+                                                        "mediaType": "image/jpeg", 
+                                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig3-v1.tif/full/full/0/default.jpg", 
+                                                        "filename": "elife-09560-fig3-v1.jpg"
+                                                    }, 
+                                                    "alt": "", 
+                                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig3-v1.tif", 
+                                                    "size": {
+                                                        "width": 1415, 
+                                                        "height": 1388
+                                                    }
+                                                }
                                             }
-                                        ], 
-                                        "image": {
-                                            "source": {
-                                                "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig3-v1.tif/full/full/0/default.jpg", 
-                                                "filename": "elife-09560-fig3-v1.jpg"
-                                            }, 
-                                            "alt": "", 
-                                            "size": {
-                                                "width": 1415, 
-                                                "height": 1388
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig3-v1.tif", 
-                                            "filename": "elife-09560-fig3-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig3-v1.tif", 
-                                        "alt": ""
+                                        ]
                                     }, 
                                     {
-                                        "type": "image", 
-                                        "doi": "10.7554/eLife.09560.006", 
-                                        "id": "fig4", 
-                                        "label": "Figure 4.", 
-                                        "title": "Paratype DH3.", 
-                                        "caption": [
+                                        "type": "figure", 
+                                        "assets": [
                                             {
-                                                "type": "paragraph", 
-                                                "text": "(<b>A</b>) Frontal view. (<b>B</b>) Left lateral view, with calvaria in articulation with the mandible (U.W. 101-361). (<b>C</b>) Basal view. Mandible in (<b>D</b>) medial view; (<b>E</b>) occlusal view; (<b>F</b>) basal view. DH3 was a relatively old individual at time of death, with extreme tooth wear. Scale bar = 10 cm."
+                                                "type": "image", 
+                                                "doi": "10.7554/eLife.09560.006", 
+                                                "id": "fig4", 
+                                                "label": "Figure 4", 
+                                                "title": "Paratype DH3.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "(<b>A</b>) Frontal view. (<b>B</b>) Left lateral view, with calvaria in articulation with the mandible (U.W. 101-361). (<b>C</b>) Basal view. Mandible in (<b>D</b>) medial view; (<b>E</b>) occlusal view; (<b>F</b>) basal view. DH3 was a relatively old individual at time of death, with extreme tooth wear. Scale bar = 10 cm."
+                                                    }
+                                                ], 
+                                                "image": {
+                                                    "source": {
+                                                        "mediaType": "image/jpeg", 
+                                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig4-v1.tif/full/full/0/default.jpg", 
+                                                        "filename": "elife-09560-fig4-v1.jpg"
+                                                    }, 
+                                                    "alt": "", 
+                                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig4-v1.tif", 
+                                                    "size": {
+                                                        "width": 2750, 
+                                                        "height": 2022
+                                                    }
+                                                }
                                             }
-                                        ], 
-                                        "image": {
-                                            "source": {
-                                                "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig4-v1.tif/full/full/0/default.jpg", 
-                                                "filename": "elife-09560-fig4-v1.jpg"
-                                            }, 
-                                            "alt": "", 
-                                            "size": {
-                                                "width": 2750, 
-                                                "height": 2022
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig4-v1.tif", 
-                                            "filename": "elife-09560-fig4-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig4-v1.tif", 
-                                        "alt": ""
+                                        ]
                                     }, 
                                     {
-                                        "type": "image", 
-                                        "doi": "10.7554/eLife.09560.007", 
-                                        "id": "fig5", 
-                                        "label": "Figure 5.", 
-                                        "title": "U.W. 101-377 mandible.", 
-                                        "caption": [
+                                        "type": "figure", 
+                                        "assets": [
                                             {
-                                                "type": "paragraph", 
-                                                "text": "(<b>A</b>) Lateral view; (<b>B</b>) medial view; (<b>C</b>) basal view; (<b>D</b>) occlusal view. (<b>D</b>) The distinctive mandibular premolar morphology with elongated talonids in unworn state. Scale bar = 2 cm."
+                                                "type": "image", 
+                                                "doi": "10.7554/eLife.09560.007", 
+                                                "id": "fig5", 
+                                                "label": "Figure 5", 
+                                                "title": "U.W. 101-377 mandible.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "(<b>A</b>) Lateral view; (<b>B</b>) medial view; (<b>C</b>) basal view; (<b>D</b>) occlusal view. (<b>D</b>) The distinctive mandibular premolar morphology with elongated talonids in unworn state. Scale bar = 2 cm."
+                                                    }
+                                                ], 
+                                                "image": {
+                                                    "source": {
+                                                        "mediaType": "image/jpeg", 
+                                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig5-v1.tif/full/full/0/default.jpg", 
+                                                        "filename": "elife-09560-fig5-v1.jpg"
+                                                    }, 
+                                                    "alt": "", 
+                                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig5-v1.tif", 
+                                                    "size": {
+                                                        "width": 1415, 
+                                                        "height": 1415
+                                                    }
+                                                }
                                             }
-                                        ], 
-                                        "image": {
-                                            "source": {
-                                                "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig5-v1.tif/full/full/0/default.jpg", 
-                                                "filename": "elife-09560-fig5-v1.jpg"
-                                            }, 
-                                            "alt": "", 
-                                            "size": {
-                                                "width": 1415, 
-                                                "height": 1415
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig5-v1.tif", 
-                                            "filename": "elife-09560-fig5-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig5-v1.tif", 
-                                        "alt": ""
+                                        ]
                                     }, 
                                     {
                                         "type": "paragraph", 
                                         "text": "Dinaledi hand 1 (H1) is a nearly complete (missing only the pisiform) right hand, found articulated in association, comprising specimens U.W. 101-1308 to \u22121311, \u22121318 to \u22121321, \u22121325 to \u22121329, \u22121351, \u22121464, and \u22121721 to \u22121732 (<a href=\"#fig6\">Figure 6</a>; <a href=\"#SD1-data\">Supplementary file 1</a>). U.W. 101-1391 is a proximal right femur preserving part of the head, the neck, some of the lesser and greater trochanter, and the proximal shaft (<a href=\"#fig7\">Figure 7</a>; <a href=\"#SD1-data\">Supplementary file 1</a>). U.W. 101-484 is a right tibial diaphysis missing only the proximal end (<a href=\"#fig8\">Figure 8</a>; <a href=\"#SD1-data\">Supplementary file 1</a>). Dinaledi foot 1 (F1) is a partial foot skeleton missing only the medial cuneiform and the phalanges of rays II\u2013V. Foot 1 is composed of specimens U.W. 101-1322, \u22121417 to \u22121419, \u22121439, \u22121443, \u22121456 to \u22121458, \u22121551, \u22121553, \u22121562, and \u22121698 (<a href=\"#fig9\">Figure 9</a>; <a href=\"#SD1-data\">Supplementary file 1</a>)."
                                     }, 
                                     {
-                                        "type": "image", 
-                                        "doi": "10.7554/eLife.09560.008", 
-                                        "id": "fig6", 
-                                        "label": "Figure 6.", 
-                                        "title": "Hand 1.", 
-                                        "caption": [
+                                        "type": "figure", 
+                                        "assets": [
                                             {
-                                                "type": "paragraph", 
-                                                "text": "Palmar view on left; dorsal view on right. This hand was discovered in articulation and all bones are represented except for the pisiform. The proportions of digits are humanlike and visually apparent, as are the expanded distal apical tufts on all digits, the robust pollical ray, and the unique first metacarpal morphology."
+                                                "type": "image", 
+                                                "doi": "10.7554/eLife.09560.008", 
+                                                "id": "fig6", 
+                                                "label": "Figure 6", 
+                                                "title": "Hand 1.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "Palmar view on left; dorsal view on right. This hand was discovered in articulation and all bones are represented except for the pisiform. The proportions of digits are humanlike and visually apparent, as are the expanded distal apical tufts on all digits, the robust pollical ray, and the unique first metacarpal morphology."
+                                                    }
+                                                ], 
+                                                "image": {
+                                                    "source": {
+                                                        "mediaType": "image/jpeg", 
+                                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig6-v1.tif/full/full/0/default.jpg", 
+                                                        "filename": "elife-09560-fig6-v1.jpg"
+                                                    }, 
+                                                    "alt": "", 
+                                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig6-v1.tif", 
+                                                    "size": {
+                                                        "width": 2750, 
+                                                        "height": 1782
+                                                    }
+                                                }
                                             }
-                                        ], 
-                                        "image": {
-                                            "source": {
-                                                "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig6-v1.tif/full/full/0/default.jpg", 
-                                                "filename": "elife-09560-fig6-v1.jpg"
-                                            }, 
-                                            "alt": "", 
-                                            "size": {
-                                                "width": 2750, 
-                                                "height": 1782
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig6-v1.tif", 
-                                            "filename": "elife-09560-fig6-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig6-v1.tif", 
-                                        "alt": ""
+                                        ]
                                     }, 
                                     {
-                                        "type": "image", 
-                                        "doi": "10.7554/eLife.09560.009", 
-                                        "id": "fig7", 
-                                        "label": "Figure 7.", 
-                                        "title": "U.W. 101-1391 paratype femur.", 
-                                        "caption": [
+                                        "type": "figure", 
+                                        "assets": [
                                             {
-                                                "type": "paragraph", 
-                                                "text": "(<b>A</b>) Medial view; (<b>B</b>) posterior view; (<b>C</b>) lateral view; (<b>D</b>) anterior view. The femur neck is relatively long and anteroposteriorly compressed. The anteversion of the neck is evident in medial view. Scale bar = 2 cm."
+                                                "type": "image", 
+                                                "doi": "10.7554/eLife.09560.009", 
+                                                "id": "fig7", 
+                                                "label": "Figure 7", 
+                                                "title": "U.W. 101-1391 paratype femur.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "(<b>A</b>) Medial view; (<b>B</b>) posterior view; (<b>C</b>) lateral view; (<b>D</b>) anterior view. The femur neck is relatively long and anteroposteriorly compressed. The anteversion of the neck is evident in medial view. Scale bar = 2 cm."
+                                                    }
+                                                ], 
+                                                "image": {
+                                                    "source": {
+                                                        "mediaType": "image/jpeg", 
+                                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig7-v1.tif/full/full/0/default.jpg", 
+                                                        "filename": "elife-09560-fig7-v1.jpg"
+                                                    }, 
+                                                    "alt": "", 
+                                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig7-v1.tif", 
+                                                    "size": {
+                                                        "width": 2750, 
+                                                        "height": 1835
+                                                    }
+                                                }
                                             }
-                                        ], 
-                                        "image": {
-                                            "source": {
-                                                "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig7-v1.tif/full/full/0/default.jpg", 
-                                                "filename": "elife-09560-fig7-v1.jpg"
-                                            }, 
-                                            "alt": "", 
-                                            "size": {
-                                                "width": 2750, 
-                                                "height": 1835
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig7-v1.tif", 
-                                            "filename": "elife-09560-fig7-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig7-v1.tif", 
-                                        "alt": ""
+                                        ]
                                     }, 
                                     {
-                                        "type": "image", 
-                                        "doi": "10.7554/eLife.09560.010", 
-                                        "id": "fig8", 
-                                        "label": "Figure 8.", 
-                                        "title": "U.W. 101-484 paratype tibia.", 
-                                        "caption": [
+                                        "type": "figure", 
+                                        "assets": [
                                             {
-                                                "type": "paragraph", 
-                                                "text": "(<b>A</b>) Anterior view; (<b>B</b>) medial view; (<b>C</b>) posterior view; (<b>D</b>) lateral view. The tibiae are notably slender for their length. Scale bar = 10 cm."
+                                                "type": "image", 
+                                                "doi": "10.7554/eLife.09560.010", 
+                                                "id": "fig8", 
+                                                "label": "Figure 8", 
+                                                "title": "U.W. 101-484 paratype tibia.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "(<b>A</b>) Anterior view; (<b>B</b>) medial view; (<b>C</b>) posterior view; (<b>D</b>) lateral view. The tibiae are notably slender for their length. Scale bar = 10 cm."
+                                                    }
+                                                ], 
+                                                "image": {
+                                                    "source": {
+                                                        "mediaType": "image/jpeg", 
+                                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig8-v1.tif/full/full/0/default.jpg", 
+                                                        "filename": "elife-09560-fig8-v1.jpg"
+                                                    }, 
+                                                    "alt": "", 
+                                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig8-v1.tif", 
+                                                    "size": {
+                                                        "width": 1415, 
+                                                        "height": 2055
+                                                    }
+                                                }
                                             }
-                                        ], 
-                                        "image": {
-                                            "source": {
-                                                "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig8-v1.tif/full/full/0/default.jpg", 
-                                                "filename": "elife-09560-fig8-v1.jpg"
-                                            }, 
-                                            "alt": "", 
-                                            "size": {
-                                                "width": 1415, 
-                                                "height": 2055
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig8-v1.tif", 
-                                            "filename": "elife-09560-fig8-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig8-v1.tif", 
-                                        "alt": ""
+                                        ]
                                     }, 
                                     {
-                                        "type": "image", 
-                                        "doi": "10.7554/eLife.09560.011", 
-                                        "id": "fig9", 
-                                        "label": "Figure 9.", 
-                                        "title": "Foot 1 in (<b>A</b>) dorsal view; and (<b>B</b>) medial view.", 
-                                        "caption": [
+                                        "type": "figure", 
+                                        "assets": [
                                             {
-                                                "type": "paragraph", 
-                                                "text": "(<b>C</b>) Proximal articular surfaces of the metatarsals of Foot 1, shown in articulation to illustrate transverse arch structure. Scale bar = 10 cm."
+                                                "type": "image", 
+                                                "doi": "10.7554/eLife.09560.011", 
+                                                "id": "fig9", 
+                                                "label": "Figure 9", 
+                                                "title": "Foot 1 in (<b>A</b>) dorsal view; and (<b>B</b>) medial view.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "(<b>C</b>) Proximal articular surfaces of the metatarsals of Foot 1, shown in articulation to illustrate transverse arch structure. Scale bar = 10 cm."
+                                                    }
+                                                ], 
+                                                "image": {
+                                                    "source": {
+                                                        "mediaType": "image/jpeg", 
+                                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig9-v1.tif/full/full/0/default.jpg", 
+                                                        "filename": "elife-09560-fig9-v1.jpg"
+                                                    }, 
+                                                    "alt": "", 
+                                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig9-v1.tif", 
+                                                    "size": {
+                                                        "width": 1415, 
+                                                        "height": 1122
+                                                    }
+                                                }
                                             }
-                                        ], 
-                                        "image": {
-                                            "source": {
-                                                "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig9-v1.tif/full/full/0/default.jpg", 
-                                                "filename": "elife-09560-fig9-v1.jpg"
-                                            }, 
-                                            "alt": "", 
-                                            "size": {
-                                                "width": 1415, 
-                                                "height": 1122
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig9-v1.tif", 
-                                            "filename": "elife-09560-fig9-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig9-v1.tif", 
-                                        "alt": ""
+                                        ]
                                     }
                                 ]
                             }, 
@@ -5417,89 +5455,109 @@
                         "text": "This comprehensive differential diagnosis is based upon cranial, dental and postcranial characters. The hypodigms used for other species are detailed in the \u2018Materials and methods\u2019. We examined original specimens for most species, except where indicated in the \u2018Materials and methods\u2019; when we relied on other sources for anatomical observations we indicate this. A summary of traits of <i>H. naledi</i> in comparison to other species is presented in <a href=\"#SD2-data\">Supplementary file 2</a>. Comparative cranial and mandibular measures are presented in <a href=\"#tbl1\">Table 1</a>, and comparative dental measures are provided in <a href=\"#tbl2\">Table 2</a>."
                     }, 
                     {
-                        "type": "table", 
-                        "doi": "10.7554/eLife.09560.012", 
-                        "id": "tbl1", 
-                        "label": "Table 1.", 
-                        "title": "Cranial and mandibular measurements for <i>H. naledi</i>, early hominins, and modern humans", 
-                        "tables": [
-                            "<table><thead><tr><th></th><th>Measurement definitions as in <a href=\"#bib70\">Wood (1991)</a></th><th><i>P. aethiopicus</i></th><th><i>P. boisei</i></th><th><i>P. robustus</i></th><th><i>Au. afarensis</i></th><th><i>Au. africanus</i></th><th><i>Au. sediba</i></th><th><i>H. naledi</i></th><th><i>H. habilis</i></th><th><i>H. rudolfensis</i></th><th><i>H. erectus</i></th><th>MP <i>Homo</i></th><th><i>H. sapiens</i></th></tr></thead><tbody><tr><td colspan=\"14\">Cranium</td></tr><tr><td>\u2003Cranial capacity</td><td>\u2013</td><td>410</td><td>485</td><td>493</td><td>457</td><td>467</td><td>420</td><td>513</td><td>610</td><td>776</td><td>865</td><td>1266</td><td>1330</td></tr><tr><td>\u2003Porion height</td><td>6</td><td>72</td><td>74</td><td>\u2013</td><td>86</td><td>70</td><td>67</td><td>81</td><td>77</td><td>90</td><td>94</td><td>101</td><td>112</td></tr><tr><td>\u2003Posterior cranial length</td><td>3</td><td>58</td><td>47</td><td>54</td><td>60</td><td>44</td><td>\u2013</td><td>65</td><td>60</td><td>70</td><td>79</td><td>99</td><td>81</td></tr><tr><td>\u2003Bi-parietal breadth</td><td>9</td><td>94</td><td>98</td><td>\u2013</td><td>90</td><td>99</td><td>100</td><td>103</td><td>107</td><td>118</td><td>129</td><td>142</td><td>132</td></tr><tr><td>\u2003Bi-temporal breadth</td><td>10</td><td>110</td><td>109</td><td>108</td><td>115</td><td>104</td><td>101</td><td>107</td><td>112</td><td>126</td><td>131</td><td>146</td><td>127</td></tr><tr><td>\u2003Closest approach of temporal lines</td><td>\u2013</td><td>crest<a href=\"#tblfn1\">*</a></td><td>crest<a href=\"#tblfn1\">*</a></td><td>crest<a href=\"#tblfn1\">*</a></td><td>crest<a href=\"#tblfn1\">*</a></td><td>21</td><td>56</td><td>52</td><td>35</td><td>51</td><td>72</td><td>101</td><td>96</td></tr><tr><td>\u2003Supraorbital height index</td><td>\u2013</td><td>46</td><td>53</td><td>50</td><td>51</td><td>60</td><td>56</td><td>56</td><td>64</td><td>59</td><td>56</td><td>62</td><td>71</td></tr><tr><td>\u2003Minimum post-orbital breadth</td><td>\u2013</td><td>62</td><td>66</td><td>70</td><td>77</td><td>67</td><td>70</td><td>68</td><td>75</td><td>78</td><td>89</td><td>96</td><td>97</td></tr><tr><td>\u2003Superior facial breadth</td><td>49</td><td>100</td><td>107</td><td>109</td><td>\u2013</td><td>95</td><td>86</td><td>86</td><td>97</td><td>113</td><td>110</td><td>124</td><td>107</td></tr><tr><td>\u2003Post-orbital constriction index<a href=\"#tblfn2\">\u2020</a></td><td>\u2013</td><td>62</td><td>61</td><td>64</td><td>\u2013</td><td>69</td><td>81</td><td>79</td><td>72</td><td>74</td><td>81</td><td>80</td><td>91</td></tr><tr><td>\u2003EAM area (as an ellipse)<a href=\"#tblfn3\">\u2021</a></td><td>\u2013</td><td>77</td><td>80</td><td>103</td><td>70</td><td>96</td><td>\u2013</td><td>38</td><td>76</td><td>\u2013</td><td>95</td><td>85</td><td>61</td></tr><tr><td>\u2003Root of zygomatic process origin</td><td>\u2013</td><td>P4</td><td>P4</td><td>P3 to M1</td><td>P4 to M1</td><td>P4 to M1</td><td>P4</td><td>P3 to P4</td><td>P4 to M1</td><td>P4 to M1</td><td>P4 to M1</td><td>M1</td><td>M1</td></tr><tr><td>\u2003Petromedian angle</td><td>137</td><td>50</td><td>45</td><td>50</td><td>31</td><td>33</td><td>\u2013</td><td>55</td><td>48</td><td>\u2013</td><td>52</td><td>55</td><td>46</td></tr><tr><td colspan=\"14\">Maxilloalveolar process</td></tr><tr><td>\u2003Maxilloalveolar length</td><td>87</td><td>94</td><td>78</td><td>69</td><td>67</td><td>71</td><td>63</td><td>57</td><td>65</td><td>68</td><td>66</td><td>69</td><td>55</td></tr><tr><td>\u2003Maxilloalveolar breadth</td><td>88</td><td>83</td><td>76</td><td>69</td><td>68</td><td>66</td><td>63</td><td>71</td><td>68</td><td>72</td><td>70</td><td>72</td><td>62</td></tr><tr><td>\u2003Palate breadth</td><td>91</td><td>32</td><td>40</td><td>35</td><td>30</td><td>36</td><td>29</td><td>44</td><td>38</td><td>40</td><td>38</td><td>56</td><td>40</td></tr><tr><td>\u2003Palate depth at incisive fossa</td><td>\u2013</td><td>3</td><td>11</td><td>10</td><td>10</td><td>9</td><td>10</td><td>5</td><td>10</td><td>13</td><td>11</td><td>10</td><td>9</td></tr><tr><td>\u2003Palate depth at M1</td><td>103</td><td>7</td><td>18</td><td>11</td><td>11</td><td>13</td><td>10</td><td>10</td><td>12</td><td>16</td><td>15</td><td>18</td><td>13</td></tr><tr><td colspan=\"14\">Mandible</td></tr><tr><td>\u2003Symphysis height</td><td>141</td><td>37</td><td>49</td><td>42</td><td>39</td><td>37</td><td>32</td><td>33</td><td>31</td><td>37</td><td>35</td><td>34</td><td>34</td></tr><tr><td>\u2003Symphysis width</td><td>142</td><td>26</td><td>28</td><td>25</td><td>20</td><td>21</td><td>18</td><td>18</td><td>20</td><td>24</td><td>18</td><td>17</td><td>14</td></tr><tr><td>\u2003Symphysis area at M1 (as an ellipse)<a href=\"#tblfn3\">\u2021</a></td><td>146</td><td>757</td><td>1114</td><td>835</td><td>623</td><td>606</td><td>452</td><td>467</td><td>393</td><td>723</td><td>519</td><td>474</td><td>365</td></tr><tr><td>\u2003Corpus height at M1</td><td>150</td><td>38</td><td>42</td><td>36</td><td>34</td><td>32</td><td>30</td><td>26</td><td>29</td><td>36</td><td>31</td><td>31</td><td>28</td></tr><tr><td>\u2003Corpus breadth at M1</td><td>151</td><td>25</td><td>29</td><td>26</td><td>20</td><td>21</td><td>18</td><td>16</td><td>20</td><td>22</td><td>19</td><td>19</td><td>13</td></tr><tr><td>\u2003Corpus area at M1 (as an ellipse)<a href=\"#tblfn3\">\u2021</a></td><td>152</td><td>742</td><td>955</td><td>736</td><td>540</td><td>539</td><td>405</td><td>326</td><td>425</td><td>631</td><td>458</td><td>469</td><td>296</td></tr><tr><td>\u2003Mental foramen height index<a href=\"#tblfn4\">\u00a7</a></td><td>\u2013</td><td>51</td><td>50</td><td>54</td><td>58</td><td>53</td><td>50</td><td>40</td><td>46</td><td>49</td><td>48</td><td>48</td><td>50</td></tr></tbody></table>"
-                        ], 
-                        "footnotes": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "id": "tblfn1", 
-                                "label": "*", 
-                                "text": [
+                                "type": "table", 
+                                "doi": "10.7554/eLife.09560.012", 
+                                "id": "tbl1", 
+                                "label": "Table 1", 
+                                "caption": [
                                     {
                                         "type": "paragraph", 
-                                        "text": "At least in presumed males."
+                                        "text": "Cranial and mandibular measurements for <i>H. naledi</i>, early hominins, and modern humans"
                                     }
-                                ]
-                            }, 
-                            {
-                                "id": "tblfn2", 
-                                "label": "\u2020", 
-                                "text": [
+                                ], 
+                                "tables": [
+                                    "<table><thead><tr><th></th><th>Measurement definitions as in <a href=\"#bib70\">Wood (1991)</a></th><th><i>P. aethiopicus</i></th><th><i>P. boisei</i></th><th><i>P. robustus</i></th><th><i>Au. afarensis</i></th><th><i>Au. africanus</i></th><th><i>Au. sediba</i></th><th><i>H. naledi</i></th><th><i>H. habilis</i></th><th><i>H. rudolfensis</i></th><th><i>H. erectus</i></th><th>MP <i>Homo</i></th><th><i>H. sapiens</i></th></tr></thead><tbody><tr><td colspan=\"14\">Cranium</td></tr><tr><td>\u2003Cranial capacity</td><td>\u2013</td><td>410</td><td>485</td><td>493</td><td>457</td><td>467</td><td>420</td><td>513</td><td>610</td><td>776</td><td>865</td><td>1266</td><td>1330</td></tr><tr><td>\u2003Porion height</td><td>6</td><td>72</td><td>74</td><td>\u2013</td><td>86</td><td>70</td><td>67</td><td>81</td><td>77</td><td>90</td><td>94</td><td>101</td><td>112</td></tr><tr><td>\u2003Posterior cranial length</td><td>3</td><td>58</td><td>47</td><td>54</td><td>60</td><td>44</td><td>\u2013</td><td>65</td><td>60</td><td>70</td><td>79</td><td>99</td><td>81</td></tr><tr><td>\u2003Bi-parietal breadth</td><td>9</td><td>94</td><td>98</td><td>\u2013</td><td>90</td><td>99</td><td>100</td><td>103</td><td>107</td><td>118</td><td>129</td><td>142</td><td>132</td></tr><tr><td>\u2003Bi-temporal breadth</td><td>10</td><td>110</td><td>109</td><td>108</td><td>115</td><td>104</td><td>101</td><td>107</td><td>112</td><td>126</td><td>131</td><td>146</td><td>127</td></tr><tr><td>\u2003Closest approach of temporal lines</td><td>\u2013</td><td>crest<a href=\"#tblfn1\">*</a></td><td>crest<a href=\"#tblfn1\">*</a></td><td>crest<a href=\"#tblfn1\">*</a></td><td>crest<a href=\"#tblfn1\">*</a></td><td>21</td><td>56</td><td>52</td><td>35</td><td>51</td><td>72</td><td>101</td><td>96</td></tr><tr><td>\u2003Supraorbital height index</td><td>\u2013</td><td>46</td><td>53</td><td>50</td><td>51</td><td>60</td><td>56</td><td>56</td><td>64</td><td>59</td><td>56</td><td>62</td><td>71</td></tr><tr><td>\u2003Minimum post-orbital breadth</td><td>\u2013</td><td>62</td><td>66</td><td>70</td><td>77</td><td>67</td><td>70</td><td>68</td><td>75</td><td>78</td><td>89</td><td>96</td><td>97</td></tr><tr><td>\u2003Superior facial breadth</td><td>49</td><td>100</td><td>107</td><td>109</td><td>\u2013</td><td>95</td><td>86</td><td>86</td><td>97</td><td>113</td><td>110</td><td>124</td><td>107</td></tr><tr><td>\u2003Post-orbital constriction index<a href=\"#tblfn2\">\u2020</a></td><td>\u2013</td><td>62</td><td>61</td><td>64</td><td>\u2013</td><td>69</td><td>81</td><td>79</td><td>72</td><td>74</td><td>81</td><td>80</td><td>91</td></tr><tr><td>\u2003EAM area (as an ellipse)<a href=\"#tblfn3\">\u2021</a></td><td>\u2013</td><td>77</td><td>80</td><td>103</td><td>70</td><td>96</td><td>\u2013</td><td>38</td><td>76</td><td>\u2013</td><td>95</td><td>85</td><td>61</td></tr><tr><td>\u2003Root of zygomatic process origin</td><td>\u2013</td><td>P4</td><td>P4</td><td>P3 to M1</td><td>P4 to M1</td><td>P4 to M1</td><td>P4</td><td>P3 to P4</td><td>P4 to M1</td><td>P4 to M1</td><td>P4 to M1</td><td>M1</td><td>M1</td></tr><tr><td>\u2003Petromedian angle</td><td>137</td><td>50</td><td>45</td><td>50</td><td>31</td><td>33</td><td>\u2013</td><td>55</td><td>48</td><td>\u2013</td><td>52</td><td>55</td><td>46</td></tr><tr><td colspan=\"14\">Maxilloalveolar process</td></tr><tr><td>\u2003Maxilloalveolar length</td><td>87</td><td>94</td><td>78</td><td>69</td><td>67</td><td>71</td><td>63</td><td>57</td><td>65</td><td>68</td><td>66</td><td>69</td><td>55</td></tr><tr><td>\u2003Maxilloalveolar breadth</td><td>88</td><td>83</td><td>76</td><td>69</td><td>68</td><td>66</td><td>63</td><td>71</td><td>68</td><td>72</td><td>70</td><td>72</td><td>62</td></tr><tr><td>\u2003Palate breadth</td><td>91</td><td>32</td><td>40</td><td>35</td><td>30</td><td>36</td><td>29</td><td>44</td><td>38</td><td>40</td><td>38</td><td>56</td><td>40</td></tr><tr><td>\u2003Palate depth at incisive fossa</td><td>\u2013</td><td>3</td><td>11</td><td>10</td><td>10</td><td>9</td><td>10</td><td>5</td><td>10</td><td>13</td><td>11</td><td>10</td><td>9</td></tr><tr><td>\u2003Palate depth at M1</td><td>103</td><td>7</td><td>18</td><td>11</td><td>11</td><td>13</td><td>10</td><td>10</td><td>12</td><td>16</td><td>15</td><td>18</td><td>13</td></tr><tr><td colspan=\"14\">Mandible</td></tr><tr><td>\u2003Symphysis height</td><td>141</td><td>37</td><td>49</td><td>42</td><td>39</td><td>37</td><td>32</td><td>33</td><td>31</td><td>37</td><td>35</td><td>34</td><td>34</td></tr><tr><td>\u2003Symphysis width</td><td>142</td><td>26</td><td>28</td><td>25</td><td>20</td><td>21</td><td>18</td><td>18</td><td>20</td><td>24</td><td>18</td><td>17</td><td>14</td></tr><tr><td>\u2003Symphysis area at M1 (as an ellipse)<a href=\"#tblfn3\">\u2021</a></td><td>146</td><td>757</td><td>1114</td><td>835</td><td>623</td><td>606</td><td>452</td><td>467</td><td>393</td><td>723</td><td>519</td><td>474</td><td>365</td></tr><tr><td>\u2003Corpus height at M1</td><td>150</td><td>38</td><td>42</td><td>36</td><td>34</td><td>32</td><td>30</td><td>26</td><td>29</td><td>36</td><td>31</td><td>31</td><td>28</td></tr><tr><td>\u2003Corpus breadth at M1</td><td>151</td><td>25</td><td>29</td><td>26</td><td>20</td><td>21</td><td>18</td><td>16</td><td>20</td><td>22</td><td>19</td><td>19</td><td>13</td></tr><tr><td>\u2003Corpus area at M1 (as an ellipse)<a href=\"#tblfn3\">\u2021</a></td><td>152</td><td>742</td><td>955</td><td>736</td><td>540</td><td>539</td><td>405</td><td>326</td><td>425</td><td>631</td><td>458</td><td>469</td><td>296</td></tr><tr><td>\u2003Mental foramen height index<a href=\"#tblfn4\">\u00a7</a></td><td>\u2013</td><td>51</td><td>50</td><td>54</td><td>58</td><td>53</td><td>50</td><td>40</td><td>46</td><td>49</td><td>48</td><td>48</td><td>50</td></tr></tbody></table>"
+                                ], 
+                                "footnotes": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "Post-orbital breadth/superior facial breadth \u00d7 100."
-                                    }
-                                ]
-                            }, 
-                            {
-                                "id": "tblfn3", 
-                                "label": "\u2021", 
-                                "text": [
+                                        "id": "tblfn1", 
+                                        "label": "*", 
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "At least in presumed males."
+                                            }
+                                        ]
+                                    }, 
                                     {
-                                        "type": "paragraph", 
-                                        "text": "Following the formula (\u03c0 \u00d7 (corpus height/2) \u00d7 (corpus breadth/2))."
-                                    }
-                                ]
-                            }, 
-                            {
-                                "id": "tblfn4", 
-                                "label": "\u00a7", 
-                                "text": [
+                                        "id": "tblfn2", 
+                                        "label": "\u2020", 
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Post-orbital breadth/superior facial breadth \u00d7 100."
+                                            }
+                                        ]
+                                    }, 
                                     {
-                                        "type": "paragraph", 
-                                        "text": "Height of mental foramen from alveolar border relative to corpus height at the mental foramen."
-                                    }
-                                ]
-                            }, 
-                            {
-                                "text": [
+                                        "id": "tblfn3", 
+                                        "label": "\u2021", 
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Following the formula (\u03c0 \u00d7 (corpus height/2) \u00d7 (corpus breadth/2))."
+                                            }
+                                        ]
+                                    }, 
                                     {
-                                        "type": "paragraph", 
-                                        "text": "MP, Middle Pleistocene."
-                                    }
-                                ]
-                            }, 
-                            {
-                                "text": [
+                                        "id": "tblfn4", 
+                                        "label": "\u00a7", 
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Height of mental foramen from alveolar border relative to corpus height at the mental foramen."
+                                            }
+                                        ]
+                                    }, 
                                     {
-                                        "type": "paragraph", 
-                                        "text": "Unless otherwise indicated measurements are defined as in <a href=\"#bib70\">Wood (1991)</a>. Chord distances are in mm. Data for <i>H. naledi</i> collected from original fossils or laser scans by DJdeR and HMG; comparative data collected by DJdeR on original fossils and casts and supplemented by data from <a href=\"#bib70\">Wood (1991)</a>."
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "MP, Middle Pleistocene."
+                                            }
+                                        ]
+                                    }, 
+                                    {
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Unless otherwise indicated measurements are defined as in <a href=\"#bib70\">Wood (1991)</a>. Chord distances are in mm. Data for <i>H. naledi</i> collected from original fossils or laser scans by DJdeR and HMG; comparative data collected by DJdeR on original fossils and casts and supplemented by data from <a href=\"#bib70\">Wood (1991)</a>."
+                                            }
+                                        ]
                                     }
                                 ]
                             }
                         ]
                     }, 
                     {
-                        "type": "table", 
-                        "doi": "10.7554/eLife.09560.013", 
-                        "id": "tbl2", 
-                        "label": "Table 2.", 
-                        "title": "Dental measures for <i>H. naledi</i> and comparative hominin species", 
-                        "tables": [
-                            "<table><thead><tr><th colspan=\"18\">Maxillary</th></tr><tr><th></th><th></th><th colspan=\"2\">I<sup>1</sup></th><th colspan=\"2\">I<sup>2</sup></th><th colspan=\"2\">C</th><th colspan=\"2\">P<sup>3</sup></th><th colspan=\"2\">P<sup>4</sup></th><th colspan=\"2\">M<sup>1</sup></th><th colspan=\"2\">M<sup>2</sup></th><th colspan=\"2\">M<sup>3</sup></th></tr><tr><th></th><th></th><th>MD</th><th>LL</th><th>MD</th><th>LL</th><th>MD</th><th>LL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th></tr></thead><tbody><tr><td rowspan=\"3\"><i>Au. anamensis</i></td><td>n</td><td>3</td><td>5</td><td>\u2013</td><td>2</td><td>6</td><td>7</td><td>7</td><td>6</td><td>5</td><td>3</td><td>12</td><td>10</td><td>10</td><td>8</td><td>9</td><td>8</td></tr><tr><td>mean</td><td>10.8</td><td>8.7</td><td>\u2013</td><td>7.3</td><td>11.0</td><td>10.6</td><td>9.9</td><td>12.6</td><td>8.9</td><td>13.6</td><td>11.5</td><td>12.9</td><td>13.0</td><td>14.4</td><td>12.5</td><td>14.2</td></tr><tr><td>range</td><td>9.1\u201312.4</td><td>8.2\u20139.3</td><td>\u2013</td><td>7.0\u20137.5</td><td>9.9\u201312.3</td><td>9.1\u201311.8</td><td>8.2\u201311.8</td><td>10.1\u201314.3</td><td>7.2\u201312.1</td><td>12.6\u201314.2</td><td>7.8\u201314.3</td><td>9.0\u201316.7</td><td>10.9\u201316.3</td><td>12.9\u201316.1</td><td>11.1\u201315.7</td><td>13.0\u201315.7</td></tr><tr><td rowspan=\"3\"><i>Au. afarensis</i></td><td>n</td><td>7</td><td>8</td><td>9</td><td>9</td><td>15</td><td>15</td><td>12</td><td>10</td><td>18</td><td>12</td><td>16</td><td>13</td><td>10</td><td>11</td><td>11</td><td>11</td></tr><tr><td>mean</td><td>10.7</td><td>8.4</td><td>7.5</td><td>7.2</td><td>9.9</td><td>10.8</td><td>8.8</td><td>12.4</td><td>9.1</td><td>12.4</td><td>12.0</td><td>13.4</td><td>12.9</td><td>14.6</td><td>12.7</td><td>14.5</td></tr><tr><td>range</td><td>9.9\u201311.8</td><td>7.1\u20139.7</td><td>6.6\u20138.2</td><td>6.2\u20138.1</td><td>8.8\u201311.6</td><td>9.3\u201312.5</td><td>7.7\u20139.7</td><td>11.3\u201313.4</td><td>7.6\u201310.8</td><td>11.1\u201314.5</td><td>10.5\u201313.8</td><td>12.0\u201315.0</td><td>12.1\u201313.6</td><td>13.4\u201315.2</td><td>10.9\u201314.8</td><td>13.1\u201316.3</td></tr><tr><td rowspan=\"3\"><i>Au. africanus</i></td><td>n</td><td>15</td><td>15</td><td>11</td><td>10</td><td>16</td><td>13</td><td>26</td><td>25</td><td>20</td><td>20</td><td>21</td><td>20</td><td>23</td><td>24</td><td>27</td><td>28</td></tr><tr><td>mean</td><td>10.7</td><td>8.3</td><td>6.9</td><td>6.8</td><td>9.9</td><td>10.3</td><td>9.2</td><td>12.7</td><td>9.5</td><td>13.4</td><td>12.9</td><td>13.9</td><td>14.1</td><td>15.7</td><td>14.2</td><td>16.0</td></tr><tr><td>range</td><td>9.4\u201312.5</td><td>7.4\u20139.1</td><td>5.8\u20138.0</td><td>5.6\u20137.9</td><td>8.8\u201311.0</td><td>8.7\u201312.0</td><td>8.5\u201310.2</td><td>10.7\u201314.5</td><td>7.2\u201311.0</td><td>12.4\u201315.3</td><td>11.7\u201314.4</td><td>12.9\u201315.3</td><td>12.1\u201316.3</td><td>12.8\u201317.9</td><td>11.2\u201316.9</td><td>13.1\u201318.6</td></tr><tr><td rowspan=\"3\"><i>Au. sediba</i></td><td>n</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td></tr><tr><td>mean</td><td>10.1</td><td>6.9</td><td>7.2</td><td>6.6</td><td>9.0</td><td>8.8</td><td>9.0</td><td>11.2</td><td>9.3</td><td>12.1</td><td>12.9</td><td>12.0</td><td>12.9</td><td>13.7</td><td>13.0</td><td>13.5</td></tr><tr><td>range</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>12.6\u201313.3</td><td>12.9\u201314.1</td></tr><tr><td rowspan=\"3\"><i>H. naledi</i></td><td>n</td><td>\u2013</td><td>5</td><td>4</td><td>8</td><td>10</td><td>9</td><td>10</td><td>10</td><td>7</td><td>7</td><td>12</td><td>13</td><td>11</td><td>9</td><td>7</td><td>7</td></tr><tr><td>mean</td><td>9.4</td><td>6.5</td><td>6.6</td><td>6.2</td><td>8.1</td><td>8.6</td><td>8.0</td><td>10.5</td><td>8.1</td><td>11.0</td><td>11.6</td><td>11.7</td><td>12.2</td><td>12.8</td><td>11.6</td><td>12.4</td></tr><tr><td>range</td><td>8.8\u20139.8</td><td>6.3\u20137.0</td><td>6.3\u20137.0</td><td>5.8\u20136.6</td><td>7.3\u20138.9</td><td>8.0\u20139.6</td><td>7.7\u20138.4</td><td>9.8\u201311.0</td><td>7.7\u20138.7</td><td>10.5\u201311.2</td><td>10.5\u201312.4</td><td>11.2\u201312.4</td><td>11.0\u201313.0</td><td>11.9\u201313.6</td><td>11.0\u201312.7</td><td>11.4\u201313.4</td></tr><tr><td rowspan=\"3\"><i>H. habilis</i></td><td>n</td><td>2</td><td>2</td><td>4</td><td>4</td><td>2</td><td>3</td><td>7</td><td>7</td><td>8</td><td>8</td><td>13</td><td>13</td><td>7</td><td>7</td><td>7</td><td>7</td></tr><tr><td>mean</td><td>10.6</td><td>8.0</td><td>7.4</td><td>6.6</td><td>9.0</td><td>9.8</td><td>9.0</td><td>11.9</td><td>9.2</td><td>12.1</td><td>12.7</td><td>13.0</td><td>12.7</td><td>14.3</td><td>12.3</td><td>14.7</td></tr><tr><td>range</td><td>10.1\u201311.1</td><td>7.3\u20138.7</td><td>6.7\u20138.1</td><td>6.0\u20137.9</td><td>8.5\u20139.4</td><td>8.5\u201311.6</td><td>8.1\u20139.6</td><td>11.0\u201312.7</td><td>8.5\u20139.9</td><td>11.0\u201313.1</td><td>11.6\u201313.9</td><td>12.1\u201314.1</td><td>11.8\u201313.5</td><td>13.5\u201316.2</td><td>11.3\u201313.9</td><td>13.2\u201316.6</td></tr><tr><td rowspan=\"3\"><i>H. rudolfensis</i></td><td>n</td><td>1</td><td>1</td><td>\u2013</td><td>\u2013</td><td>1</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>1</td><td>1</td></tr><tr><td>mean</td><td>12.3</td><td>7.7</td><td>\u2013</td><td>\u2013</td><td>11.5</td><td>12.5</td><td>10.5</td><td>13.6</td><td>10.2</td><td>12.5</td><td>14.0</td><td>14.0</td><td>14.3</td><td>15.8</td><td>13.3</td><td>13.5</td></tr><tr><td>range</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>9.7\u201310.7</td><td>11.1\u201313.8</td><td>13.9\u201314.2</td><td>13.3\u201314.8</td><td>14.1\u201314.6</td><td>14.1\u201317.6</td><td>\u2013</td><td>\u2013</td></tr><tr><td rowspan=\"3\"><i>H. erectus</i></td><td>n</td><td>11</td><td>12</td><td>6</td><td>6</td><td>12</td><td>12</td><td>27</td><td>27</td><td>30</td><td>29</td><td>34</td><td>32</td><td>22</td><td>22</td><td>16</td><td>16</td></tr><tr><td>mean</td><td>10.3</td><td>8.1</td><td>7.7</td><td>8.0</td><td>9.5</td><td>10.0</td><td>8.5</td><td>11.8</td><td>8.1</td><td>11.6</td><td>12.2</td><td>13.2</td><td>12.0</td><td>13.3</td><td>10.5</td><td>12.8</td></tr><tr><td>range</td><td>8.1\u201312.6</td><td>7.0\u201311.7</td><td>6.0\u20138.3</td><td>6.9\u20138.5</td><td>8.5\u201311.1</td><td>9.0\u201311.8</td><td>7.1\u201310.1</td><td>9.5\u201313.8</td><td>7.0\u20139.4</td><td>9.9\u201313.4</td><td>10.1\u201314.6</td><td>11.0\u201315.9</td><td>10.3\u201313.6</td><td>10.9\u201315.5</td><td>8.7\u201314.7</td><td>10.4\u201315.8</td></tr><tr><td rowspan=\"3\"><i>H. neanderthalensis</i></td><td>n</td><td>28</td><td>37</td><td>35</td><td>41</td><td>28</td><td>29</td><td>16</td><td>17</td><td>21</td><td>19</td><td>23</td><td>24</td><td>27</td><td>28</td><td>22</td><td>21</td></tr><tr><td>mean</td><td>9.7</td><td>8.5</td><td>8.0</td><td>8.4</td><td>8.8</td><td>10.1</td><td>8.0</td><td>10.6</td><td>7.8</td><td>10.6</td><td>11.6</td><td>12.3</td><td>10.9</td><td>12.5</td><td>9.9</td><td>12.3</td></tr><tr><td>range</td><td>8.2\u201311.8</td><td>7.3\u20139.9</td><td>5.8\u20139.3</td><td>5.8\u20139.9</td><td>7.2\u201310.0</td><td>7.6\u201311.4</td><td>6.6\u20139.3</td><td>8.4\u201311.8</td><td>5.9\u201311.5</td><td>8.3\u201311.7</td><td>9.5\u201313.5</td><td>11.0\u201314.2</td><td>8.9\u201315.9</td><td>10.8\u201314.6</td><td>8.2\u201311.4</td><td>9.8\u201314.6</td></tr><tr><td rowspan=\"3\"><i>H. heidelbergensis</i></td><td>n</td><td>21</td><td>23</td><td>19</td><td>21</td><td>27</td><td>29</td><td>25</td><td>25</td><td>22</td><td>23</td><td>25</td><td>24</td><td>24</td><td>23</td><td>26</td><td>27</td></tr><tr><td>mean</td><td>9.6</td><td>7.8</td><td>7.7</td><td>7.8</td><td>8.8</td><td>9.8</td><td>7.9</td><td>10.6</td><td>7.6</td><td>10.3</td><td>11.2</td><td>11.9</td><td>10.2</td><td>12.3</td><td>8.9</td><td>11.6</td></tr><tr><td>range</td><td>8.7\u201310.7</td><td>7.1\u20139.9</td><td>7.2\u20138.4</td><td>7.3\u20138.6</td><td>8.1\u201311.0</td><td>8.8\u201311.8</td><td>7.1\u20139.0</td><td>9.2\u201312.2</td><td>7.0\u20138.8</td><td>9.1\u201311.5</td><td>9.9\u201312.3</td><td>10.3\u201313.2</td><td>8.1\u201312.1</td><td>11.1\u201313.8</td><td>7.6\u201311.0</td><td>10.0\u201313.2</td></tr><tr><td rowspan=\"3\">MP/LP African Homo</td><td>n</td><td>6</td><td>6</td><td>7</td><td>8</td><td>4</td><td>4</td><td>6</td><td>6</td><td>10</td><td>10</td><td>14</td><td>14</td><td>20</td><td>20</td><td>9</td><td>9</td></tr><tr><td>mean</td><td>9.0</td><td>7.8</td><td>7.4</td><td>7.2</td><td>8.9</td><td>9.7</td><td>8.4</td><td>10.8</td><td>8.1</td><td>10.8</td><td>12.3</td><td>13.2</td><td>11.0</td><td>12.9</td><td>9.2</td><td>11.7</td></tr><tr><td>range</td><td>6.3\u201310.9</td><td>6.6\u20138.7</td><td>6.0\u20139.3</td><td>6.1\u20138.5</td><td>8.2\u20139.5</td><td>8.8\u201310.0</td><td>8.1\u20138.7</td><td>9.9\u201311.8</td><td>7.5\u20139.3</td><td>9.4\u201312.8</td><td>10.4\u201314.0</td><td>12.0\u201315.0</td><td>7.8\u201313.0</td><td>11.0\u201315.0</td><td>7.6\u201310.2</td><td>10.0\u201313.2</td></tr></tbody></table>", 
-                            "<table><thead><tr><th colspan=\"18\">Mandibular</th></tr><tr><th></th><th></th><th colspan=\"2\">I<sub>1</sub></th><th colspan=\"2\">I<sub>2</sub></th><th colspan=\"2\">C</th><th colspan=\"2\">P<sub>3</sub></th><th colspan=\"2\">P<sub>4</sub></th><th colspan=\"2\">M<sub>1</sub></th><th colspan=\"2\">M<sub>2</sub></th><th colspan=\"2\">M<sub>3</sub></th></tr><tr><th></th><th></th><th>MD</th><th>LL</th><th>MD</th><th>LL</th><th>MD</th><th>LL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th></tr></thead><tbody><tr><td rowspan=\"3\"><i>Au. anamensis</i></td><td>n</td><td>2</td><td>1</td><td>4</td><td>3</td><td>7</td><td>7</td><td>8</td><td>8</td><td>8</td><td>8</td><td>9</td><td>10</td><td>7</td><td>7</td><td>8</td><td>8</td></tr><tr><td>mean</td><td>6.9</td><td>7.4</td><td>7.8</td><td>8.3</td><td>10.0</td><td>10.4</td><td>12.4</td><td>9.2</td><td>9.1</td><td>11.3</td><td>12.9</td><td>12.3</td><td>14.0</td><td>13.4</td><td>15.3</td><td>13.4</td></tr><tr><td>range</td><td>6.8\u20136.9</td><td>\u2013</td><td>6.6\u20138.7</td><td>7.9\u20138.6</td><td>6.6\u201313.9</td><td>9.2\u201311.4</td><td>11.3\u201313.4</td><td>8.6\u201310.0</td><td>7.4\u20139.8</td><td>9.6\u201313.2</td><td>11.6\u201313.8</td><td>10.2\u201314.8</td><td>13.0\u201315.9</td><td>12.3\u201314.9</td><td>13.7\u201317.0</td><td>12.1\u201315.2</td></tr><tr><td rowspan=\"3\"><i>Au. afarensis</i></td><td>n</td><td>7</td><td>8</td><td>7</td><td>6</td><td>13</td><td>16</td><td>27</td><td>26</td><td>24</td><td>21</td><td>32</td><td>26</td><td>31</td><td>27</td><td>26</td><td>23</td></tr><tr><td>mean</td><td>6.7</td><td>7.1</td><td>6.7</td><td>8.0</td><td>8.8</td><td>10.4</td><td>9.6</td><td>10.6</td><td>9.8</td><td>11.0</td><td>13.1</td><td>12.6</td><td>14.3</td><td>13.4</td><td>15.3</td><td>13.5</td></tr><tr><td>range</td><td>5.6\u20137.7</td><td>5.6\u20138.0</td><td>5.0\u20138.0</td><td>6.7\u20138.8</td><td>7.5\u201311.7</td><td>8.0\u201312.4</td><td>7.9\u201312.6</td><td>8.9\u201313.8</td><td>7.7\u201311.4</td><td>9.8\u201312.8</td><td>10.1\u201314.8</td><td>11.0\u201314.0</td><td>12.1\u201316.5</td><td>11.1\u201315.2</td><td>13.4\u201318.1</td><td>11.3\u201315.3</td></tr><tr><td rowspan=\"3\"><i>Au. africanus</i></td><td>n</td><td>11</td><td>12</td><td>12</td><td>13</td><td>23</td><td>25</td><td>20</td><td>21</td><td>25</td><td>23</td><td>29</td><td>32</td><td>38</td><td>38</td><td>34</td><td>35</td></tr><tr><td>mean</td><td>6.2</td><td>6.7</td><td>7.2</td><td>7.9</td><td>9.4</td><td>10.1</td><td>9.7</td><td>11.5</td><td>10.4</td><td>11.6</td><td>14.0</td><td>13.0</td><td>15.7</td><td>14.5</td><td>16.3</td><td>14.6</td></tr><tr><td>range</td><td>4.8\u20136.9</td><td>5.7\u20137.9</td><td>5.6\u20138.1</td><td>6.6\u20139.2</td><td>8.5\u201310.7</td><td>8.2\u201312.1</td><td>8.8\u201311.0</td><td>9.9\u201313.9</td><td>8.7\u201312.3</td><td>9.3\u201313.2</td><td>12.4\u201315.8</td><td>11.2\u201315.1</td><td>14.2\u201317.7</td><td>12.8\u201316.8</td><td>13.5\u201318.5</td><td>12.2\u201316.8</td></tr><tr><td rowspan=\"3\"><i>Au. sediba</i></td><td>n</td><td>\u2013</td><td>1</td><td>\u2013</td><td>1</td><td>2</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr><tr><td>mean</td><td>\u2013</td><td>5.9</td><td>\u2013</td><td>6.6</td><td>7.7</td><td>8.0</td><td>8.1</td><td>9.2</td><td>8.8</td><td>9.7</td><td>13.1</td><td>11.4</td><td>14.5</td><td>12.8</td><td>14.9</td><td>13.2</td></tr><tr><td>range</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>7.3\u20138.0</td><td>7.4\u20138.6</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>13.1\u201313.1</td><td>11.3\u201311.5</td><td>14.4\u201314.5</td><td>12.3\u201313.2</td><td>14.9\u201314.9</td><td>12.5\u201313.6</td></tr><tr><td rowspan=\"3\"><i>H. naledi</i></td><td>n</td><td>7</td><td>7</td><td>5</td><td>6</td><td>7</td><td>7</td><td>9</td><td>10</td><td>6</td><td>6</td><td>11</td><td>11</td><td>9</td><td>9</td><td>6</td><td>5</td></tr><tr><td>mean</td><td>6.1</td><td>5.4</td><td>6.9</td><td>5.9</td><td>7.1</td><td>7.1</td><td>9.0</td><td>8.8</td><td>8.7</td><td>9.1</td><td>12.2</td><td>10.7</td><td>13.3</td><td>11.2</td><td>13.4</td><td>12.1</td></tr><tr><td>range</td><td>5.7\u20137.0</td><td>5.3\u20135.9</td><td>6.6\u20137.4</td><td>5.9\u20136.0</td><td>6.4\u20137.5</td><td>6.9\u20137.4</td><td>8.2\u20139.4</td><td>8.2\u20139.7</td><td>8.3\u20139.0</td><td>8.5\u201310.2</td><td>11.3\u201312.7</td><td>10.3\u201311.4</td><td>12.3\u201314.0</td><td>10.7\u201312.2</td><td>12.9\u201313.7</td><td>11.7\u201312.8</td></tr><tr><td rowspan=\"3\"><i>H. habilis</i></td><td>n</td><td>2</td><td>2</td><td>2</td><td>2</td><td>3</td><td>2</td><td>4</td><td>4</td><td>3</td><td>3</td><td>5</td><td>5</td><td>4</td><td>4</td><td>4</td><td>4</td></tr><tr><td>mean</td><td>6.4</td><td>6.8</td><td>7.4</td><td>7.6</td><td>8.7</td><td>9.0</td><td>9.6</td><td>9.6</td><td>9.9</td><td>10.5</td><td>13.7</td><td>11.9</td><td>15.0</td><td>13.5</td><td>15.4</td><td>13.3</td></tr><tr><td>range</td><td>6.4\u20136.5</td><td>6.7\u20137.0</td><td>7.2\u20137.7</td><td>7.6\u20137.6</td><td>7.6\u20139.6</td><td>7.9\u201310.0</td><td>9.0\u201310.6</td><td>8.6\u201311.1</td><td>9.0\u201310.5</td><td>9.9\u201311.0</td><td>13.0\u201314.8</td><td>10.9\u201312.8</td><td>14.2\u201315.7</td><td>12.0\u201315.1</td><td>14.8\u201315.9</td><td>12.4\u201314.4</td></tr><tr><td rowspan=\"3\"><i>H. rudolfensis</i></td><td>n</td><td>\u2013</td><td>1</td><td>\u2013</td><td>1</td><td>\u2013</td><td>1</td><td>3</td><td>3</td><td>6</td><td>6</td><td>5</td><td>5</td><td>6</td><td>5</td><td>3</td><td>3</td></tr><tr><td>mean</td><td>\u2013</td><td>5.4</td><td>\u2013</td><td>6.7</td><td>\u2013</td><td>8.3</td><td>9.9</td><td>11.1</td><td>10.1</td><td>11.4</td><td>14.0</td><td>12.7</td><td>16.0</td><td>13.7</td><td>16.4</td><td>14.1</td></tr><tr><td>range</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>9.0\u201310.7</td><td>9.5\u201312.3</td><td>8.8\u201311.8</td><td>9.8\u201312.2</td><td>12.8\u201315.2</td><td>11.4\u201313.2</td><td>14.0\u201318.3</td><td>12.7\u201314.9</td><td>15.6\u201317.0</td><td>13.1\u201314.6</td></tr><tr><td rowspan=\"3\"><i>H. erectus</i></td><td>n</td><td>11</td><td>12</td><td>14</td><td>16</td><td>14</td><td>16</td><td>30</td><td>30</td><td>25</td><td>26</td><td>43</td><td>43</td><td>41</td><td>40</td><td>26</td><td>27</td></tr><tr><td>mean</td><td>6.2</td><td>6.4</td><td>7</td><td>7.2</td><td>8.7</td><td>9</td><td>9</td><td>10.1</td><td>8.7</td><td>10.1</td><td>12.7</td><td>11.9</td><td>13.3</td><td>12.5</td><td>12.7</td><td>11.7</td></tr><tr><td>range</td><td>4.8\u20137.4</td><td>5.8\u20137.1</td><td>5.3\u20138.1</td><td>6.4\u20138.5</td><td>7.0\u201310.3</td><td>8.0\u201310.4</td><td>7.0\u201312.0</td><td>8.2\u201312.0</td><td>7.2\u201310.3</td><td>8.0\u201312.5</td><td>9.9\u201314.8</td><td>10.1\u201313.3</td><td>11.3\u201315.3</td><td>10.8\u201314.3</td><td>10.0\u201315.2</td><td>10.0\u201314.2</td></tr><tr><td rowspan=\"3\"><i>H. neanderthalensis</i></td><td>n</td><td>9</td><td>16</td><td>23</td><td>31</td><td>36</td><td>41</td><td>20</td><td>21</td><td>23</td><td>25</td><td>38</td><td>40</td><td>26</td><td>27</td><td>18</td><td>20</td></tr><tr><td>mean</td><td>5.6</td><td>7.2</td><td>6.8</td><td>7.8</td><td>7.8</td><td>8.8</td><td>7.9</td><td>9.1</td><td>7.8</td><td>9.4</td><td>11.8</td><td>11.1</td><td>12.1</td><td>11.3</td><td>12.0</td><td>11.0</td></tr><tr><td>range</td><td>4.2\u20136.4</td><td>5.2\u20138.8</td><td>5.9\u20137.5</td><td>6.8\u20139.0</td><td>6.7\u20138.8</td><td>6.8\u201310.3</td><td>6.6\u20139.1</td><td>8.0\u201310.3</td><td>6.5\u20139.4</td><td>8.5\u201310.5</td><td>10.1\u201313.6</td><td>10.2\u201312.9</td><td>9.3\u201314.0</td><td>8.8\u201312.4</td><td>11.2\u201313.9</td><td>9.9\u201312.2</td></tr><tr><td rowspan=\"3\"><i>H. heidelbergensis</i></td><td>n</td><td>21</td><td>22</td><td>19</td><td>20</td><td>23</td><td>24</td><td>22</td><td>22</td><td>26</td><td>26</td><td>29</td><td>29</td><td>29</td><td>29</td><td>32</td><td>32</td></tr><tr><td>mean</td><td>5.6</td><td>6.7</td><td>6.5</td><td>7.3</td><td>7.6</td><td>8.7</td><td>7.9</td><td>8.9</td><td>7.2</td><td>8.7</td><td>11.3</td><td>10.6</td><td>11.2</td><td>10.5</td><td>11.5</td><td>10.0</td></tr><tr><td>range</td><td>4.8\u20136.5</td><td>6.0\u20137.5</td><td>6.0\u20137.2</td><td>6.6\u20138.0</td><td>6.9\u20139.0</td><td>7.3\u201310.0</td><td>7.2\u20139.0</td><td>7.6\u201311.6</td><td>6.6\u20138.8</td><td>7.2\u201311.7</td><td>10.4\u201313.8</td><td>9.6\u201313.0</td><td>9.7\u201314.6</td><td>8.5\u201313.9</td><td>9.7\u201313.2</td><td>8.6\u201312.5</td></tr><tr><td rowspan=\"3\">MP/LP African Homo</td><td>n</td><td>5</td><td>5</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>12</td><td>9</td><td>16</td><td>16</td><td>20</td><td>20</td><td>13</td><td>13</td></tr><tr><td>mean</td><td>6.0</td><td>6.8</td><td>6.8</td><td>7.2</td><td>8.8</td><td>9.6</td><td>8.6</td><td>9.8</td><td>8.6</td><td>10.3</td><td>13.1</td><td>11.8</td><td>12.5</td><td>11.7</td><td>12.4</td><td>11.5</td></tr><tr><td>range</td><td>5.7\u20136.4</td><td>6.1\u20137.2</td><td>5.6\u20138.3</td><td>6.4\u20138.0</td><td>7.8\u201310.0</td><td>8.8\u201310.3</td><td>7.7\u20139.0</td><td>8.6\u201311.2</td><td>6.9\u20139.6</td><td>9.3\u201311.4</td><td>10.7\u201314.2</td><td>10.0\u201313.0</td><td>10.8\u201315.0</td><td>9.2\u201313.6</td><td>10.6\u201313.5</td><td>9.9\u201312.7</td></tr></tbody></table>"
-                        ], 
-                        "footnotes": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "text": [
+                                "type": "table", 
+                                "doi": "10.7554/eLife.09560.013", 
+                                "id": "tbl2", 
+                                "label": "Table 2", 
+                                "caption": [
                                     {
                                         "type": "paragraph", 
-                                        "text": "MP, Middle Pleistocene and LP, Late Pleistocene."
+                                        "text": "Dental measures for <i>H. naledi</i> and comparative hominin species"
+                                    }
+                                ], 
+                                "tables": [
+                                    "<table><thead><tr><th colspan=\"18\">Maxillary</th></tr><tr><th></th><th></th><th colspan=\"2\">I<sup>1</sup></th><th colspan=\"2\">I<sup>2</sup></th><th colspan=\"2\">C</th><th colspan=\"2\">P<sup>3</sup></th><th colspan=\"2\">P<sup>4</sup></th><th colspan=\"2\">M<sup>1</sup></th><th colspan=\"2\">M<sup>2</sup></th><th colspan=\"2\">M<sup>3</sup></th></tr><tr><th></th><th></th><th>MD</th><th>LL</th><th>MD</th><th>LL</th><th>MD</th><th>LL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th></tr></thead><tbody><tr><td rowspan=\"3\"><i>Au. anamensis</i></td><td>n</td><td>3</td><td>5</td><td>\u2013</td><td>2</td><td>6</td><td>7</td><td>7</td><td>6</td><td>5</td><td>3</td><td>12</td><td>10</td><td>10</td><td>8</td><td>9</td><td>8</td></tr><tr><td>mean</td><td>10.8</td><td>8.7</td><td>\u2013</td><td>7.3</td><td>11.0</td><td>10.6</td><td>9.9</td><td>12.6</td><td>8.9</td><td>13.6</td><td>11.5</td><td>12.9</td><td>13.0</td><td>14.4</td><td>12.5</td><td>14.2</td></tr><tr><td>range</td><td>9.1\u201312.4</td><td>8.2\u20139.3</td><td>\u2013</td><td>7.0\u20137.5</td><td>9.9\u201312.3</td><td>9.1\u201311.8</td><td>8.2\u201311.8</td><td>10.1\u201314.3</td><td>7.2\u201312.1</td><td>12.6\u201314.2</td><td>7.8\u201314.3</td><td>9.0\u201316.7</td><td>10.9\u201316.3</td><td>12.9\u201316.1</td><td>11.1\u201315.7</td><td>13.0\u201315.7</td></tr><tr><td rowspan=\"3\"><i>Au. afarensis</i></td><td>n</td><td>7</td><td>8</td><td>9</td><td>9</td><td>15</td><td>15</td><td>12</td><td>10</td><td>18</td><td>12</td><td>16</td><td>13</td><td>10</td><td>11</td><td>11</td><td>11</td></tr><tr><td>mean</td><td>10.7</td><td>8.4</td><td>7.5</td><td>7.2</td><td>9.9</td><td>10.8</td><td>8.8</td><td>12.4</td><td>9.1</td><td>12.4</td><td>12.0</td><td>13.4</td><td>12.9</td><td>14.6</td><td>12.7</td><td>14.5</td></tr><tr><td>range</td><td>9.9\u201311.8</td><td>7.1\u20139.7</td><td>6.6\u20138.2</td><td>6.2\u20138.1</td><td>8.8\u201311.6</td><td>9.3\u201312.5</td><td>7.7\u20139.7</td><td>11.3\u201313.4</td><td>7.6\u201310.8</td><td>11.1\u201314.5</td><td>10.5\u201313.8</td><td>12.0\u201315.0</td><td>12.1\u201313.6</td><td>13.4\u201315.2</td><td>10.9\u201314.8</td><td>13.1\u201316.3</td></tr><tr><td rowspan=\"3\"><i>Au. africanus</i></td><td>n</td><td>15</td><td>15</td><td>11</td><td>10</td><td>16</td><td>13</td><td>26</td><td>25</td><td>20</td><td>20</td><td>21</td><td>20</td><td>23</td><td>24</td><td>27</td><td>28</td></tr><tr><td>mean</td><td>10.7</td><td>8.3</td><td>6.9</td><td>6.8</td><td>9.9</td><td>10.3</td><td>9.2</td><td>12.7</td><td>9.5</td><td>13.4</td><td>12.9</td><td>13.9</td><td>14.1</td><td>15.7</td><td>14.2</td><td>16.0</td></tr><tr><td>range</td><td>9.4\u201312.5</td><td>7.4\u20139.1</td><td>5.8\u20138.0</td><td>5.6\u20137.9</td><td>8.8\u201311.0</td><td>8.7\u201312.0</td><td>8.5\u201310.2</td><td>10.7\u201314.5</td><td>7.2\u201311.0</td><td>12.4\u201315.3</td><td>11.7\u201314.4</td><td>12.9\u201315.3</td><td>12.1\u201316.3</td><td>12.8\u201317.9</td><td>11.2\u201316.9</td><td>13.1\u201318.6</td></tr><tr><td rowspan=\"3\"><i>Au. sediba</i></td><td>n</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td></tr><tr><td>mean</td><td>10.1</td><td>6.9</td><td>7.2</td><td>6.6</td><td>9.0</td><td>8.8</td><td>9.0</td><td>11.2</td><td>9.3</td><td>12.1</td><td>12.9</td><td>12.0</td><td>12.9</td><td>13.7</td><td>13.0</td><td>13.5</td></tr><tr><td>range</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>12.6\u201313.3</td><td>12.9\u201314.1</td></tr><tr><td rowspan=\"3\"><i>H. naledi</i></td><td>n</td><td>\u2013</td><td>5</td><td>4</td><td>8</td><td>10</td><td>9</td><td>10</td><td>10</td><td>7</td><td>7</td><td>12</td><td>13</td><td>11</td><td>9</td><td>7</td><td>7</td></tr><tr><td>mean</td><td>9.4</td><td>6.5</td><td>6.6</td><td>6.2</td><td>8.1</td><td>8.6</td><td>8.0</td><td>10.5</td><td>8.1</td><td>11.0</td><td>11.6</td><td>11.7</td><td>12.2</td><td>12.8</td><td>11.6</td><td>12.4</td></tr><tr><td>range</td><td>8.8\u20139.8</td><td>6.3\u20137.0</td><td>6.3\u20137.0</td><td>5.8\u20136.6</td><td>7.3\u20138.9</td><td>8.0\u20139.6</td><td>7.7\u20138.4</td><td>9.8\u201311.0</td><td>7.7\u20138.7</td><td>10.5\u201311.2</td><td>10.5\u201312.4</td><td>11.2\u201312.4</td><td>11.0\u201313.0</td><td>11.9\u201313.6</td><td>11.0\u201312.7</td><td>11.4\u201313.4</td></tr><tr><td rowspan=\"3\"><i>H. habilis</i></td><td>n</td><td>2</td><td>2</td><td>4</td><td>4</td><td>2</td><td>3</td><td>7</td><td>7</td><td>8</td><td>8</td><td>13</td><td>13</td><td>7</td><td>7</td><td>7</td><td>7</td></tr><tr><td>mean</td><td>10.6</td><td>8.0</td><td>7.4</td><td>6.6</td><td>9.0</td><td>9.8</td><td>9.0</td><td>11.9</td><td>9.2</td><td>12.1</td><td>12.7</td><td>13.0</td><td>12.7</td><td>14.3</td><td>12.3</td><td>14.7</td></tr><tr><td>range</td><td>10.1\u201311.1</td><td>7.3\u20138.7</td><td>6.7\u20138.1</td><td>6.0\u20137.9</td><td>8.5\u20139.4</td><td>8.5\u201311.6</td><td>8.1\u20139.6</td><td>11.0\u201312.7</td><td>8.5\u20139.9</td><td>11.0\u201313.1</td><td>11.6\u201313.9</td><td>12.1\u201314.1</td><td>11.8\u201313.5</td><td>13.5\u201316.2</td><td>11.3\u201313.9</td><td>13.2\u201316.6</td></tr><tr><td rowspan=\"3\"><i>H. rudolfensis</i></td><td>n</td><td>1</td><td>1</td><td>\u2013</td><td>\u2013</td><td>1</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>1</td><td>1</td></tr><tr><td>mean</td><td>12.3</td><td>7.7</td><td>\u2013</td><td>\u2013</td><td>11.5</td><td>12.5</td><td>10.5</td><td>13.6</td><td>10.2</td><td>12.5</td><td>14.0</td><td>14.0</td><td>14.3</td><td>15.8</td><td>13.3</td><td>13.5</td></tr><tr><td>range</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>9.7\u201310.7</td><td>11.1\u201313.8</td><td>13.9\u201314.2</td><td>13.3\u201314.8</td><td>14.1\u201314.6</td><td>14.1\u201317.6</td><td>\u2013</td><td>\u2013</td></tr><tr><td rowspan=\"3\"><i>H. erectus</i></td><td>n</td><td>11</td><td>12</td><td>6</td><td>6</td><td>12</td><td>12</td><td>27</td><td>27</td><td>30</td><td>29</td><td>34</td><td>32</td><td>22</td><td>22</td><td>16</td><td>16</td></tr><tr><td>mean</td><td>10.3</td><td>8.1</td><td>7.7</td><td>8.0</td><td>9.5</td><td>10.0</td><td>8.5</td><td>11.8</td><td>8.1</td><td>11.6</td><td>12.2</td><td>13.2</td><td>12.0</td><td>13.3</td><td>10.5</td><td>12.8</td></tr><tr><td>range</td><td>8.1\u201312.6</td><td>7.0\u201311.7</td><td>6.0\u20138.3</td><td>6.9\u20138.5</td><td>8.5\u201311.1</td><td>9.0\u201311.8</td><td>7.1\u201310.1</td><td>9.5\u201313.8</td><td>7.0\u20139.4</td><td>9.9\u201313.4</td><td>10.1\u201314.6</td><td>11.0\u201315.9</td><td>10.3\u201313.6</td><td>10.9\u201315.5</td><td>8.7\u201314.7</td><td>10.4\u201315.8</td></tr><tr><td rowspan=\"3\"><i>H. neanderthalensis</i></td><td>n</td><td>28</td><td>37</td><td>35</td><td>41</td><td>28</td><td>29</td><td>16</td><td>17</td><td>21</td><td>19</td><td>23</td><td>24</td><td>27</td><td>28</td><td>22</td><td>21</td></tr><tr><td>mean</td><td>9.7</td><td>8.5</td><td>8.0</td><td>8.4</td><td>8.8</td><td>10.1</td><td>8.0</td><td>10.6</td><td>7.8</td><td>10.6</td><td>11.6</td><td>12.3</td><td>10.9</td><td>12.5</td><td>9.9</td><td>12.3</td></tr><tr><td>range</td><td>8.2\u201311.8</td><td>7.3\u20139.9</td><td>5.8\u20139.3</td><td>5.8\u20139.9</td><td>7.2\u201310.0</td><td>7.6\u201311.4</td><td>6.6\u20139.3</td><td>8.4\u201311.8</td><td>5.9\u201311.5</td><td>8.3\u201311.7</td><td>9.5\u201313.5</td><td>11.0\u201314.2</td><td>8.9\u201315.9</td><td>10.8\u201314.6</td><td>8.2\u201311.4</td><td>9.8\u201314.6</td></tr><tr><td rowspan=\"3\"><i>H. heidelbergensis</i></td><td>n</td><td>21</td><td>23</td><td>19</td><td>21</td><td>27</td><td>29</td><td>25</td><td>25</td><td>22</td><td>23</td><td>25</td><td>24</td><td>24</td><td>23</td><td>26</td><td>27</td></tr><tr><td>mean</td><td>9.6</td><td>7.8</td><td>7.7</td><td>7.8</td><td>8.8</td><td>9.8</td><td>7.9</td><td>10.6</td><td>7.6</td><td>10.3</td><td>11.2</td><td>11.9</td><td>10.2</td><td>12.3</td><td>8.9</td><td>11.6</td></tr><tr><td>range</td><td>8.7\u201310.7</td><td>7.1\u20139.9</td><td>7.2\u20138.4</td><td>7.3\u20138.6</td><td>8.1\u201311.0</td><td>8.8\u201311.8</td><td>7.1\u20139.0</td><td>9.2\u201312.2</td><td>7.0\u20138.8</td><td>9.1\u201311.5</td><td>9.9\u201312.3</td><td>10.3\u201313.2</td><td>8.1\u201312.1</td><td>11.1\u201313.8</td><td>7.6\u201311.0</td><td>10.0\u201313.2</td></tr><tr><td rowspan=\"3\">MP/LP African Homo</td><td>n</td><td>6</td><td>6</td><td>7</td><td>8</td><td>4</td><td>4</td><td>6</td><td>6</td><td>10</td><td>10</td><td>14</td><td>14</td><td>20</td><td>20</td><td>9</td><td>9</td></tr><tr><td>mean</td><td>9.0</td><td>7.8</td><td>7.4</td><td>7.2</td><td>8.9</td><td>9.7</td><td>8.4</td><td>10.8</td><td>8.1</td><td>10.8</td><td>12.3</td><td>13.2</td><td>11.0</td><td>12.9</td><td>9.2</td><td>11.7</td></tr><tr><td>range</td><td>6.3\u201310.9</td><td>6.6\u20138.7</td><td>6.0\u20139.3</td><td>6.1\u20138.5</td><td>8.2\u20139.5</td><td>8.8\u201310.0</td><td>8.1\u20138.7</td><td>9.9\u201311.8</td><td>7.5\u20139.3</td><td>9.4\u201312.8</td><td>10.4\u201314.0</td><td>12.0\u201315.0</td><td>7.8\u201313.0</td><td>11.0\u201315.0</td><td>7.6\u201310.2</td><td>10.0\u201313.2</td></tr></tbody></table>", 
+                                    "<table><thead><tr><th colspan=\"18\">Mandibular</th></tr><tr><th></th><th></th><th colspan=\"2\">I<sub>1</sub></th><th colspan=\"2\">I<sub>2</sub></th><th colspan=\"2\">C</th><th colspan=\"2\">P<sub>3</sub></th><th colspan=\"2\">P<sub>4</sub></th><th colspan=\"2\">M<sub>1</sub></th><th colspan=\"2\">M<sub>2</sub></th><th colspan=\"2\">M<sub>3</sub></th></tr><tr><th></th><th></th><th>MD</th><th>LL</th><th>MD</th><th>LL</th><th>MD</th><th>LL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th><th>MD</th><th>BL</th></tr></thead><tbody><tr><td rowspan=\"3\"><i>Au. anamensis</i></td><td>n</td><td>2</td><td>1</td><td>4</td><td>3</td><td>7</td><td>7</td><td>8</td><td>8</td><td>8</td><td>8</td><td>9</td><td>10</td><td>7</td><td>7</td><td>8</td><td>8</td></tr><tr><td>mean</td><td>6.9</td><td>7.4</td><td>7.8</td><td>8.3</td><td>10.0</td><td>10.4</td><td>12.4</td><td>9.2</td><td>9.1</td><td>11.3</td><td>12.9</td><td>12.3</td><td>14.0</td><td>13.4</td><td>15.3</td><td>13.4</td></tr><tr><td>range</td><td>6.8\u20136.9</td><td>\u2013</td><td>6.6\u20138.7</td><td>7.9\u20138.6</td><td>6.6\u201313.9</td><td>9.2\u201311.4</td><td>11.3\u201313.4</td><td>8.6\u201310.0</td><td>7.4\u20139.8</td><td>9.6\u201313.2</td><td>11.6\u201313.8</td><td>10.2\u201314.8</td><td>13.0\u201315.9</td><td>12.3\u201314.9</td><td>13.7\u201317.0</td><td>12.1\u201315.2</td></tr><tr><td rowspan=\"3\"><i>Au. afarensis</i></td><td>n</td><td>7</td><td>8</td><td>7</td><td>6</td><td>13</td><td>16</td><td>27</td><td>26</td><td>24</td><td>21</td><td>32</td><td>26</td><td>31</td><td>27</td><td>26</td><td>23</td></tr><tr><td>mean</td><td>6.7</td><td>7.1</td><td>6.7</td><td>8.0</td><td>8.8</td><td>10.4</td><td>9.6</td><td>10.6</td><td>9.8</td><td>11.0</td><td>13.1</td><td>12.6</td><td>14.3</td><td>13.4</td><td>15.3</td><td>13.5</td></tr><tr><td>range</td><td>5.6\u20137.7</td><td>5.6\u20138.0</td><td>5.0\u20138.0</td><td>6.7\u20138.8</td><td>7.5\u201311.7</td><td>8.0\u201312.4</td><td>7.9\u201312.6</td><td>8.9\u201313.8</td><td>7.7\u201311.4</td><td>9.8\u201312.8</td><td>10.1\u201314.8</td><td>11.0\u201314.0</td><td>12.1\u201316.5</td><td>11.1\u201315.2</td><td>13.4\u201318.1</td><td>11.3\u201315.3</td></tr><tr><td rowspan=\"3\"><i>Au. africanus</i></td><td>n</td><td>11</td><td>12</td><td>12</td><td>13</td><td>23</td><td>25</td><td>20</td><td>21</td><td>25</td><td>23</td><td>29</td><td>32</td><td>38</td><td>38</td><td>34</td><td>35</td></tr><tr><td>mean</td><td>6.2</td><td>6.7</td><td>7.2</td><td>7.9</td><td>9.4</td><td>10.1</td><td>9.7</td><td>11.5</td><td>10.4</td><td>11.6</td><td>14.0</td><td>13.0</td><td>15.7</td><td>14.5</td><td>16.3</td><td>14.6</td></tr><tr><td>range</td><td>4.8\u20136.9</td><td>5.7\u20137.9</td><td>5.6\u20138.1</td><td>6.6\u20139.2</td><td>8.5\u201310.7</td><td>8.2\u201312.1</td><td>8.8\u201311.0</td><td>9.9\u201313.9</td><td>8.7\u201312.3</td><td>9.3\u201313.2</td><td>12.4\u201315.8</td><td>11.2\u201315.1</td><td>14.2\u201317.7</td><td>12.8\u201316.8</td><td>13.5\u201318.5</td><td>12.2\u201316.8</td></tr><tr><td rowspan=\"3\"><i>Au. sediba</i></td><td>n</td><td>\u2013</td><td>1</td><td>\u2013</td><td>1</td><td>2</td><td>2</td><td>1</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td></tr><tr><td>mean</td><td>\u2013</td><td>5.9</td><td>\u2013</td><td>6.6</td><td>7.7</td><td>8.0</td><td>8.1</td><td>9.2</td><td>8.8</td><td>9.7</td><td>13.1</td><td>11.4</td><td>14.5</td><td>12.8</td><td>14.9</td><td>13.2</td></tr><tr><td>range</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>7.3\u20138.0</td><td>7.4\u20138.6</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>13.1\u201313.1</td><td>11.3\u201311.5</td><td>14.4\u201314.5</td><td>12.3\u201313.2</td><td>14.9\u201314.9</td><td>12.5\u201313.6</td></tr><tr><td rowspan=\"3\"><i>H. naledi</i></td><td>n</td><td>7</td><td>7</td><td>5</td><td>6</td><td>7</td><td>7</td><td>9</td><td>10</td><td>6</td><td>6</td><td>11</td><td>11</td><td>9</td><td>9</td><td>6</td><td>5</td></tr><tr><td>mean</td><td>6.1</td><td>5.4</td><td>6.9</td><td>5.9</td><td>7.1</td><td>7.1</td><td>9.0</td><td>8.8</td><td>8.7</td><td>9.1</td><td>12.2</td><td>10.7</td><td>13.3</td><td>11.2</td><td>13.4</td><td>12.1</td></tr><tr><td>range</td><td>5.7\u20137.0</td><td>5.3\u20135.9</td><td>6.6\u20137.4</td><td>5.9\u20136.0</td><td>6.4\u20137.5</td><td>6.9\u20137.4</td><td>8.2\u20139.4</td><td>8.2\u20139.7</td><td>8.3\u20139.0</td><td>8.5\u201310.2</td><td>11.3\u201312.7</td><td>10.3\u201311.4</td><td>12.3\u201314.0</td><td>10.7\u201312.2</td><td>12.9\u201313.7</td><td>11.7\u201312.8</td></tr><tr><td rowspan=\"3\"><i>H. habilis</i></td><td>n</td><td>2</td><td>2</td><td>2</td><td>2</td><td>3</td><td>2</td><td>4</td><td>4</td><td>3</td><td>3</td><td>5</td><td>5</td><td>4</td><td>4</td><td>4</td><td>4</td></tr><tr><td>mean</td><td>6.4</td><td>6.8</td><td>7.4</td><td>7.6</td><td>8.7</td><td>9.0</td><td>9.6</td><td>9.6</td><td>9.9</td><td>10.5</td><td>13.7</td><td>11.9</td><td>15.0</td><td>13.5</td><td>15.4</td><td>13.3</td></tr><tr><td>range</td><td>6.4\u20136.5</td><td>6.7\u20137.0</td><td>7.2\u20137.7</td><td>7.6\u20137.6</td><td>7.6\u20139.6</td><td>7.9\u201310.0</td><td>9.0\u201310.6</td><td>8.6\u201311.1</td><td>9.0\u201310.5</td><td>9.9\u201311.0</td><td>13.0\u201314.8</td><td>10.9\u201312.8</td><td>14.2\u201315.7</td><td>12.0\u201315.1</td><td>14.8\u201315.9</td><td>12.4\u201314.4</td></tr><tr><td rowspan=\"3\"><i>H. rudolfensis</i></td><td>n</td><td>\u2013</td><td>1</td><td>\u2013</td><td>1</td><td>\u2013</td><td>1</td><td>3</td><td>3</td><td>6</td><td>6</td><td>5</td><td>5</td><td>6</td><td>5</td><td>3</td><td>3</td></tr><tr><td>mean</td><td>\u2013</td><td>5.4</td><td>\u2013</td><td>6.7</td><td>\u2013</td><td>8.3</td><td>9.9</td><td>11.1</td><td>10.1</td><td>11.4</td><td>14.0</td><td>12.7</td><td>16.0</td><td>13.7</td><td>16.4</td><td>14.1</td></tr><tr><td>range</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>\u2013</td><td>9.0\u201310.7</td><td>9.5\u201312.3</td><td>8.8\u201311.8</td><td>9.8\u201312.2</td><td>12.8\u201315.2</td><td>11.4\u201313.2</td><td>14.0\u201318.3</td><td>12.7\u201314.9</td><td>15.6\u201317.0</td><td>13.1\u201314.6</td></tr><tr><td rowspan=\"3\"><i>H. erectus</i></td><td>n</td><td>11</td><td>12</td><td>14</td><td>16</td><td>14</td><td>16</td><td>30</td><td>30</td><td>25</td><td>26</td><td>43</td><td>43</td><td>41</td><td>40</td><td>26</td><td>27</td></tr><tr><td>mean</td><td>6.2</td><td>6.4</td><td>7</td><td>7.2</td><td>8.7</td><td>9</td><td>9</td><td>10.1</td><td>8.7</td><td>10.1</td><td>12.7</td><td>11.9</td><td>13.3</td><td>12.5</td><td>12.7</td><td>11.7</td></tr><tr><td>range</td><td>4.8\u20137.4</td><td>5.8\u20137.1</td><td>5.3\u20138.1</td><td>6.4\u20138.5</td><td>7.0\u201310.3</td><td>8.0\u201310.4</td><td>7.0\u201312.0</td><td>8.2\u201312.0</td><td>7.2\u201310.3</td><td>8.0\u201312.5</td><td>9.9\u201314.8</td><td>10.1\u201313.3</td><td>11.3\u201315.3</td><td>10.8\u201314.3</td><td>10.0\u201315.2</td><td>10.0\u201314.2</td></tr><tr><td rowspan=\"3\"><i>H. neanderthalensis</i></td><td>n</td><td>9</td><td>16</td><td>23</td><td>31</td><td>36</td><td>41</td><td>20</td><td>21</td><td>23</td><td>25</td><td>38</td><td>40</td><td>26</td><td>27</td><td>18</td><td>20</td></tr><tr><td>mean</td><td>5.6</td><td>7.2</td><td>6.8</td><td>7.8</td><td>7.8</td><td>8.8</td><td>7.9</td><td>9.1</td><td>7.8</td><td>9.4</td><td>11.8</td><td>11.1</td><td>12.1</td><td>11.3</td><td>12.0</td><td>11.0</td></tr><tr><td>range</td><td>4.2\u20136.4</td><td>5.2\u20138.8</td><td>5.9\u20137.5</td><td>6.8\u20139.0</td><td>6.7\u20138.8</td><td>6.8\u201310.3</td><td>6.6\u20139.1</td><td>8.0\u201310.3</td><td>6.5\u20139.4</td><td>8.5\u201310.5</td><td>10.1\u201313.6</td><td>10.2\u201312.9</td><td>9.3\u201314.0</td><td>8.8\u201312.4</td><td>11.2\u201313.9</td><td>9.9\u201312.2</td></tr><tr><td rowspan=\"3\"><i>H. heidelbergensis</i></td><td>n</td><td>21</td><td>22</td><td>19</td><td>20</td><td>23</td><td>24</td><td>22</td><td>22</td><td>26</td><td>26</td><td>29</td><td>29</td><td>29</td><td>29</td><td>32</td><td>32</td></tr><tr><td>mean</td><td>5.6</td><td>6.7</td><td>6.5</td><td>7.3</td><td>7.6</td><td>8.7</td><td>7.9</td><td>8.9</td><td>7.2</td><td>8.7</td><td>11.3</td><td>10.6</td><td>11.2</td><td>10.5</td><td>11.5</td><td>10.0</td></tr><tr><td>range</td><td>4.8\u20136.5</td><td>6.0\u20137.5</td><td>6.0\u20137.2</td><td>6.6\u20138.0</td><td>6.9\u20139.0</td><td>7.3\u201310.0</td><td>7.2\u20139.0</td><td>7.6\u201311.6</td><td>6.6\u20138.8</td><td>7.2\u201311.7</td><td>10.4\u201313.8</td><td>9.6\u201313.0</td><td>9.7\u201314.6</td><td>8.5\u201313.9</td><td>9.7\u201313.2</td><td>8.6\u201312.5</td></tr><tr><td rowspan=\"3\">MP/LP African Homo</td><td>n</td><td>5</td><td>5</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>12</td><td>9</td><td>16</td><td>16</td><td>20</td><td>20</td><td>13</td><td>13</td></tr><tr><td>mean</td><td>6.0</td><td>6.8</td><td>6.8</td><td>7.2</td><td>8.8</td><td>9.6</td><td>8.6</td><td>9.8</td><td>8.6</td><td>10.3</td><td>13.1</td><td>11.8</td><td>12.5</td><td>11.7</td><td>12.4</td><td>11.5</td></tr><tr><td>range</td><td>5.7\u20136.4</td><td>6.1\u20137.2</td><td>5.6\u20138.3</td><td>6.4\u20138.0</td><td>7.8\u201310.0</td><td>8.8\u201310.3</td><td>7.7\u20139.0</td><td>8.6\u201311.2</td><td>6.9\u20139.6</td><td>9.3\u201311.4</td><td>10.7\u201314.2</td><td>10.0\u201313.0</td><td>10.8\u201315.0</td><td>9.2\u201313.6</td><td>10.6\u201313.5</td><td>9.9\u201312.7</td></tr></tbody></table>"
+                                ], 
+                                "footnotes": [
+                                    {
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "MP, Middle Pleistocene and LP, Late Pleistocene."
+                                            }
+                                        ]
                                     }
                                 ]
                             }
@@ -5636,86 +5694,100 @@
                         "text": "<i>H. naledi</i> has a range of body mass similar to small-bodied modern human populations, and is similar in estimated stature to both small-bodied humans and the largest known australopiths. We estimated body mass from eight femoral specimens for which subtrochanteric diameters can be measured (\u2018Materials and methods\u2019), with results ranging between 39.7 kg and 55.8 kg (<a href=\"#tbl3\">Table 3</a>). No femur specimen is sufficiently complete to measure femur length accurately, but the U.W. 101-484 tibia preserves nearly its complete length, allowing a tibia length estimate of 325 mm (<a href=\"#fig10\">Figure 10</a>). Estimates for the stature of this individual based on African human population samples range between 144.5 and 147.8 mm. Again, this stature estimate is similar to small-bodied modern human populations. It is within the range estimated for Dmanisi postcranial elements (<a href=\"#bib43\">Lordkipanidze et al., 2007</a>), and slightly smaller than estimated for early <i>Homo</i> femoral specimens KNM-ER 1472 and KNM-ER 1481. Some large australopiths also had long tibiae and presumably comparably tall statures, as evidenced by the KSD-VP 1/1 skeleton from Woranso-Mille (<a href=\"#bib27\">Haile-Selassie et al., 2010</a>)."
                     }, 
                     {
-                        "type": "table", 
-                        "doi": "10.7554/eLife.09560.014", 
-                        "id": "tbl3", 
-                        "label": "Table 3.", 
-                        "title": "Dinaledi body mass estimates from femur specimens preserving subtrochanteric diameters", 
-                        "tables": [
-                            "<table><thead><tr><th>Specimen ID</th><th>Side</th><th>AP subtrochanteric breadth</th><th>ML subtrochanteric breadth</th><th>Mass (a)</th><th>Mass (b)</th></tr></thead><tbody><tr><td>U.W. 101-002</td><td>R</td><td>18.5</td><td>23.6</td><td>40.0</td><td>44.7</td></tr><tr><td>U.W. 101-003</td><td>R</td><td>21.6</td><td>31.4</td><td>54.5</td><td>55.8</td></tr><tr><td>U.W. 101-018</td><td>R</td><td>18.1</td><td>23.8</td><td>39.7</td><td>44.4</td></tr><tr><td>U.W. 101-226</td><td>L</td><td>19.1</td><td>24.0</td><td>41.3</td><td>45.7</td></tr><tr><td>U.W. 101-1136</td><td>R</td><td>16.9</td><td>25.5</td><td>39.7</td><td>44.4</td></tr><tr><td>U.W. 101-1391</td><td>R</td><td>18.8</td><td>23.9</td><td>40.8</td><td>45.3</td></tr><tr><td>U.W. 101-1475</td><td>L</td><td>18.8</td><td>29.0</td><td>46.5</td><td>49.7</td></tr><tr><td>U.W. 101-1482</td><td>L</td><td>20.7</td><td>28.9</td><td>49.7</td><td>52.1</td></tr></tbody></table>"
-                        ], 
-                        "footnotes": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "text": [
+                                "type": "table", 
+                                "doi": "10.7554/eLife.09560.014", 
+                                "id": "tbl3", 
+                                "label": "Table 3", 
+                                "caption": [
                                     {
                                         "type": "paragraph", 
-                                        "text": "Regression equations described in \u2018Materials and methods\u2019. Mass (a) based on forensic statures from European individuals. Mass (b) based on multiple population sample. The two estimates diverge somewhat for smaller femora."
+                                        "text": "Dinaledi body mass estimates from femur specimens preserving subtrochanteric diameters"
+                                    }
+                                ], 
+                                "tables": [
+                                    "<table><thead><tr><th>Specimen ID</th><th>Side</th><th>AP subtrochanteric breadth</th><th>ML subtrochanteric breadth</th><th>Mass (a)</th><th>Mass (b)</th></tr></thead><tbody><tr><td>U.W. 101-002</td><td>R</td><td>18.5</td><td>23.6</td><td>40.0</td><td>44.7</td></tr><tr><td>U.W. 101-003</td><td>R</td><td>21.6</td><td>31.4</td><td>54.5</td><td>55.8</td></tr><tr><td>U.W. 101-018</td><td>R</td><td>18.1</td><td>23.8</td><td>39.7</td><td>44.4</td></tr><tr><td>U.W. 101-226</td><td>L</td><td>19.1</td><td>24.0</td><td>41.3</td><td>45.7</td></tr><tr><td>U.W. 101-1136</td><td>R</td><td>16.9</td><td>25.5</td><td>39.7</td><td>44.4</td></tr><tr><td>U.W. 101-1391</td><td>R</td><td>18.8</td><td>23.9</td><td>40.8</td><td>45.3</td></tr><tr><td>U.W. 101-1475</td><td>L</td><td>18.8</td><td>29.0</td><td>46.5</td><td>49.7</td></tr><tr><td>U.W. 101-1482</td><td>L</td><td>20.7</td><td>28.9</td><td>49.7</td><td>52.1</td></tr></tbody></table>"
+                                ], 
+                                "footnotes": [
+                                    {
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Regression equations described in \u2018Materials and methods\u2019. Mass (a) based on forensic statures from European individuals. Mass (b) based on multiple population sample. The two estimates diverge somewhat for smaller femora."
+                                            }
+                                        ]
                                     }
                                 ]
                             }
                         ]
                     }, 
                     {
-                        "type": "image", 
-                        "doi": "10.7554/eLife.09560.015", 
-                        "id": "fig10", 
-                        "label": "Figure 10.", 
-                        "title": "Maximum tibia length in <i>H. naledi</i> and other hominins.", 
-                        "caption": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "type": "paragraph", 
-                                "text": "Maximum tibia length for U.W. 101-484, compared to other nearly complete hominin tibia specimens. <i>Australopithecus afarensis</i> represented by A.L. 288-1 and KSD-VP-1/1 (<a href=\"#bib27\">Haile-Selassie et al., 2010</a>); <i>Homo erectus</i> represented by D3901 from Dmanisi and KNM-WT 15000; <i>Homo habilis</i> by OH 35; <i>Homo floresiensis</i> by LB1 and LB8 (<a href=\"#bib10\">Brown et al., 2004</a>; <a href=\"#bib46\">Morwood et al., 2005</a>). Chimpanzee and contemporary European ancestry humans from Cleveland Museum of Natural History (<a href=\"#bib42\">Lee, 2001</a>); Andaman Islanders from <a href=\"#bib56\">Stock (2013)</a>. Vertical lines represent sample ranges; bars represent 1 standard deviation."
+                                "type": "image", 
+                                "doi": "10.7554/eLife.09560.015", 
+                                "id": "fig10", 
+                                "label": "Figure 10", 
+                                "title": "Maximum tibia length in <i>H. naledi</i> and other hominins.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "Maximum tibia length for U.W. 101-484, compared to other nearly complete hominin tibia specimens. <i>Australopithecus afarensis</i> represented by A.L. 288-1 and KSD-VP-1/1 (<a href=\"#bib27\">Haile-Selassie et al., 2010</a>); <i>Homo erectus</i> represented by D3901 from Dmanisi and KNM-WT 15000; <i>Homo habilis</i> by OH 35; <i>Homo floresiensis</i> by LB1 and LB8 (<a href=\"#bib10\">Brown et al., 2004</a>; <a href=\"#bib46\">Morwood et al., 2005</a>). Chimpanzee and contemporary European ancestry humans from Cleveland Museum of Natural History (<a href=\"#bib42\">Lee, 2001</a>); Andaman Islanders from <a href=\"#bib56\">Stock (2013)</a>. Vertical lines represent sample ranges; bars represent 1 standard deviation."
+                                    }
+                                ], 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig10-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-09560-fig10-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig10-v1.tif", 
+                                    "size": {
+                                        "width": 2750, 
+                                        "height": 2085
+                                    }
+                                }
                             }
-                        ], 
-                        "image": {
-                            "source": {
-                                "mediaType": "image/jpeg", 
-                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig10-v1.tif/full/full/0/default.jpg", 
-                                "filename": "elife-09560-fig10-v1.jpg"
-                            }, 
-                            "alt": "", 
-                            "size": {
-                                "width": 2750, 
-                                "height": 2085
-                            }, 
-                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig10-v1.tif", 
-                            "filename": "elife-09560-fig10-v1.tif"
-                        }, 
-                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig10-v1.tif", 
-                        "alt": ""
+                        ]
                     }, 
                     {
                         "type": "paragraph", 
                         "text": "The endocranial volume of all <i>H. naledi</i> specimens is clearly small compared to most known examples of <i>Homo</i>. We combined information from the most complete cranial vault specimens to arrive at an estimate of endocranial volume for both larger (presumably male) and smaller (presumably female) individuals (larger composite depicted in <a href=\"#fig11\">Figure 11</a>). The resulting estimates of approximately 560cc and 465cc, respectively, overlap entirely with the range of endocranial volumes known for australopiths. Within the genus <i>Homo</i>, only the smallest specimens of <i>H. habilis,</i> one single <i>H. erectus</i> specimen, and <i>H. floresiensis</i> overlap with these values."
                     }, 
                     {
-                        "type": "image", 
-                        "doi": "10.7554/eLife.09560.016", 
-                        "id": "fig11", 
-                        "label": "Figure 11.", 
-                        "title": "Virtual reconstruction of the endocranium of the larger composite cranium from DH1 and DH2 overlaid with the ectocranial surfaces.", 
-                        "caption": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "type": "paragraph", 
-                                "text": "(<b>A</b>) Lateral view. (<b>B</b>) Superior view. The resulting estimate of endocranial volume is 560cc. Scale bar = 10 cm."
+                                "type": "image", 
+                                "doi": "10.7554/eLife.09560.016", 
+                                "id": "fig11", 
+                                "label": "Figure 11", 
+                                "title": "Virtual reconstruction of the endocranium of the larger composite cranium from DH1 and DH2 overlaid with the ectocranial surfaces.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "(<b>A</b>) Lateral view. (<b>B</b>) Superior view. The resulting estimate of endocranial volume is 560cc. Scale bar = 10 cm."
+                                    }
+                                ], 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig11-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-09560-fig11-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig11-v1.tif", 
+                                    "size": {
+                                        "width": 2750, 
+                                        "height": 1108
+                                    }
+                                }
                             }
-                        ], 
-                        "image": {
-                            "source": {
-                                "mediaType": "image/jpeg", 
-                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig11-v1.tif/full/full/0/default.jpg", 
-                                "filename": "elife-09560-fig11-v1.jpg"
-                            }, 
-                            "alt": "", 
-                            "size": {
-                                "width": 2750, 
-                                "height": 1108
-                            }, 
-                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig11-v1.tif", 
-                            "filename": "elife-09560-fig11-v1.tif"
-                        }, 
-                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig11-v1.tif", 
-                        "alt": ""
+                        ]
                     }, 
                     {
                         "type": "paragraph", 
@@ -5730,33 +5802,35 @@
                         "text": "Like the skull, the dentition of <i>H. naledi</i> compares most favorably to early <i>Homo</i> samples. Yet compared to samples of <i>H. habilis</i>, <i>H. rudolfensis</i>, and <i>H. erectus</i>, the teeth of <i>H. naledi</i> are comparatively quite small, similar in dimensions to much later samples of <i>Homo</i>. With both small post-canine teeth and a small endocranial volume, <i>H. naledi</i> joins <i>Au. sediba</i> and <i>H. floresiensis</i> in an area distinct from the general hominin relation of smaller post-canine teeth in species with larger brains (<a href=\"#fig12\">Figure 12</a>)."
                     }, 
                     {
-                        "type": "image", 
-                        "doi": "10.7554/eLife.09560.017", 
-                        "id": "fig12", 
-                        "label": "Figure 12.", 
-                        "title": "Brain size and tooth size in hominins.", 
-                        "caption": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "type": "paragraph", 
-                                "text": "The buccolingual breadth of the first maxillary molar is shown here in comparison to endocranial volume for many hominin species. <i>H. naledi</i> occupies a position with relatively small molar size (comparable to later <i>Homo</i>) and relatively small endocranial volume (comparable to australopiths). The range of variation within the Dinaledi sample is also fairly small, in particular in comparison to the extensive range of variation within the <i>H. erectus sensu lato</i>. Vertical lines represent the range of endocranial volume estimates known for each taxon; each vertical line meets the horizontal line representing M<sup>1</sup> BL diameter at the mean for each taxon. Ranges are illustrated here instead of data points because the ranges of endocranial volume in several species are established by specimens that do not preserve first maxillary molars."
+                                "type": "image", 
+                                "doi": "10.7554/eLife.09560.017", 
+                                "id": "fig12", 
+                                "label": "Figure 12", 
+                                "title": "Brain size and tooth size in hominins.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "The buccolingual breadth of the first maxillary molar is shown here in comparison to endocranial volume for many hominin species. <i>H. naledi</i> occupies a position with relatively small molar size (comparable to later <i>Homo</i>) and relatively small endocranial volume (comparable to australopiths). The range of variation within the Dinaledi sample is also fairly small, in particular in comparison to the extensive range of variation within the <i>H. erectus sensu lato</i>. Vertical lines represent the range of endocranial volume estimates known for each taxon; each vertical line meets the horizontal line representing M<sup>1</sup> BL diameter at the mean for each taxon. Ranges are illustrated here instead of data points because the ranges of endocranial volume in several species are established by specimens that do not preserve first maxillary molars."
+                                    }
+                                ], 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig12-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-09560-fig12-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig12-v1.tif", 
+                                    "size": {
+                                        "width": 2750, 
+                                        "height": 2040
+                                    }
+                                }
                             }
-                        ], 
-                        "image": {
-                            "source": {
-                                "mediaType": "image/jpeg", 
-                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig12-v1.tif/full/full/0/default.jpg", 
-                                "filename": "elife-09560-fig12-v1.jpg"
-                            }, 
-                            "alt": "", 
-                            "size": {
-                                "width": 2750, 
-                                "height": 2040
-                            }, 
-                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig12-v1.tif", 
-                            "filename": "elife-09560-fig12-v1.tif"
-                        }, 
-                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig12-v1.tif", 
-                        "alt": ""
+                        ]
                     }, 
                     {
                         "type": "paragraph", 
@@ -5783,33 +5857,35 @@
                         "text": "The Dinaledi iliac blade is flared and shortened anteroposteriorly, resembling <i>Au. afarensis</i> or <i>Au. africanus.</i> The ischium is short with a narrow tuberoacetabular sulcus, and the ischiopubic and iliopubic rami are thick, resembling <i>Au. sediba</i> and <i>H. erectus</i>. This combination of iliac and ischiopubic features has not been found in other fossil hominins (<a href=\"#fig13\">Figure 13</a>)."
                     }, 
                     {
-                        "type": "image", 
-                        "doi": "10.7554/eLife.09560.018", 
-                        "id": "fig13", 
-                        "label": "Figure 13.", 
-                        "title": "Selected pelvic specimens of <i>H. naledi</i>.", 
-                        "caption": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "type": "paragraph", 
-                                "text": "U.W. 101-1100 ilium in (<b>A</b>) lateral view showing a weak iliac pillar relatively near the anterior edge of the ilium, with no cristal tubercle development; (<b>B</b>) anterior view, angled to demonstrate the degree of flare, which is clear in comparison to the subarcuate surface. U.W. 101-723 immature sacrum in (<b>C</b>) anterior view; and (<b>D</b>) superior view. U.W. 101-1112 ischium in (<b>E</b>) lateral view; and (<b>F</b>) anterior view, demonstrating relatively short tuberacetabular diameter. Scale bar = 2 cm."
+                                "type": "image", 
+                                "doi": "10.7554/eLife.09560.018", 
+                                "id": "fig13", 
+                                "label": "Figure 13", 
+                                "title": "Selected pelvic specimens of <i>H. naledi</i>.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "U.W. 101-1100 ilium in (<b>A</b>) lateral view showing a weak iliac pillar relatively near the anterior edge of the ilium, with no cristal tubercle development; (<b>B</b>) anterior view, angled to demonstrate the degree of flare, which is clear in comparison to the subarcuate surface. U.W. 101-723 immature sacrum in (<b>C</b>) anterior view; and (<b>D</b>) superior view. U.W. 101-1112 ischium in (<b>E</b>) lateral view; and (<b>F</b>) anterior view, demonstrating relatively short tuberacetabular diameter. Scale bar = 2 cm."
+                                    }
+                                ], 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig13-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-09560-fig13-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig13-v1.tif", 
+                                    "size": {
+                                        "width": 1415, 
+                                        "height": 1388
+                                    }
+                                }
                             }
-                        ], 
-                        "image": {
-                            "source": {
-                                "mediaType": "image/jpeg", 
-                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig13-v1.tif/full/full/0/default.jpg", 
-                                "filename": "elife-09560-fig13-v1.jpg"
-                            }, 
-                            "alt": "", 
-                            "size": {
-                                "width": 1415, 
-                                "height": 1388
-                            }, 
-                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig13-v1.tif", 
-                            "filename": "elife-09560-fig13-v1.tif"
-                        }, 
-                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig13-v1.tif", 
-                        "alt": ""
+                        ]
                     }, 
                     {
                         "type": "paragraph", 
@@ -5851,33 +5927,35 @@
                         "text": "The depth of evidence of <i>H. naledi</i> may provide a perspective on the variation to be expected within fossil hominin taxa (<a href=\"#bib44\">Lordkipanidze et al., 2013</a>; <a href=\"#bib7\">Berm\u00fadez de Castro et al., 2014</a>). The entire Dinaledi collection is remarkably homogeneous. There is very little size variation among adult elements within the collection. Eight body mass estimates from the femur (<a href=\"#tbl2\">Table 2</a>) have a standard deviation of only 4.3 kilograms, for a body mass coefficient of variation (CV) of only 9%. The CV of body mass within most human populations is substantially higher than this, with an average near 15% (<a href=\"#bib45\">McKellar and Hendry, 2009</a>). Likewise, the size variation of cranial and dental elements is minimal. With 11 mandibular first molars, the CV of buccolingual breadth is only 3.2% and for 13 maxillary first molars the CV of buccolingual breadth is only 2.0% (buccolingual breadth is used because it is not subject to variance from interproximal wear). Not only size, but also anatomical shape and form are homogeneous within the sample. Almost every aspect of the morphology of the dentition, including the distinctive form of the lower premolars, the distal accessory cuspule of the mandibular canines, and the expression of nonmetric features that normally vary in human populations, is uniform in every specimen from the collection. The distinctive aspects of cranial morphology are repeated in every specimen, and even the aspects that normally vary among individuals of different body size or between sexes exhibit only slight variation among the Dinaledi remains. One of the most unique aspects of <i>H. naledi</i> is the morphology of the first metacarpal; the derived aspects of this anatomy are present in every one of seven first metacarpal specimens in the collection (<a href=\"#fig14\">Figure 14</a>). Unlike any other fossil hominin site in Africa, the Dinaledi Chamber seems to preserve a large number of individuals from a single population, one with variation equal to or less than that found within local populations of modern humans."
                     }, 
                     {
-                        "type": "image", 
-                        "doi": "10.7554/eLife.09560.004", 
-                        "id": "fig14", 
-                        "label": "Figure 14.", 
-                        "title": "First metacarpals of <i>H. naledi</i>.", 
-                        "caption": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "type": "paragraph", 
-                                "text": "Seven first metacarpals have been recovered from the Dinaledi Chamber. U.W. 101-1321 is the right first metacarpal of the associated Hand 1 found in articulation. U.W. 101-1282 and U.W. 101-1641 are anatomically similar left and right first metacarpals, which we hypothesize as antimeres, both were recovered from excavation. U.W. 101-007 was collected from the surface of the chamber, and exhibits the same distinctive morphological characteristics as all the first metacarpals in the assemblage. All of these show a marked robusticity of the distal half of the bone, a very narrow, \u2018waisted\u2019 appearance to the proximal shaft and proximal articular surface, prominent crests for attachment of <i>M. opponens pollicis</i> and <i>M. first dorsal interosseous</i>, and a prominent ridge running down the palmar aspect of the bone. The heads of these metacarpals are dorsopalmarly flat and strongly asymmetric, with an enlarged palmar-radial protuberance. These distinctive features are present among all the first metacarpals in the Dinaledi collection, and are absent from any other hominin sample. Their derived nature is evident in comparison to apes and other early hominins, here illustrated with a chimpanzee first metacarpal and the MH2 first metacarpal of <i>Australopithecus sediba</i>."
+                                "type": "image", 
+                                "doi": "10.7554/eLife.09560.004", 
+                                "id": "fig14", 
+                                "label": "Figure 14", 
+                                "title": "First metacarpals of <i>H. naledi</i>.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "Seven first metacarpals have been recovered from the Dinaledi Chamber. U.W. 101-1321 is the right first metacarpal of the associated Hand 1 found in articulation. U.W. 101-1282 and U.W. 101-1641 are anatomically similar left and right first metacarpals, which we hypothesize as antimeres, both were recovered from excavation. U.W. 101-007 was collected from the surface of the chamber, and exhibits the same distinctive morphological characteristics as all the first metacarpals in the assemblage. All of these show a marked robusticity of the distal half of the bone, a very narrow, \u2018waisted\u2019 appearance to the proximal shaft and proximal articular surface, prominent crests for attachment of <i>M. opponens pollicis</i> and <i>M. first dorsal interosseous</i>, and a prominent ridge running down the palmar aspect of the bone. The heads of these metacarpals are dorsopalmarly flat and strongly asymmetric, with an enlarged palmar-radial protuberance. These distinctive features are present among all the first metacarpals in the Dinaledi collection, and are absent from any other hominin sample. Their derived nature is evident in comparison to apes and other early hominins, here illustrated with a chimpanzee first metacarpal and the MH2 first metacarpal of <i>Australopithecus sediba</i>."
+                                    }
+                                ], 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig14-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-09560-fig14-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig14-v1.tif", 
+                                    "size": {
+                                        "width": 4204, 
+                                        "height": 1289
+                                    }
+                                }
                             }
-                        ], 
-                        "image": {
-                            "source": {
-                                "mediaType": "image/jpeg", 
-                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig14-v1.tif/full/full/0/default.jpg", 
-                                "filename": "elife-09560-fig14-v1.jpg"
-                            }, 
-                            "alt": "", 
-                            "size": {
-                                "width": 4204, 
-                                "height": 1289
-                            }, 
-                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig14-v1.tif", 
-                            "filename": "elife-09560-fig14-v1.tif"
-                        }, 
-                        "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig14-v1.tif", 
-                        "alt": ""
+                        ]
                     }, 
                     {
                         "type": "paragraph", 
@@ -6063,66 +6141,70 @@
                                 "text": "DH3 consisted primarily of portions of the right calvaria. However, a small section of the frontal and the parietal crossed the mid\u2013sagittal plane. For this reason, it was possible to mirror image the surface scan to approximate the left calvaria and obtain a more complete visualization of the complete calvaria (<a href=\"#fig15\">Figure 15</a>). The virtual specimen of DH3 was mirrored in GeoMagic Studio, and manually registered (aligned) using common points along the frontal crest and sagittal suture. The registration procedure in GeoMagic Studio is an iterative process that refines the alignment of specimens to minimize spatial differences between corresponding surfaces. In this manner, the program is able to match the position overlapping surfaces, in addition to their angulation and curvature."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.09560.020", 
-                                "id": "fig15", 
-                                "label": "Figure 15.", 
-                                "title": "Posterior view of the virtual reconstruction of DH3.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "The resultant mirror image is displayed in blue. The antimeres were aligned by the frontal crest and sagittal suture using the Manual Registration function in GeoMagic Studio 14.0."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.09560.020", 
+                                        "id": "fig15", 
+                                        "label": "Figure 15", 
+                                        "title": "Posterior view of the virtual reconstruction of DH3.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "The resultant mirror image is displayed in blue. The antimeres were aligned by the frontal crest and sagittal suture using the Manual Registration function in GeoMagic Studio 14.0."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig15-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-09560-fig15-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig15-v1.tif", 
+                                            "size": {
+                                                "width": 707, 
+                                                "height": 631
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig15-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-09560-fig15-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 707, 
-                                        "height": 631
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig15-v1.tif", 
-                                    "filename": "elife-09560-fig15-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig15-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 
                                 "text": "The same procedures were used to mirror image and create a virtual reconstruction of DH2 and the occipital portion of DH1 (<a href=\"#fig16\">Figure 16</a>). The occipital and vault portions of DH1 were reconstructed based on the anatomical alignment of the sagittal suture, sagittal sulcus, parietal striae, and the continuation of the temporal lines across both the specimens."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.09560.021", 
-                                "id": "fig16", 
-                                "label": "Figure 16.", 
-                                "title": "Virtual reconstruction of (<b>A</b>) DH2 and (<b>B</b>) occipital portion of DH1.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "The actual specimen displays its original coloration and the mirror imaged portion is illustrated in blue."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.09560.021", 
+                                        "id": "fig16", 
+                                        "label": "Figure 16", 
+                                        "title": "Virtual reconstruction of (<b>A</b>) DH2 and (<b>B</b>) occipital portion of DH1.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "The actual specimen displays its original coloration and the mirror imaged portion is illustrated in blue."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig16-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-09560-fig16-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig16-v1.tif", 
+                                            "size": {
+                                                "width": 2750, 
+                                                "height": 981
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig16-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-09560-fig16-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2750, 
-                                        "height": 981
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig16-v1.tif", 
-                                    "filename": "elife-09560-fig16-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig16-v1.tif", 
-                                "alt": ""
+                                ]
                             }
                         ]
                     }, 
@@ -6140,66 +6222,70 @@
                                 "text": "The smaller composite cranium, DH3 was mirrored in GeoMagic Studio 14.0, and merged with the original scan as outlined above. The surface scan of DH4 was uploaded and registered (aligned) to the DH3 model using overlapping temporal features (e.g., the external auditory meatus). No scaling was performed. DH4 was then mirror imaged to complete the occipital contour. The resultant model suggests a general concordance between the specimens in both size and shape with a close alignment of vault surfaces and anatomical features between specimens (<a href=\"#fig17\">Figure 17</a>)."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.09560.022", 
-                                "id": "fig17", 
-                                "label": "Figure 17.", 
-                                "title": "Postero-lateral view of the virtual reconstruction of a composite cranium from DH3 and DH4.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) The surface scan of DH3 was mirror imaged and merged as described in Supplementary Note 8. (<b>B</b>) The scan of DH4 was aligned to the DH3 model. (<b>C</b>) DH4 was then mirror imaged to complete the occipital contour (<b>D</b>)."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.09560.022", 
+                                        "id": "fig17", 
+                                        "label": "Figure 17", 
+                                        "title": "Postero-lateral view of the virtual reconstruction of a composite cranium from DH3 and DH4.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) The surface scan of DH3 was mirror imaged and merged as described in Supplementary Note 8. (<b>B</b>) The scan of DH4 was aligned to the DH3 model. (<b>C</b>) DH4 was then mirror imaged to complete the occipital contour (<b>D</b>)."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig17-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-09560-fig17-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig17-v1.tif", 
+                                            "size": {
+                                                "width": 2989, 
+                                                "height": 662
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig17-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-09560-fig17-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2989, 
-                                        "height": 662
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig17-v1.tif", 
-                                    "filename": "elife-09560-fig17-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig17-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 
                                 "text": "For the larger composite cranium, the surface model of DH2 and its mirror image was then uploaded, registered (aligned), and merged with the mirror-imaged model of DH1. No scaling was performed. The congruency between the specimens in the resultant model suggests that DH1 and DH2 are similar in both size and vault shape (<a href=\"#fig18\">Figure 18</a>)."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.09560.023", 
-                                "id": "fig18", 
-                                "label": "Figure 18.", 
-                                "title": "Virtual reconstruction of a composite cranium from DH1 and DH2.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "The surface model of DH2 (blue), consisting of the original scan merged with the mirror image, was then uploaded and aligned with the mirror-imaged DH1 model (pink). Note the similarity in size and shape between DH1 and DH2 observed in the posterior (<b>A</b>) anterior (<b>B</b>) lateral (<b>C</b>) and superior (<b>D</b>) views."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.09560.023", 
+                                        "id": "fig18", 
+                                        "label": "Figure 18", 
+                                        "title": "Virtual reconstruction of a composite cranium from DH1 and DH2.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "The surface model of DH2 (blue), consisting of the original scan merged with the mirror image, was then uploaded and aligned with the mirror-imaged DH1 model (pink). Note the similarity in size and shape between DH1 and DH2 observed in the posterior (<b>A</b>) anterior (<b>B</b>) lateral (<b>C</b>) and superior (<b>D</b>) views."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig18-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-09560-fig18-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig18-v1.tif", 
+                                            "size": {
+                                                "width": 2989, 
+                                                "height": 689
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig18-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-09560-fig18-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2989, 
-                                        "height": 689
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig18-v1.tif", 
-                                    "filename": "elife-09560-fig18-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig18-v1.tif", 
-                                "alt": ""
+                                ]
                             }
                         ]
                     }, 
@@ -6213,128 +6299,136 @@
                                 "text": "The composite model of DH3 and DH4 was used to estimate the cranial capacity for the smaller morphotype. In GeoMagic Studio 14.0, the endocranial surface of the composite was carefully selected from the ectocranial surface and copied as a new object. In order to obtain a volume calculation the model has to be a closed surface, meaning that all of the holes in the surface model had to be filled. Small holes in the model were filled using the \u2018Fill by Curvature\u2019 function. Larger holes were filled in by sections. For example, the cranial base was filled in using a number of transverse sections, so that in the absence of the cranial base the contour of the various cranial fossae and the petrous portions of the temporal could be preserved as best as possible. When appropriate (e.g., around angular portions of the petrous bone), small sections were filled using a flat hole filling function. The new surfaces created by the hole-filling mechanism were carefully monitored and repeated until an acceptable model that appeared to best approximate the missing portions was obtained. The result is a closed model approximation of the endocranium, of which a volume can be calculated by GeoMagic Studio (<a href=\"#fig19\">Figure 19</a>, <a href=\"#fig20\">Figure 20</a>). The volume of the smaller composite cranium (DH3 and DH4) indicates a cranial capacity of approximately 465 cm<sup>3</sup>."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.09560.024", 
-                                "id": "fig19", 
-                                "label": "Figure 19.", 
-                                "title": "Virtual reconstruction of the endocranium of the composite cranium from DH3 and DH4.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Lateral view. (<b>B</b>) Superior view. (<b>C</b>) Inferior view. In all views, anterior is to towards the left."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.09560.024", 
+                                        "id": "fig19", 
+                                        "label": "Figure 19", 
+                                        "title": "Virtual reconstruction of the endocranium of the composite cranium from DH3 and DH4.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) Lateral view. (<b>B</b>) Superior view. (<b>C</b>) Inferior view. In all views, anterior is to towards the left."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig19-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-09560-fig19-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig19-v1.tif", 
+                                            "size": {
+                                                "width": 2989, 
+                                                "height": 805
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig19-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-09560-fig19-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2989, 
-                                        "height": 805
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig19-v1.tif", 
-                                    "filename": "elife-09560-fig19-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig19-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.09560.025", 
-                                "id": "fig20", 
-                                "label": "Figure 20.", 
-                                "title": "Virtual reconstruction of the endocranium of the composite cranium from DH3 and DH4 overlaid with the ectocranial surfaces.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Lateral view. (<b>B</b>) Superior view."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.09560.025", 
+                                        "id": "fig20", 
+                                        "label": "Figure 20", 
+                                        "title": "Virtual reconstruction of the endocranium of the composite cranium from DH3 and DH4 overlaid with the ectocranial surfaces.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) Lateral view. (<b>B</b>) Superior view."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig20-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-09560-fig20-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig20-v1.tif", 
+                                            "size": {
+                                                "width": 2750, 
+                                                "height": 991
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig20-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-09560-fig20-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2750, 
-                                        "height": 991
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig20-v1.tif", 
-                                    "filename": "elife-09560-fig20-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig20-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 
                                 "text": "In order to determine whether significant errors were being introduced in the manner that the cranial base was filled in the above procedures, the endocranial volume of DH3/DH4 was also virtually calculated using the cranial base of Sts 19 as a model. A 3D model of Sts 19 was mirrored and aligned to the DH3/DH4 model using the external auditory meatus and common points on the internal surface of the petrous portion as a guide (<a href=\"#fig21\">Figure 21</a>). The Sts 19 model was then scaled by 0.97 to obtain an optimal fit between the two models."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.09560.026", 
-                                "id": "fig21", 
-                                "label": "Figure 21.", 
-                                "title": "Virtual reconstruction the DH3/DH4 cranial base using a model of Sts 19.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Right lateral view. (<b>B</b>) Left lateral view. (<b>C</b>) Posterior view. (<b>D</b>) Inferior view."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.09560.026", 
+                                        "id": "fig21", 
+                                        "label": "Figure 21", 
+                                        "title": "Virtual reconstruction the DH3/DH4 cranial base using a model of Sts 19.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) Right lateral view. (<b>B</b>) Left lateral view. (<b>C</b>) Posterior view. (<b>D</b>) Inferior view."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig21-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-09560-fig21-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig21-v1.tif", 
+                                            "size": {
+                                                "width": 3158, 
+                                                "height": 685
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig21-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-09560-fig21-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 3158, 
-                                        "height": 685
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig21-v1.tif", 
-                                    "filename": "elife-09560-fig21-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig21-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 
                                 "text": "After the Sts 19 model was merged with the DH3/DH4 model, the endocranial surface was extracted and reconstructed as described above (<a href=\"#fig22\">Figure 22</a>). The resultant endocranial volume using the Sts 19 cranial base was 465.9 cm<sup>3</sup>. This value is in agreement with the first estimate and suggests that using a model cranial base did not significantly alter the results."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.09560.027", 
-                                "id": "fig22", 
-                                "label": "Figure 22.", 
-                                "title": "Virtual reconstruction the DH3/DH4 endocranial volume using a cranial base model of Sts 19.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "Right lateral view."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.09560.027", 
+                                        "id": "fig22", 
+                                        "label": "Figure 22", 
+                                        "title": "Virtual reconstruction the DH3/DH4 endocranial volume using a cranial base model of Sts 19.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Right lateral view."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig22-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-09560-fig22-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig22-v1.tif", 
+                                            "size": {
+                                                "width": 1415, 
+                                                "height": 860
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig22-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-09560-fig22-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 1415, 
-                                        "height": 860
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:09560/elife-09560-fig22-v1.tif", 
-                                    "filename": "elife-09560-fig22-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/09560/elife-09560-fig22-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 

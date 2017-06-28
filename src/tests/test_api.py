@@ -1,9 +1,8 @@
-
 from os.path import join
-from .base import BaseCase
-import api
+from . import base
+import api, validate
 
-class One(BaseCase):
+class One(base.BaseCase):
     def setUp(self):
         self.doc = join(self.fixtures_dir, 'elife-09560-v1.xml')
         self.small_doc = join(self.fixtures_dir, 'elife-16695-v1.xml')
@@ -29,7 +28,7 @@ class One(BaseCase):
         swagger_test(path, resolver=api.AsdfResolver('api'))
     '''
 
-class Two(BaseCase):
+class Two(base.BaseCase):
     def setUp(self):
         pass
 
@@ -58,7 +57,7 @@ class Web(TestCase):
     def tearDown(self):
         shutil.rmtree(self.temp_dir)
 
-    def test_upload_valid(self):
+    def test_upload_valid_xml(self):
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
@@ -70,9 +69,24 @@ class Web(TestCase):
             }
         })
         self.assertEqual(resp.status_code, 200)
-        expected_path = join(self.temp_dir, xml_fname)
-        self.assertTrue(os.path.exists(expected_path), "uploaded xml cannot be found")
-        self.assertTrue(os.path.isfile(expected_path), "uploaded xml is not a file??")
+
+        # ensure xml uploaded
+        expected_xml_path = join(self.temp_dir, xml_fname)
+        self.assertTrue(os.path.exists(expected_xml_path), "uploaded xml cannot be found")
+
+        # ensure ajson scraped
+        expected_ajson_path = join(self.temp_dir, xml_fname) + '.json'
+        self.assertTrue(os.path.exists(expected_ajson_path), "scraped ajson not found")
+
+        # ensure scraped ajson is identical to what we're expecting
+        expected_ajson = base.load_ajson(join(self.fixtures_dir, 'elife-16695-v1.xml.json'))
+        actual_ajson = base.load_ajson(expected_ajson_path)
+        self.assertEqual(actual_ajson, expected_ajson)
+
+        # ensure ajson validates
+        success, _ = validate.main(open(expected_ajson_path, 'r'))
+        self.assertTrue(success)
+
 
 '''
     def test_upload_invalid(self):
