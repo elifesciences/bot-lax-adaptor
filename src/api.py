@@ -132,7 +132,7 @@ def post_xml():
     # send to lax
     # ...
 
-def create_app(cfg_overrides):
+def create_app(cfg_overrides=None):
     app = connexion.App(__name__, specification_dir=join(conf.PROJECT_DIR, 'schema'))
     app.add_api('api.yaml', resolver=AsdfResolver('api'))
     cfg = {
@@ -140,7 +140,8 @@ def create_app(cfg_overrides):
         # http://flask.pocoo.org/docs/0.11/config/#instance-folders
         'UPLOAD_FOLDER': UPLOAD_FOLDER,
     }
-    cfg.update(cfg_overrides)
+    if cfg_overrides:
+        cfg.update(cfg_overrides)
     app.app.config.update(cfg)
     return app
 
