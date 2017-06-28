@@ -151,7 +151,6 @@ def main():
         'TEMPLATES_AUTO_RELOAD': True
     })
     app.run(port=8080)
-    return app
 
 if __name__ == '__main__':
     main()
