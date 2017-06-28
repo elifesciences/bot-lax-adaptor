@@ -8,11 +8,18 @@ function scrape {
     fname_list="$@" # consume all/rest of args
     for fname in $fname_list
     do
-       for path in ./article-xml/articles/$fname*
-       do
-         nom=${path##*/} # basename, ll: elife-09560.xml
-         cp $path $home/$nom
-         ./scrape-article.sh "$path" > "$home/$nom.json"
+        for path in ./article-xml/articles/$fname*
+        do
+            nom=${path##*/} # basename, ll: elife-09560.xml
+            if [ "$nom" = "elife-00666-v1.xml" ]; then
+                # download the kitchen sink.
+                rm -f "$home/elife-00666.xml"
+                wget https://raw.githubusercontent.com/elifesciences/XML-mapping/master/elife-00666.xml
+                path="$home/$nom"
+            else
+                cp $path "$home/$nom"
+            fi
+            ./scrape-article.sh $path > "$home/$nom.json"
        done
     done
     cd -
