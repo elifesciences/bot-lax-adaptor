@@ -85,7 +85,7 @@ def xml_files():
 
 def search_xml():
     "GET /xml"
-    return map(os.path.basename, xml_files())
+    return xml_files()[0] # just the basenames
 
 def search_article_json():
     return article_json_files()[0] # just the basenames
