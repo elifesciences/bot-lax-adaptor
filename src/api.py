@@ -51,13 +51,13 @@ def listfiles(path, ext_list=None):
 def upload_folder():
     return flask.current_app.config['UPLOAD_FOLDER']
 
-class AsdfResolver(RestyResolver):
+class BotLaxResolver(RestyResolver):
     """custom resolver that flattens func name lookup after initial module.
     RestyResolver parent assumes icky classes with .post and .search methods"""
 
     def resolve_operation_id_using_rest_semantics(self, operation):
         # ll: api.xml.search
-        orig_path = super(AsdfResolver, self).resolve_operation_id_using_rest_semantics(operation)
+        orig_path = super(BotLaxResolver, self).resolve_operation_id_using_rest_semantics(operation)
         bits = orig_path.split('.') # ll ['api', 'xml', 'search']
 
         module = bits[0] # ll: 'api'
@@ -103,11 +103,19 @@ def post_xml():
     http_ensure('xml' in request.files, "xml file required", 404)
 
     # upload
-    xml = request.files['xml']
-    filename = xml.filename # todo: sanitize this. assumes a name like 'elife-00000-v1.xml'
-    http_ensure(os.path.splitext(filename)[1] == '.xml', "file doesn't look like xml")
-    path = join(upload_folder(), filename)
-    xml.save(path)
+    try:
+        xml = request.files['xml']
+        filename = xml.filename # todo: sanitize this. assumes a name like 'elife-00000-v1.xml'
+        http_ensure(os.path.splitext(filename)[1] == '.xml', "file doesn't look like xml")
+        path = join(upload_folder(), filename)
+        xml.save(path)
+    except Exception as err:
+        return {
+            'status': 'error',
+            'code': 'error-uploading-xml',
+            'message': 'an error occured uploading the article xml to be processed',
+            'trace': str(err)
+        }, 400 # everything is always the client's fault.
 
     # generate
     try:
@@ -116,7 +124,15 @@ def post_xml():
         json_path = join(upload_folder(), json_filename)
         open(json_path, 'w').write(results)
     except Exception as err:
-        return {'error': str(err)}
+        return {
+            'status': 'error',
+            'code': 'error-scraping-xml',
+            'message': 'an error occured transforming the article xml into article json',
+            'trace': str(err),
+
+            # TODO: expand, give the full url to download the xml, attempt re-generation, etc
+            'xml': filename
+        }, 400
 
     # validate
     try:
@@ -125,16 +141,24 @@ def post_xml():
 
     except jsonschema.ValidationError as err:
         return {
-            'error': 'invalid-article-json',
-            'details': str(err), # todo: any good?
-        }
+            'status': 'invalid',
+            'code': 'invalid-article-json',
+            #'comment': '...', # lax returns one of these
+            'message': 'the generated article-json failed validation.',
+            'trace': str(err), # todo: any good?
+
+            # TODO: expand these. give the full url to download the xml or ajson,
+            # generate/validate the ajson again, etc
+            'xml': filename,
+            'json': json_filename
+        }, 400
 
     # send to lax
     # ...
 
 def create_app(cfg_overrides=None):
     app = connexion.App(__name__, specification_dir=join(conf.PROJECT_DIR, 'schema'))
-    app.add_api('api.yaml', resolver=AsdfResolver('api'))
+    app.add_api('api.yaml', resolver=BotLaxResolver('api'))
     cfg = {
         'SECRET_KEY': os.urandom(24), # necessary for uploads
         # http://flask.pocoo.org/docs/0.11/config/#instance-folders
