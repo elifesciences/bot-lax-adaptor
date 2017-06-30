@@ -1,6 +1,6 @@
-import os, json
+import os, json, uuid
 from os.path import join
-import conf
+import conf, utils, adaptor
 from flex.core import validate
 import flex
 import connexion
@@ -119,10 +119,10 @@ def post_xml():
 
     # generate
     try:
-        results = scraper.main(path)
+        article_json = scraper.main(path)
         json_filename = filename + '.json'
         json_path = join(upload_folder(), json_filename)
-        open(json_path, 'w').write(results)
+        open(json_path, 'w').write(article_json)
     except Exception as err:
         return {
             'status': 'error',
@@ -137,7 +137,6 @@ def post_xml():
     # validate
     try:
         ajson_validate.main(open(json_path, 'r'))
-        return results
 
     except jsonschema.ValidationError as err:
         return {
@@ -154,7 +153,41 @@ def post_xml():
         }, 400
 
     # send to lax
-    # ...
+    try:
+        msid, version = utils.version_from_path(filename)
+        token = uuid.uuid4()
+        args = {
+            # the *most* important parameter. don't modify lax.
+            'dry_run': True,
+
+            # a forced ingest by default
+            'action': 'ingest',
+            'force': True,
+
+            # article details
+            'id': msid,
+            'version': int(version),
+            'article_json': article_json,
+
+            'token': token,
+        }
+        lax_resp = adaptor.call_lax(**args)
+
+        status = lax_resp['status']
+        if status in [adaptor.INVALID, adaptor.ERROR]:
+            return lax_resp, 400
+        return lax_resp, 200
+    except RuntimeError as err:
+        # lax returned something indecipherable
+        return {
+            'status': 'error',
+            'code': 'lax-is-borked',
+            'message': "lax responded with something that couldn't be decoded",
+            'trace': str(err),
+
+            'xml': filename,
+            'json': json_filename
+        }, 400
 
 def create_app(cfg_overrides=None):
     app = connexion.App(__name__, specification_dir=join(conf.PROJECT_DIR, 'schema'))

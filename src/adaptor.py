@@ -1,12 +1,12 @@
 from jsonschema import ValidationError
 import json
 from datetime import datetime
-import os
+import os, sys
 from os.path import join
 from urlparse import urlparse
 import requests
 import signal
-import main, fs_adaptor, sqs_adaptor
+import main as scraper, fs_adaptor, sqs_adaptor
 from functools import partial
 import utils
 from utils import subdict, renkeys, ensure
@@ -84,15 +84,26 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
     lax_stdout = None
     try:
         rc, lax_stdout = utils.run_script(cmd, article_json)
-        results = json.loads(lax_stdout)
-        return {
+        lax_resp = json.loads(lax_stdout)
+
+        bot_lax_resp = {
             "id": id,
+            "status": None,
+            "message": None,
+            "code": None,
+            "datetime": datetime.now()
+        }
+        # additional attributes we'll be returning
+        new = {
             "requested-action": action,
             "token": token,
-            "status": results['status'],
-            "message": results['message'],
-            "datetime": results.get('datetime', datetime.now())
         }
+        # this ensures nothing lax returns will be lost.
+        # valid adaptor responses are handled in `mkresponse`
+        bot_lax_resp.update(lax_resp)
+        bot_lax_resp.update(new)
+        return bot_lax_resp
+
     except ValueError as err:
         # could not parse lax response. this is a lax error
         raise RuntimeError("failed to parse response from lax, expecting json, got error %r from stdout %r" %
@@ -211,9 +222,9 @@ def handler(json_request, outgoing):
         LOG.info("got xml")
 
         try:
-            article_data = main.render_single(article_xml,
-                                              version=params['version'],
-                                              location=request['location'])
+            article_data = scraper.render_single(article_xml,
+                                                 version=params['version'],
+                                                 location=request['location'])
             LOG.info("rendered article data ")
 
         except Exception as err:
@@ -304,7 +315,7 @@ def _setup_interrupt_flag():
 
     return flag
 
-def bootstrap():
+def main(*flgs):
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--type', choices=['sqs', 'fs'])
@@ -315,7 +326,7 @@ def bootstrap():
     parser.add_argument('--action', choices=[INGEST, PUBLISH, INGEST_PUBLISH])
     parser.add_argument('--validate-only', action='store_true', default=False)
 
-    args = parser.parse_args()
+    args = parser.parse_args(flgs or sys.argv[1:])
 
     adaptors = {
         'fs': partial(read_from_fs, args.target),
@@ -333,6 +344,5 @@ def bootstrap():
 
     do(*fn())
 
-
 if __name__ == '__main__':
-    bootstrap()
+    main()

@@ -75,7 +75,7 @@ class Logic(BaseCase):
         self.assertIn(u'<title>Appendix\xa01</title>', titles_of_appendices)
 
 
-class Bootstrap(BaseCase):
+class Main(BaseCase):
     def setUp(self):
         self.ingest_dir = join(self.fixtures_dir, 'dir-ingest-small', 'v1')
 
@@ -89,7 +89,7 @@ class Bootstrap(BaseCase):
         argstr = '--type fs --action ingest+publish --target %s' % self.ingest_dir
         args.extend(argstr.split())
         with patch('sys.argv', args):
-            adapt.bootstrap()
+            adapt.main()
 
     @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.ERROR, 'message': 'mock'})
     def test_error_ingest_publish(self):
@@ -98,7 +98,7 @@ class Bootstrap(BaseCase):
         argstr = '--type fs --action ingest+publish --target %s' % self.ingest_dir
         args.extend(argstr.split())
         with patch('sys.argv', args):
-            adapt.bootstrap()
+            adapt.main()
 
     @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.VALIDATED, 'message': 'mock'})
     def test_validated_ingest_publish(self):
@@ -107,4 +107,4 @@ class Bootstrap(BaseCase):
         argstr = '--type fs --action ingest+publish --validate-only --target %s' % self.ingest_dir
         args.extend(argstr.split())
         with patch('sys.argv', args):
-            adapt.bootstrap()
+            adapt.main()

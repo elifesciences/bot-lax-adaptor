@@ -1,6 +1,7 @@
 from os.path import join
 from . import base
-import api, validate, utils
+import api, validate, utils  # , conf
+from mock import patch
 
 class One(base.BaseCase):
     def setUp(self):
@@ -61,14 +62,20 @@ class Web(TestCase):
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
-        resp = self.client.post('/xml', **{
-            'buffered': True,
-            'content_type': 'multipart/form-data',
-            'data': {
-                'xml': (open(xml_fixture, 'r'), xml_fname),
-            }
-        })
-        self.assertEqual(resp.status_code, 200)
+        expected_lax_resp = {
+            u'status': u'validated', u'requested-action': u'ingest',
+            u'datetime': u'2017-06-30T07:37:07Z', u'token': u'pants',
+            u'message': u'(dry-run)', u'id': u'16695'
+        }
+
+        with patch('adaptor.call_lax', return_value=expected_lax_resp):
+            resp = self.client.post('/xml', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': {
+                    'xml': (open(xml_fixture, 'r'), xml_fname),
+                }
+            })
 
         # ensure xml uploaded
         expected_xml_path = join(self.temp_dir, xml_fname)
@@ -83,11 +90,24 @@ class Web(TestCase):
         actual_ajson = base.load_ajson(expected_ajson_path)
         self.assertEqual(actual_ajson, expected_ajson)
 
-        # ensure ajson validates
+        # ensure ajson validated
         success, _ = validate.main(open(expected_ajson_path, 'r'))
         self.assertTrue(success)
 
+        # ensure ajson is successfully sent to lax
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.json, expected_lax_resp)
+
+    def test_bad_upload(self):
+        "xml fails to upload"
+        pass
+
+    def test_bad_scrape(self):
+        "article json fails to scrape xml"
+        pass
+
     def test_upload_invalid(self):
+        "article json fails to validate"
         xml_fname = 'elife-00666-v1.xml.invalid'
         xml_upload_fname = 'elife-00666-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
