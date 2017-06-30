@@ -13,11 +13,12 @@ function scrape {
             nom=${path##*/} # basename, ll: elife-09560.xml
             if [ "$nom" = "elife-00666-v1.xml" ]; then
                 # download the kitchen sink.
-                rm -f "$home/elife-00666.xml"
-                wget https://raw.githubusercontent.com/elifesciences/XML-mapping/master/elife-00666.xml
+                wget https://raw.githubusercontent.com/elifesciences/XML-mapping/master/elife-00666.xml -O /tmp/elife-00666.xml
+                cat /tmp/elife-00666.xml | xmllint --format - > "$home/$nom"
+                cp "$home/$nom" "$home/$nom.invalid" # you'll have to make invalid again (just remove the title)
                 path="$home/$nom"
             else
-                cp $path "$home/$nom"
+                cat $path | xmllint --format - > "$home/$nom"
             fi
             ./scrape-article.sh $path > "$home/$nom.json"
        done
