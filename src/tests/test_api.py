@@ -1,6 +1,6 @@
 from os.path import join
 from . import base
-import api, validate
+import api, validate, utils
 
 class One(base.BaseCase):
     def setUp(self):
@@ -87,25 +87,40 @@ class Web(TestCase):
         success, _ = validate.main(open(expected_ajson_path, 'r'))
         self.assertTrue(success)
 
-
-'''
     def test_upload_invalid(self):
-        xml_fname = 'elife-00666-v1-invalid.xml'
+        xml_fname = 'elife-00666-v1.xml.invalid'
+        xml_upload_fname = 'elife-00666-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
-        self.client.post('/upload/', **{
+        resp = self.client.post('/xml', **{
             'buffered': True,
             'content_type': 'multipart/form-data',
             'data': {
-                # data, filename
-                'xml': (open(xml_fixture, 'r'), 'elife-00666-v1.xml'),
+                'xml': (open(xml_fixture, 'r'), xml_upload_fname),
             }
         })
+        self.assertEqual(resp.status_code, 400) # bad data
+        
+        # ensure xml uploaded
         expected_path = join(self.temp_dir, 'elife-00666-v1.xml')
         self.assertTrue(os.path.exists(expected_path))
-        self.assertTrue(os.path.isfile(expected_path))
-        self.assert_flashes(lambda message: message.startswith('invalid'))
 
+        # ensure ajson scraped
+        expected_ajson = join(self.fixtures_dir, 'elife-00666-v1.xml.json')
+        self.assertTrue(os.path.exists(expected_ajson))
+
+        expected_resp = {
+            'status': 'invalid',
+            'xml': xml_upload_fname,
+            'code': 'invalid-article-json',
+            #'trace': '...', # stacktrace
+            'json': xml_upload_fname + '.json',
+            #'message': '' # will probably change
+        }
+        resp = resp.json
+        self.assertTrue(utils.partial_match(expected_resp, resp))
+
+'''
     def test_generate_file(self):
         # upload file
         xml_fname = 'elife-16695-v1.xml'
