@@ -22,7 +22,7 @@ import logging
 LOG = logging.getLogger(__name__)
 
 # output to adaptor.log
-_handler = logging.FileHandler("adaptor.log")
+_handler = logging.FileHandler(join(conf.LOG_DIR, "adaptor.log"))
 _handler.setLevel(logging.DEBUG)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)

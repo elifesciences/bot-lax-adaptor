@@ -1,3 +1,4 @@
+from os.path import join
 from isbnlib import mask, to_isbn13
 import re
 from functools import partial
@@ -14,7 +15,7 @@ from slugify import slugify
 import conf, utils, glencoe, iiif, cdn
 
 LOG = logging.getLogger(__name__)
-_handler = logging.FileHandler('scrape.log')
+_handler = logging.FileHandler(join(conf.LOG_DIR, 'scrape.log'))
 _handler.setLevel(logging.INFO)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
@@ -22,7 +23,6 @@ LOG.addHandler(_handler)
 #
 # utils
 #
-
 
 def doi(item):
     return parseJATS.doi(item)

@@ -6,9 +6,36 @@ import utils
 import configparser as configparser
 import yaml
 
-ROOTLOG = logging.getLogger("")
+SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
+PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/adaptor/
 
-REQUESTS_CACHING = True
+CFG_NAME = 'app.cfg'
+DYNCONFIG = configparser.SafeConfigParser(**{
+    'allow_no_value': True,
+    # these can be used like template variables
+    # https://docs.python.org/2/library/configparser.html
+    'defaults': {'dir': PROJECT_DIR}})
+DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # ll: /path/to/lax/app.cfg
+
+def cfg(path, default=0xDEADBEEF):
+    lu = {'True': True, 'true': True, 'False': False, 'false': False} # cast any obvious booleans
+    try:
+        val = DYNCONFIG.get(*path.split('.'))
+        return lu.get(val, val)
+    except (configparser.NoOptionError, configparser.NoSectionError): # given key in section hasn't been defined
+        if default == 0xDEADBEEF:
+            raise ValueError("no value/section set for setting at %r" % path)
+        return default
+    except Exception:
+        raise
+
+ENV = cfg('general.env')
+
+#
+#
+#
+
+ROOTLOG = logging.getLogger("")
 
 _supported_keys = [
     'asctime',
@@ -72,38 +99,14 @@ def multiprocess_log(filename, name=__name__):
         log.addHandler(_handler)
     return log
 
-#
-#
-#
-
-SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
-PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/adaptor/
-
-CFG_NAME = 'app.cfg'
-DYNCONFIG = configparser.SafeConfigParser(**{
-    'allow_no_value': True,
-    # these can be used like template variables
-    # https://docs.python.org/2/library/configparser.html
-    'defaults': {'dir': PROJECT_DIR}})
-DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # ll: /path/to/lax/app.cfg
-
-def cfg(path, default=0xDEADBEEF):
-    lu = {'True': True, 'true': True, 'False': False, 'false': False} # cast any obvious booleans
-    try:
-        val = DYNCONFIG.get(*path.split('.'))
-        return lu.get(val, val)
-    except (configparser.NoOptionError, configparser.NoSectionError): # given key in section hasn't been defined
-        if default == 0xDEADBEEF:
-            raise ValueError("no value/section set for setting at %r" % path)
-        return default
-    except Exception:
-        raise
+LOG_DIR = '/var/log/bot-lax-adaptor/'
+if ENV in ['dev']:
+    LOG_DIR = PROJECT_DIR
+utils.writable(LOG_DIR)
 
 #
 #
 #
-
-ENV = cfg('general.env')
 
 PATH_TO_LAX = cfg('lax.location')
 
@@ -152,9 +155,8 @@ else:
     CDN_IIIF = 'https://prod--cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
     IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
 
-# NOTE: do not move to /tmp
-GLENCOE_CACHE = join(CACHE_PATH, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
-IIIF_CACHE = join(CACHE_PATH, 'iiif-cache')
+# should our http requests to external services be cached?
+REQUESTS_CACHING = True
 REQUESTS_CACHE = join(CACHE_PATH, 'requests-cache')
 
 # *may* improve locked db problem

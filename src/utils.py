@@ -14,6 +14,11 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
+def writable(path):
+    os.system('touch ' + path)
+    # https://docs.python.org/2/library/os.html
+    assert os.access(path, os.W_OK), "file doesn't exist or isn't writable: %s" % path
+
 def pad_msid(msid):
     return str(int(msid)).zfill(5)
 
