@@ -100,7 +100,7 @@ class Web(TestCase):
             }
         })
         self.assertEqual(resp.status_code, 400) # bad data
-        
+
         # ensure xml uploaded
         expected_path = join(self.temp_dir, 'elife-00666-v1.xml')
         self.assertTrue(os.path.exists(expected_path))
