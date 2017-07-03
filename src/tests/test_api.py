@@ -1,3 +1,4 @@
+import json
 from os.path import join
 from . import base
 import api, validate, utils  # , conf
@@ -73,7 +74,7 @@ class Web(TestCase):
                 'buffered': True,
                 'content_type': 'multipart/form-data',
                 'data': {
-                    'xml': (open(xml_fixture, 'r'), xml_fname),
+                    'xml': (open(xml_fixture, 'rb'), xml_fname),
                 }
             })
 
@@ -91,7 +92,7 @@ class Web(TestCase):
         self.assertEqual(actual_ajson, expected_ajson)
 
         # ensure ajson validated
-        success, _ = validate.main(open(expected_ajson_path, 'r'))
+        success, _ = validate.main(open(expected_ajson_path, 'rb'))
         self.assertTrue(success)
 
         # ensure ajson is successfully sent to lax
@@ -116,17 +117,17 @@ class Web(TestCase):
             'buffered': True,
             'content_type': 'multipart/form-data',
             'data': {
-                'xml': (open(xml_fixture, 'r'), xml_upload_fname),
+                'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
             }
         })
-        self.assertEqual(resp.status_code, 400) # bad data
+        self.assertEqual(resp.status_code, 400) # bad request data
 
         # ensure xml uploaded
-        expected_path = join(self.temp_dir, 'elife-00666-v1.xml')
+        expected_path = join(self.temp_dir, xml_upload_fname)
         self.assertTrue(os.path.exists(expected_path))
 
         # ensure ajson scraped
-        expected_ajson = join(self.fixtures_dir, 'elife-00666-v1.xml.json')
+        expected_ajson = join(self.temp_dir, xml_upload_fname) + '.json'
         self.assertTrue(os.path.exists(expected_ajson))
 
         expected_resp = {
@@ -139,3 +140,32 @@ class Web(TestCase):
         }
         resp = resp.json
         self.assertTrue(utils.partial_match(expected_resp, resp))
+
+    def test_upload_with_overrides(self):
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        xml_upload_fname = 'elife-16695-v1.xml'
+
+        expected = {
+            'title': 'foo',
+            'statusDate': '2012-12-21T00:00:00Z'
+        }
+        serialized_overrides = api.serialize_overrides(expected)
+
+        payload = {
+            'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
+            'override': serialized_overrides,
+        }
+        resp = self.client.post('/xml', **{
+            'buffered': True,
+            'content_type': 'multipart/form-data',
+            'data': payload,
+        })
+        # overrides params can be sent
+        self.assertEqual(resp.status_code, 200)
+
+        # overrides have been written
+        scraped_ajson = join(self.temp_dir, xml_upload_fname) + '.json'
+        ajson = json.load(open(scraped_ajson, 'r'))
+        for key, expected_val in expected.items():
+            self.assertEqual(ajson['article'][key], expected_val)

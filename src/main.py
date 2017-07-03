@@ -2,7 +2,7 @@ from os.path import join
 from isbnlib import mask, to_isbn13
 import re
 from functools import partial
-import os, sys, json, copy, calendar
+import os, json, copy, calendar
 from et3.render import render, doall, EXCLUDE_ME
 from et3.extract import lookup as p
 from et3.utils import requires_context
@@ -458,8 +458,17 @@ def placeholders_for_validation(data):
 
     return data
 
+def manual_overrides(ctx, data):
+    "because a human knows best, right?"
+    overrides = ctx.get('override', {})
+    utils.ensure(isinstance(overrides, dict), "given mapping of overrides is not a dictionary")
+    # possibly add support for dotted paths in future?
+    for key, value in overrides.items():
+        data['article'][key] = value
+    return data
 
-def postprocess(data):
+
+def postprocess(data, ctx):
     msid = data['snippet']['id']
     data = doall(data, [
         check_authors,
@@ -471,6 +480,9 @@ def postprocess(data):
         format_isbns,
         prune,
         placeholders_for_validation,
+
+        # do this last. anything that comes after this can't be altered by user-provided values
+        partial(manual_overrides, ctx),
     ])
     return data
 #
@@ -596,27 +608,40 @@ def render_single(doc, **ctx):
         ctx['location'] = expand_location(ctx.get('location', doc))
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
-        article_data = postprocess(render(description, [soup], ctx)[0])
+        article_data = postprocess(render(description, [soup], ctx)[0], ctx)
         return article_data
 
     except Exception as err:
         LOG.error("failed to render doc %r with error: %s", ctx['location'], err)
         raise
 
-def main(doc):
+def main(doc, args=None):
+    args = args or {}
     msid, version = utils.version_from_path(getattr(doc, 'name', doc))
+    ctx = {
+        'version': version,
+        'override': args.get('override', {}),
+    }
     try:
-        article_json = render_single(doc, version=version)
+        article_json = render_single(doc, **ctx)
         return json.dumps(article_json, indent=4)
     except Exception:
-        LOG.exception("failed to scrape article", extra={'doc': doc, 'msid': msid, 'version': version})
+        log_ctx = {
+            'doc': doc,
+            'msid': msid,
+            'version': version,
+            'override': ctx['override'],
+        }
+        LOG.exception("failed to scrape article", extra=log_ctx)
         raise
 
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('infile', nargs="?", type=argparse.FileType('r'), default=sys.stdin)
+    parser.add_argument('infile', type=argparse.FileType('r'))
     parser.add_argument('--verbose', action="store_true", default=False)
-    args = parser.parse_args()
-    doc = args.infile
-    print main(doc)
+    parser.add_argument('--override', nargs=2, action="append")
+    args = vars(parser.parse_args())
+    doc = args.pop('infile')
+    args['override'] = dict(args['override'] or [])
+    print main(doc, args)

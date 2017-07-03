@@ -25,6 +25,12 @@ def validate_schema():
     validate(spec)
     return True
 
+def serialize_overrides(override_map):
+    return map(lambda pair: '|'.join(pair), override_map.items())
+
+def deserialize_overrides(override_list):
+    return dict(map(lambda string: string.split('|', 1), override_list))
+
 def http_exception(code, msg):
     "returns an HTTPException object with the correct code and message set"
     ex = HTTPException(msg)
@@ -119,7 +125,8 @@ def post_xml():
 
     # generate
     try:
-        article_json = scraper.main(path)
+        override = deserialize_overrides(request.form.getlist('override'))
+        article_json = scraper.main(path, {'override': override})
         json_filename = filename + '.json'
         json_path = join(upload_folder(), json_filename)
         open(json_path, 'w').write(article_json)
