@@ -615,6 +615,22 @@ def render_single(doc, **ctx):
         LOG.error("failed to render doc %r with error: %s", ctx['location'], err)
         raise
 
+def serialize_overrides(override_map):
+    def serialize(pair):
+        key, val = pair
+        utils.ensure(isinstance(key, basestring), "key must be a string")
+        utils.ensure('|' not in key, "key must not contain a pipe")
+        key = key.strip()
+        utils.ensure(key, "key must not be empty")
+        return '|'.join([key, json.dumps(val)])
+    return map(serialize, override_map.items())
+
+def deserialize_overrides(override_list):
+    def splitter(string):
+        first, rest = string.split('|', 1)
+        return (first, json.loads(rest))
+    return dict(map(splitter, override_list))
+
 def main(doc, args=None):
     args = args or {}
     msid, version = utils.version_from_path(getattr(doc, 'name', doc))
@@ -643,5 +659,5 @@ if __name__ == '__main__':
     parser.add_argument('--override', nargs=2, action="append")
     args = vars(parser.parse_args())
     doc = args.pop('infile')
-    args['override'] = dict(args['override'] or [])
+    args['override'] = deserialize_overrides(args['override'] or [])
     print main(doc, args)

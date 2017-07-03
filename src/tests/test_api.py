@@ -1,7 +1,7 @@
 import json
 from os.path import join
 from . import base
-import api, validate, utils  # , conf
+import api, validate, utils, main as scraper  # , conf
 from mock import patch
 
 class One(base.BaseCase):
@@ -150,7 +150,7 @@ class Web(TestCase):
             'title': 'foo',
             'statusDate': '2012-12-21T00:00:00Z'
         }
-        serialized_overrides = api.serialize_overrides(expected)
+        serialized_overrides = scraper.serialize_overrides(expected)
 
         payload = {
             'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
@@ -165,6 +165,37 @@ class Web(TestCase):
         self.assertEqual(resp.status_code, 200)
 
         # overrides have been written
+        scraped_ajson = join(self.temp_dir, xml_upload_fname) + '.json'
+        ajson = json.load(open(scraped_ajson, 'r'))
+        for key, expected_val in expected.items():
+            self.assertEqual(ajson['article'][key], expected_val)
+
+    def test_upload_with_complex_overrides(self):
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        xml_upload_fname = 'elife-16695-v1.xml'
+
+        expected = dict([
+            ('title', '        '),
+            ('elocationid', None),
+            ('abstract', [1, [2, [3]]]),
+            ('version', {'foo': 'bar'}),
+        ])
+        serialized_overrides = scraper.serialize_overrides(expected)
+
+        payload = {
+            'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
+            'override': serialized_overrides,
+        }
+        resp = self.client.post('/xml', **{
+            'buffered': True,
+            'content_type': 'multipart/form-data',
+            'data': payload,
+        })
+        # bad request (something failed validation)
+        self.assertEqual(resp.status_code, 400)
+
+        # ensure overrides survived transport and were written to article-json
         scraped_ajson = join(self.temp_dir, xml_upload_fname) + '.json'
         ajson = json.load(open(scraped_ajson, 'r'))
         for key, expected_val in expected.items():

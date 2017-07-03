@@ -248,6 +248,15 @@ class ArticleScrape(BaseCase):
         }]
         self.assertEqual(expected, main.mixed_citation_to_related_articles(given))
 
+    def test_serialize_bad_args(self):
+        expected = dict([
+            ('', 1),
+            (('', ''), 2),
+            (None, 3),
+            ('|', 4),
+        ])
+        for bad_key, val in expected.items():
+            self.assertRaises(AssertionError, main.serialize_overrides, {bad_key: val})
 
 class KitchenSink(BaseCase):
     def setUp(self):
