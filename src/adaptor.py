@@ -89,13 +89,18 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
         bot_lax_resp = {
             "id": id,
             "status": None,
-            "message": None,
-            "code": None,
+            # not present in success responses
+            # added in error responses
+            #"message":
+            #"code":
+            #"comment":
             "datetime": datetime.now()
         }
         # additional attributes we'll be returning
         new = {
             "requested-action": action,
+            "force": force,
+            "dry-run": dry_run,
             "token": token,
         }
         # this ensures nothing lax returns will be lost.

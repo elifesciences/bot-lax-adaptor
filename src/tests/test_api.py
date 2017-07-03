@@ -1,8 +1,10 @@
 import json
 from os.path import join
 from . import base
-import api, validate, utils, main as scraper  # , conf
+import api, validate, utils, main as scraper, conf
 from mock import patch
+import os, shutil, tempfile
+from flask_testing import TestCase
 
 class One(base.BaseCase):
     def setUp(self):
@@ -30,22 +32,11 @@ class One(base.BaseCase):
         swagger_test(path, resolver=api.AsdfResolver('api'))
     '''
 
-class Two(base.BaseCase):
-    def setUp(self):
-        pass
 
-    def tearDown(self):
-        pass
-
-
-import os, shutil, tempfile
-from flask_testing import TestCase
-
-class Web(TestCase):
+class FlaskTestCase(TestCase):
     maxDiff = None
     this_dir = os.path.realpath(os.path.dirname(__file__))
     fixtures_dir = join(this_dir, 'fixtures')
-
     render_templates = False
 
     def create_app(self):
@@ -59,14 +50,21 @@ class Web(TestCase):
     def tearDown(self):
         shutil.rmtree(self.temp_dir)
 
+class Two(FlaskTestCase):
     def test_upload_valid_xml(self):
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
         expected_lax_resp = {
-            u'status': u'validated', u'requested-action': u'ingest',
-            u'datetime': u'2017-06-30T07:37:07Z', u'token': u'pants',
-            u'message': u'(dry-run)', u'id': u'16695'
+            'status': conf.VALIDATED,
+            'requested-action': conf.INGEST,
+            'force': True,
+            'dry-run': True,
+            'datetime': '2017-06-30T07:37:07Z',
+            'token': 'pants',
+            'id': '16695',
+            'override': {},
+            'ajson': base.load_ajson(xml_fixture + '.json')['article']
         }
 
         with patch('adaptor.call_lax', return_value=expected_lax_resp):
@@ -97,6 +95,8 @@ class Web(TestCase):
 
         # ensure ajson is successfully sent to lax
         self.assertEqual(resp.status_code, 200)
+
+        del resp.json['ajson']['-meta'] # remove the -meta key from the response.
         self.assertEqual(resp.json, expected_lax_resp)
 
     def test_bad_upload(self):
@@ -200,3 +200,46 @@ class Web(TestCase):
         ajson = json.load(open(scraped_ajson, 'r'))
         for key, expected_val in expected.items():
             self.assertEqual(ajson['article'][key], expected_val)
+
+class Three(FlaskTestCase):
+    def test_response(self):
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        xml_upload_fname = 'elife-16695-v1.xml'
+
+        override = {
+            'title': 'foo',
+            'statusDate': '2012-12-21T00:00:00Z'
+        }
+        payload = {
+            'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
+            'override': scraper.serialize_overrides(override),
+        }
+        resp = self.client.post('/xml', **{
+            'buffered': True,
+            'content_type': 'multipart/form-data',
+            'data': payload,
+        })
+        # successfully did everything
+        self.assertEqual(resp.status_code, 200)
+
+        # remove the meta because we can't compare it
+        del resp.json['ajson']['-meta']
+
+        # wrangle the fixture :(
+        expected_ajson = base.load_ajson(xml_fixture + '.json')['article']
+        for key, val in override.items():
+            expected_ajson[key] = val
+
+        # resp, ll:
+        # {u'status': u'validated', 'ajson': ..., u'code': None, u'requested-action': u'ingest', u'validate-only?': True, u'forced?': True, u'datetime': u'2017-07-03T08:07:10Z', u'token': u'2cae8aa0-e274-4890-8d96-d6eb2a54a908', u'override': {u'statusDate': u'2012-12-21T00:00:00Z', u'title': u'foo'}, u'message': u'(dry-run)', u'id': 16695}
+
+        expected_response = {
+            'requested-action': 'ingest',
+            'force': True,
+            'dry-run': True,
+            'status': conf.VALIDATED,
+            'ajson': expected_ajson, # with overrides, with -meta excluded
+            'override': override, # the map of given overrides
+        }
+        self.assertTrue(utils.partial_match(expected_response, resp.json))

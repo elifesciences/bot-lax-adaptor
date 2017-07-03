@@ -1,4 +1,4 @@
-import os, json, uuid
+import os, json, uuid, copy
 from os.path import join
 import conf, utils, adaptor
 from flex.core import validate
@@ -174,10 +174,14 @@ def post_xml():
         }
         lax_resp = adaptor.call_lax(**args)
 
-        status = lax_resp['status']
+        api_resp = copy.deepcopy(lax_resp)
+        api_resp['ajson'] = json.loads(article_json)['article']
+        api_resp['override'] = override
+
+        status = api_resp['status']
         if status in [adaptor.INVALID, adaptor.ERROR]:
-            return lax_resp, 400
-        return lax_resp, 200
+            return api_resp, 400
+        return api_resp, 200
     except RuntimeError as err:
         # lax returned something indecipherable
         return {
