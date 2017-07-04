@@ -252,24 +252,6 @@ class Three(FlaskTestCase):
 
     def test_broken_glencoe_response(self):
         "when glencoe is missing something, this should be the response"
-        xml_fname = 'elife-00666-v1.xml'
-        xml_fixture = join(self.fixtures_dir, xml_fname)
-        xml_upload_fname = 'elife-00666-v1.xml'
-
-        # make the request with some overrides
-        override = {
-            'title': 'foo',
-            'statusDate': '2012-12-21T00:00:00Z'
-        }
-        payload = {
-            'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
-            'override': scraper.serialize_overrides(override),
-        }
-
-        # this is the article-json we expect in the response including overridden values
-        expected_ajson = base.load_ajson(xml_fixture + '.json')
-        expected_ajson = scraper.manual_overrides({'override': override}, expected_ajson)
-        expected_ajson = expected_ajson['article'] # user doesn't ever see journal or snippet structs
 
         err_message = "informative error message"
         
@@ -280,14 +262,14 @@ class Three(FlaskTestCase):
             #'trace': '...' # super long, can't predict, especially when mocking
         }
         with patch('glencoe.validate_gc_data', side_effect=AssertionError(err_message)):
-            # this request should never reach lax
             resp = self.client.post('/xml', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
-                'data': payload,
+                'data': {
+                    'xml': open(join(self.fixtures_dir, 'elife-00666-v1.xml'), 'rb'),
+                },
             })
         
-        # success
         self.assertEqual(resp.status_code, 400) # bad request
         self.assertTrue(utils.partial_match(expected_resp, resp.json))
         self.assertTrue(resp.json['trace'].startswith('Traceback (most'))
