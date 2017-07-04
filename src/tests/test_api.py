@@ -136,7 +136,6 @@ class Two(FlaskTestCase):
         # response is exactly as we anticipated
         self.assertEqual(mock_lax_resp, resp.json)
 
-        
     def test_bad_upload(self):
         "the response we expect when the xml fails to upload"
         pass

@@ -149,7 +149,6 @@ def post_xml():
         return {
             'status': 'invalid',
             'code': 'invalid-article-json',
-            #'comment': '...', # lax returns one of these
             'message': 'the generated article-json failed validation',
             'trace': str(err), # todo: any good?
         }, 400
@@ -159,7 +158,6 @@ def post_xml():
         return {
             'status': 'error',
             'code': 'error-validating-article-json',
-            #'comment': '...', # lax returns one of these
             'message': 'an error occurred attempting to validate the generated article-json',
             'trace': sio.getvalue()
         }, 400
@@ -194,11 +192,12 @@ def post_xml():
             return api_resp, 400
 
         # success
+        # 'code', 'message' and 'trace' are not returned by lax on success, just 'status'
         api_resp['ajson'] = json.loads(article_json)['article']
         api_resp['override'] = override
         return api_resp, 200
 
-    except RuntimeError as err:
+    except Exception as err:
         # lax returned something indecipherable
         return {
             'status': 'error',
