@@ -150,7 +150,7 @@ def post_xml():
             'status': 'invalid',
             'code': 'invalid-article-json',
             #'comment': '...', # lax returns one of these
-            'message': 'the generated article-json failed validation.',
+            'message': 'the generated article-json failed validation',
             'trace': str(err), # todo: any good?
         }, 400
     except Exception as err:
@@ -160,7 +160,7 @@ def post_xml():
             'status': 'error',
             'code': 'error-validating-article-json',
             #'comment': '...', # lax returns one of these
-            'message': 'an error occurred attempting to validate the generated article-json.',
+            'message': 'an error occurred attempting to validate the generated article-json',
             'trace': sio.getvalue()
         }, 400
 

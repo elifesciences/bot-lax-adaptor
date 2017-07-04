@@ -52,6 +52,7 @@ class FlaskTestCase(TestCase):
 
 class Two(FlaskTestCase):
     def test_upload_valid_xml(self):
+        "the response we expect when everything happens perfectly"
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
@@ -93,16 +94,59 @@ class Two(FlaskTestCase):
         del resp.json['ajson']['-meta'] # remove the -meta key from the response.
         self.assertEqual(resp.json, expected_lax_resp)
 
+    def test_upload_valid_xml_overrides(self):
+        "the response we expect when everything happens perfectly with overrides"
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        xml_upload_fname = 'elife-16695-v1.xml'
+
+        # make the request with some overrides
+        override = {
+            'title': 'foo',
+            'statusDate': '2012-12-21T00:00:00Z'
+        }
+        payload = {
+            'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
+            'override': scraper.serialize_overrides(override),
+        }
+
+        # this is the article-json we expect in the response including overridden values
+        expected_ajson = base.load_ajson(xml_fixture + '.json')
+        expected_ajson = scraper.manual_overrides({'override': override}, expected_ajson)
+        expected_ajson = expected_ajson['article'] # user doesn't ever see journal or snippet structs
+
+        mock_lax_resp = {
+            'status': conf.VALIDATED,
+            'override': override,
+            'ajson': expected_ajson,
+        }
+        with patch('adaptor.call_lax', return_value=mock_lax_resp):
+            resp = self.client.post('/xml', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': payload,
+            })
+
+        # success
+        self.assertEqual(resp.status_code, 200)
+
+        # remove the meta because we can't compare it
+        del resp.json['ajson']['-meta']
+
+        # response is exactly as we anticipated
+        self.assertEqual(mock_lax_resp, resp.json)
+
+        
     def test_bad_upload(self):
-        "xml fails to upload"
+        "the response we expect when the xml fails to upload"
         pass
 
     def test_bad_scrape(self):
-        "article json fails to scrape xml"
+        "the response we expect the xml fails to scrape"
         pass
 
     def test_upload_invalid(self):
-        "article json fails to validate"
+        "the response we expect when the scraped article-json is invalid"
         xml_fname = 'elife-00666-v1.xml.invalid'
         xml_upload_fname = 'elife-00666-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
@@ -125,13 +169,14 @@ class Two(FlaskTestCase):
         self.assertTrue(os.path.exists(expected_ajson))
 
         expected_resp = {
-            'status': 'invalid',
+            'status': conf.INVALID,
             'code': 'invalid-article-json',
-            #'message': '' # will probably change
+            'message': 'the generated article-json failed validation', # will probably change
             #'trace': '...', # stacktrace
         }
         resp = resp.json
         self.assertTrue(utils.partial_match(expected_resp, resp))
+        self.assertTrue(resp['trace'].startswith("None is not of type u'string'")) # title is missing
 
     def test_upload_with_overrides(self):
         xml_fname = 'elife-16695-v1.xml'
@@ -192,53 +237,6 @@ class Two(FlaskTestCase):
         ajson = json.load(open(scraped_ajson, 'r'))
         for key, expected_val in expected.items():
             self.assertEqual(ajson['article'][key], expected_val)
-
-class Three(FlaskTestCase):
-    def test_ideal_response(self):
-        "the response we expect when everything happens perfectly"
-        xml_fname = 'elife-16695-v1.xml'
-        xml_fixture = join(self.fixtures_dir, xml_fname)
-        xml_upload_fname = 'elife-16695-v1.xml'
-
-        # make the request with some overrides
-        override = {
-            'title': 'foo',
-            'statusDate': '2012-12-21T00:00:00Z'
-        }
-        payload = {
-            'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
-            'override': scraper.serialize_overrides(override),
-        }
-
-        # this is the article-json we expect in the response including overridden values
-        expected_ajson = base.load_ajson(xml_fixture + '.json')
-        expected_ajson = scraper.manual_overrides({'override': override}, expected_ajson)
-        expected_ajson = expected_ajson['article'] # user doesn't ever see journal or snippet structs
-
-        mock_lax_resp = {
-            'status': conf.VALIDATED,
-            'override': override,
-            'ajson': expected_ajson,
-        }
-        with patch('adaptor.call_lax', return_value=mock_lax_resp):
-            resp = self.client.post('/xml', **{
-                'buffered': True,
-                'content_type': 'multipart/form-data',
-                'data': payload,
-            })
-
-        # success
-        self.assertEqual(resp.status_code, 200)
-
-        # remove the meta because we can't compare it
-        del resp.json['ajson']['-meta']
-
-        # response is exactly as we anticipated
-        self.assertEqual(mock_lax_resp, resp.json)
-
-    def test_invalid_ajson_response(self):
-        "the response we expect when the scraped article-json is invalid"
-        pass
 
     def test_broken_glencoe_response(self):
         "the response we expect when the glencoe code fails"
