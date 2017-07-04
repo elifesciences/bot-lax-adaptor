@@ -1,6 +1,6 @@
 from StringIO import StringIO
 import traceback
-import os, json, uuid, copy
+import os, json, uuid
 from os.path import join
 import conf, utils, adaptor
 from flex.core import validate
@@ -163,7 +163,6 @@ def post_xml():
             'message': 'an error occurred attempting to validate the generated article-json.',
             'trace': sio.getvalue()
         }, 400
-        
 
     # send to lax
     try:
@@ -185,15 +184,20 @@ def post_xml():
             'token': token,
         }
         lax_resp = adaptor.call_lax(**args)
+        LOG.info("lax response", extra=lax_resp)
 
-        api_resp = copy.deepcopy(lax_resp)
+        #api_resp = copy.deepcopy(lax_resp)
+        api_resp = utils.subdict(lax_resp, ['status', 'code', 'message', 'trace'])
+
+        if api_resp['status'] in [adaptor.INVALID, adaptor.ERROR]:
+            # failure
+            return api_resp, 400
+
+        # success
         api_resp['ajson'] = json.loads(article_json)['article']
         api_resp['override'] = override
-
-        status = api_resp['status']
-        if status in [adaptor.INVALID, adaptor.ERROR]:
-            return api_resp, 400
         return api_resp, 200
+
     except RuntimeError as err:
         # lax returned something indecipherable
         return {

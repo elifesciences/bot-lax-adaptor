@@ -9,6 +9,37 @@ schemes:
   - https
 
 #basePath: /
+
+definitions:
+  error:
+    type: object
+    properties:
+      status:
+        type: string
+        description: the final state of the article supplied
+      code:
+        type: string
+        description: a succinct identifier to help class the type of error
+      message:
+        type: string
+        description: a more verbose explanation of the problem
+      trace:
+        type: string
+        description: a very detailed block of text describing exactly where the problem is
+
+  success:
+    type: object
+    properties:
+      status:
+        type: string
+        description: the final state of the article supplied
+      ajson:
+        type: object
+        description: the final article-json, including overrides
+      override:
+        type: object
+        description: the overrides provided
+
 paths:
   /xml:
     get:
@@ -26,7 +57,13 @@ paths:
           description: the xml file to upload          
       responses:
         200:
-          description: xml, article-json and validation all completed successfully
+          description: all steps completed successfully
+          schema:
+            $ref: "#/definitions/success"
+        400:
+          description: the data you sent us is bad in some way
+          schema:
+            $ref: "#/definitions/error"
 
   /article-json:
     get:

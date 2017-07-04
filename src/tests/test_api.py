@@ -57,12 +57,6 @@ class Two(FlaskTestCase):
 
         expected_lax_resp = {
             'status': conf.VALIDATED,
-            'requested-action': conf.INGEST,
-            'force': True,
-            'dry-run': True,
-            'datetime': '2017-06-30T07:37:07Z',
-            'token': 'pants',
-            'id': '16695',
             'override': {},
             'ajson': base.load_ajson(xml_fixture + '.json')['article']
         }
@@ -132,11 +126,9 @@ class Two(FlaskTestCase):
 
         expected_resp = {
             'status': 'invalid',
-            'xml': xml_upload_fname,
             'code': 'invalid-article-json',
-            #'trace': '...', # stacktrace
-            'json': xml_upload_fname + '.json',
             #'message': '' # will probably change
+            #'trace': '...', # stacktrace
         }
         resp = resp.json
         self.assertTrue(utils.partial_match(expected_resp, resp))
@@ -203,7 +195,7 @@ class Two(FlaskTestCase):
 
 class Three(FlaskTestCase):
     def test_ideal_response(self):
-        "when everything happens perfectly, this should be the response"
+        "the response we expect when everything happens perfectly"
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
         xml_upload_fname = 'elife-16695-v1.xml'
@@ -222,15 +214,9 @@ class Three(FlaskTestCase):
         expected_ajson = base.load_ajson(xml_fixture + '.json')
         expected_ajson = scraper.manual_overrides({'override': override}, expected_ajson)
         expected_ajson = expected_ajson['article'] # user doesn't ever see journal or snippet structs
-        
+
         mock_lax_resp = {
             'status': conf.VALIDATED,
-            'requested-action': conf.INGEST,
-            'force': True,
-            'dry-run': True,
-            'datetime': '2017-06-30T07:37:07Z',
-            'token': 'pants',
-            'id': '16695',
             'override': override,
             'ajson': expected_ajson,
         }
@@ -240,7 +226,7 @@ class Three(FlaskTestCase):
                 'content_type': 'multipart/form-data',
                 'data': payload,
             })
-        
+
         # success
         self.assertEqual(resp.status_code, 200)
 
@@ -250,11 +236,15 @@ class Three(FlaskTestCase):
         # response is exactly as we anticipated
         self.assertEqual(mock_lax_resp, resp.json)
 
+    def test_invalid_ajson_response(self):
+        "the response we expect when the scraped article-json is invalid"
+        pass
+
     def test_broken_glencoe_response(self):
-        "when glencoe is missing something, this should be the response"
+        "the response we expect when the glencoe code fails"
 
         err_message = "informative error message"
-        
+
         expected_resp = {
             'status': conf.ERROR,
             'code': 'error-scraping-xml',
@@ -269,7 +259,7 @@ class Three(FlaskTestCase):
                     'xml': open(join(self.fixtures_dir, 'elife-00666-v1.xml'), 'rb'),
                 },
             })
-        
+
         self.assertEqual(resp.status_code, 400) # bad request
         self.assertTrue(utils.partial_match(expected_resp, resp.json))
         self.assertTrue(resp.json['trace'].startswith('Traceback (most'))
