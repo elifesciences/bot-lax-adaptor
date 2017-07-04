@@ -138,6 +138,7 @@ def http_download(location):
 
 def download(location):
     "download file, convert and pipe content straight into lax + transparent cache"
+    ensure('://' in location[:10], 'no protocol found in %r, failing' % location)
     protocol, path = location.split('://')
     downloaderficationer = {
         'https': lambda: http_download(location),

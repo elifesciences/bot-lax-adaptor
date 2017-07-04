@@ -5,8 +5,7 @@ coverage==4.1
 et3==1.4
 Flask==0.12.2
 Flask-Testing==0.6.2
-flex==6.10.0
-git+https://github.com/elifesciences/elife-tools.git@f613902879e0e1b7417d01a58a140af98f9a5a8e#egg=elifetools
+git+https://github.com/elifesciences/elife-tools.git@f788ca068195d561728e9687b69405d7d6aee589#egg=elifetools
 green==2.5.0
 isbnlib==3.6.5
 joblib==0.10.3
@@ -24,5 +23,4 @@ newrelic==2.72.1.53
 pytz==2016.7
 strict-rfc3339==0.7
 rfc3339==5
-#swagger-tester==0.2.7
 uWSGI==2.0.15
