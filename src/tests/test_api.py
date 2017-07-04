@@ -150,13 +150,14 @@ class Two(FlaskTestCase):
         xml_upload_fname = 'elife-00666-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
-        resp = self.client.post('/xml', **{
-            'buffered': True,
-            'content_type': 'multipart/form-data',
-            'data': {
-                'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
-            }
-        })
+        with patch('adaptor.call_lax', side_effect=AssertionError("test shouldn't make it this far!")):
+            resp = self.client.post('/xml', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': {
+                    'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
+                }
+            })
         self.assertEqual(resp.status_code, 400) # bad request data
 
         # ensure xml uploaded
@@ -173,37 +174,45 @@ class Two(FlaskTestCase):
             'message': 'the generated article-json failed validation', # will probably change
             #'trace': '...', # stacktrace
         }
-        resp = resp.json
-        self.assertTrue(utils.partial_match(expected_resp, resp))
-        self.assertTrue(resp['trace'].startswith("None is not of type u'string'")) # title is missing
+        self.assertTrue(utils.partial_match(expected_resp, resp.json))
+        self.assertTrue(resp.json['trace'].startswith("None is not of type u'string'")) # title is missing
 
     def test_upload_with_overrides(self):
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
         xml_upload_fname = 'elife-16695-v1.xml'
 
-        expected = {
+        override = {
             'title': 'foo',
             'statusDate': '2012-12-21T00:00:00Z'
         }
-        serialized_overrides = scraper.serialize_overrides(expected)
+        serialized_overrides = scraper.serialize_overrides(override)
 
         payload = {
             'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
             'override': serialized_overrides,
         }
-        resp = self.client.post('/xml', **{
-            'buffered': True,
-            'content_type': 'multipart/form-data',
-            'data': payload,
-        })
+
+        mock_lax_resp = {
+            u'status': u'validated',
+            u'force': True,
+            u'dry-run': True,
+            u'id': 16695,
+            u'datetime': u'2017-07-04T07:37:24Z'
+        }
+        with patch('adaptor.call_lax', return_value=mock_lax_resp):
+            resp = self.client.post('/xml', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': payload,
+            })
         # overrides params can be sent
         self.assertEqual(resp.status_code, 200)
 
         # overrides have been written
         scraped_ajson = join(self.temp_dir, xml_upload_fname) + '.json'
         ajson = json.load(open(scraped_ajson, 'r'))
-        for key, expected_val in expected.items():
+        for key, expected_val in override.items():
             self.assertEqual(ajson['article'][key], expected_val)
 
     def test_upload_with_complex_overrides(self):
@@ -223,11 +232,20 @@ class Two(FlaskTestCase):
             'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
             'override': serialized_overrides,
         }
-        resp = self.client.post('/xml', **{
-            'buffered': True,
-            'content_type': 'multipart/form-data',
-            'data': payload,
-        })
+
+        mock_lax_resp = {
+            u'status': u'validated',
+            u'force': True,
+            u'dry-run': True,
+            u'id': 16695,
+            u'datetime': u'2017-07-04T07:37:24Z'
+        }
+        with patch('adaptor.call_lax', return_value=mock_lax_resp):
+            resp = self.client.post('/xml', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': payload,
+            })
         # bad request (something failed validation)
         self.assertEqual(resp.status_code, 400)
 
