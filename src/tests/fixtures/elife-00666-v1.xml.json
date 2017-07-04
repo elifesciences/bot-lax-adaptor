@@ -17,7 +17,7 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.00666", 
-        "authorLine": "Melissa Harrison Jnr et al", 
+        "authorLine": "Melissa Harrison Jnr et al.", 
         "title": "The eLife research article", 
         "published": "2016-04-25T00:00:00Z", 
         "versionDate": "2016-04-25T00:00:00Z", 
@@ -62,7 +62,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Harrison et al", 
+            "holder": "Harrison et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative\n                            Commons Attribution License</a>, which permits unrestricted use\n                        and redistribution provided that the original author and source are\n                        credited."
         }, 
         "authors": [
@@ -685,7 +685,7 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.00666", 
-        "authorLine": "Melissa Harrison Jnr et al", 
+        "authorLine": "Melissa Harrison Jnr et al.", 
         "title": "The eLife research article", 
         "published": "2016-04-25T00:00:00Z", 
         "versionDate": "2016-04-25T00:00:00Z", 
@@ -730,7 +730,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Harrison et al", 
+            "holder": "Harrison et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative\n                            Commons Attribution License</a>, which permits unrestricted use\n                        and redistribution provided that the original author and source are\n                        credited."
         }, 
         "authors": [

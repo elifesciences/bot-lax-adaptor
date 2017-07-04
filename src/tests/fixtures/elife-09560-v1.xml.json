@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/6b463b2b469748cbc03b571122377cc9191cd7aa/articles/elife-09560-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/84b73b2a59f51b59f34b29d5b80e1a7be362689b/articles/elife-09560-v1.xml"
         }, 
         "-history": {
             "received": "2015-06-19T00:00:00Z", 
@@ -17,7 +17,7 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.09560", 
-        "authorLine": "Lee R Berger et al", 
+        "authorLine": "Lee R Berger et al.", 
         "title": "<i>Homo naledi</i>, a new species of the genus <i>Homo</i> from the Dinaledi Chamber, South Africa", 
         "published": "2015-09-10T00:00:00Z", 
         "versionDate": "2015-09-10T00:00:00Z", 
@@ -41,7 +41,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Berger et al", 
+            "holder": "Berger et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -2503,7 +2503,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/6b463b2b469748cbc03b571122377cc9191cd7aa/articles/elife-09560-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/84b73b2a59f51b59f34b29d5b80e1a7be362689b/articles/elife-09560-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -2515,7 +2515,7 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.09560", 
-        "authorLine": "Lee R Berger et al", 
+        "authorLine": "Lee R Berger et al.", 
         "title": "<i>Homo naledi</i>, a new species of the genus <i>Homo</i> from the Dinaledi Chamber, South Africa", 
         "published": "2015-09-10T00:00:00Z", 
         "versionDate": "2015-09-10T00:00:00Z", 
@@ -2539,7 +2539,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Berger et al", 
+            "holder": "Berger et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
