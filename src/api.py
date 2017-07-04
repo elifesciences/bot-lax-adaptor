@@ -1,3 +1,5 @@
+from StringIO import StringIO
+import traceback
 import os, json, uuid, copy
 from os.path import join
 import conf, utils, adaptor
@@ -10,6 +12,9 @@ import main as scraper, validate as ajson_validate
 import jsonschema
 from connexion.resolver import RestyResolver
 from werkzeug.exceptions import HTTPException
+import logging
+
+LOG = logging.getLogger(__name__)
 
 # just the default, can be overriden when creating an app
 UPLOAD_FOLDER = join(conf.PROJECT_DIR, 'web', 'uploads')
@@ -110,11 +115,13 @@ def post_xml():
         path = join(upload_folder(), filename)
         xml.save(path)
     except Exception as err:
+        sio = StringIO()
+        traceback.print_exc(file=sio)
         return {
             'status': 'error',
             'code': 'error-uploading-xml',
             'message': 'an error occured uploading the article xml to be processed',
-            'trace': str(err)
+            'trace': sio.getvalue(),
         }, 400 # everything is always the client's fault.
 
     # generate
@@ -125,14 +132,13 @@ def post_xml():
         json_path = join(upload_folder(), json_filename)
         open(json_path, 'w').write(article_json)
     except Exception as err:
+        sio = StringIO()
+        traceback.print_exc(file=sio)
         return {
             'status': 'error',
             'code': 'error-scraping-xml',
-            'message': 'an error occured transforming the article xml into article json',
-            'trace': str(err),
-
-            # TODO: expand, give the full url to download the xml, attempt re-generation, etc
-            'xml': filename
+            'message': str(err),
+            'trace': sio.getvalue()
         }, 400
 
     # validate
@@ -146,12 +152,18 @@ def post_xml():
             #'comment': '...', # lax returns one of these
             'message': 'the generated article-json failed validation.',
             'trace': str(err), # todo: any good?
-
-            # TODO: expand these. give the full url to download the xml or ajson,
-            # generate/validate the ajson again, etc
-            'xml': filename,
-            'json': json_filename
         }, 400
+    except Exception as err:
+        sio = StringIO()
+        traceback.print_exc(file=sio)
+        return {
+            'status': 'error',
+            'code': 'error-validating-article-json',
+            #'comment': '...', # lax returns one of these
+            'message': 'an error occurred attempting to validate the generated article-json.',
+            'trace': sio.getvalue()
+        }, 400
+        
 
     # send to lax
     try:
@@ -189,9 +201,6 @@ def post_xml():
             'code': 'lax-is-borked',
             'message': "lax responded with something that couldn't be decoded",
             'trace': str(err),
-
-            'xml': filename,
-            'json': json_filename
         }, 400
 
 def create_app(cfg_overrides=None):

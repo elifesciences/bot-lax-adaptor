@@ -202,11 +202,13 @@ class Two(FlaskTestCase):
             self.assertEqual(ajson['article'][key], expected_val)
 
 class Three(FlaskTestCase):
-    def test_response(self):
+    def test_ideal_response(self):
+        "when everything happens perfectly, this should be the response"
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
         xml_upload_fname = 'elife-16695-v1.xml'
 
+        # make the request with some overrides
         override = {
             'title': 'foo',
             'statusDate': '2012-12-21T00:00:00Z'
@@ -215,31 +217,77 @@ class Three(FlaskTestCase):
             'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
             'override': scraper.serialize_overrides(override),
         }
-        resp = self.client.post('/xml', **{
-            'buffered': True,
-            'content_type': 'multipart/form-data',
-            'data': payload,
-        })
-        # successfully did everything
+
+        # this is the article-json we expect in the response including overridden values
+        expected_ajson = base.load_ajson(xml_fixture + '.json')
+        expected_ajson = scraper.manual_overrides({'override': override}, expected_ajson)
+        expected_ajson = expected_ajson['article'] # user doesn't ever see journal or snippet structs
+        
+        mock_lax_resp = {
+            'status': conf.VALIDATED,
+            'requested-action': conf.INGEST,
+            'force': True,
+            'dry-run': True,
+            'datetime': '2017-06-30T07:37:07Z',
+            'token': 'pants',
+            'id': '16695',
+            'override': override,
+            'ajson': expected_ajson,
+        }
+        with patch('adaptor.call_lax', return_value=mock_lax_resp):
+            resp = self.client.post('/xml', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': payload,
+            })
+        
+        # success
         self.assertEqual(resp.status_code, 200)
 
         # remove the meta because we can't compare it
         del resp.json['ajson']['-meta']
 
-        # wrangle the fixture :(
-        expected_ajson = base.load_ajson(xml_fixture + '.json')['article']
-        for key, val in override.items():
-            expected_ajson[key] = val
+        # response is exactly as we anticipated
+        self.assertEqual(mock_lax_resp, resp.json)
 
-        # resp, ll:
-        # {u'status': u'validated', 'ajson': ..., u'code': None, u'requested-action': u'ingest', u'validate-only?': True, u'forced?': True, u'datetime': u'2017-07-03T08:07:10Z', u'token': u'2cae8aa0-e274-4890-8d96-d6eb2a54a908', u'override': {u'statusDate': u'2012-12-21T00:00:00Z', u'title': u'foo'}, u'message': u'(dry-run)', u'id': 16695}
+    def test_broken_glencoe_response(self):
+        "when glencoe is missing something, this should be the response"
+        xml_fname = 'elife-00666-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        xml_upload_fname = 'elife-00666-v1.xml'
 
-        expected_response = {
-            'requested-action': 'ingest',
-            'force': True,
-            'dry-run': True,
-            'status': conf.VALIDATED,
-            'ajson': expected_ajson, # with overrides, with -meta excluded
-            'override': override, # the map of given overrides
+        # make the request with some overrides
+        override = {
+            'title': 'foo',
+            'statusDate': '2012-12-21T00:00:00Z'
         }
-        self.assertTrue(utils.partial_match(expected_response, resp.json))
+        payload = {
+            'xml': (open(xml_fixture, 'rb'), xml_upload_fname),
+            'override': scraper.serialize_overrides(override),
+        }
+
+        # this is the article-json we expect in the response including overridden values
+        expected_ajson = base.load_ajson(xml_fixture + '.json')
+        expected_ajson = scraper.manual_overrides({'override': override}, expected_ajson)
+        expected_ajson = expected_ajson['article'] # user doesn't ever see journal or snippet structs
+
+        err_message = "informative error message"
+        
+        expected_resp = {
+            'status': conf.ERROR,
+            'code': 'error-scraping-xml',
+            'message': err_message,
+            #'trace': '...' # super long, can't predict, especially when mocking
+        }
+        with patch('glencoe.validate_gc_data', side_effect=AssertionError(err_message)):
+            # this request should never reach lax
+            resp = self.client.post('/xml', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': payload,
+            })
+        
+        # success
+        self.assertEqual(resp.status_code, 400) # bad request
+        self.assertTrue(utils.partial_match(expected_resp, resp.json))
+        self.assertTrue(resp.json['trace'].startswith('Traceback (most'))
