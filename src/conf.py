@@ -100,7 +100,7 @@ def multiprocess_log(filename, name=__name__):
     return log
 
 LOG_DIR = '/var/log/bot-lax-adaptor/'
-if ENV in ['dev']:
+if ENV in ['dev'] and not os.path.exists('/vagrant'): # ew, I know
     LOG_DIR = PROJECT_DIR
 utils.writable_dir(LOG_DIR)
 
