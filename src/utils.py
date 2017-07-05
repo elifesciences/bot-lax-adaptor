@@ -14,11 +14,6 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
-def writable(path):
-    os.system('touch ' + path)
-    # https://docs.python.org/2/library/os.html
-    assert os.access(path, os.W_OK), "file doesn't exist or isn't writable: %s" % path
-
 def pad_msid(msid):
     return str(int(msid)).zfill(5)
 
@@ -41,6 +36,11 @@ def ensure(assertion, msg, *args):
     get compiled away with -O flags"""
     if not assertion:
         raise AssertionError(msg % args)
+
+def writable_dir(path):
+    ensure(os.path.exists(path), "path doesn't exist: %s" % path)
+    # directories need to be executable as well to be considered writable
+    ensure(os.access(path, os.W_OK | os.X_OK), "directory isn't writable: %s" % path)
 
 def contains_any(ddict, key_list):
     return any([key in ddict for key in key_list])

@@ -102,7 +102,7 @@ def multiprocess_log(filename, name=__name__):
 LOG_DIR = '/var/log/bot-lax-adaptor/'
 if ENV in ['dev']:
     LOG_DIR = PROJECT_DIR
-utils.writable(LOG_DIR)
+utils.writable_dir(LOG_DIR)
 
 #
 #
