@@ -16,9 +16,6 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-# just the default, can be overriden when creating an app
-UPLOAD_FOLDER = join(conf.PROJECT_DIR, 'web', 'uploads')
-
 #
 # utils
 #
@@ -212,7 +209,7 @@ def create_app(cfg_overrides=None):
     cfg = {
         'SECRET_KEY': os.urandom(24), # necessary for uploads
         # http://flask.pocoo.org/docs/0.11/config/#instance-folders
-        'UPLOAD_FOLDER': UPLOAD_FOLDER,
+        'UPLOAD_FOLDER': conf.API_UPLOAD_FOLDER,
     }
     if cfg_overrides:
         cfg.update(cfg_overrides)

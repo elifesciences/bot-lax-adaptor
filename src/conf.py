@@ -31,6 +31,9 @@ def cfg(path, default=0xDEADBEEF):
 
 ENV = cfg('general.env')
 
+if ENV in ['dev'] and os.path.exists('/vagrant'):
+    ENV = 'vagrant'
+
 #
 #
 #
@@ -99,9 +102,7 @@ def multiprocess_log(filename, name=__name__):
         log.addHandler(_handler)
     return log
 
-LOG_DIR = '/var/log/bot-lax-adaptor/'
-if ENV in ['dev'] and not os.path.exists('/vagrant'): # ew, I know
-    LOG_DIR = PROJECT_DIR
+LOG_DIR = PROJECT_DIR if ENV == 'dev' else '/var/log/bot-lax-adaptor/'
 utils.writable_dir(LOG_DIR)
 
 #
@@ -110,7 +111,8 @@ utils.writable_dir(LOG_DIR)
 
 PATH_TO_LAX = cfg('lax.location')
 
-CACHE_PATH = cfg('lax.cache_path')
+#CACHE_PATH = cfg('lax.cache_path')
+CACHE_PATH = PROJECT_DIR if ENV == 'dev' else "/var/cache/bot-lax-adaptor/"
 
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
@@ -132,6 +134,10 @@ REQUEST_SCHEMA = load('request-schema.json')
 RESPONSE_SCHEMA = load('response-schema.json')
 
 API_SCHEMA = load('api.yaml')
+
+# can be overriden when creating an app
+API_UPLOAD_FOLDER = join(CACHE_PATH, 'uploads')
+utils.writable_dir(LOG_DIR)
 
 CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
 

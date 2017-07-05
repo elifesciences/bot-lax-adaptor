@@ -37,8 +37,13 @@ def ensure(assertion, msg, *args):
     if not assertion:
         raise AssertionError(msg % args)
 
-def writable_dir(path):
-    ensure(os.path.exists(path), "path doesn't exist: %s" % path)
+def writable_dir(path, create=False):
+    if create and not os.path.exists(path):
+        try:
+            os.mkdir(path)
+        except OSError:
+            pass # will die in next check
+    ensure(os.path.exists(path), "path doesn't exist and couldn't be created: %s" % path)
     # directories need to be executable as well to be considered writable
     ensure(os.access(path, os.W_OK | os.X_OK), "directory isn't writable: %s" % path)
 
