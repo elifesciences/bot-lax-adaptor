@@ -14,7 +14,7 @@ echo "pyflakes"
 pyflakes ./src/
 
 echo "pylint"
-pylint -E src/* 2> /dev/null
+pylint -E src/* --disable=unbalanced-tuple-unpacking 2> /dev/null
 
 echo "scrubbing"
 . .scrub.sh 2> /dev/null
