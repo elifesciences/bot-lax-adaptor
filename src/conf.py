@@ -30,9 +30,9 @@ def cfg(path, default=0xDEADBEEF):
         raise
 
 ENV = cfg('general.env')
-
-if ENV in ['dev'] and os.path.exists('/vagrant'):
-    ENV = 'vagrant'
+DEV, VAGRANT, CONTINUUMTEST, END2END, PROD = 'dev', 'vagrant', 'continuumtest', 'end2end', 'prod'
+if ENV == DEV and os.path.exists('/vagrant'):
+    ENV = VAGRANT
 
 #
 #
@@ -102,7 +102,9 @@ def multiprocess_log(filename, name=__name__):
         log.addHandler(_handler)
     return log
 
-LOG_DIR = PROJECT_DIR if ENV == 'dev' else '/var/log/bot-lax-adaptor/'
+LOG_DIR = PROJECT_DIR
+if ENV != DEV:
+    LOG_DIR = '/var/log/bot-lax-adaptor/'
 utils.writable_dir(LOG_DIR)
 
 #
@@ -111,8 +113,9 @@ utils.writable_dir(LOG_DIR)
 
 PATH_TO_LAX = cfg('lax.location')
 
-#CACHE_PATH = cfg('lax.cache_path')
-CACHE_PATH = PROJECT_DIR if ENV == 'dev' else "/var/cache/bot-lax-adaptor/"
+CACHE_PATH = join(PROJECT_DIR, 'cache')
+if ENV != DEV:
+    CACHE_PATH = cfg('general.cache_path', CACHE_PATH)
 
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
@@ -136,24 +139,26 @@ RESPONSE_SCHEMA = load('response-schema.json')
 API_SCHEMA = load('api.yaml')
 
 # can be overriden when creating an app
-API_UPLOAD_FOLDER = join(CACHE_PATH, 'uploads')
-utils.writable_dir(LOG_DIR)
+API_UPLOAD_FOLDER = join(PROJECT_DIR, "uploads")
+if ENV != DEV:
+    API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
+utils.writable_dir(API_UPLOAD_FOLDER)
 
 CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
 
 DEFAULT_CDN = CDN1
 CDNS_BY_ENV = {
-    'end2end': 'end2end-' + CDN1,
-    'continuumtest': 'continuumtest-' + CDN1,
+    END2END: 'end2end-' + CDN1,
+    CONTINUUMTEST: 'continuumtest-' + CDN1,
 }
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
-if ENV == 'prod':
+if ENV == PROD:
     # used for generating public links
     CDN_IIIF = 'https://iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
     # used for direct access to the IIIF server
     IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
-elif ENV in ['continuumtest', 'end2end']:
+elif ENV in [CONTINUUMTEST, END2END]:
     CDN_IIIF = 'https://' + ENV + '--cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
     IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
 else:
@@ -172,9 +177,3 @@ ASYNC_CACHE_WRITES = False
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 
 JOURNAL_INCEPTION = 2012 # used to calculate volumes
-
-if __name__ == '__main__':
-    # test logging handlers
-    # $ python src/conf.py
-    LOG = logging.getLogger(__name__)
-    LOG.info("something", extra={'pants': 'party'})
