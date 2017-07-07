@@ -51,10 +51,34 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
-        - in: formData
-          name: xml
+        - name: xml
+          description: the xml file to upload
+          in: formData
           type: file
-          description: the xml file to upload          
+        - name: override
+          description: 'a pipe separated key and value. for example: key|value. values must be quoted if strings: key|"value"'
+          in: formData
+          type: array
+          collectionFormat: multi
+          uniqueItems: true
+          items:
+            type: string
+            
+        #- name: override
+        #  in: body
+        #  description: "a pipe separated key and value, for example: title|new title"
+        #  schema:
+        #    properties:
+        #      override:
+        #        type: object
+        #        example:
+        #          title: new title!
+        #          abstract:
+        #            doi: new, totally invalid, doi!
+        #            content:
+        #              - type: paragraph
+        #                text: new valid paragraph!
+
       responses:
         200:
           description: all steps completed successfully

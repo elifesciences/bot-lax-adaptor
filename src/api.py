@@ -104,6 +104,18 @@ def post_xml():
     "upload jats xml, generate xml, validate, send to lax as a dry run"
     http_ensure('xml' in request.files, "xml file required", 404)
 
+    try:
+        override = scraper.deserialize_overrides(request.form.getlist('override'))
+    except ValueError as err:
+        sio = StringIO()
+        traceback.print_exc(file=sio)        
+        return {
+            'status': 'error',
+            'code': 'bad-overrides',
+            'message': 'an error occurred attempting to parse your given overrides.',
+            'trace': sio.getvalue()
+        }
+
     # upload
     try:
         xml = request.files['xml']
@@ -123,7 +135,6 @@ def post_xml():
 
     # generate
     try:
-        override = scraper.deserialize_overrides(request.form.getlist('override'))
         article_json = scraper.main(path, {'override': override})
         json_filename = filename + '.json'
         json_path = join(upload_folder(), json_filename)
@@ -162,7 +173,7 @@ def post_xml():
     # send to lax
     try:
         msid, version = utils.version_from_path(filename)
-        token = uuid.uuid4()
+        token = str(uuid.uuid4())
         args = {
             # the *most* important parameter. don't modify lax.
             'dry_run': True,
@@ -205,7 +216,7 @@ def post_xml():
 
 def create_app(cfg_overrides=None):
     app = connexion.App(__name__, specification_dir=join(conf.PROJECT_DIR, 'schema'))
-    app.add_api('api.yaml', resolver=BotLaxResolver('api'))
+    app.add_api('api.yaml', resolver=BotLaxResolver('api'), strict_validation=True)
     cfg = {
         'SECRET_KEY': os.urandom(24), # necessary for uploads
         # http://flask.pocoo.org/docs/0.11/config/#instance-folders

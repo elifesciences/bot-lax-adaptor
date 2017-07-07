@@ -13,6 +13,7 @@ from collections import OrderedDict
 from datetime import datetime
 from slugify import slugify
 import conf, utils, glencoe, iiif, cdn
+from utils import ensure
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler(join(conf.LOG_DIR, 'scrape.log'))
@@ -461,7 +462,7 @@ def placeholders_for_validation(data):
 def manual_overrides(ctx, data):
     "because a human knows best, right?"
     overrides = ctx.get('override', {})
-    utils.ensure(isinstance(overrides, dict), "given mapping of overrides is not a dictionary")
+    ensure(isinstance(overrides, dict), "given mapping of overrides is not a dictionary")
     # possibly add support for dotted paths in future?
     for key, value in overrides.items():
         data['article'][key] = value
@@ -589,7 +590,7 @@ def expand_location(path):
         # is almost certainly a git checkout. we want a location that looks like:
         # https://raw.githubusercontent.com/elifesciences/elife-article-xml/5f1179c24c9b8a8b700c5f5bf3543d16a32fbe2f/articles/elife-00003-v1.xml
         rc, rawsha = utils.run_script(["cat", "elife-article-xml.sha1"])
-        utils.ensure(rc == 0, "failed to read the contents of './elife-article-xml.sha1'")
+        ensure(rc == 0, "failed to read the contents of './elife-article-xml.sha1'")
         sha = rawsha.strip()
         fname = os.path.basename(path)
         return "https://raw.githubusercontent.com/elifesciences/elife-article-xml/%s/articles/%s" % (sha, fname)
@@ -618,18 +619,21 @@ def render_single(doc, **ctx):
 def serialize_overrides(override_map):
     def serialize(pair):
         key, val = pair
-        utils.ensure(isinstance(key, basestring), "key must be a string")
-        utils.ensure('|' not in key, "key must not contain a pipe")
+        ensure(isinstance(key, basestring), "key must be a string")
+        ensure('|' not in key, "key must not contain a pipe")
         key = key.strip()
-        utils.ensure(key, "key must not be empty")
+        ensure(key, "key must not be empty")
         return '|'.join([key, json.dumps(val)])
     return map(serialize, override_map.items())
 
 def deserialize_overrides(override_list):
     def splitter(string):
+        ensure('|' in string, "override key and value must be seperated by a pipe '|'")
         first, rest = string.split('|', 1)
-        return (first, json.loads(rest))
-    return dict(map(splitter, override_list))
+        ensure(rest.strip(), "a value must be provided. use 'null' without quotes to use an empty value")
+        rest_json = json.loads(rest)
+        return first, rest_json
+    return dict(filter(None, map(splitter, override_list)))
 
 def main(doc, args=None):
     args = args or {}
