@@ -144,6 +144,13 @@ class Two(FlaskTestCase):
         "the response we expect the xml fails to scrape"
         pass
 
+    def test_bad_overrides(self):
+        ""
+        # no pipe
+        # pipe, but no value
+        # invalid value
+        # invalid key
+
     def test_upload_invalid(self):
         "the response we expect when the scraped article-json is invalid"
         xml_fname = 'elife-00666-v1.xml.invalid'
