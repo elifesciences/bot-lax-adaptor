@@ -613,7 +613,7 @@ def render_single(doc, **ctx):
         return article_data
 
     except Exception as err:
-        LOG.error("failed to render doc %r with error: %s", ctx['location'], err)
+        LOG.error("failed to render doc %r with error: %s", ctx.get('location', '[no location]'), err)
         raise
 
 def serialize_overrides(override_map):
