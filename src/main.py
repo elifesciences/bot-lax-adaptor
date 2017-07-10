@@ -628,12 +628,16 @@ def serialize_overrides(override_map):
 
 def deserialize_overrides(override_list):
     def splitter(string):
+        if isinstance(string, list):
+            pair = string # already split into pairs, return what we have
+            return pair
         ensure('|' in string, "override key and value must be seperated by a pipe '|'")
         first, rest = string.split('|', 1)
         ensure(rest.strip(), "a value must be provided. use 'null' without quotes to use an empty value")
-        rest_json = json.loads(rest)
-        return first, rest_json
-    return dict(map(splitter, override_list))
+        return first, rest
+    pairs = map(splitter, override_list)
+    return {key: json.loads(val) for key, val in pairs}
+
 
 def main(doc, args=None):
     args = args or {}
