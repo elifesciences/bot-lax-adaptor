@@ -115,12 +115,12 @@ utils.writable_dir(LOG_DIR)
 PATH_TO_LAX = cfg('lax.location')
 
 # TODO: re-enable once changes to lax-formula are deployed
-#CACHE_PATH = join(PROJECT_DIR, 'cache')
+CACHE_PATH = join(PROJECT_DIR, 'cache')
 # if ENV != DEV:
 #    CACHE_PATH = cfg('general.cache_path', CACHE_PATH)
 
 # TODO: remove once changes to lax-formula are deployed
-CACHE_PATH = cfg('lax.cache_path')
+CACHE_PATH = cfg('lax.cache_path', CACHE_PATH)
 
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
