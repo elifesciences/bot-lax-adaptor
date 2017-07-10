@@ -108,7 +108,7 @@ def post_xml():
         override = scraper.deserialize_overrides(request.form.getlist('override'))
     except ValueError as err:
         sio = StringIO()
-        traceback.print_exc(file=sio)        
+        traceback.print_exc(file=sio)
         return {
             'status': 'error',
             'code': 'bad-overrides',
