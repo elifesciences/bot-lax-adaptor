@@ -5,6 +5,7 @@ import api, validate, utils, main as scraper, conf
 from mock import patch
 import os, shutil, tempfile
 from flask_testing import TestCase
+from unittest import skip
 
 class One(base.BaseCase):
     def setUp(self):
@@ -138,18 +139,89 @@ class Two(FlaskTestCase):
 
     def test_bad_upload(self):
         "the response we expect when the xml fails to upload"
-        pass
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+
+        bad_ext = '.pants'
+        resp = self.client.post('/xml', **{
+            'buffered': True,
+            'content_type': 'multipart/form-data',
+            'data': {
+                'xml': (open(xml_fixture, 'rb'), xml_fname + bad_ext),
+            }
+        })
+
+        expected_lax_resp = {
+            'status': conf.ERROR,
+            'code': 'error-uploading-xml',
+            #'message': '...', # we just care that a message exists
+            #'trace': '...', # same again, just that a trace exists
+        }
+        self.assertEqual(resp.status_code, 400)
+
+        self.assertTrue(utils.partial_match(expected_lax_resp, resp.json))
+        self.assertTrue(resp.json['trace'].startswith('Traceback (most recent call last):'))
+        self.assertTrue(resp.json['message']) # one exists and isn't empty
 
     def test_bad_scrape(self):
         "the response we expect the xml fails to scrape"
-        pass
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
 
+        with patch('main.main', side_effect=AssertionError('meow')):
+            resp = self.client.post('/xml', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': {
+                    'xml': open(xml_fixture, 'rb'),
+                }
+            })
+
+        expected_lax_resp = {
+            'status': conf.ERROR,
+            'code': 'error-scraping-xml',
+            #'message': '...', # we just care that a message exists
+            #'trace': '...', # same again, just that a trace exists
+        }
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(utils.partial_match(expected_lax_resp, resp.json))
+        self.assertTrue(resp.json['trace'].startswith('Traceback (most recent call last):'))
+        self.assertTrue(resp.json['message']) # one exists and isn't empty
+
+    @skip("this test is failing in green for some bizarre reason")
     def test_bad_overrides(self):
-        ""
-        # no pipe
-        # pipe, but no value
-        # invalid value
-        # invalid key
+        "ensure a number of bad cases for overrides fail"
+        cases = [
+            "title", # no pipe
+            "title|", # pipe, but no value
+            "title|bar", # invalid value (should be json: "bar")
+            "|bar", # invalid key
+        ]
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+
+        with open(xml_fixture, 'rb') as fh:
+            for override in cases:
+                resp = self.client.post('/xml', **{
+                    'buffered': True,
+                    'content_type': 'multipart/form-data',
+                    'data': { # culprit lies in the payload here somewhere
+                        'xml': fh,
+                        'override': [override],
+                    }
+                })
+
+                expected_resp = {
+                    'status': conf.ERROR,
+                    'code': 'bad-overrides',
+                    #'message': '...',
+                    #'trace': '...',
+                }
+
+                self.assertEqual(resp.status_code, 400)
+                self.assertTrue(utils.partial_match(expected_resp, resp.json))
+                self.assertTrue(resp.json['trace'].startswith('Traceback (most recent call last):'))
+                self.assertTrue(resp.json['message']) # one exists and isn't empty
 
     def test_upload_invalid(self):
         "the response we expect when the scraped article-json is invalid"

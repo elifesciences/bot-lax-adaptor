@@ -110,7 +110,7 @@ def post_xml():
         sio = StringIO()
         traceback.print_exc(file=sio)
         return {
-            'status': 'error',
+            'status': conf.ERROR,
             'code': 'bad-overrides',
             'message': 'an error occurred attempting to parse your given overrides.',
             'trace': sio.getvalue()
@@ -127,7 +127,7 @@ def post_xml():
         sio = StringIO()
         traceback.print_exc(file=sio)
         return {
-            'status': 'error',
+            'status': conf.ERROR,
             'code': 'error-uploading-xml',
             'message': 'an error occured uploading the article xml to be processed',
             'trace': sio.getvalue(),
@@ -143,7 +143,7 @@ def post_xml():
         sio = StringIO()
         traceback.print_exc(file=sio)
         return {
-            'status': 'error',
+            'status': conf.ERROR,
             'code': 'error-scraping-xml',
             'message': str(err),
             'trace': sio.getvalue()
@@ -164,7 +164,7 @@ def post_xml():
         sio = StringIO()
         traceback.print_exc(file=sio)
         return {
-            'status': 'error',
+            'status': conf.ERROR,
             'code': 'error-validating-article-json',
             'message': 'an error occurred attempting to validate the generated article-json',
             'trace': sio.getvalue()
@@ -208,7 +208,7 @@ def post_xml():
     except Exception as err:
         # lax returned something indecipherable
         return {
-            'status': 'error',
+            'status': conf.ERROR,
             'code': 'lax-is-borked',
             'message': "lax responded with something that couldn't be decoded",
             'trace': str(err),
