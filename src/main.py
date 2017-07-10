@@ -460,7 +460,7 @@ def placeholders_for_validation(data):
     return data
 
 def manual_overrides(ctx, data):
-    "because a human knows best, right?"
+    "replace top-level article keys with new values provided in ctx.override"
     overrides = ctx.get('override', {})
     ensure(isinstance(overrides, dict), "given mapping of overrides is not a dictionary")
     # possibly add support for dotted paths in future?
@@ -633,7 +633,7 @@ def deserialize_overrides(override_list):
         ensure(rest.strip(), "a value must be provided. use 'null' without quotes to use an empty value")
         rest_json = json.loads(rest)
         return first, rest_json
-    return dict(filter(None, map(splitter, override_list)))
+    return dict(map(splitter, override_list))
 
 def main(doc, args=None):
     args = args or {}

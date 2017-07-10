@@ -103,8 +103,9 @@ def multiprocess_log(filename, name=__name__):
     return log
 
 LOG_DIR = PROJECT_DIR
-if ENV != DEV:
-    LOG_DIR = '/var/log/bot-lax-adaptor/'
+# TODO: re-enable once changes to lax-formula are deployed
+# if ENV != DEV:
+#    LOG_DIR = '/var/log/bot-lax-adaptor/'
 utils.writable_dir(LOG_DIR)
 
 #
@@ -113,9 +114,13 @@ utils.writable_dir(LOG_DIR)
 
 PATH_TO_LAX = cfg('lax.location')
 
-CACHE_PATH = join(PROJECT_DIR, 'cache')
-if ENV != DEV:
-    CACHE_PATH = cfg('general.cache_path', CACHE_PATH)
+# TODO: re-enable once changes to lax-formula are deployed
+#CACHE_PATH = join(PROJECT_DIR, 'cache')
+# if ENV != DEV:
+#    CACHE_PATH = cfg('general.cache_path', CACHE_PATH)
+
+# TODO: remove once changes to lax-formula are deployed
+CACHE_PATH = cfg('lax.cache_path')
 
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
@@ -140,8 +145,9 @@ API_SCHEMA = load('api.yaml')
 
 # can be overriden when creating an app
 API_UPLOAD_FOLDER = join(PROJECT_DIR, "uploads")
-if ENV != DEV:
-    API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
+# TODO: re-enable once changes to lax-formula are deployed
+# if ENV != DEV:
+#    API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
 utils.writable_dir(API_UPLOAD_FOLDER)
 
 CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
