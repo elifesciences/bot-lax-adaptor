@@ -581,6 +581,10 @@ def expand_location(path):
     if isinstance(path, file):
         path = path.name
 
+    if path.startswith('https://s3-external-1.amazonaws.com/') or path.startswith('https://s3.amazonaws.com/'):
+        # it's being downloaded from a bucket, no worries
+        return path
+
     # resolve any symlinks
     # the backfill uses symlinks to the article-xml dir
     path = os.path.abspath(os.path.realpath(path))
@@ -594,10 +598,6 @@ def expand_location(path):
         sha = rawsha.strip()
         fname = os.path.basename(path)
         return "https://raw.githubusercontent.com/elifesciences/elife-article-xml/%s/articles/%s" % (sha, fname)
-
-    elif path.startswith('https://s3-external-1.amazonaws.com/') or path.startswith('https://s3.amazonaws.com/'):
-        # it's being downloaded from a bucket, no worries
-        return path
 
     # who knows what this path is ...
     LOG.warn("scraping article content in a non-repeatable way. path %r not found in article-xml dir. please don't send the results to lax", path)

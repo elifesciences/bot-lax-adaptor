@@ -2,6 +2,7 @@ import sqlite3
 import requests
 import os, copy
 import subprocess
+import time
 import json
 import jsonschema
 from jsonschema import validate as validator
@@ -160,21 +161,39 @@ def partial_match(pattern, actual):
 #
 #
 
-def call_n_times(fn, protect_from, num_attempts=3):
-    "if after calling `num_attempts` it fails to return a value, it will return None"
+def call_n_times(fn, protect_from, num_attempts=3, initial_waiting_time=0):
+    """if after calling `num_attempts` it fails to return a value, it will return None
+
+    Uses exponential backoff not to overload the target, if initial_waiting_time is specified"""
     def wrap(*args, **kwargs):
+        waiting_time = initial_waiting_time
         for i in xrange(0, num_attempts):
             try:
                 return fn(*args, **kwargs)
             except BaseException as err:
                 if type(err) in protect_from:
                     LOG.error("caught error: %s" % err)
+                    if waiting_time:
+                        time.sleep(waiting_time)
+                        waiting_time = waiting_time * 2
                     continue
                 raise
     return wrap
 
+class RemoteResponseTemporaryError(RuntimeError):
+    pass
+
 def requests_get(*args, **kwargs):
-    return call_n_times(requests.get, [sqlite3.OperationalError])(*args, **kwargs)
+    def target(*args, **kwargs):
+        response = requests.get(*args, **kwargs)
+        if response.status_code >= 500:
+            raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
+        return response
+    return call_n_times(
+        target,
+        [sqlite3.OperationalError, RemoteResponseTemporaryError],
+        initial_waiting_time=1
+    )(*args, **kwargs)
 
 #
 #
