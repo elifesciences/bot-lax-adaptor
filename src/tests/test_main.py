@@ -403,7 +403,7 @@ class KitchenSink(base.BaseCase):
         result = main.render_single(self.doc, version=1)
         self.assertTrue('patched' in result['article']['-meta'])
 
-class Locations(BaseCase):
+class Locations(base.BaseCase):
     def test_expand_location_for_absolute_uris(self):
         uri = 'https://s3-external-1.amazonaws.com/elife-publishing-expanded/25605.3/b8bd7e0b-a259-4d60-9ab2-c8ea9ecc31dc/elife-25605-v3.xml'
         expanded = main.expand_location(uri)
