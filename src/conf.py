@@ -151,9 +151,8 @@ API_SCHEMA = load('api.yaml')
 
 # can be overriden when creating an app
 API_UPLOAD_FOLDER = join(PROJECT_DIR, "uploads")
-# TODO: re-enable once changes to lax-formula are deployed
-# if ENV != DEV:
-#    API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
+if ENV != DEV:
+    API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
 utils.writable_dir(API_UPLOAD_FOLDER)
 
 CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
