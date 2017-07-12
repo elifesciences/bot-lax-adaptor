@@ -27,16 +27,12 @@ def validate_schema():
     validate(spec)
     return True
 
-def http_exception(code, msg):
-    "returns an HTTPException object with the correct code and message set"
-    ex = HTTPException(msg)
-    ex.code = code
-    return ex
-
 def http_ensure(case, msg, code=400):
     "if not case, raise a client error exception (by default)"
     if not case:
-        raise http_exception(code, msg)
+        ex = HTTPException(msg)
+        ex.code = code
+        raise ex
 
 def listfiles(path, ext_list=None):
     "returns a pair of (basename_list, absolute_path_list) for given dir, optionally filtered by extension"
@@ -111,7 +107,7 @@ def post_xml():
         traceback.print_exc(file=sio)
         return {
             'status': conf.ERROR,
-            'code': 'bad-overrides',
+            'code': conf.BAD_OVERRIDES,
             'message': 'an error occurred attempting to parse your given overrides.',
             'trace': sio.getvalue()
         }
@@ -128,7 +124,7 @@ def post_xml():
         traceback.print_exc(file=sio)
         return {
             'status': conf.ERROR,
-            'code': 'error-uploading-xml',
+            'code': conf.BAD_UPLOAD,
             'message': 'an error occured uploading the article xml to be processed',
             'trace': sio.getvalue(),
         }, 400 # everything is always the client's fault.
@@ -144,7 +140,7 @@ def post_xml():
         traceback.print_exc(file=sio)
         return {
             'status': conf.ERROR,
-            'code': 'error-scraping-xml',
+            'code': conf.BAD_SCRAPE,
             'message': str(err),
             'trace': sio.getvalue()
         }, 400
@@ -155,9 +151,9 @@ def post_xml():
 
     except jsonschema.ValidationError as err:
         return {
-            'status': 'invalid',
-            'code': 'invalid-article-json',
-            'message': 'the generated article-json failed validation',
+            'status': conf.INVALID,
+            'code': conf.INVALID,
+            'message': 'the generated article-json failed validation, see trace for details.',
             'trace': str(err), # todo: any good?
         }, 400
     except Exception as err:
@@ -165,7 +161,7 @@ def post_xml():
         traceback.print_exc(file=sio)
         return {
             'status': conf.ERROR,
-            'code': 'error-validating-article-json',
+            'code': conf.ERROR_VALIDATING,
             'message': 'an error occurred attempting to validate the generated article-json',
             'trace': sio.getvalue()
         }, 400
@@ -179,7 +175,7 @@ def post_xml():
             'dry_run': True,
 
             # a forced ingest by default
-            'action': 'ingest',
+            'action': conf.INGEST,
             'force': True,
 
             # article details
@@ -209,7 +205,7 @@ def post_xml():
         # lax returned something indecipherable
         return {
             'status': conf.ERROR,
-            'code': 'lax-is-borked',
+            'code': conf.ERROR_COMMUNICATING,
             'message': "lax responded with something that couldn't be decoded",
             'trace': str(err),
         }, 400

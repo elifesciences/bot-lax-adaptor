@@ -125,6 +125,9 @@ CACHE_PATH = cfg('lax.cache_path', CACHE_PATH)
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
 
+BAD_OVERRIDES, BAD_UPLOAD, BAD_SCRAPE = 'problem-overrides', 'problem-uploading-xml', 'problem-scraping-xml'
+ERROR_VALIDATING, ERROR_COMMUNICATING = 'error-validating-article-json', 'error-sending-article-json'
+
 XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')
 JSON_DIR = join(PROJECT_DIR, 'article-json')
 

@@ -153,7 +153,7 @@ class Two(FlaskTestCase):
 
         expected_lax_resp = {
             'status': conf.ERROR,
-            'code': 'error-uploading-xml',
+            'code': conf.BAD_UPLOAD,
             #'message': '...', # we just care that a message exists
             #'trace': '...', # same again, just that a trace exists
         }
@@ -179,7 +179,7 @@ class Two(FlaskTestCase):
 
         expected_lax_resp = {
             'status': conf.ERROR,
-            'code': 'error-scraping-xml',
+            'code': conf.BAD_SCRAPE,
             #'message': '...', # we just care that a message exists
             #'trace': '...', # same again, just that a trace exists
         }
@@ -213,7 +213,7 @@ class Two(FlaskTestCase):
 
                 expected_resp = {
                     'status': conf.ERROR,
-                    'code': 'bad-overrides',
+                    'code': conf.BAD_OVERRIDES,
                     #'message': '...',
                     #'trace': '...',
                 }
@@ -249,11 +249,12 @@ class Two(FlaskTestCase):
 
         expected_resp = {
             'status': conf.INVALID,
-            'code': 'invalid-article-json',
-            'message': 'the generated article-json failed validation', # will probably change
+            'code': conf.INVALID,
+            #'message': '...', # will probably change
             #'trace': '...', # stacktrace
         }
         self.assertTrue(utils.partial_match(expected_resp, resp.json))
+        self.assertTrue(resp.json['message'])
         self.assertTrue(resp.json['trace'].startswith("None is not of type u'string'")) # title is missing
 
     def test_upload_with_overrides(self):
@@ -341,7 +342,7 @@ class Two(FlaskTestCase):
 
         expected_resp = {
             'status': conf.ERROR,
-            'code': 'error-scraping-xml',
+            'code': conf.BAD_SCRAPE,
             'message': err_message,
             #'trace': '...' # super long, can't predict, especially when mocking
         }
