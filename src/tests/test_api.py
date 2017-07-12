@@ -249,7 +249,7 @@ class Two(FlaskTestCase):
 
         expected_resp = {
             'status': conf.INVALID,
-            'code': conf.INVALID,
+            'code': conf.ERROR_INVALID,
             #'message': '...', # will probably change
             #'trace': '...', # stacktrace
         }

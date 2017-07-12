@@ -152,7 +152,7 @@ def post_xml():
     except jsonschema.ValidationError as err:
         return {
             'status': conf.INVALID,
-            'code': conf.INVALID,
+            'code': conf.ERROR_INVALID,
             'message': 'the generated article-json failed validation, see trace for details.',
             'trace': str(err), # todo: any good?
         }, 400
@@ -191,7 +191,7 @@ def post_xml():
         #api_resp = copy.deepcopy(lax_resp)
         api_resp = utils.subdict(lax_resp, ['status', 'code', 'message', 'trace'])
 
-        if api_resp['status'] in [adaptor.INVALID, adaptor.ERROR]:
+        if api_resp['status'] in [conf.INVALID, conf.ERROR]:
             # failure
             return api_resp, 400
 

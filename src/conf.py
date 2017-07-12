@@ -123,9 +123,12 @@ CACHE_PATH = join(PROJECT_DIR, 'cache')
 CACHE_PATH = cfg('lax.cache_path', CACHE_PATH)
 
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
-VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
 
+# these values are mostly duplicated in schema/api.yaml
+# if you update here, update there.
+VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
 BAD_OVERRIDES, BAD_UPLOAD, BAD_SCRAPE = 'problem-overrides', 'problem-uploading-xml', 'problem-scraping-xml'
+ERROR_INVALID = 'invalid-article-json' # eh
 ERROR_VALIDATING, ERROR_COMMUNICATING = 'error-validating-article-json', 'error-sending-article-json'
 
 XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')

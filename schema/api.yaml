@@ -17,9 +17,19 @@ definitions:
       status:
         type: string
         description: the final state of the article supplied
+        enum:
+          - invalid
+          - error
       code:
         type: string
         description: a succinct identifier to help class the type of error
+        enum:
+          - problem-overrides
+          - problem-uploading-xml
+          - problem-scraping-xml
+          - invalid-article-json
+          - error-validating-article-json
+          - error-sending-article-json            
       message:
         type: string
         description: a more verbose explanation of the problem
@@ -33,6 +43,11 @@ definitions:
       status:
         type: string
         description: the final state of the article supplied
+        enum:
+          - validated
+          # api doesn't support modifying lax
+          # - published
+          # - ingested
       ajson:
         type: object
         description: the final article-json, including overrides
