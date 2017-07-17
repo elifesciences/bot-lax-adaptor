@@ -1,7 +1,8 @@
+from os.path import join
 from isbnlib import mask, to_isbn13
 import re
 from functools import partial
-import os, sys, json, copy, calendar
+import os, json, copy, calendar
 from et3.render import render, doall, EXCLUDE_ME
 from et3.extract import lookup as p
 from et3.utils import requires_context
@@ -12,9 +13,10 @@ from collections import OrderedDict
 from datetime import datetime
 from slugify import slugify
 import conf, utils, glencoe, iiif, cdn
+from utils import ensure
 
 LOG = logging.getLogger(__name__)
-_handler = logging.FileHandler('scrape.log')
+_handler = logging.FileHandler(join(conf.LOG_DIR, 'scrape.log'))
 _handler.setLevel(logging.INFO)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
@@ -22,7 +24,6 @@ LOG.addHandler(_handler)
 #
 # utils
 #
-
 
 def doi(item):
     return parseJATS.doi(item)
@@ -458,8 +459,17 @@ def placeholders_for_validation(data):
 
     return data
 
+def manual_overrides(ctx, data):
+    "replace top-level article keys with new values provided in ctx.override"
+    overrides = ctx.get('override', {})
+    ensure(isinstance(overrides, dict), "given mapping of overrides is not a dictionary")
+    # possibly add support for dotted paths in future?
+    for key, value in overrides.items():
+        data['article'][key] = value
+    return data
 
-def postprocess(data):
+
+def postprocess(data, ctx):
     msid = data['snippet']['id']
     data = doall(data, [
         check_authors,
@@ -471,6 +481,9 @@ def postprocess(data):
         format_isbns,
         prune,
         placeholders_for_validation,
+
+        # do this last. anything that comes after this can't be altered by user-provided values
+        partial(manual_overrides, ctx),
     ])
     return data
 #
@@ -581,7 +594,7 @@ def expand_location(path):
         # is almost certainly a git checkout. we want a location that looks like:
         # https://raw.githubusercontent.com/elifesciences/elife-article-xml/5f1179c24c9b8a8b700c5f5bf3543d16a32fbe2f/articles/elife-00003-v1.xml
         rc, rawsha = utils.run_script(["cat", "elife-article-xml.sha1"])
-        utils.ensure(rc == 0, "failed to read the contents of './elife-article-xml.sha1'")
+        ensure(rc == 0, "failed to read the contents of './elife-article-xml.sha1'")
         sha = rawsha.strip()
         fname = os.path.basename(path)
         return "https://raw.githubusercontent.com/elifesciences/elife-article-xml/%s/articles/%s" % (sha, fname)
@@ -596,27 +609,63 @@ def render_single(doc, **ctx):
         ctx['location'] = expand_location(ctx.get('location', doc))
         soup = to_soup(doc)
         description = mkdescription(parseJATS.is_poa(soup))
-        article_data = postprocess(render(description, [soup], ctx)[0])
+        article_data = postprocess(render(description, [soup], ctx)[0], ctx)
         return article_data
 
     except Exception as err:
-        LOG.error("failed to render doc %r with error: %s", ctx['location'], err)
+        LOG.error("failed to render doc %r with error: %s", ctx.get('location', '[no location]'), err)
         raise
 
-def main(doc):
+def serialize_overrides(override_map):
+    def serialize(pair):
+        key, val = pair
+        ensure(isinstance(key, basestring), "key must be a string")
+        ensure('|' not in key, "key must not contain a pipe")
+        key = key.strip()
+        ensure(key, "key must not be empty")
+        return '|'.join([key, json.dumps(val)])
+    return map(serialize, override_map.items())
+
+def deserialize_overrides(override_list):
+    def splitter(string):
+        if isinstance(string, list):
+            pair = string # already split into pairs, return what we have
+            return pair
+        ensure('|' in string, "override key and value must be seperated by a pipe '|'")
+        first, rest = string.split('|', 1)
+        ensure(rest.strip(), "a value must be provided. use 'null' without quotes to use an empty value")
+        return first, rest
+    pairs = map(splitter, override_list)
+    return {key: json.loads(val) for key, val in pairs}
+
+
+def main(doc, args=None):
+    args = args or {}
     msid, version = utils.version_from_path(getattr(doc, 'name', doc))
+    ctx = {
+        'version': version,
+        'override': args.get('override', {}),
+    }
     try:
-        article_json = render_single(doc, version=version)
+        article_json = render_single(doc, **ctx)
         return json.dumps(article_json, indent=4)
     except Exception:
-        LOG.exception("failed to scrape article", extra={'doc': doc, 'msid': msid, 'version': version})
+        log_ctx = {
+            'doc': doc,
+            'msid': msid,
+            'version': version,
+            'override': ctx['override'],
+        }
+        LOG.exception("failed to scrape article", extra=log_ctx)
         raise
 
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('infile', nargs="?", type=argparse.FileType('r'), default=sys.stdin)
+    parser.add_argument('infile', type=argparse.FileType('r'))
     parser.add_argument('--verbose', action="store_true", default=False)
-    args = parser.parse_args()
-    doc = args.infile
-    print main(doc)
+    parser.add_argument('--override', nargs=2, action="append")
+    args = vars(parser.parse_args())
+    doc = args.pop('infile')
+    args['override'] = deserialize_overrides(args['override'] or [])
+    print main(doc, args)

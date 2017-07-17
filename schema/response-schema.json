@@ -9,7 +9,7 @@
 		    "enum": [ "ingest", "publish", "ingest+publish" ]
 		},
 	    "status": {
-	        "enum": [ "ingested", "published", "invalid", "error" ]
+	        "enum": [ "validated", "ingested", "published", "invalid", "error" ]
 	    },
 	    "message": {
 	        "description": "elaborates on the status. if invalid, what is invalid. if in error, what failed.",

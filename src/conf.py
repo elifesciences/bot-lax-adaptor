@@ -4,10 +4,41 @@ from os.path import join
 from pythonjsonlogger import jsonlogger
 import utils
 import configparser as configparser
+import yaml
+
+SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
+PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/adaptor/
+
+CFG_NAME = 'app.cfg'
+DYNCONFIG = configparser.SafeConfigParser(**{
+    'allow_no_value': True,
+    # these can be used like template variables
+    # https://docs.python.org/2/library/configparser.html
+    'defaults': {'dir': PROJECT_DIR}})
+DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # ll: /path/to/lax/app.cfg
+
+def cfg(path, default=0xDEADBEEF):
+    lu = {'True': True, 'true': True, 'False': False, 'false': False} # cast any obvious booleans
+    try:
+        val = DYNCONFIG.get(*path.split('.'))
+        return lu.get(val, val)
+    except (configparser.NoOptionError, configparser.NoSectionError): # given key in section hasn't been defined
+        if default == 0xDEADBEEF:
+            raise ValueError("no value/section set for setting at %r" % path)
+        return default
+    except Exception:
+        raise
+
+ENV = cfg('general.env')
+DEV, VAGRANT, CONTINUUMTEST, END2END, PROD = 'dev', 'vagrant', 'continuumtest', 'end2end', 'prod'
+if ENV == DEV and os.path.exists('/vagrant'):
+    ENV = VAGRANT
+
+#
+#
+#
 
 ROOTLOG = logging.getLogger("")
-
-REQUESTS_CACHING = True
 
 _supported_keys = [
     'asctime',
@@ -71,74 +102,74 @@ def multiprocess_log(filename, name=__name__):
         log.addHandler(_handler)
     return log
 
-#
-#
-#
-
-SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
-PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/adaptor/
-
-CFG_NAME = 'app.cfg'
-DYNCONFIG = configparser.SafeConfigParser(**{
-    'allow_no_value': True,
-    # these can be used like template variables
-    # https://docs.python.org/2/library/configparser.html
-    'defaults': {'dir': PROJECT_DIR}})
-DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # ll: /path/to/lax/app.cfg
-
-def cfg(path, default=0xDEADBEEF):
-    lu = {'True': True, 'true': True, 'False': False, 'false': False} # cast any obvious booleans
-    try:
-        val = DYNCONFIG.get(*path.split('.'))
-        return lu.get(val, val)
-    except (configparser.NoOptionError, configparser.NoSectionError): # given key in section hasn't been defined
-        if default == 0xDEADBEEF:
-            raise ValueError("no value/section set for setting at %r" % path)
-        return default
-    except Exception:
-        raise
+LOG_DIR = PROJECT_DIR
+# TODO: re-enable once changes to lax-formula are deployed
+# if ENV != DEV:
+#    LOG_DIR = '/var/log/bot-lax-adaptor/'
+utils.writable_dir(LOG_DIR)
 
 #
 #
 #
-
-ENV = cfg('general.env')
 
 PATH_TO_LAX = cfg('lax.location')
 
-CACHE_PATH = cfg('lax.cache_path')
+# TODO: re-enable once changes to lax-formula are deployed
+CACHE_PATH = join(PROJECT_DIR, 'cache')
+# if ENV != DEV:
+#    CACHE_PATH = cfg('general.cache_path', CACHE_PATH)
+
+# TODO: remove once changes to lax-formula are deployed
+CACHE_PATH = cfg('lax.cache_path', CACHE_PATH)
 
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
-INGESTED, PUBLISHED, INVALID, ERROR = 'ingested', 'published', 'invalid', 'error'
+
+# these values are mostly duplicated in schema/api.yaml
+# if you update here, update there.
+VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
+BAD_OVERRIDES, BAD_UPLOAD, BAD_SCRAPE = 'problem-overrides', 'problem-uploading-xml', 'problem-scraping-xml'
+ERROR_INVALID = 'invalid-article-json' # eh
+ERROR_VALIDATING, ERROR_COMMUNICATING = 'error-validating-article-json', 'error-sending-article-json'
 
 XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')
 JSON_DIR = join(PROJECT_DIR, 'article-json')
 
-def json_load(path):
+def load(path):
     path = join(PROJECT_DIR, 'schema', path)
-    return json.load(open(path, 'r'))
+    if path.endswith('.json'):
+        return json.load(open(path, 'r'))
+    elif path.endswith('.yaml'):
+        return yaml.load(open(path, 'r'))
 
-POA_SCHEMA = json_load('api-raml/dist/model/article-poa.v1.json')
-VOR_SCHEMA = json_load('api-raml/dist/model/article-vor.v1.json')
+POA_SCHEMA = load('api-raml/dist/model/article-poa.v1.json')
+VOR_SCHEMA = load('api-raml/dist/model/article-vor.v1.json')
 
-REQUEST_SCHEMA = json_load('request-schema.json')
-RESPONSE_SCHEMA = json_load('response-schema.json')
+REQUEST_SCHEMA = load('request-schema.json')
+RESPONSE_SCHEMA = load('response-schema.json')
+
+API_SCHEMA = load('api.yaml')
+
+# can be overriden when creating an app
+API_UPLOAD_FOLDER = join(PROJECT_DIR, "uploads")
+if ENV != DEV:
+    API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
+utils.writable_dir(API_UPLOAD_FOLDER)
 
 CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
 
 DEFAULT_CDN = CDN1
 CDNS_BY_ENV = {
-    'end2end': 'end2end-' + CDN1,
-    'continuumtest': 'continuumtest-' + CDN1,
+    END2END: 'end2end-' + CDN1,
+    CONTINUUMTEST: 'continuumtest-' + CDN1,
 }
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
-if ENV == 'prod':
+if ENV == PROD:
     # used for generating public links
     CDN_IIIF = 'https://iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
     # used for direct access to the IIIF server
     IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
-elif ENV in ['continuumtest', 'end2end']:
+elif ENV in [CONTINUUMTEST, END2END]:
     CDN_IIIF = 'https://' + ENV + '--cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
     IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
 else:
@@ -146,9 +177,8 @@ else:
     CDN_IIIF = 'https://prod--cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
     IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
 
-# NOTE: do not move to /tmp
-GLENCOE_CACHE = join(CACHE_PATH, 'glencoe-cache') # ll: /opt/bot-lax-adaptor/glencoe-cache.sqlite3
-IIIF_CACHE = join(CACHE_PATH, 'iiif-cache')
+# should our http requests to external services be cached?
+REQUESTS_CACHING = True
 REQUESTS_CACHE = join(CACHE_PATH, 'requests-cache')
 
 # *may* improve locked db problem
@@ -158,9 +188,3 @@ ASYNC_CACHE_WRITES = False
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 
 JOURNAL_INCEPTION = 2012 # used to calculate volumes
-
-if __name__ == '__main__':
-    # test logging handlers
-    # $ python src/conf.py
-    LOG = logging.getLogger(__name__)
-    LOG.info("something", extra={'pants': 'party'})
