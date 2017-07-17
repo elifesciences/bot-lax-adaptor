@@ -1,9 +1,59 @@
+import os
 import json
 from os.path import join
-from .base import BaseCase
-import main, utils
+import base
+import main, utils, conf
 
-class ArticleScrape(BaseCase):
+class Cmd(base.BaseCase):
+    def setUp(self):
+        self.cwd = os.getcwd()
+        os.chdir(conf.PROJECT_DIR)
+
+    def tearDown(self):
+        os.chdir(self.cwd)
+
+    def test_scraper_can_be_called(self):
+        args = ['python', 'src/main.py', '-h']
+        rc, stdout = utils.run_script(args)
+        self.assertEqual(rc, 0)
+
+    def test_scraper_can_scrape(self):
+        "a basic scrape of xml can be done"
+        args = ['python', 'src/main.py', 'src/tests/fixtures/elife-16695-v1.xml']
+        rc, stdout = utils.run_script(args)
+        self.assertEqual(rc, 0)
+        expected_output = base.load_ajson(join(self.fixtures_dir, 'elife-16695-v1.xml.json'))
+        actual_output = base.load_ajson(stdout, string=True)
+        self.assertEqual(actual_output, expected_output)
+
+    def test_scraper_can_scrape_with_overrides(self):
+        "overrides must be passed in as pairs"
+        args = [
+            'python', 'src/main.py', 'src/tests/fixtures/elife-16695-v1.xml',
+            '--override', 'title', '"foo"',
+            '--override', 'abstract', '"bar"'
+        ]
+        rc, stdout = utils.run_script(args)
+        self.assertEqual(rc, 0)
+
+        expected_output = base.load_ajson(join(self.fixtures_dir, 'elife-16695-v1.xml.json'))
+        expected_output['article']['title'] = 'foo'
+        expected_output['article']['abstract'] = 'bar'
+
+        actual_output = base.load_ajson(stdout, string=True)
+        self.assertEqual(actual_output, expected_output)
+
+    def test_scraper_fails_on_bad_overrides(self):
+        "overrides must be passed in as pairs"
+        args = [
+            'python', 'src/main.py', 'src/tests/fixtures/elife-16695-v1.xml',
+            '--override', 'title',
+        ]
+        rc, stdout = utils.run_script(args)
+        self.assertEqual(rc, 2)
+
+
+class ArticleScrape(base.BaseCase):
     def setUp(self):
         self.doc = join(self.fixtures_dir, 'elife-09560-v1.xml')
         self.small_doc = join(self.fixtures_dir, 'elife-16695-v1.xml')
@@ -248,8 +298,17 @@ class ArticleScrape(BaseCase):
         }]
         self.assertEqual(expected, main.mixed_citation_to_related_articles(given))
 
+    def test_serialize_bad_args(self):
+        expected = dict([
+            ('', 1),
+            (('', ''), 2),
+            (None, 3),
+            ('|', 4),
+        ])
+        for bad_key, val in expected.items():
+            self.assertRaises(AssertionError, main.serialize_overrides, {bad_key: val})
 
-class KitchenSink(BaseCase):
+class KitchenSink(base.BaseCase):
     def setUp(self):
         self.doc = join(self.fixtures_dir, 'elife-00666-v1.xml')
         self.soup = main.to_soup(self.doc)
@@ -344,7 +403,7 @@ class KitchenSink(BaseCase):
         result = main.render_single(self.doc, version=1)
         self.assertTrue('patched' in result['article']['-meta'])
 
-class Locations(BaseCase):
+class Locations(base.BaseCase):
     def test_expand_location_for_absolute_uris(self):
         uri = 'https://s3-external-1.amazonaws.com/elife-publishing-expanded/25605.3/b8bd7e0b-a259-4d60-9ab2-c8ea9ecc31dc/elife-25605-v3.xml'
         expanded = main.expand_location(uri)

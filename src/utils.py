@@ -38,9 +38,16 @@ def ensure(assertion, msg, *args):
     if not assertion:
         raise AssertionError(msg % args)
 
+def writable_dir(path):
+    ensure(os.path.exists(path), "path doesn't exist: %s" % path)
+    # directories need to be executable as well to be considered writable
+    ensure(os.access(path, os.W_OK | os.X_OK), "directory isn't writable: %s" % path)
+
 def contains_any(ddict, key_list):
     return any([key in ddict for key in key_list])
 
+def has_all_keys(ddict, key_list):
+    return all([key in ddict for key in key_list])
 
 def rmkeys(ddict, key_list, pred):
     "immutable. removes all keys from ddict in given key list if pred is true"

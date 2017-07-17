@@ -1,11 +1,11 @@
+from os.path import join
 import os, sys, json
 import conf, utils
 import jsonschema
 import logging
-LOG = logging.getLogger(__name__)
 
-# output to adaptor.log
-_handler = logging.FileHandler("validate.log")
+LOG = logging.getLogger(__name__)
+_handler = logging.FileHandler(join(conf.LOG_DIR, "validate.log"))
 _handler.setLevel(logging.ERROR)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)

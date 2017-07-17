@@ -9,7 +9,7 @@
 			"enum": [ "ingest", "publish", "ingest+publish" ]
 		},
 		"location": {
-		    "description": "the location of the article to ingest/publish",
+		    "description": "the location of the article to validate/ingest/publish",
 			"type": "string",
 			"format": "uri",
 			"pattern": "^(https|file)://"
@@ -25,6 +25,10 @@
         "force": {
             "description": "force ingest/publish action. intended for silent corrections. use with caution.",
           	"type": "boolean"
+        },
+        "validate-only": {
+            "description": "any changes will be rolled back.",
+            "type": "boolean"
         },
 		"token": {
 			"description": "data to be returned to the sender once action complete",
