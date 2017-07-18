@@ -107,6 +107,7 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
         # valid adaptor responses are handled in `mkresponse`
         # valid api responses are handled in api.post_xml
         bot_lax_resp.update(lax_resp)
+        bot_lax_resp['id'] = str(bot_lax_resp['id'])
         return bot_lax_resp
 
     except ValueError as err:
