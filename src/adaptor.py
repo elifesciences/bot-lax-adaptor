@@ -94,19 +94,19 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
             #"message":
             #"code":
             #"comment":
-            "datetime": datetime.now()
-        }
-        # additional attributes we'll be returning
-        new = {
-            "requested-action": action,
+            "datetime": datetime.now(),
+
+            # additional attributes we'll be returning
+            "action": action,
             "force": force,
             "dry-run": dry_run,
             "token": token,
         }
-        # this ensures nothing lax returns will be lost.
+
+        # ensure everything that lax returns is preserved
         # valid adaptor responses are handled in `mkresponse`
+        # valid api responses are handled in api.post_xml
         bot_lax_resp.update(lax_resp)
-        bot_lax_resp.update(new)
         return bot_lax_resp
 
     except ValueError as err:
@@ -162,11 +162,20 @@ def mkresponse(status, message, request={}, **kwargs):
     }
 
     request = subdict(request, ['id', 'token', 'action'])
-    request = renkeys(request, [("action", "requested-action")])
     packet.update(request)
 
     # merge in any explicit overrides
-    packet.update(kwargs)
+    packet.update(kwargs) # problem happens here,
+
+    # more response wrangling
+    packet = renkeys(packet, [
+        ("action", "requested-action"),
+        ("dry-run", "validate-only")
+    ])
+
+    # remove any keys not supported in the schema
+    supported_keys = conf.RESPONSE_SCHEMA['properties'].keys()
+    packet = subdict(packet, supported_keys)
 
     # wrangle log context
     context = renkeys(packet, [("message", "status-message")])
@@ -179,7 +188,7 @@ def mkresponse(status, message, request={}, **kwargs):
     }
     LOG.log(levels[packet["status"]], "%s response", packet['status'], extra=context)
 
-    # bit ick
+    # final wrangle. success messages are None
     if not packet['message']:
         del packet['message']
 

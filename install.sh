@@ -17,6 +17,12 @@ fi
 if pip list | grep elifetools; then
     pip uninstall -y elifetools
 fi
+
+# temporary until connexion library fixes their requirements config
+if pip list | grep connexion; then
+    pip uninstall -y connexion
+fi
+
 pip install -r requirements.txt
 
 . download-api-raml.sh

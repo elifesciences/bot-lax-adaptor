@@ -1,12 +1,12 @@
 import re
 from os.path import join
-from .base import BaseCase
+import base
 import adaptor as adapt, fs_adaptor, conf
 import adaptor
 import unittest
 from mock import patch
 
-class Logic(BaseCase):
+class Logic(base.BaseCase):
     def setUp(self):
         self.ingest_dir = join(self.fixtures_dir, 'dir-ingest')
         self.ingest_v1_dir = join(self.ingest_dir, 'v1')
@@ -75,36 +75,61 @@ class Logic(BaseCase):
         self.assertIn(u'<title>Appendix\xa01</title>', titles_of_appendices)
 
 
-class Main(BaseCase):
+class Main(base.BaseCase):
     def setUp(self):
         self.ingest_dir = join(self.fixtures_dir, 'dir-ingest-small', 'v1')
 
+        # a basic mock response from lax
+        self.call_lax_resp = {
+            'status': conf.VALIDATED,
+            'message': 'mock',
+            'token': 'a',
+            'id': 'b',
+        }
+
+        # we're not testing the scraping here, we're testing the response from lax
+        # by calling adaptor.main directly we're obliged to pass a directory by we
+        # don't need to do any scraping.
+        # the ingest_dir contains just one article and this patch return the ajson
+        fixture = base.load_ajson(join(self.ingest_dir, 'elife-09560-v1.xml.json'))
+
+        self.patchers = [
+            # careful here: I was patching main.render_single with the fixture directly
+            # and it ate 18GB of memory and crashed computer :(
+            patch('main.render_single', lambda *args, **kwargs: fixture),
+        ]
+        [p.start() for p in self.patchers]
+
     def tearDown(self):
-        pass
+        [p.stop() for p in self.patchers]
 
     @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.INVALID, 'message': 'mock'})
     def test_invalid_ingest_publish(self):
         "ingest+publish actions handle 'invalid' responses"
-        args = ['adaptor.py']
         argstr = '--type fs --action ingest+publish --target %s' % self.ingest_dir
-        args.extend(argstr.split())
-        with patch('sys.argv', args):
-            adapt.main()
+        adapt.main(*argstr.split())
 
     @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.ERROR, 'message': 'mock'})
     def test_error_ingest_publish(self):
         "ingest+publish actions handle 'error' responses"
-        args = ['adaptor.py']
         argstr = '--type fs --action ingest+publish --target %s' % self.ingest_dir
-        args.extend(argstr.split())
-        with patch('sys.argv', args):
-            adapt.main()
+        adapt.main(*argstr.split())
 
     @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.VALIDATED, 'message': 'mock'})
     def test_validated_ingest_publish(self):
         "ingest+publish actions handle 'validated' responses"
-        args = ['adaptor.py']
         argstr = '--type fs --action ingest+publish --validate-only --target %s' % self.ingest_dir
-        args.extend(argstr.split())
-        with patch('sys.argv', args):
-            adapt.main()
+        adapt.main(*argstr.split())
+
+    def test_extra_response_data_from_lax(self):
+        "ensure bot-lax handles anything extra that lax may return that would fail validation against the response schema"
+        argstr = '--type fs --action ingest+publish --validate-only --target %s' % self.ingest_dir
+
+        # have lax return something bogus
+        self.call_lax_resp.update({'pants?': 'party!'})
+
+        with patch('adaptor.call_lax', lambda *args, **kwargs: self.call_lax_resp):
+            # .write is the 'success' method
+            with patch('fs_adaptor.OutgoingQueue.write') as mock:
+                adapt.main(*argstr.split())
+                mock.assert_called()
