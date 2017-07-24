@@ -7,6 +7,11 @@ import json
 import jsonschema
 from jsonschema import validate as validator
 from jsonschema import ValidationError
+import pytz
+from datetime import datetime
+from dateutil import parser
+from rfc3339 import rfc3339
+
 # import conf # don't do this, conf.py depends on utils.py
 
 import logging
@@ -169,6 +174,7 @@ def call_n_times(fn, protect_from, num_attempts=3, initial_waiting_time=0):
         waiting_time = initial_waiting_time
         for i in xrange(0, num_attempts):
             try:
+                # print 'calling',args[0],i
                 return fn(*args, **kwargs)
             except BaseException as err:
                 if type(err) in protect_from:
@@ -183,26 +189,27 @@ def call_n_times(fn, protect_from, num_attempts=3, initial_waiting_time=0):
 class RemoteResponseTemporaryError(RuntimeError):
     pass
 
+class RemoteResponsePermanentError(RuntimeError):
+    pass
+
 def requests_get(*args, **kwargs):
     def target(*args, **kwargs):
         response = requests.get(*args, **kwargs)
         if response.status_code >= 500:
             raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
         return response
-    return call_n_times(
+    num_attempts = 3
+    resp = call_n_times(
         target,
         [sqlite3.OperationalError, RemoteResponseTemporaryError],
+        num_attempts,
         initial_waiting_time=1
     )(*args, **kwargs)
-
-#
-#
-#
-
-import pytz
-from datetime import datetime
-from dateutil import parser
-from rfc3339 import rfc3339
+    if resp is None:
+        # function has been called num_attempts and has been caught each time.
+        # at this point we have an empty response.
+        raise RemoteResponsePermanentError("failed to call %r %s times" % (args[0], num_attempts))
+    return resp
 
 def todt(val):
     "turn almost any formatted datetime string into a UTC datetime object"
