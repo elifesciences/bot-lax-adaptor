@@ -69,18 +69,18 @@ class Utils(BaseCase):
 
     @patch('time.sleep')
     def test_call_n_times_with_backoff(self, mock_sleep):
-
-        def _fails_n_times(times):
-            total = [0]
-
-            def fn():
-                if total[0] == times:
-                    return 'result'
-                total[0] = total[0] + 1
-                raise ValueError('KABOOOM')
-            return fn
-
-        fn = _fails_n_times(3)
+        fn = self._fails_several_times(3)
         func = utils.call_n_times(fn, [ValueError], num_attempts=10, initial_waiting_time=1)
         self.assertEqual(func(), 'result')
         self.assertEqual(mock_sleep.mock_calls, [call(1), call(2), call(4)])
+
+    def _fails_several_times(self, times):
+        total = [0]
+
+        def fn():
+            if total[0] == times:
+                return 'result'
+            else:
+                total[0] = total[0] + 1
+                raise ValueError('KABOOOM')
+        return fn
