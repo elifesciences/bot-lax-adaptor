@@ -103,9 +103,9 @@ def multiprocess_log(filename, name=__name__):
     return log
 
 LOG_DIR = PROJECT_DIR
-# TODO: re-enable once changes to lax-formula are deployed
-# if ENV != DEV:
-#    LOG_DIR = '/var/log/bot-lax-adaptor/'
+# path check is temporary until all instances of lax are using same formula
+if ENV != DEV and os.path.exists('/var/log/bot-lax-adaptor/'):
+    LOG_DIR = '/var/log/bot-lax-adaptor/'
 utils.writable_dir(LOG_DIR)
 
 #
