@@ -203,11 +203,13 @@ def post_xml():
 
     except Exception as err:
         # lax returned something indecipherable
+        sio = StringIO()
+        traceback.print_exc(file=sio)
         return {
             'status': conf.ERROR,
             'code': conf.ERROR_COMMUNICATING,
             'message': "lax responded with something that couldn't be decoded",
-            'trace': str(err),
+            'trace': sio.getvalue(),
         }, 400
 
 def create_app(cfg_overrides=None):
