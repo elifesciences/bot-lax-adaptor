@@ -188,7 +188,7 @@ def post_xml():
         lax_resp = adaptor.call_lax(**args)
 
         context = utils.renkeys(lax_resp, [("message", "lax-message")])
-        LOG.info("lax response", extra=lax_resp)
+        LOG.info("lax response", extra=context)
 
         api_resp = utils.subdict(lax_resp, ['status', 'code', 'message', 'trace'])
 
