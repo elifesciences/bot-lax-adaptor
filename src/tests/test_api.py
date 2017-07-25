@@ -60,7 +60,8 @@ class Two(FlaskTestCase):
         expected_lax_resp = {
             'status': conf.VALIDATED,
             'override': {},
-            'ajson': base.load_ajson(xml_fixture + '.json')['article']
+            'ajson': base.load_ajson(xml_fixture + '.json')['article'],
+            'message': None # this should trigger an error when logged naively by api.py but doesn't...
         }
 
         with patch('adaptor.call_lax', return_value=expected_lax_resp):
@@ -223,6 +224,7 @@ class Two(FlaskTestCase):
                 self.assertTrue(resp.json['trace'].startswith('Traceback (most recent call last):'))
                 self.assertTrue(resp.json['message']) # one exists and isn't empty
 
+    # this test is taking a long time ...
     def test_upload_invalid(self):
         "the response we expect when the scraped article-json is invalid"
         xml_fname = 'elife-00666-v1.xml.invalid'

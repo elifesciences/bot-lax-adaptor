@@ -186,9 +186,10 @@ def post_xml():
             'token': token,
         }
         lax_resp = adaptor.call_lax(**args)
+
+        context = utils.renkeys(lax_resp, [("message", "lax-message")])
         LOG.info("lax response", extra=lax_resp)
 
-        #api_resp = copy.deepcopy(lax_resp)
         api_resp = utils.subdict(lax_resp, ['status', 'code', 'message', 'trace'])
 
         if api_resp['status'] in [conf.INVALID, conf.ERROR]:
