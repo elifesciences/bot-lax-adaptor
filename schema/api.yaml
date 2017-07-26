@@ -57,10 +57,6 @@ definitions:
 
 paths:
   /xml:
-    get:
-      responses:
-        200:
-          description: a list of all article xml files that have been uploaded
     post:
       description: upload an xml file, generate article-json from it, validate article-json, send article-json to test ingest
       consumes:

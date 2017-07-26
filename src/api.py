@@ -81,10 +81,6 @@ def xml_files():
 # api
 #
 
-def search_xml():
-    "GET /xml"
-    return xml_files()[0] # just the basenames
-
 def search_article_json():
     return article_json_files()[0] # just the basenames
 
