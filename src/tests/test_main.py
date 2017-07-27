@@ -324,7 +324,6 @@ class KitchenSink(base.BaseCase):
         expected_figure = {
             'type': 'figure',
             'assets': [{
-                'attribution': ['For the purpose having a example of how to tag a separate license for an item, we have indicated in the XML and display this is a\n                                        copyrighted figure; however it is not.'],
                 'doi': '10.7554/eLife.00666.007',
                 'id': 'fig1',
                 'image': {
