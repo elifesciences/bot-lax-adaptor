@@ -7,6 +7,6 @@ elifeUpdatePipeline(
     {
         return "Updated elife-tools to: ${elifeToolsSummary}"
     },
-    'update_elife_tools_',
+    'update_elife_tools/',
     true
 )

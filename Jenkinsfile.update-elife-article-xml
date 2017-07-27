@@ -9,6 +9,6 @@ elifeUpdatePipeline(
     {
         return "Updated elife-article-xml to: ${elifeArticleXmlSummary}"
     },
-    'update_elife_article_xml_',
+    'update_elife_article_xml/',
     true
 )
