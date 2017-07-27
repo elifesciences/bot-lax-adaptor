@@ -9,6 +9,6 @@ elifeUpdatePipeline(
     {
         return "Updated api-raml to: ${apiRamlSummary}"
     },
-    'update_api_raml_',
+    'update_api_raml/',
     true
 )
