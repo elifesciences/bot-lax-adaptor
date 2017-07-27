@@ -7,10 +7,11 @@ venv/
 app.cfg
 *.swp
 .coverage
-article-xml/
-article-json/
-guinea-pigs/
-kitchen-sinks/
+/article-xml/
+/article-json/
+/cache/
+/guinea-pigs/
+/kitchen-sinks/
 api-raml/
 htmlcov/
 elife-tools/
