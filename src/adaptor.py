@@ -27,7 +27,6 @@ _handler.setLevel(logging.DEBUG)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
 
-
 from time import time
 from functools import wraps
 
@@ -166,7 +165,7 @@ def mkresponse(status, message, request={}, **kwargs):
     packet.update(request)
 
     # merge in any explicit overrides
-    packet.update(kwargs) # problem happens here,
+    packet.update(kwargs)
 
     # more response wrangling
     packet = renkeys(packet, [
@@ -189,9 +188,13 @@ def mkresponse(status, message, request={}, **kwargs):
     }
     LOG.log(levels[packet["status"]], "%s response", packet['status'], extra=context)
 
-    # final wrangle. success messages are None
+    # success messages are None
     if not packet['message']:
         del packet['message']
+
+    # double-publications are successful
+    if kwargs.get('code') == 'already-published':
+        packet['status'] = PUBLISHED
 
     return packet
 

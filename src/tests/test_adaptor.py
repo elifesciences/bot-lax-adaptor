@@ -1,7 +1,7 @@
 import re
 from os.path import join
 import base
-import adaptor as adapt, fs_adaptor, conf
+import adaptor as adapt, fs_adaptor, conf, utils
 import adaptor
 import unittest
 from mock import patch
@@ -133,3 +133,22 @@ class Main(base.BaseCase):
             with patch('fs_adaptor.OutgoingQueue.write') as mock:
                 adapt.main(*argstr.split())
                 mock.assert_called()
+
+class DoublePubGood(base.BaseCase):
+    def test_already_published_response_means_aok(self):
+        "bot-lax coerces already-published error responses to successful 'published' responses"
+        lax_resp = {
+            'status': conf.ERROR,
+            'message': 'mock',
+            'token': 'a',
+            'id': 'b',
+
+            'code': 'already-published'
+        }
+
+        # coercion happens
+        resp = adapt.mkresponse(**lax_resp)
+        self.assertEqual(resp['status'], conf.PUBLISHED)
+
+        # coercion doesn't result in an invalid response
+        utils.validate(resp, conf.RESPONSE_SCHEMA)
