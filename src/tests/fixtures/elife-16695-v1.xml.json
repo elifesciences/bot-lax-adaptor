@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/84b73b2a59f51b59f34b29d5b80e1a7be362689b/articles/elife-16695-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/2e816afd7ed4db46c41202cad8ff7145bf3432cf/articles/elife-16695-v1.xml"
         }, 
         "-history": {
             "received": "2016-04-06T00:00:00Z", 
@@ -49,7 +49,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/84b73b2a59f51b59f34b29d5b80e1a7be362689b/articles/elife-16695-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/2e816afd7ed4db46c41202cad8ff7145bf3432cf/articles/elife-16695-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -515,7 +515,13 @@
                 "uri": "https://cdn.elifesciences.org/articles/16695/elife-16695-supp-v1.zip", 
                 "filename": "elife-16695-supp-v1.zip", 
                 "id": "SD1-data", 
-                "title": "Supplementary file 1."
+                "title": "All additional files", 
+                "caption": [
+                    {
+                        "text": "Any figure supplements, source code, source data, videos or supplementary files associated with this article are contained within this zip.", 
+                        "type": "paragraph"
+                    }
+                ]
             }
         ], 
         "stage": "published", 
