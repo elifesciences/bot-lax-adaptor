@@ -8,6 +8,3 @@ def install_cache_requests():
         'backend': 'sqlite',
         'fast_save': conf.ASYNC_CACHE_WRITES,
         'extension': '.sqlite3'})
-
-def create_key(prepared_request):
-    return requests_cache.core.get_cache().create_key(prepared_request)
