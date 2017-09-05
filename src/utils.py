@@ -1,5 +1,6 @@
 import sqlite3
 import requests
+from cache_requests import create_key
 import os, copy
 import subprocess
 import time
@@ -194,7 +195,12 @@ class RemoteResponsePermanentError(RuntimeError):
 
 def requests_get(*args, **kwargs):
     def target(*args, **kwargs):
-        response = requests.get(*args, **kwargs)
+        request = requests.Request('GET', *args, **kwargs)
+        prepared_request = request.prepare()
+        cache_key = create_key(prepared_request)
+        LOG.info("Requesting url %s (cache key '%s')", args[0], cache_key)
+        s = requests.Session()
+        response = s.send(prepared_request)
         if response.status_code >= 500:
             raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
         return response
