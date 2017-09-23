@@ -515,7 +515,7 @@
                 "uri": "https://cdn.elifesciences.org/articles/16695/elife-16695-supp-v1.zip", 
                 "filename": "elife-16695-supp-v1.zip", 
                 "id": "SD1-data", 
-                "title": "All additional files", 
+                "label": "All additional files", 
                 "caption": [
                     {
                         "text": "Any figure supplements, source code, source data, videos or supplementary files associated with this article are contained within this zip.", 
