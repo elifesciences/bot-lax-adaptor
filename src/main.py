@@ -411,6 +411,10 @@ def format_isbns(data):
 
     return visit(data, pred, fn)
 
+'''
+# this is validation code rather than transformation code
+# validation is handled by our laborious efforts with json-schema and CI
+# it needs a really good reason to be uncommented or it's going to be removed
 def check_authors(data):
     "in postprocessing, check all authors have competingInterests except in certain article types"
     skip_types = ['correction']
@@ -425,8 +429,10 @@ def check_authors(data):
         for author in data['snippet']['authors']:
             if (author.get('type') in ['person', 'group']
                     and author.get('competingInterests') is None):
+                context['author'] = author
                 raise ValueError("Author missing required competingInterests", context)
     return data
+'''
 
 DUMMY_DATE = '2099-01-01T00:00:00Z'
 
@@ -472,7 +478,7 @@ def manual_overrides(ctx, data):
 def postprocess(data, ctx):
     msid = data['snippet']['id']
     data = doall(data, [
-        check_authors,
+        #check_authors,
         fix_extensions,
         expand_videos,
         partial(expand_uris, msid),
@@ -651,7 +657,7 @@ def main(doc, args=None):
         return json.dumps(article_json, indent=4)
     except Exception:
         log_ctx = {
-            'doc': doc,
+            'doc': str(doc), # context needs to be json serializable
             'msid': msid,
             'version': version,
             'override': ctx['override'],
