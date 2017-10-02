@@ -6,6 +6,7 @@ import utils
 import configparser as configparser
 import yaml
 
+os.umask(int('002', 8))
 SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
 PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/adaptor/
 
