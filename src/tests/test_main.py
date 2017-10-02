@@ -123,6 +123,8 @@ class ArticleScrape(base.BaseCase):
                      "name": "Microbiology and Infectious Disease"}]
         self.assertEqual(main.category_codes(cat_list), expected)
 
+    """
+    # disable test due to code snippet is also disabled at this time
     def test_check_authors(self):
         cases = [
             {"snippet": {"type": "research-article", "authors": [{"type": "person", "competingInterests": "A competing interest"}]}},
@@ -130,10 +132,14 @@ class ArticleScrape(base.BaseCase):
         ]
         for snippet in cases:
             self.assertEqual(main.check_authors(snippet), snippet)
+    """
 
+    """
+    # disable test due to code snippet is also disabled at this time
     def test_check_authors_failure(self):
         snippet = {"snippet": {"type": "research-article", "authors": [{"type": "person"}]}}
         self.assertRaises(ValueError, main.check_authors, snippet)
+    """
 
     def test_related_article_to_related_articles_whem_empty(self):
         # For increased test coverage, test and empty list
