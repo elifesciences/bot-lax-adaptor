@@ -478,7 +478,7 @@ def manual_overrides(ctx, data):
 def postprocess(data, ctx):
     msid = data['snippet']['id']
     data = doall(data, [
-        #check_authors,
+        # check_authors,
         fix_extensions,
         expand_videos,
         partial(expand_uris, msid),
