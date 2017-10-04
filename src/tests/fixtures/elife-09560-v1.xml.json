@@ -2473,13 +2473,13 @@
             {
                 "doi": "10.7554/eLife.09560.028", 
                 "id": "SD1-data", 
+                "label": "Supplementary file 1", 
                 "caption": [
                     {
                         "type": "paragraph", 
                         "text": "Holotype and paratype specimens and referred materials."
                     }
                 ], 
-                "title": "Supplementary file 1.", 
                 "mediaType": "application/docx", 
                 "uri": "https://cdn.elifesciences.org/articles/09560/elife-09560-supp1-v1.docx", 
                 "filename": "elife-09560-supp1-v1.docx"
@@ -2487,13 +2487,13 @@
             {
                 "doi": "10.7554/eLife.09560.029", 
                 "id": "SD2-data", 
+                "label": "Supplementary file 2", 
                 "caption": [
                     {
                         "type": "paragraph", 
                         "text": "Traits of <i>H</i>. <i>naledi</i> and comparative species."
                     }
                 ], 
-                "title": "Supplementary file 2.", 
                 "mediaType": "application/docx", 
                 "uri": "https://cdn.elifesciences.org/articles/09560/elife-09560-supp2-v1.docx", 
                 "filename": "elife-09560-supp2-v1.docx"
@@ -4971,13 +4971,13 @@
             {
                 "doi": "10.7554/eLife.09560.028", 
                 "id": "SD1-data", 
+                "label": "Supplementary file 1", 
                 "caption": [
                     {
                         "type": "paragraph", 
                         "text": "Holotype and paratype specimens and referred materials."
                     }
                 ], 
-                "title": "Supplementary file 1.", 
                 "mediaType": "application/docx", 
                 "uri": "https://cdn.elifesciences.org/articles/09560/elife-09560-supp1-v1.docx", 
                 "filename": "elife-09560-supp1-v1.docx"
@@ -4985,13 +4985,13 @@
             {
                 "doi": "10.7554/eLife.09560.029", 
                 "id": "SD2-data", 
+                "label": "Supplementary file 2", 
                 "caption": [
                     {
                         "type": "paragraph", 
                         "text": "Traits of <i>H</i>. <i>naledi</i> and comparative species."
                     }
                 ], 
-                "title": "Supplementary file 2.", 
                 "mediaType": "application/docx", 
                 "uri": "https://cdn.elifesciences.org/articles/09560/elife-09560-supp2-v1.docx", 
                 "filename": "elife-09560-supp2-v1.docx"
