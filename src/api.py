@@ -133,7 +133,7 @@ def post_xml():
     try:
         article_json = scraper.main(path, {
             'override': override,
-            'fill-missing-image-dimensions': False
+            'fill-missing-image-dimensions': True
         })
         json_filename = filename + '.json'
         json_path = join(upload_folder(), json_filename)
