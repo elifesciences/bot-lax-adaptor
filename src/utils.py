@@ -197,6 +197,22 @@ class RemoteResponsePermanentError(RuntimeError):
 def requests_cache_create_key(prepared_request):
     return requests_cache.core.get_cache().create_key(prepared_request)
 
+'''
+# works, but only good for debugging/mocking responses
+def dumpobj(obj):
+    import cPickle, time
+    from os.path import join
+    import conf
+    fname = str(int(time.time() * 1000000)) + ".pickle"
+    path = join(conf.PROJECT_DIR, fname)
+    pickler = cPickle.Pickler(open(path, 'w'))
+    pickler.dump(obj)
+    return path
+
+def loadobj(path):
+    pass
+'''
+
 def requests_get(*args, **kwargs):
     def target(*args, **kwargs):
         request = requests.Request('GET', *args, **kwargs)
@@ -207,6 +223,7 @@ def requests_get(*args, **kwargs):
         response = s.send(prepared_request)
         if response.status_code >= 500:
             raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
+        #dumpobj((request, response))
         return response
     num_attempts = 3
     resp = call_n_times(

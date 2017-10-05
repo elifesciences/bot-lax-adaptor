@@ -360,3 +360,34 @@ class Two(FlaskTestCase):
         self.assertEqual(resp.status_code, 400) # bad request
         self.assertTrue(utils.partial_match(expected_resp, resp.json))
         self.assertTrue(resp.json['trace'].startswith('Traceback (most'))
+
+    def test_upload_xml_no_iiif_deposit(self):
+        "api returns valid article-json with valid values for image widths and heights when iiif returns a 404"
+        xml_fname = 'elife-24271-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+
+        expected_lax_resp = {
+            'status': conf.VALIDATED,
+            'override': {},
+            'ajson': base.load_ajson(xml_fixture + '.json')['article'],
+            'message': None # this should trigger an error when logged naively by api.py but doesn't...
+        }
+
+        # don't call lax
+        with patch('adaptor.call_lax', return_value=expected_lax_resp):
+            # also, don't call iiif
+            no_iiif_info = {}
+            with patch('iiif.iiif_info', return_value=no_iiif_info):
+                resp = self.client.post('/xml', **{
+                    'buffered': True,
+                    'content_type': 'multipart/form-data',
+                    'data': {
+                        'xml': (open(xml_fixture, 'rb'), xml_fname),
+                    }
+                })
+
+        # ensure ajson validated
+        expected_ajson_path = join(self.temp_dir, xml_fname) + '.json'
+        success, _ = validate.main(open(expected_ajson_path, 'rb'))
+        self.assertTrue(success)
+        self.assertEqual(resp.status_code, 200)

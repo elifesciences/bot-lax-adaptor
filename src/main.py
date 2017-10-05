@@ -666,9 +666,10 @@ def main(doc, args=None):
     msid, version = utils.version_from_path(getattr(doc, 'name', doc))
     ctx = {
         'version': version,
-        'override': args.get('override', {}),
-        'fill-missing-image-dimensions': False,
+        'override': {},
+        'fill-missing-image-dimensions': False
     }
+    ctx.update(args)
     try:
         article_json = render_single(doc, **ctx)
         return json.dumps(article_json, indent=4)
