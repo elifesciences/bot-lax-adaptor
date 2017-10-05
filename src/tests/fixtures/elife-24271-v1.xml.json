@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "/home/luke/dev/python/bot-lax-adaptor/uploads/elife-24271-v1.xml"
+            "location": "/home/luke/working-dir/2017-10-04/elife-24271-v1.xml"
         }, 
         "-history": {
             "received": "2016-12-15T00:00:00Z", 
@@ -576,7 +576,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "/home/luke/dev/python/bot-lax-adaptor/uploads/elife-24271-v1.xml", 
+            "location": "/home/luke/working-dir/2017-10-04/elife-24271-v1.xml", 
             "patched": true
         }, 
         "-history": {
