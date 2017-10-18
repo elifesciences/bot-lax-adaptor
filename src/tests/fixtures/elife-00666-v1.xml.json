@@ -19,6 +19,8 @@
         "doi": "10.7554/eLife.00666", 
         "authorLine": "Melissa Harrison Jnr et al.", 
         "title": "The eLife research article", 
+        "received": "2016-03-01T00:00:00Z", 
+        "accepted": "2016-04-01T00:00:00Z", 
         "published": "2016-04-25T00:00:00Z", 
         "versionDate": "2016-04-25T00:00:00Z", 
         "volume": 5, 
@@ -44,7 +46,7 @@
             "content": [
                 {
                     "type": "paragraph", 
-                    "text": "This is the abstract. This article will describe the eLife article and the process.                     An abstract can contain any formatting, such as <i>italics</i>,                         <b>bold</b>, <sup>superscript</sup>, <sub>subscript</sub> or <span class=\"small-caps\">small caps</span>. MathML is                     also allowed:                      <math><mrow><munder><mo></mo><mi>m</mi></munder><mrow><msub><mover accent=\"true\"><mi>p</mi><mo></mo></mover><mi>m</mi></msub><mo>=</mo><mn>0</mn></mrow></mrow></math>                 ."
+                    "text": "This is the abstract. This article will describe the eLife article and the process.                     An abstract can contain any formatting, such as <i>italics</i>,                         <b>bold</b>, <sup>superscript</sup>, <sub>subscript</sub> or <span class=\"small-caps\">small caps</span>. MathML is                     also allowed:                      <math><mrow><munder><mo/><mi>m</mi></munder><mrow><msub><mover accent=\"true\"><mi>p</mi><mo/></mover><mi>m</mi></msub><mo>=</mo><mn>0</mn></mrow></mrow></math>                 ."
                 }, 
                 {
                     "type": "paragraph", 
@@ -596,13 +598,20 @@
                 "filename": "elife-00666-code1.xml"
             }, 
             {
-                "doi": "10.7554/eLife.00666.022", 
+                "doi": "10.7554/eLife.00666.034", 
                 "id": "repstand1", 
-                "label": "Reporting Standard 1", 
-                "title": "CONSORT flow diagram.", 
+                "label": "Consort checklist and flow diagram", 
                 "mediaType": "application/pdf", 
                 "uri": "https://cdn.elifesciences.org/articles/00666/elife-00666-repstand1.pdf", 
                 "filename": "elife-00666-repstand1.pdf"
+            }, 
+            {
+                "doi": "10.7554/eLife.00666.022", 
+                "id": "transrepform", 
+                "label": "Transparent reporting form", 
+                "mediaType": "application/pdf", 
+                "uri": "https://cdn.elifesciences.org/articles/00666/elife-00666-transrepform.pdf", 
+                "filename": "elife-00666-transrepform.pdf"
             }
         ], 
         "dataSets": {
@@ -687,6 +696,8 @@
         "doi": "10.7554/eLife.00666", 
         "authorLine": "Melissa Harrison Jnr et al.", 
         "title": "The eLife research article", 
+        "received": "2016-03-01T00:00:00Z", 
+        "accepted": "2016-04-01T00:00:00Z", 
         "published": "2016-04-25T00:00:00Z", 
         "versionDate": "2016-04-25T00:00:00Z", 
         "volume": 5, 
@@ -712,7 +723,7 @@
             "content": [
                 {
                     "type": "paragraph", 
-                    "text": "This is the abstract. This article will describe the eLife article and the process.                     An abstract can contain any formatting, such as <i>italics</i>,                         <b>bold</b>, <sup>superscript</sup>, <sub>subscript</sub> or <span class=\"small-caps\">small caps</span>. MathML is                     also allowed:                      <math><mrow><munder><mo></mo><mi>m</mi></munder><mrow><msub><mover accent=\"true\"><mi>p</mi><mo></mo></mover><mi>m</mi></msub><mo>=</mo><mn>0</mn></mrow></mrow></math>                 ."
+                    "text": "This is the abstract. This article will describe the eLife article and the process.                     An abstract can contain any formatting, such as <i>italics</i>,                         <b>bold</b>, <sup>superscript</sup>, <sub>subscript</sub> or <span class=\"small-caps\">small caps</span>. MathML is                     also allowed:                      <math><mrow><munder><mo/><mi>m</mi></munder><mrow><msub><mover accent=\"true\"><mi>p</mi><mo/></mover><mi>m</mi></msub><mo>=</mo><mn>0</mn></mrow></mrow></math>                 ."
                 }, 
                 {
                     "type": "paragraph", 
@@ -1264,13 +1275,20 @@
                 "filename": "elife-00666-code1.xml"
             }, 
             {
-                "doi": "10.7554/eLife.00666.022", 
+                "doi": "10.7554/eLife.00666.034", 
                 "id": "repstand1", 
-                "label": "Reporting Standard 1", 
-                "title": "CONSORT flow diagram.", 
+                "label": "Consort checklist and flow diagram", 
                 "mediaType": "application/pdf", 
                 "uri": "https://cdn.elifesciences.org/articles/00666/elife-00666-repstand1.pdf", 
                 "filename": "elife-00666-repstand1.pdf"
+            }, 
+            {
+                "doi": "10.7554/eLife.00666.022", 
+                "id": "transrepform", 
+                "label": "Transparent reporting form", 
+                "mediaType": "application/pdf", 
+                "uri": "https://cdn.elifesciences.org/articles/00666/elife-00666-transrepform.pdf", 
+                "filename": "elife-00666-transrepform.pdf"
             }
         ], 
         "dataSets": {
@@ -2154,7 +2172,7 @@
                                             }
                                         ], 
                                         "tables": [
-                                            "<table>\n<thead>\n<tr>\n<th colspan=\"3\" rowspan=\"2\">\u2009</th>\n<th align=\"center\" colspan=\"8\">GLVs (percent IS plant<sup>-1</sup>)</th>\n<th align=\"center\" colspan=\"17\">TPS10 products (percent IS plant<sup>-1</sup>)</th>\n<th align=\"center\" colspan=\"10\">Non-target volatiles (percent IS plant<sup>-1</sup>)</th>\n</tr>\n<tr>\n<th align=\"center\" colspan=\"8\">(<i>Z</i>)-Hexen-3-ol</th>\n<th align=\"center\" colspan=\"10\">TAB</th>\n<th align=\"center\" colspan=\"7\">TBF</th>\n<th align=\"center\" colspan=\"6\">\u03b1-Duprezianene</th>\n<th align=\"center\" colspan=\"4\">Germacrene A</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>\n<b>Genotype</b>\n</td>\n<td>\n<b>Day n</b>\n</td>\n<td>\n<b>Night n</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td colspan=\"5\">\n<b>Night</b>\n</td>\n<td colspan=\"4\">\n<b>Day</b>\n</td>\n<td colspan=\"6\">\n<b>Night</b>\n</td>\n<td colspan=\"4\">\n<b>Day</b>\n</td>\n<td colspan=\"3\">\n<b>Night</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td colspan=\"3\">\n<b>Night</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td>\n<b>Night</b>\n</td>\n</tr>\n<tr>\n<td>\n<b>WT</b>\n</td>\n<td>8</td>\n<td>8</td>\n<td>0.99%</td>\n<td>\u00b1</td>\n<td>0.99%</td>\n<td>7.96%</td>\n<td>\u00b1</td>\n<td>4.25%</td>\n<td rowspan=\"2\" valign=\"middle\">\n<span class=\"author-callout-style-a1\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"middle\">\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a1\">lox</span>\n</b>\n</sub>\n</td>\n<td>0.37%</td>\n<td>\u00b1</td>\n<td>0.29%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\u2009</td>\n<td rowspan=\"3\" valign=\"middle\">\n<span class=\"author-callout-style-a1\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"bottom\">\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a1\">TPS</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<span class=\"author-callout-style-a2\">2.13%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.85%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.96%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.42%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">1.68%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.98%</span>\n</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b>\n<i>TPS10</i>\n</b>\n</td>\n<td>7</td>\n<td>7</td>\n<td>2.37%</td>\n<td>\u00b1</td>\n<td>1.55%</td>\n<td>2.84%</td>\n<td>\u00b1</td>\n<td>0.63%</td>\n<td>18.97%</td>\n<td>\u00b1</td>\n<td>6.03%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.94%</td>\n<td>\u00b1</td>\n<td>0.53%</td>\n<td rowspan=\"3\" valign=\"middle\">\n<span class=\"author-callout-style-a3\">}</span>\n</td>\n<td>9.34%</td>\n<td>\u00b1</td>\n<td>3.44%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.20%</td>\n<td>\u00b1</td>\n<td>0.20%</td>\n<td>9.47%</td>\n<td>\u00b1</td>\n<td>5.26%</td>\n<td>0.94%</td>\n<td>\u00b1</td>\n<td>0.26%</td>\n<td>2.78%</td>\n<td>\u00b1</td>\n<td>1.52%</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b>\n<i>lox2/3</i>\n</b>\n</td>\n<td>7</td>\n<td>8</td>\n<td>0.13%</td>\n<td>\u00b1</td>\n<td>0.13%</td>\n<td>1.06%</td>\n<td>\u00b1</td>\n<td>0.64%</td>\n<td rowspan=\"2\" valign=\"middle\">\n<span class=\"author-callout-style-a3\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"middle\">\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a3\">lox</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td>0.15%</td>\n<td>\u00b1</td>\n<td>0.15%</td>\n<td rowspan=\"2\">\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a3\">TPS</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>2.75%</td>\n<td>\u00b1</td>\n<td>1.12%</td>\n<td>0.60%</td>\n<td>\u00b1</td>\n<td>0.19%</td>\n<td>1.68%</td>\n<td>\u00b1</td>\n<td>1.49%</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b><i>lox2/3</i>x<i>TPS10</i></b>\n</td>\n<td>7</td>\n<td>7</td>\n<td>0.07%</td>\n<td>\u00b1</td>\n<td>0.07%</td>\n<td>1.24%</td>\n<td>\u00b1</td>\n<td>0.84%</td>\n<td>7.39%</td>\n<td>\u00b1</td>\n<td>2.56%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>2.08%</td>\n<td>\u00b1</td>\n<td>0.84%</td>\n<td>\u2009</td>\n<td>4.47%</td>\n<td>\u00b1</td>\n<td>1.70%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.40%</td>\n<td>\u00b1</td>\n<td>0.40%</td>\n<td>3.02%</td>\n<td>\u00b1</td>\n<td>1.42%</td>\n<td>0.73%</td>\n<td>\u00b1</td>\n<td>0.31%</td>\n<td>0.66%</td>\n<td>\u00b1</td>\n<td>0.37%</td>\n<td>\u2014</td>\n</tr>\n</tbody>\n</table>"
+                                            "<table>\n<thead>\n\n<tr>\n\n<th colspan=\"3\" rowspan=\"2\">\u2009</th>\n<th align=\"center\" colspan=\"8\">GLVs (percent IS plant<sup>-1</sup>)</th>\n<th align=\"center\" colspan=\"17\">TPS10 products (percent IS plant<sup>-1</sup>)</th>\n<th align=\"center\" colspan=\"10\">Non-target volatiles (percent IS plant<sup>-1</sup>)</th>\n</tr>\n<tr>\n<th align=\"center\" colspan=\"8\">(<i>Z</i>)-Hexen-3-ol</th>\n<th align=\"center\" colspan=\"10\">TAB</th>\n<th align=\"center\" colspan=\"7\">TBF</th>\n<th align=\"center\" colspan=\"6\">\u03b1-Duprezianene</th>\n<th align=\"center\" colspan=\"4\">Germacrene A</th>\n</tr>\n</thead>\n<tbody>\n\n<tr>\n<td>\n<b>Genotype</b>\n</td>\n<td>\n<b>Day n</b>\n</td>\n<td>\n<b>Night n</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td colspan=\"5\">\n<b>Night</b>\n</td>\n<td colspan=\"4\">\n<b>Day</b>\n</td>\n<td colspan=\"6\">\n<b>Night</b>\n</td>\n<td colspan=\"4\">\n<b>Day</b>\n</td>\n<td colspan=\"3\">\n<b>Night</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td colspan=\"3\">\n<b>Night</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td>\n<b>Night</b>\n</td>\n</tr>\n<tr>\n<td>\n<b>WT</b>\n</td>\n<td>8</td>\n<td>8</td>\n<td>0.99%</td>\n<td>\u00b1</td>\n<td>0.99%</td>\n<td>7.96%</td>\n<td>\u00b1</td>\n<td>4.25%</td>\n\n<td rowspan=\"2\" valign=\"middle\">\n<span class=\"author-callout-style-a1\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"middle\">\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a1\">lox</span>\n</b>\n</sub>\n</td>\n<td>0.37%</td>\n<td>\u00b1</td>\n<td>0.29%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\u2009</td>\n<td rowspan=\"3\" valign=\"middle\">\n<span class=\"author-callout-style-a1\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"bottom\">\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a1\">TPS</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n\n<td>\n<span class=\"author-callout-style-a2\">2.13%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.85%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.96%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.42%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">1.68%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.98%</span>\n</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b>\n<i>TPS10</i>\n</b>\n</td>\n<td>7</td>\n<td>7</td>\n<td>2.37%</td>\n<td>\u00b1</td>\n<td>1.55%</td>\n<td>2.84%</td>\n<td>\u00b1</td>\n<td>0.63%</td>\n<td>18.97%</td>\n<td>\u00b1</td>\n<td>6.03%</td>\n\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.94%</td>\n<td>\u00b1</td>\n<td>0.53%</td>\n<td rowspan=\"3\" valign=\"middle\">\n<span class=\"author-callout-style-a3\">}</span>\n</td>\n<td>9.34%</td>\n<td>\u00b1</td>\n<td>3.44%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.20%</td>\n<td>\u00b1</td>\n<td>0.20%</td>\n<td>9.47%</td>\n<td>\u00b1</td>\n<td>5.26%</td>\n<td>0.94%</td>\n<td>\u00b1</td>\n<td>0.26%</td>\n<td>2.78%</td>\n<td>\u00b1</td>\n<td>1.52%</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b>\n<i>lox2/3</i>\n</b>\n</td>\n<td>7</td>\n<td>8</td>\n<td>0.13%</td>\n<td>\u00b1</td>\n<td>0.13%</td>\n<td>1.06%</td>\n<td>\u00b1</td>\n<td>0.64%</td>\n<td rowspan=\"2\" valign=\"middle\">\n<span class=\"author-callout-style-a3\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"middle\">\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a3\">lox</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td>0.15%</td>\n<td>\u00b1</td>\n<td>0.15%</td>\n<td rowspan=\"2\">\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a3\">TPS</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>2.75%</td>\n<td>\u00b1</td>\n<td>1.12%</td>\n<td>0.60%</td>\n<td>\u00b1</td>\n<td>0.19%</td>\n<td>1.68%</td>\n<td>\u00b1</td>\n<td>1.49%</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b><i>lox2/3</i>x<i>TPS10</i></b>\n</td>\n<td>7</td>\n<td>7</td>\n<td>0.07%</td>\n<td>\u00b1</td>\n<td>0.07%</td>\n<td>1.24%</td>\n<td>\u00b1</td>\n<td>0.84%</td>\n<td>7.39%</td>\n<td>\u00b1</td>\n<td>2.56%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>2.08%</td>\n<td>\u00b1</td>\n<td>0.84%</td>\n<td>\u2009</td>\n<td>4.47%</td>\n<td>\u00b1</td>\n<td>1.70%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.40%</td>\n<td>\u00b1</td>\n<td>0.40%</td>\n<td>3.02%</td>\n<td>\u00b1</td>\n<td>1.42%</td>\n<td>0.73%</td>\n<td>\u00b1</td>\n<td>0.31%</td>\n<td>0.66%</td>\n<td>\u00b1</td>\n<td>0.37%</td>\n<td>\u2014</td>\n</tr>\n</tbody>\n</table>"
                                         ], 
                                         "footnotes": [
                                             {
@@ -2192,7 +2210,7 @@
                                             }
                                         ], 
                                         "tables": [
-                                            "<table>\n<thead>\n<tr>\n<th rowspan=\"2\">Protein</th>\n<th rowspan=\"2\">Molar ratio of lipid:protein in RPL reactions<a href=\"#tablefn1\">*</a></th>\n<th colspan=\"2\">Molar ratio of lipid:protein on vacuoles</th>\n<th rowspan=\"2\">References<a href=\"#tablefn2\">\u2020</a></th>\n</tr>\n<tr>\n<th>BJ3505</th>\n<th>DKY6218</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td class=\"author-callout-style-b1\">Vam7p</td>\n<td class=\"author-callout-style-b2\">2 \u00d7 10<sup>3</sup></td>\n<td class=\"author-callout-style-b3\">30 \u00d7 10<sup>4</sup></td>\n<td class=\"author-callout-style-b4\">6.5 \u00d7 10<sup>4</sup></td>\n<td>\n<a href=\"#bib12\">DeLano, 2002</a>\n</td>\n</tr>\n<tr>\n<td class=\"author-callout-style-b5\">Vam3p</td>\n<td class=\"author-callout-style-b6\">2 \u00d7 10<sup>3</sup></td>\n<td class=\"author-callout-style-b7\">11 \u00d7 10<sup>4</sup></td>\n<td class=\"author-callout-style-b8\">22 \u00d7 10<sup>4</sup></td>\n<td>\n<a href=\"#bib13\">Department of Education and Morgan, 2016</a>\n</td>\n</tr>\n<tr>\n<td>Vti1p</td>\n<td>2 \u00d7 10<sup>3</sup></td>\n<td>10 \u00d7 10<sup>4</sup></td>\n<td>13 \u00d7 10<sup>4</sup></td>\n<td>\n<a href=\"#bib54\">Zhong et al., 2013</a>\n</td>\n</tr>\n<tr>\n<td>Nyv1p</td>\n<td>2 \u00d7 10<sup>3</sup></td>\n<td>4.3 \u00d7 10<sup>4</sup></td>\n<td>8.1 \u00d7 10<sup>4</sup></td>\n<td>\n<a href=\"#bib16\">Ferry et al., 2014</a>\n</td>\n</tr>\n</tbody>\n</table>", 
+                                            "<table>\n<thead>\n<tr>\n<th rowspan=\"2\">Protein</th>\n<th rowspan=\"2\">Molar ratio of lipid:protein in RPL reactions<a href=\"#tablefn1\">*</a></th>\n<th colspan=\"2\">Molar ratio of lipid:protein on vacuoles</th>\n<th rowspan=\"2\">References<a href=\"#tablefn2\">\u2020</a></th>\n</tr>\n<tr>\n<th>BJ3505</th>\n<th>DKY6218</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n\n<td class=\"author-callout-style-b1\">Vam7p</td>\n\n<td class=\"author-callout-style-b2\">2 \u00d7 10<sup>3</sup></td>\n\n<td class=\"author-callout-style-b3\">30 \u00d7 10<sup>4</sup></td>\n\n<td class=\"author-callout-style-b4\">6.5 \u00d7 10<sup>4</sup></td>\n\n<td>\n<a href=\"#bib12\">DeLano, 2002</a>\n</td>\n</tr>\n<tr>\n\n<td class=\"author-callout-style-b5\">Vam3p</td>\n\n<td class=\"author-callout-style-b6\">2 \u00d7 10<sup>3</sup></td>\n\n<td class=\"author-callout-style-b7\">11 \u00d7 10<sup>4</sup></td>\n\n<td class=\"author-callout-style-b8\">22 \u00d7 10<sup>4</sup></td>\n<td>\n<a href=\"#bib13\">Department of Education and Morgan, 2016</a>\n</td>\n</tr>\n<tr>\n<td>Vti1p</td>\n<td>2 \u00d7 10<sup>3</sup></td>\n<td>10 \u00d7 10<sup>4</sup></td>\n<td>13 \u00d7 10<sup>4</sup></td>\n<td>\n<a href=\"#bib54\">Zhong et al., 2013</a>\n</td>\n</tr>\n<tr>\n<td>Nyv1p</td>\n<td>2 \u00d7 10<sup>3</sup></td>\n<td>4.3 \u00d7 10<sup>4</sup></td>\n<td>8.1 \u00d7 10<sup>4</sup></td>\n<td>\n<a href=\"#bib16\">Ferry et al., 2014</a>\n</td>\n</tr>\n</tbody>\n</table>", 
                                             "<table>\n<thead>\n<tr>\n<th rowspan=\"2\">Protein</th>\n<th rowspan=\"2\">Molar ratio of lipid:protein in RPL reactions<a href=\"#tablefn1\">*</a></th>\n<th colspan=\"2\">Molar ratio of lipid:protein on vacuoles</th>\n<th rowspan=\"2\">References<a href=\"#tablefn2\">\u2020</a></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Ypt7p</td>\n<td>4 \u00d7 10<sup>3</sup></td>\n<td>1.9 \u00d7 10<sup>4</sup></td>\n<td>1.8 \u00d7 10<sup>4</sup></td>\n<td>\n<a href=\"#bib54\">Zhong et al., 2013</a>\n</td>\n</tr>\n<tr>\n<td>Sec17p</td>\n<td>7 \u00d7 10<sup>3</sup></td>\n<td>41 \u00d7 10<sup>4</sup></td>\n<td>13 \u00d7 10<sup>4</sup></td>\n<td>\n<a href=\"#bib51\">Wolski et al., 2008</a>\n</td>\n</tr>\n<tr>\n<td>Sec18p</td>\n<td>1 \u00d7 10<sup>3</sup></td>\n<td>10 \u00d7 10<sup>4</sup></td>\n<td>13 \u00d7 10<sup>4</sup></td>\n<td>This article (<a href=\"#fig1\">Figure 1</a>)</td>\n</tr>\n<tr>\n<td>Vps33p</td>\n<td>6 \u00d7 10<sup>3</sup></td>\n<td>17 \u00d7 10<sup>4</sup></td>\n<td>31 \u00d7 10<sup>4</sup></td>\n<td>\n<a href=\"#bib54\">Zhong et al., 2013</a>\n</td>\n</tr>\n</tbody>\n</table>"
                                         ], 
                                         "footnotes": [
@@ -2241,7 +2259,7 @@
                                         "id": "table3", 
                                         "label": "Table 3", 
                                         "tables": [
-                                            "<table>\n<tbody>\n<tr>\n<td colspan=\"2\">Data collection</td>\n</tr>\n<tr>\n<td>\u2003Space group</td>\n<td>P6<sub>2</sub></td>\n</tr>\n<tr>\n<td rowspan=\"2\">Cell dimensions (\u00c5)</td>\n<td>a = b = 78.33, c = 62.32</td>\n</tr>\n<tr>\n<td>\u03b1 = \u03b2 = 90<sup>o</sup>, \u03b3 = 120<sup>o</sup></td>\n</tr>\n<tr>\n<td>\u2003Wavelength (\u00c5)</td>\n<td>0.9794</td>\n</tr>\n<tr>\n<td>\u2003R<sub>sym</sub> or R<sub>merge</sub> (%)</td>\n<td>8.4</td>\n</tr>\n<tr>\n<td>\u2003Resolution (\u00c5)</td>\n<td>\n<span class=\"monospace\">50\u20132.05 (2.09\u20132.05)</span>\n</td>\n</tr>\n<tr>\n<td>\u2003I/\u03c3I</td>\n<td>19.19 (3.23)</td>\n</tr>\n<tr>\n<td>\u2003Completeness (%)</td>\n<td>\n<span class=\"monospace\">99.8 (97.3)</span>\n</td>\n</tr>\n<tr>\n<td>\u2003Redundancy</td>\n<td>6.2 (5.4)</td>\n</tr>\n<tr>\n<td colspan=\"2\">Refinement</td>\n</tr>\n<tr>\n<td>\u2003No. reflections</td>\n<td>12,206</td>\n</tr>\n<tr>\n<td>\u2003Resolution (\u00c5)</td>\n<td>\n<span class=\"monospace\">39.17\u20132.06 (2.14\u20132.06)</span>\n</td>\n</tr>\n<tr>\n<td>\u2003R<sub>work</sub>/R<sub>free</sub></td>\n<td>\n<span class=\"monospace\">0.17/0.21 (0.16/0.19)</span>\n</td>\n</tr>\n<tr>\n<td>\u2003No. atoms</td>\n<td></td>\n</tr>\n<tr>\n<td>Protein</td>\n<td>1608</td>\n</tr>\n<tr>\n<td>Ligand/ion</td>\n<td>3</td>\n</tr>\n<tr>\n<td>Water</td>\n<td>61</td>\n</tr>\n<tr>\n<td>\u2003R.m.s. deviations</td>\n<td></td>\n</tr>\n<tr>\n<td>\u2003Bond lengths (\u00c5)</td>\n<td>0.0077</td>\n</tr>\n<tr>\n<td>\u2003Bond angles (\u00b0)</td>\n<td>0.932</td>\n</tr>\n</tbody>\n</table>"
+                                            "<table>\n<tbody>\n<tr>\n<td colspan=\"2\">Data collection</td>\n</tr>\n<tr>\n<td>\u2003Space group</td>\n<td>P6<sub>2</sub></td>\n</tr>\n<tr>\n<td rowspan=\"2\">Cell dimensions (\u00c5)</td>\n<td>a = b = 78.33, c = 62.32</td>\n</tr>\n<tr>\n<td>\u03b1 = \u03b2 = 90<sup>o</sup>, \u03b3 = 120<sup>o</sup></td>\n</tr>\n<tr>\n<td>\u2003Wavelength (\u00c5)</td>\n<td>0.9794</td>\n</tr>\n<tr>\n<td>\u2003R<sub>sym</sub> or R<sub>merge</sub> (%)</td>\n<td>8.4</td>\n</tr>\n<tr>\n<td>\u2003Resolution (\u00c5)</td>\n<td>\n<span class=\"monospace\">50\u20132.05 (2.09\u20132.05)</span>\n</td>\n</tr>\n<tr>\n<td>\u2003I/\u03c3I</td>\n<td>19.19 (3.23)</td>\n</tr>\n<tr>\n<td>\u2003Completeness (%)</td>\n<td>\n<span class=\"monospace\">99.8 (97.3)</span>\n</td>\n</tr>\n<tr>\n<td>\u2003Redundancy</td>\n<td>6.2 (5.4)</td>\n</tr>\n<tr>\n<td colspan=\"2\">Refinement</td>\n</tr>\n<tr>\n<td>\u2003No. reflections</td>\n<td>12,206</td>\n</tr>\n<tr>\n<td>\u2003Resolution (\u00c5)</td>\n<td>\n<span class=\"monospace\">39.17\u20132.06 (2.14\u20132.06)</span>\n</td>\n</tr>\n<tr>\n<td>\u2003R<sub>work</sub>/R<sub>free</sub></td>\n<td>\n<span class=\"monospace\">0.17/0.21 (0.16/0.19)</span>\n</td>\n</tr>\n<tr>\n<td>\u2003No. atoms</td>\n<td/>\n</tr>\n<tr>\n<td>Protein</td>\n<td>1608</td>\n</tr>\n<tr>\n<td>Ligand/ion</td>\n<td>3</td>\n</tr>\n<tr>\n<td>Water</td>\n<td>61</td>\n</tr>\n<tr>\n<td>\u2003R.m.s. deviations</td>\n<td/>\n</tr>\n<tr>\n<td>\u2003Bond lengths (\u00c5)</td>\n<td>0.0077</td>\n</tr>\n<tr>\n<td>\u2003Bond angles (\u00b0)</td>\n<td>0.932</td>\n</tr>\n</tbody>\n</table>"
                                         ], 
                                         "sourceData": [
                                             {
@@ -2271,7 +2289,7 @@
                                 "type": "table", 
                                 "id": "inlinetable1", 
                                 "tables": [
-                                    "<table>\n<thead>\n<tr>\n<th></th>\n<th>pY</th>\n<th>Experiment</th>\n<th>Concentration (\u03bcM)</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>IGF1R-fl + IGF1</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>500, 400, 300, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-fl + IGF1</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>600, 300, 150, 75, 37.5, 18.8, 9.4</td>\n</tr>\n<tr>\n<td>IGF1R-fl + IGF1</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>2000, 1000, 500, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-fl + IGF1</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>500, 250, 125, 62.5, 31.3, 15.6, 7.8, 3.9</td>\n</tr>\n<tr>\n<td>IGF1R-fl</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>500, 400, 300, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-fl</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>500, 400, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-fl</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>1000, 500, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-fl</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>1000, 500, 250, 125, 62.5, 31.3, 15.6</td>\n</tr>\n<tr>\n<td>IGF1R-icd</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>500, 250, 125, 62.5, 31.3, 15.6, 7.8, 3.9</td>\n</tr>\n<tr>\n<td>IGF1R-icd</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>1000, 500, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-icd</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>1000, 500, 250, 125, 62.5, 31.3</td>\n</tr>\n<tr>\n<td>IGF1R-icd</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>1000, 500, 250, 125, 62.5, 31.3</td>\n</tr>\n<tr>\n<td>IGF1R-kin</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>1250, 625, 312.5, 156.3, 78.1, 39.1</td>\n</tr>\n</tbody>\n</table>"
+                                    "<table>\n<thead>\n<tr>\n<th/>\n<th>pY</th>\n<th>Experiment</th>\n<th>Concentration (\u03bcM)</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>IGF1R-fl + IGF1</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>500, 400, 300, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-fl + IGF1</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>600, 300, 150, 75, 37.5, 18.8, 9.4</td>\n</tr>\n<tr>\n<td>IGF1R-fl + IGF1</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>2000, 1000, 500, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-fl + IGF1</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>500, 250, 125, 62.5, 31.3, 15.6, 7.8, 3.9</td>\n</tr>\n<tr>\n<td>IGF1R-fl</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>500, 400, 300, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-fl</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>500, 400, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-fl</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>1000, 500, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-fl</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>1000, 500, 250, 125, 62.5, 31.3, 15.6</td>\n</tr>\n<tr>\n<td>IGF1R-icd</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>500, 250, 125, 62.5, 31.3, 15.6, 7.8, 3.9</td>\n</tr>\n<tr>\n<td>IGF1R-icd</td>\n<td>+</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>1000, 500, 250, 125, 62.5, 31.3, 15.6, 7.8</td>\n</tr>\n<tr>\n<td>IGF1R-icd</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> ATP</td>\n<td>1000, 500, 250, 125, 62.5, 31.3</td>\n</tr>\n<tr>\n<td>IGF1R-icd</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>1000, 500, 250, 125, 62.5, 31.3</td>\n</tr>\n<tr>\n<td>IGF1R-kin</td>\n<td>\u2212</td>\n<td><i>K</i><sub><i>m</i></sub> Peptide</td>\n<td>1250, 625, 312.5, 156.3, 78.1, 39.1</td>\n</tr>\n</tbody>\n</table>"
                                 ], 
                                 "footnotes": [
                                     {
@@ -2344,15 +2362,15 @@
                                                 "filename": "elife-00666-fig1.jpg"
                                             }, 
                                             "alt": "", 
+                                            "attribution": [
+                                                "For the purpose having a example of how to tag a separate license for an item, we have indicated in the XML and display this is a\n                                        copyrighted figure; however it is not."
+                                            ], 
                                             "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif", 
                                             "size": {
                                                 "width": null, 
                                                 "height": null
                                             }
-                                        }, 
-                                        "attribution": [
-                                            "For the purpose having a example of how to tag a separate license for an item, we have indicated in the XML and display this is a\n                                        copyrighted figure; however it is not."
-                                        ]
+                                        }
                                     }
                                 ]
                             }, 
@@ -2433,7 +2451,7 @@
                             }, 
                             {
                                 "type": "paragraph", 
-                                "text": "<a href=\"#fig3\">Figure 3</a> is an example of a figure with a figure supplement (<a href=\"#fig3s1\">Figure 3\u2014figure supplement 1</a>)                          with two sub-assets, <a href=\"#fig3sdata1\">Figure 3\u2014figure supplement 1\u2014Source data 1</a> and <a href=\"#fig3video1\">Figure 3\u2014figure supplement 1\u2014Video 1</a> (see <a href=\"#bib53\">Zhang et al.,                                  2010</a>, <a href=\"#bib54\">Zhong et al.,  2013</a>; <a href=\"#bib52\">World Health Organization, 2016</a>)."
+                                "text": "<a href=\"#fig3\">Figure 3</a> is an example of a figure with a figure supplement (<a href=\"#fig3s1\">Figure 3\u2014figure supplement 1</a>)                          with two sub-assets, <a href=\"#fig3sdata1\">Figure 3\u2014figure supplement 1\u2014source data 1</a> and <a href=\"#fig3video1\">Figure 3\u2014video 1</a> (see <a href=\"#bib53\">Zhang et al.,                                  2010</a>, <a href=\"#bib54\">Zhong et al.,  2013</a>; <a href=\"#bib52\">World Health Organization, 2016</a>)."
                             }, 
                             {
                                 "type": "figure", 
@@ -2476,57 +2494,67 @@
                                                 "width": null, 
                                                 "height": null
                                             }
-                                        }
-                                    }
-                                ], 
-                                "content": [
-                                    {
-                                        "type": "figure", 
-                                        "assets": [
+                                        }, 
+                                        "sourceData": [
                                             {
-                                                "type": "video", 
-                                                "doi": "10.7554/eLife.00666.035", 
-                                                "id": "fig3video1", 
-                                                "label": "Figure 3\u2014Video 1", 
-                                                "title": "\n                                    A description of the eLife editorial process.\n                                ", 
-                                                "width": 1280, 
-                                                "image": "https://cdn.elifesciences.org/articles/00666/elife-00666-fig3-video1.jpg", 
-                                                "height": 720, 
-                                                "sources": [
+                                                "doi": "10.7554/eLife.00666.013", 
+                                                "id": "fig3sdata1", 
+                                                "label": "Figure 3\u2014figure supplement 1\u2014source data 1", 
+                                                "title": "Title of the figure supplement source data.", 
+                                                "caption": [
                                                     {
-                                                        "mediaType": "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\"", 
-                                                        "uri": "https://static-movie-usa.glencoesoftware.com/mp4/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-fig3-video1.mp4"
-                                                    }, 
-                                                    {
-                                                        "mediaType": "video/ogg; codecs=\"theora, vorbis\"", 
-                                                        "uri": "https://static-movie-usa.glencoesoftware.com/ogv/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-fig3-video1.ogv"
-                                                    }, 
-                                                    {
-                                                        "mediaType": "video/webm; codecs=\"vp8.0, vorbis\"", 
-                                                        "uri": "https://static-movie-usa.glencoesoftware.com/webm/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-fig3-video1.webm"
+                                                        "type": "paragraph", 
+                                                        "text": "Legend of the figure supplement source data."
                                                     }
                                                 ], 
-                                                "placeholder": {
-                                                    "source": {
-                                                        "mediaType": "image/jpeg", 
-                                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig3-video1.jpg/full/full/0/default.jpg", 
-                                                        "filename": "elife-00666-fig3-video1.jpg"
-                                                    }, 
-                                                    "alt": "", 
-                                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig3-video1.jpg", 
-                                                    "size": {
-                                                        "width": null, 
-                                                        "height": null
-                                                    }
-                                                }
+                                                "mediaType": "application/xlsx", 
+                                                "uri": "https://cdn.elifesciences.org/articles/00666/elife-00666-fig3-figsupp1-data1.xlsx", 
+                                                "filename": "elife-00666-fig3-figsupp1-data1.xlsx"
                                             }
                                         ]
+                                    }, 
+                                    {
+                                        "type": "video", 
+                                        "doi": "10.7554/eLife.00666.035", 
+                                        "id": "fig3video1", 
+                                        "label": "Figure 3\u2014video 1", 
+                                        "title": "\n                                    A description of the eLife editorial process.\n                                ", 
+                                        "width": 1280, 
+                                        "image": "https://cdn.elifesciences.org/articles/00666/elife-00666-fig3-video1.jpg", 
+                                        "height": 720, 
+                                        "sources": [
+                                            {
+                                                "mediaType": "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\"", 
+                                                "uri": "https://static-movie-usa.glencoesoftware.com/mp4/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-fig3-video1.mp4"
+                                            }, 
+                                            {
+                                                "mediaType": "video/ogg; codecs=\"theora, vorbis\"", 
+                                                "uri": "https://static-movie-usa.glencoesoftware.com/ogv/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-fig3-video1.ogv"
+                                            }, 
+                                            {
+                                                "mediaType": "video/webm; codecs=\"vp8.0, vorbis\"", 
+                                                "uri": "https://static-movie-usa.glencoesoftware.com/webm/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-fig3-video1.webm"
+                                            }
+                                        ], 
+                                        "placeholder": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig3-video1.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-00666-fig3-video1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00666/elife-00666-fig3-video1.jpg", 
+                                            "size": {
+                                                "width": null, 
+                                                "height": null
+                                            }
+                                        }
                                     }
                                 ]
                             }, 
                             {
                                 "type": "paragraph", 
-                                "text": "<a href=\"#fig4\">Figure 4</a> is an example of a figure with source code (<a href=\"#fig4scode1\">Figure 4\u2014Source code 1</a>)."
+                                "text": "<a href=\"#fig4\">Figure 4</a> is an example of a figure with source code (<a href=\"#fig4scode1\">Figure 4\u2014source code 1</a>)."
                             }, 
                             {
                                 "type": "figure", 
@@ -2577,7 +2605,7 @@
                                             {
                                                 "doi": "10.7554/eLife.00666.037", 
                                                 "id": "video1sdata1", 
-                                                "label": "Video 1\u2014Source data 1", 
+                                                "label": "Video 1\u2014source data 1", 
                                                 "title": "Title of the source code.", 
                                                 "caption": [
                                                     {
@@ -2695,7 +2723,7 @@
                                             }, 
                                             {
                                                 "type": "paragraph", 
-                                                "text": "Donec rhoncus in odio non vulputate. Donec vitae enim at erat tincidunt tincidunt in nec arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac                              turpis egestas. Aliquam id nunc id arcu maximus rutrum. Praesent bibendum nisl orci, ac sollicitudin purus aliquam in. Duis eu fermentum arcu. Fusce eget dolor augue.                              Nulla facilisi. Suspendisse eu nisl vitae neque ullamcorper imperdiet. (see <a href=\"#bib29\">Nell\u00e5ker, 2014</a>; <a href=\"#bib30\">                                 Pages et al., 2014</a>; and <a href=\"#bib31\">Palmer et al., 2007</a>) Vestibulum ultrices vehicula nibh,                              a ullamcorper dui semper suscipit. Etiam in sem augue."
+                                                "text": "Donec rhoncus in odio non vulputate. Donec vitae enim at erat tincidunt tincidunt in nec arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac                              turpis egestas. Aliquam id nunc id arcu maximus rutrum. Praesent bibendum nisl orci, ac sollicitudin purus aliquam in. Duis eu fermentum arcu. Fusce eget dolor augue.                              Nulla facilisi. Suspendisse eu nisl vitae neque ullamcorper imperdiet (see <a href=\"#bib29\">Nell\u00e5ker, 2014</a>; <a href=\"#bib30\">                                 Pages et al., 2014</a>; and <a href=\"#bib31\">Palmer et al., 2007</a>). Boxes, like main text, can contain <a href=\"https://elifesciences.org/about\">hyperlinks</a>                             at any point. Etiam in sem augue."
                                             }
                                         ]
                                     }, 
@@ -2822,6 +2850,19 @@
                 "id": "s4", 
                 "title": "Materials and methods", 
                 "content": [
+                    {
+                        "type": "figure", 
+                        "assets": [
+                            {
+                                "type": "table", 
+                                "id": "keyresource", 
+                                "label": "Key resources table", 
+                                "tables": [
+                                    "<table>\n<thead>\n<tr>\n<th>Reagent type <br/>(species) or resource</th>\n<th>Designation</th>\n<th>Source or reference</th>\n<th>Identifiers</th>\n<th>Additional <br/>information</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>gene (<i>Drosophila melanogaster</i>)</td>\n<td>nito</td>\n<td>NA</td>\n<td>FLYB:FBgn0027548</td>\n<td>\u00a0</td>\n</tr>\n<tr>\n<td>gene (<i>D. melanogaste</i>r)</td>\n<td>Sxl</td>\n<td>NA</td>\n<td>FLYB:FBgn0264270</td>\n<td>\u00a0</td>\n</tr>\n<tr>\n<td>genetic reagent (D. melanogaster)</td>\n<td>MTD-Gal4</td>\n<td>Bloomington Drosophila Stock Center</td>\n<td>BDSC:31777; FLYB:FBtp0001612; RRID:<a href=\"https://scicrunch.org/resolver/BDSC_31777\">BDSC_31777</a></td>\n<td>FlyBase symbol: P{GAL4-nos.NGT}</td>\n</tr>\n<tr>\n<td>genetic reagent (<i>D. melanogaster</i>)</td>\n<td>ap-Gal4</td>\n<td>Bloomington Drosophila Stock Center</td>\n<td>BDSC:3041; FLYB:FBti0002785; RRID:<a href=\"https://scicrunch.org/resolver/BDSC_3041\">BDSC_3041</a></td>\n<td>FlyBase symbol: P{GawB}ap[md544]</td>\n</tr>\n<tr>\n<td>genetic reagent (<i>D. melanogaster</i>)</td>\n<td>nub-Gal4</td>\n<td>PMID:20798049</td>\n<td>FLYB:FBti0016825</td>\n<td>FlyBase symbol: P{GawB}nubbin-AC-62</td>\n</tr>\n<tr>\n<td>genetic reagent (<i>D. melanogaste</i>r)</td>\n<td>dome-Gal4</td>\n<td>PMID:12403714</td>\n<td>FLYB:FBti0022298</td>\n<td>FlyBase symbol: P{GawB}dome[PG14]</td>\n</tr>\n<tr>\n<td>genetic reagent (<i>D. melanogaster</i>)</td>\n<td>UAS-2xEYFP</td>\n<td>PMID:12324968</td>\n<td>FLYB:FBtp0016537</td>\n<td>FlyBase symbol: P{UAS-2xEYFP}</td>\n</tr>\n<tr>\n<td>genetic reagent (<i>D. melanogaster</i>)</td>\n<td>nito[HP25329]</td>\n<td>Bloomington Drosophila Stock Center</td>\n<td>BDSC:22092; FLYB:FBal0238892; RRID:<a href=\"https://scicrunch.org/resolver/BDSC_22092\">BDSC_22092</a></td>\n<td>Genotype: w[1118]; P{w[+mC]=EPg}nito[HP25329]/CyO</td>\n</tr>\n<tr>\n<td>genetic reagent (<i>D. melanogaster</i>)</td>\n<td>nito[1]</td>\n<td>this paper</td>\n<td>\u00a0</td>\n<td>Progenitor = nito[HP25329]; imprecise excision; lethal</td>\n</tr>\n<tr>\n<td>genetic reagent (<i>D. melanogaster</i>)</td>\n<td>nito shRNA (HMJ02081)</td>\n<td>Bloomington Drosophila Stock Center</td>\n<td>TRiP:HMJ02081; BDSC:56852; RRID:<a href=\"https://scicrunch.org/resolver/BDSC_56852\">BDSC_56852</a></td>\n<td>FlyBase symbol: P{TRiP.HMJ02081}attP40</td>\n</tr>\n<tr>\n<td>genetic reagent (<i>D. melanogaster</i>)</td>\n<td>nito dsRNA (VDRC 20942)</td>\n<td>Vienna Drosophila RNAi Center</td>\n<td>VDRC:20942</td>\n<td>\u00a0</td>\n</tr>\n<tr>\n<td>genetic reagent (<i>D. melanogaster</i>)</td>\n<td>FRT[G13]</td>\n<td>Bloomington Drosophila Stock Center</td>\n<td>BDSC:1956; FLYB:FBti0001247</td>\n<td>FlyBase symbol: P{FRT(whs)}G13</td>\n</tr>\n<tr>\n<td>genetic reagent (<i>D. melanogaster</i>)</td>\n<td>\"y w hsflp; ubiGFP FRT[G13]\"</td>\n<td>PMID:18160348</td>\n<td>\u00a0</td>\n<td>\u00a0</td>\n</tr>\n<tr>\n<td>cell line (<i>D. melanogaste</i>r)</td>\n<td>S2</td>\n<td>other</td>\n<td>FLYB:FBtc0000181; RRID:<a href=\"https://scicrunch.org/resolver/CVCL_Z992\">CVCL_Z992</a></td>\n<td>Cell line maintained in N. Perrimon lab; FlyBase symbol:\n                                S2-DRSC.</td>\n</tr>\n<tr>\n<td>antibody</td>\n<td>anti-Nito</td>\n<td>this paper</td>\n<td>\u00a0</td>\n<td>Rabbit polyclonal; against aa 479-500; used YZ3137 (1:500)</td>\n</tr>\n<tr>\n<td>antibody</td>\n<td>anti-alpha-Spectrin (mouse monoclonal)</td>\n<td>Developmental Studies Hybridoma Bank</td>\n<td>DSHB:3A9; RRID:<a href=\"https://scicrunch.org/resolver/AB_528473\">AB_528473</a></td>\n<td>(1:10)</td>\n</tr>\n<tr>\n<td>antibody</td>\n<td>anti-Vasa (rabbit polyclonal)</td>\n<td>Santa Cruz Biotechnology</td>\n<td>Santa Cruz:sc-30210; RRID:<a href=\"https://scicrunch.org/resolver/AB_793874\">AB_793874</a></td>\n<td>(1:250)</td>\n</tr>\n<tr>\n<td>antibody</td>\n<td>anti-Sxl (mouse monoclonal)</td>\n<td>Developmental Studies Hybridoma Bank</td>\n<td>DSHB:M18; RRID:<a href=\"https://scicrunch.org/resolver/AB_528464\">AB_528464</a></td>\n<td>(1:10)</td>\n</tr>\n<tr>\n<td>antibody</td>\n<td>anti-GFP (rabbit polyclonal)</td>\n<td>Molecular Probes</td>\n<td>Molecular Probes:A-6455; RRID:<a href=\"https://scicrunch.org/resolver/AB_221570\">AB_221570</a></td>\n<td>(1:1000)</td>\n</tr>\n<tr>\n<td>antibody</td>\n<td>anti-GFP (mouse monoclonal)</td>\n<td>Molecular Probes</td>\n<td>Molecular Probes:A-11120; RRID:<a href=\"https://scicrunch.org/resolver/AB_221568\">AB_221568</a></td>\n<td>(1:200)</td>\n</tr>\n<tr>\n<td>antibody</td>\n<td>anti-HA (rat monoclonal)</td>\n<td>Roche</td>\n<td>Roche:3F10; RRID:<a href=\"https://scicrunch.org/resolver/AB_2314622\">AB_2314622</a></td>\n<td>\u00a0</td>\n</tr>\n<tr>\n<td>antibody</td>\n<td>Alexa 488- or 555- secondaries</td>\n<td>Molecular Probes</td>\n<td>\u00a0</td>\n<td>(1:1000)</td>\n</tr>\n<tr>\n<td>other</td>\n<td>DAPI stain</td>\n<td>Molecular Probes</td>\n<td>\u00a0</td>\n<td>(1:1000)</td>\n</tr>\n<tr>\n<td>recombinant DNA reagent</td>\n<td>pAGW (Gateway vector)</td>\n<td>Drosophila Genomics Resource Center</td>\n<td>DGRC:1071</td>\n<td>\u00a0</td>\n</tr>\n<tr>\n<td>recombinant DNA reagent</td>\n<td>pAHW (Gateway vector)</td>\n<td>Drosophila Genomics Resource Center</td>\n<td>DGRC:1095</td>\n<td>\u00a0</td>\n</tr>\n<tr>\n<td>recombinant DNA reagent</td>\n<td>GH11110 (cDNA)</td>\n<td>Drosophila Genomics Resource Center</td>\n<td>DGRC:5666</td>\n<td>\u00a0</td>\n</tr>\n<tr>\n<td>recombinant DNA reagent</td>\n<td>GFP-Nito (plasmid)</td>\n<td>this paper</td>\n<td>\u00a0</td>\n<td>Progenitors: GH11110 (cDNA); Gateway vector pAGW</td>\n</tr>\n<tr>\n<td>recombinant DNA reagent</td>\n<td>HA-Sxl (plasmid)</td>\n<td>PMID:16207758</td>\n<td>\u00a0</td>\n<td>Progentiors: PCR, UAS-Sxl flies; Gateway vector pAHW</td>\n</tr>\n<tr>\n<td>recombinant DNA reagent</td>\n<td>GFP-Sxl (plasmid)</td>\n<td>PMID:16207758</td>\n<td>\u00a0</td>\n<td>Progentiors: PCR, UAS-Sxl flies; Gateway vector pAGW</td>\n</tr>\n</tbody>\n</table>"
+                                ]
+                            }
+                        ]
+                    }, 
                     {
                         "type": "paragraph", 
                         "text": "eLife is tagged up as XML using the NISO standard JATS DTD.                  We conform to the JATS4R recommendations where possible and also deliver our content to PMC.                 We also convert our JATS XML to PubMed and CrossRef DTDs when we deposit our content with them.                 eLife content is delivered to more repositories and it can be scraped from the eLife site (<a href=\"#bib17\">                     Gall et al., 2012</a>; <a href=\"#bib22\">Horne and Page, 2008</a>; <a href=\"#bib27\">                         McQuilton et al., 2012</a>; <a href=\"#bib43\">Staab et al., 2013</a>)."
@@ -3202,7 +3243,8 @@
                     }
                 ], 
                 "title": "NKX2-5 mutations causative for congenital heart disease retain\n                functionality and are directed to hundreds of targets", 
-                "source": "NCBI Gene Expression Omnibus"
+                "source": "NCBI Gene Expression Omnibus", 
+                "dataId": "GSE44902"
             }, 
             {
                 "type": "journal", 
@@ -3825,7 +3867,8 @@
                     }
                 ], 
                 "title": "Mus musculus T-box 2 (Tbx2), mRNA", 
-                "source": "NCBI Nucleotide"
+                "source": "NCBI Nucleotide", 
+                "dataId": "NM_009324"
             }, 
             {
                 "type": "report", 
@@ -3915,7 +3958,8 @@
                     }
                 ], 
                 "title": "Effects on the transcriptome of adult mouse pancreas (principally\n                acinar cells) by the inactivation of the Ptf1a gene in vivo", 
-                "source": "NCBI Gene Expression Omnibus"
+                "source": "NCBI Gene Expression Omnibus", 
+                "dataId": "GSE70542"
             }, 
             {
                 "type": "book", 
@@ -4615,7 +4659,8 @@
                     }
                 ], 
                 "title": "Transcription profiling by high throughput sequencing of LoVo\n                cells infected with Listeria for 24 hr compared to uninfected\n                cells", 
-                "source": "ArrayExpress"
+                "source": "ArrayExpress", 
+                "dataId": "E-MTAB-3649"
             }, 
             {
                 "type": "software", 
@@ -4962,7 +5007,8 @@
                     }
                 ], 
                 "title": "Global Diversity of Shigella Species", 
-                "source": "NCBI BioProject"
+                "source": "NCBI BioProject", 
+                "dataId": "PRJEB2846"
             }, 
             {
                 "type": "data", 
@@ -4976,7 +5022,8 @@
                     }
                 ], 
                 "title": "Shigella sonnei and flexneri from around the world", 
-                "source": "NCBI BioProject"
+                "source": "NCBI BioProject", 
+                "dataId": "PRJEB2460"
             }, 
             {
                 "type": "data", 
@@ -4990,7 +5037,8 @@
                     }
                 ], 
                 "title": "Shigella flexneri from around the world", 
-                "source": "NCBI BioProject "
+                "source": "NCBI BioProject ", 
+                "dataId": "PRJEB2542"
             }, 
             {
                 "type": "book-chapter", 
@@ -5256,7 +5304,8 @@
                     }
                 ], 
                 "title": "Polymeric immunoglobulin receptor [Oncorhynchus mykiss]", 
-                "source": "NCBI"
+                "source": "NCBI", 
+                "dataId": "GenBank: ADB81776.1"
             }, 
             {
                 "type": "data", 
@@ -5473,7 +5522,7 @@
                                                     }
                                                 ], 
                                                 "tables": [
-                                                    "<table>\n<thead>\n<tr>\n<th colspan=\"3\" rowspan=\"2\">\u2009</th>\n<th align=\"center\" colspan=\"8\">GLVs (percent IS plant<sup>-1</sup>)</th>\n<th align=\"center\" colspan=\"17\">TPS10 products (percent IS plant<sup>-1</sup>)</th>\n<th align=\"center\" colspan=\"10\">Non-target volatiles (percent IS plant<sup>-1</sup>)</th>\n</tr>\n<tr>\n<th align=\"center\" colspan=\"8\">(<i>Z</i>)-Hexen-3-ol</th>\n<th align=\"center\" colspan=\"10\">TAB</th>\n<th align=\"center\" colspan=\"7\">TBF</th>\n<th align=\"center\" colspan=\"6\">\u03b1-Duprezianene</th>\n<th align=\"center\" colspan=\"4\">Germacrene A</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>\n<b>Genotype</b>\n</td>\n<td>\n<b>Day n</b>\n</td>\n<td>\n<b>Night n</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td colspan=\"5\">\n<b>Night</b>\n</td>\n<td colspan=\"4\">\n<b>Day</b>\n</td>\n<td colspan=\"6\">\n<b>Night</b>\n</td>\n<td colspan=\"4\">\n<b>Day</b>\n</td>\n<td colspan=\"3\">\n<b>Night</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td colspan=\"3\">\n<b>Night</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td>\n<b>Night</b>\n</td>\n</tr>\n<tr>\n<td>\n<b>WT</b>\n</td>\n<td>8</td>\n<td>8</td>\n<td>0.99%</td>\n<td>\u00b1</td>\n<td>0.99%</td>\n<td>7.96%</td>\n<td>\u00b1</td>\n<td>4.25%</td>\n<td rowspan=\"2\" valign=\"middle\">\n<span class=\"author-callout-style-a1\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"middle\">\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a1\">lox</span>\n</b>\n</sub>\n</td>\n<td>0.37%</td>\n<td>\u00b1</td>\n<td>0.29%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\u2009</td>\n<td rowspan=\"3\" valign=\"middle\">\n<span class=\"author-callout-style-a1\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"bottom\">\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a1\">TPS</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<span class=\"author-callout-style-a2\">2.13%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.85%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.96%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.42%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">1.68%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.98%</span>\n</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b>\n<i>TPS10</i>\n</b>\n</td>\n<td>7</td>\n<td>7</td>\n<td>2.37%</td>\n<td>\u00b1</td>\n<td>1.55%</td>\n<td>2.84%</td>\n<td>\u00b1</td>\n<td>0.63%</td>\n<td>18.97%</td>\n<td>\u00b1</td>\n<td>6.03%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.94%</td>\n<td>\u00b1</td>\n<td>0.53%</td>\n<td rowspan=\"3\" valign=\"middle\">\n<span class=\"author-callout-style-a3\">}</span>\n</td>\n<td>9.34%</td>\n<td>\u00b1</td>\n<td>3.44%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.20%</td>\n<td>\u00b1</td>\n<td>0.20%</td>\n<td>9.47%</td>\n<td>\u00b1</td>\n<td>5.26%</td>\n<td>0.94%</td>\n<td>\u00b1</td>\n<td>0.26%</td>\n<td>2.78%</td>\n<td>\u00b1</td>\n<td>1.52%</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b>\n<i>lox2/3</i>\n</b>\n</td>\n<td>7</td>\n<td>8</td>\n<td>0.13%</td>\n<td>\u00b1</td>\n<td>0.13%</td>\n<td>1.06%</td>\n<td>\u00b1</td>\n<td>0.64%</td>\n<td rowspan=\"2\" valign=\"middle\">\n<span class=\"author-callout-style-a3\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"middle\">\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a3\">lox</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td>0.15%</td>\n<td>\u00b1</td>\n<td>0.15%</td>\n<td rowspan=\"2\">\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a3\">TPS</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>2.75%</td>\n<td>\u00b1</td>\n<td>1.12%</td>\n<td>0.60%</td>\n<td>\u00b1</td>\n<td>0.19%</td>\n<td>1.68%</td>\n<td>\u00b1</td>\n<td>1.49%</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b><i>lox2/3</i>x<i>TPS10</i></b>\n</td>\n<td>7</td>\n<td>7</td>\n<td>0.07%</td>\n<td>\u00b1</td>\n<td>0.07%</td>\n<td>1.24%</td>\n<td>\u00b1</td>\n<td>0.84%</td>\n<td>7.39%</td>\n<td>\u00b1</td>\n<td>2.56%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>2.08%</td>\n<td>\u00b1</td>\n<td>0.84%</td>\n<td>\u2009</td>\n<td>4.47%</td>\n<td>\u00b1</td>\n<td>1.70%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.40%</td>\n<td>\u00b1</td>\n<td>0.40%</td>\n<td>3.02%</td>\n<td>\u00b1</td>\n<td>1.42%</td>\n<td>0.73%</td>\n<td>\u00b1</td>\n<td>0.31%</td>\n<td>0.66%</td>\n<td>\u00b1</td>\n<td>0.37%</td>\n<td>\u2014</td>\n</tr>\n</tbody>\n</table>"
+                                                    "<table>\n<thead>\n\n<tr>\n\n<th colspan=\"3\" rowspan=\"2\">\u2009</th>\n<th align=\"center\" colspan=\"8\">GLVs (percent IS plant<sup>-1</sup>)</th>\n<th align=\"center\" colspan=\"17\">TPS10 products (percent IS plant<sup>-1</sup>)</th>\n<th align=\"center\" colspan=\"10\">Non-target volatiles (percent IS plant<sup>-1</sup>)</th>\n</tr>\n<tr>\n<th align=\"center\" colspan=\"8\">(<i>Z</i>)-Hexen-3-ol</th>\n<th align=\"center\" colspan=\"10\">TAB</th>\n<th align=\"center\" colspan=\"7\">TBF</th>\n<th align=\"center\" colspan=\"6\">\u03b1-Duprezianene</th>\n<th align=\"center\" colspan=\"4\">Germacrene A</th>\n</tr>\n</thead>\n<tbody>\n\n<tr>\n<td>\n<b>Genotype</b>\n</td>\n<td>\n<b>Day n</b>\n</td>\n<td>\n<b>Night n</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td colspan=\"5\">\n<b>Night</b>\n</td>\n<td colspan=\"4\">\n<b>Day</b>\n</td>\n<td colspan=\"6\">\n<b>Night</b>\n</td>\n<td colspan=\"4\">\n<b>Day</b>\n</td>\n<td colspan=\"3\">\n<b>Night</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td colspan=\"3\">\n<b>Night</b>\n</td>\n<td colspan=\"3\">\n<b>Day</b>\n</td>\n<td>\n<b>Night</b>\n</td>\n</tr>\n<tr>\n<td>\n<b>WT</b>\n</td>\n<td>8</td>\n<td>8</td>\n<td>0.99%</td>\n<td>\u00b1</td>\n<td>0.99%</td>\n<td>7.96%</td>\n<td>\u00b1</td>\n<td>4.25%</td>\n\n<td rowspan=\"2\" valign=\"middle\">\n<span class=\"author-callout-style-a1\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"middle\">\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a1\">lox</span>\n</b>\n</sub>\n</td>\n<td>0.37%</td>\n<td>\u00b1</td>\n<td>0.29%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\u2009</td>\n<td rowspan=\"3\" valign=\"middle\">\n<span class=\"author-callout-style-a1\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"bottom\">\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a1\">TPS</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n\n<td>\n<span class=\"author-callout-style-a2\">2.13%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.85%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.96%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.42%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">1.68%</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">\u00b1</span>\n</td>\n<td>\n<span class=\"author-callout-style-a2\">0.98%</span>\n</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b>\n<i>TPS10</i>\n</b>\n</td>\n<td>7</td>\n<td>7</td>\n<td>2.37%</td>\n<td>\u00b1</td>\n<td>1.55%</td>\n<td>2.84%</td>\n<td>\u00b1</td>\n<td>0.63%</td>\n<td>18.97%</td>\n<td>\u00b1</td>\n<td>6.03%</td>\n\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.94%</td>\n<td>\u00b1</td>\n<td>0.53%</td>\n<td rowspan=\"3\" valign=\"middle\">\n<span class=\"author-callout-style-a3\">}</span>\n</td>\n<td>9.34%</td>\n<td>\u00b1</td>\n<td>3.44%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.20%</td>\n<td>\u00b1</td>\n<td>0.20%</td>\n<td>9.47%</td>\n<td>\u00b1</td>\n<td>5.26%</td>\n<td>0.94%</td>\n<td>\u00b1</td>\n<td>0.26%</td>\n<td>2.78%</td>\n<td>\u00b1</td>\n<td>1.52%</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b>\n<i>lox2/3</i>\n</b>\n</td>\n<td>7</td>\n<td>8</td>\n<td>0.13%</td>\n<td>\u00b1</td>\n<td>0.13%</td>\n<td>1.06%</td>\n<td>\u00b1</td>\n<td>0.64%</td>\n<td rowspan=\"2\" valign=\"middle\">\n<span class=\"author-callout-style-a3\">}</span>\n</td>\n<td rowspan=\"2\" valign=\"middle\">\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a3\">lox</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td>0.15%</td>\n<td>\u00b1</td>\n<td>0.15%</td>\n<td rowspan=\"2\">\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n<sub>\n<b>\n<span class=\"author-callout-style-a3\">TPS</span>\n</b>\n</sub>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>\n<b>\n<span class=\"author-callout-style-a1\">a</span>\n</b>\n</td>\n<td colspan=\"3\">\u2014</td>\n<td>2.75%</td>\n<td>\u00b1</td>\n<td>1.12%</td>\n<td>0.60%</td>\n<td>\u00b1</td>\n<td>0.19%</td>\n<td>1.68%</td>\n<td>\u00b1</td>\n<td>1.49%</td>\n<td>\u2014</td>\n</tr>\n<tr>\n<td>\n<b><i>lox2/3</i>x<i>TPS10</i></b>\n</td>\n<td>7</td>\n<td>7</td>\n<td>0.07%</td>\n<td>\u00b1</td>\n<td>0.07%</td>\n<td>1.24%</td>\n<td>\u00b1</td>\n<td>0.84%</td>\n<td>7.39%</td>\n<td>\u00b1</td>\n<td>2.56%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>2.08%</td>\n<td>\u00b1</td>\n<td>0.84%</td>\n<td>\u2009</td>\n<td>4.47%</td>\n<td>\u00b1</td>\n<td>1.70%</td>\n<td>\n<b>\n<span class=\"author-callout-style-a3\">b</span>\n</b>\n</td>\n<td>0.40%</td>\n<td>\u00b1</td>\n<td>0.40%</td>\n<td>3.02%</td>\n<td>\u00b1</td>\n<td>1.42%</td>\n<td>0.73%</td>\n<td>\u00b1</td>\n<td>0.31%</td>\n<td>0.66%</td>\n<td>\u00b1</td>\n<td>0.37%</td>\n<td>\u2014</td>\n</tr>\n</tbody>\n</table>"
                                                 ], 
                                                 "footnotes": [
                                                     {
@@ -5642,8 +5691,8 @@
             "doi": "10.7554/eLife.00666.030", 
             "content": [
                 {
-                    "type": "quote", 
-                    "text": [
+                    "type": "excerpt", 
+                    "content": [
                         {
                             "type": "paragraph", 
                             "text": "The reviewers have discussed the reviews with one another and the Reviewing Editor has drafted this decision to help you     prepare a revised submission."
@@ -5762,6 +5811,10 @@
                 {
                     "type": "paragraph", 
                     "text": "If an author referes to a reference in the response letter it is cross linked to the reference in the reference list (<a href=\"#bib11\">Coyne and Orr,                 1989</a>), however, if it is a new reference only cited in the decision letter or author response it is not added to the main reference link and is just listed as free                 text, for example, Butcher et al, 2006. If the author provides the reference it can be added as free text to the end of the letter, however, this is not a requirement                 ."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Adding some MathML to the sub-article.<math><mrow><munder><mo/><mi>m</mi></munder><mrow><msub><mover accent=\"true\"><mi>p</mi><mo/></mover><mi>m</mi></msub><mo>=</mo><mn>0</mn></mrow></mrow></math>"
                 }
             ]
         }, 
