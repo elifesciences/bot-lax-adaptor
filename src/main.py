@@ -661,7 +661,20 @@ def main(doc, args=None):
     try:
         article_json = render_single(doc, **ctx)
         return json.dumps(article_json, indent=4)
+
+    except AssertionError:
+        # business error
+        log_ctx = {
+            'doc': str(doc), # context needs to be json serializable
+            'msid': msid,
+            'version': version,
+            'override': ctx['override'],
+        }
+        LOG.error("failed to scrape article", extra=log_ctx)
+        raise
+
     except Exception:
+        # unhandled exception
         log_ctx = {
             'doc': str(doc), # context needs to be json serializable
             'msid': msid,
