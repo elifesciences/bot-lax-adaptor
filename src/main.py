@@ -221,6 +221,12 @@ def discard_if(pred): # can also be used like: discard_if(None)
     return fn
 '''
 
+def fail_if_none(label):
+    def wrap(v):
+        ensure(v, "%s cannot be blank/empty/None" % label)
+        return v
+    return wrap
+
 def discard_if_none_or_empty(v):
     if not v:
         return EXCLUDE_ME
@@ -518,7 +524,7 @@ SNIPPET = OrderedDict([
     ('authorLine', [jats('author_line'), discard_if_none_or_empty]),
     ('title', [jats('full_title_json')]),
     ('titlePrefix', [jats('title_prefix_json')]),
-    ('published', [jats('pub_date'), to_isoformat]), # 'published' is the pubdate of the v1 article
+    ('published', [jats('pub_date'), to_isoformat, fail_if_none('pubdate')]), # 'published' is the pubdate of the v1 article
     ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
     ('volume', [(jats('pub_date'), jats('volume')), to_volume]),
     ('elocationId', [jats('elocation_id')]),
