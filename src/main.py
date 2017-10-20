@@ -506,7 +506,7 @@ SNIPPET = OrderedDict([
     ('-meta', OrderedDict([
         ('location', [getvar('location')]),
     ])),
-    
+
     # deprecated, merged into article-json body
     ('-history', OrderedDict([
         ('received', [jats('history_date', date_type='received'), to_isoformat, discard_if_none_or_empty]),
