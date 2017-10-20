@@ -377,7 +377,7 @@ class KitchenSink(base.BaseCase):
                 "sourceData": [{
                     "doi": "10.7554/eLife.00666.037",
                     "id": "video1sdata1",
-                    "label": u"Video 1\u2014Source data 1",
+                    "label": u"Video 1\u2014source data 1",
                     "title": "Title of the source code.",
                     "mediaType": "application/xlsx",
                     "caption": [

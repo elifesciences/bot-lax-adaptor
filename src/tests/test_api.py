@@ -257,6 +257,7 @@ class Two(FlaskTestCase):
         }
         self.assertTrue(utils.partial_match(expected_resp, resp.json))
         self.assertTrue(resp.json['message'])
+
         self.assertTrue(resp.json['trace'].startswith("None is not of type u'string'")) # title is missing
 
     def test_upload_with_overrides(self):

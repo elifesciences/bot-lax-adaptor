@@ -99,7 +99,7 @@ All succeeding footnotes use the following symbols in order: † (&#x2020;), ‡
 NOTE: There can be multiple corresponding authors and they may not all have an ORCID as only one will be the primary correspondent for peer review. The
 primary corresponding author will be indicated as the corresponding author for the proofing process in the output XML from the submission system, but 
 this distinction will not be retained in the final XML. -->
-          <contrib-id contrib-id-type="orcid" authenticated="true">http://orcid.org/0000-0003-3523-4408</contrib-id>
+          <contrib-id contrib-id-type="orcid" authenticated="true">https://orcid.org/0000-0003-3523-4408</contrib-id>
           <!-- UPDATE: email for corresponding author is contained within contrib and no longer in author notes.
 For PDF display footnote "*For correspondence: " must be added as boilerplate followed by the email address pulled in from the XML.If there are multiple 
 corresponding authors, the email addresses must be added in order of the author list, separated with semicolons. Author initials should to be added in 
@@ -171,7 +171,7 @@ list displayed in the PDF is retained as per the XML order-->
         <contrib contrib-type="author" equal-contrib="yes" corresp="yes">
           <collab>eLife Technology Group
                     <contrib-group><!-- UPDATE: A group author member can have an affiliation, but it is contained within the contrib after their name rather than listed separately. Group author
-affiliations are truncated compared to normal author affiliations (usually just institution, city and country) --><!-- A group author member can have an ORCID, although this is not required --><contrib><name><surname>Nott</surname><given-names>Graham</given-names></name><aff><institution>Graham Nott Enterprises</institution><addr-line><named-content content-type="city">Victoria</named-content></addr-line><country>Canada</country></aff></contrib><contrib><name><surname>Wilkinson</surname><given-names>Chris</given-names></name><email>c.wilkinson@elifesciences.org</email><contrib-id contrib-id-type="orcid" authenticated="true">http://orcid.org/0000-0003-4921-6155</contrib-id><aff><institution>eLife</institution><addr-line><named-content content-type="city">Cambridge</named-content></addr-line><country>United Kingdom</country></aff></contrib><contrib><name><surname>Skibinski</surname><given-names>Luke</given-names></name><aff><institution>eLife</institution><addr-line><named-content content-type="city">Cambridge</named-content></addr-line><country>United Kingdom</country></aff></contrib></contrib-group>
+affiliations are truncated compared to normal author affiliations (usually just institution, city and country) --><!-- A group author member can have an ORCID, although this is not required --><contrib><name><surname>Nott</surname><given-names>Graham</given-names></name><aff><institution>Graham Nott Enterprises</institution><addr-line><named-content content-type="city">Victoria</named-content></addr-line><country>Canada</country></aff></contrib><contrib><name><surname>Wilkinson</surname><given-names>Chris</given-names></name><email>c.wilkinson@elifesciences.org</email><contrib-id contrib-id-type="orcid" authenticated="true">https://orcid.org/0000-0003-4921-6155</contrib-id><aff><institution>eLife</institution><addr-line><named-content content-type="city">Cambridge</named-content></addr-line><country>United Kingdom</country></aff></contrib><contrib><name><surname>Skibinski</surname><given-names>Luke</given-names></name><aff><institution>eLife</institution><addr-line><named-content content-type="city">Cambridge</named-content></addr-line><country>United Kingdom</country></aff></contrib></contrib-group>
             </collab>
           <xref ref-type="aff" rid="aff2">2</xref>
           <xref ref-type="fn" rid="equal-contrib2">‡</xref>
@@ -1783,7 +1783,7 @@ not add all rids to the xref as it does not work. Only add the first one -->
           </fig>
         </fig-group>
         <p><xref ref-type="fig" rid="fig3">Figure 3</xref> is an example of a figure with a figure supplement (<xref ref-type="fig" rid="fig3s1">Figure 3—figure supplement 1</xref>) 
-                        with two sub-assets, <xref ref-type="supplementary-material" rid="fig3sdata1">Figure 3—figure supplement 1—Source data 1</xref> and <xref ref-type="video" rid="fig3video1">Figure 3—figure supplement 1—Video 1</xref> (see <xref ref-type="bibr" rid="bib53">Zhang et al., 
+                        with two sub-assets, <xref ref-type="supplementary-material" rid="fig3sdata1">Figure 3—figure supplement 1—source data 1</xref> and <xref ref-type="video" rid="fig3video1">Figure 3—video 1</xref> (see <xref ref-type="bibr" rid="bib53">Zhang et al., 
                                 2010</xref>, <xref ref-type="bibr" rid="bib54">Zhong et al.,  2013</xref>; <xref ref-type="bibr" rid="bib52">World Health Organization, 2016</xref>).</p>
         <!-- UPDATE: new method of modelling supplementary material for a figure
                     A figure or a sub figure can have any assets - e.g. data, code, videos -->
@@ -1803,26 +1803,26 @@ not add all rids to the xref as it does not work. Only add the first one -->
             <label>Figure 3—figure supplement 1.</label>
             <caption>
               <title>Title of the figure supplement</title>
+              <p>
+                <supplementary-material id="fig3sdata1">
+                  <!-- UPDATE: DOI prefix removed from XML but must be added for display-->
+                  <object-id pub-id-type="doi">10.7554/eLife.00666.013</object-id>
+                  <label>Figure 3—figure supplement 1—source data 1.</label>
+                  <caption>
+                    <title>Title of the figure supplement source data.</title>
+                    <p>Legend of the figure supplement source data.</p>
+                  </caption>
+                  <media mimetype="application" mime-subtype="xlsx" xlink:href="elife-00666-fig3-figsupp1-data1.xlsx"/>
+                </supplementary-material>
+              </p>
             </caption>
             <graphic mimetype="image" mime-subtype="tiff" xlink:href="elife-00666-fig3-figsupp1.tif"/>
-            <p>
-              <supplementary-material id="fig3sdata1">
-                <!-- UPDATE: DOI prefix removed from XML but must be added for display-->
-                <object-id pub-id-type="doi">10.7554/eLife.00666.013</object-id>
-                <label>Figure 3—figure supplement 1—Source data 1.</label>
-                <caption>
-                  <title>Title of the figure supplement source data.</title>
-                  <p>Legend of the figure supplement source data.</p>
-                </caption>
-                <media mimetype="application" mime-subtype="xlsx" xlink:href="elife-00666-fig3-figsupp1-data1.xlsx"/>
-              </supplementary-material>
-            </p>
           </fig>
           <!-- this is an example of an asset asked later on, so the DOI is the last DOI to prevent renumbering the others -->
           <media mimetype="video" mime-subtype="mp4" id="fig3video1" xlink:href="elife-00666-fig3-video1.mp4">
             <!-- UPDATE: DOI prefix removed from XML but must be added for display-->
             <object-id pub-id-type="doi">10.7554/eLife.00666.035</object-id>
-            <label>Figure 3—Video 1.</label>
+            <label>Figure 3—video 1.</label>
             <caption>
               <title>
                                     A description of the eLife editorial process.
@@ -1830,7 +1830,7 @@ not add all rids to the xref as it does not work. Only add the first one -->
             </caption>
           </media>
         </fig-group>
-        <p><xref ref-type="fig" rid="fig4">Figure 4</xref> is an example of a figure with source code (<xref ref-type="supplementary-material" rid="fig4scode1">Figure 4—Source code 1</xref>).</p>
+        <p><xref ref-type="fig" rid="fig4">Figure 4</xref> is an example of a figure with source code (<xref ref-type="supplementary-material" rid="fig4scode1">Figure 4—source code 1</xref>).</p>
         <!-- UPDATE: this is changed tagging. -->
         <fig id="fig4" position="float">
           <!-- UPDATE: DOI prefix removed from XML but must be added for display-->
@@ -1844,7 +1844,7 @@ not add all rids to the xref as it does not work. Only add the first one -->
             <supplementary-material id="fig4scode1">
               <!-- UPDATE: DOI prefix removed from XML but must be added for display-->
               <object-id pub-id-type="doi">10.7554/eLife.00666.015</object-id>
-              <label>Figure 4—Source code 1.</label>
+              <label>Figure 4—source code 1.</label>
               <caption>
                 <title>Title of the source code.</title>
                 <p>Legend of the source code.</p>
@@ -1872,7 +1872,7 @@ not add all rids to the xref as it does not work. Only add the first one -->
               <supplementary-material id="video1sdata1">
                 <!-- UPDATE: DOI prefix removed from XML but must be added for display-->
                 <object-id pub-id-type="doi">10.7554/eLife.00666.037</object-id>
-                <label>Video 1—Source data 1.</label>
+                <label>Video 1—source data 1.</label>
                 <caption>
                   <title>Title of the source code.</title>
                   <p>Legend of the source code.</p>
@@ -1908,9 +1908,9 @@ not add all rids to the xref as it does not work. Only add the first one -->
             </caption>
             <p>Donec rhoncus in odio non vulputate. Donec vitae enim at erat tincidunt tincidunt in nec arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac 
                             turpis egestas. Aliquam id nunc id arcu maximus rutrum. Praesent bibendum nisl orci, ac sollicitudin purus aliquam in. Duis eu fermentum arcu. Fusce eget dolor augue. 
-                            Nulla facilisi. Suspendisse eu nisl vitae neque ullamcorper imperdiet. (see <xref ref-type="bibr" rid="bib29">Nellåker, 2014</xref>; <xref ref-type="bibr" rid="bib30">
-                                Pages et al., 2014</xref>; and <xref ref-type="bibr" rid="bib31">Palmer et al., 2007</xref>) Vestibulum ultrices vehicula nibh, 
-                            a ullamcorper dui semper suscipit. Etiam in sem augue.</p>
+                            Nulla facilisi. Suspendisse eu nisl vitae neque ullamcorper imperdiet (see <xref ref-type="bibr" rid="bib29">Nellåker, 2014</xref>; <xref ref-type="bibr" rid="bib30">
+                                Pages et al., 2014</xref>; and <xref ref-type="bibr" rid="bib31">Palmer et al., 2007</xref>). Boxes, like main text, can contain <ext-link ext-link-type="uri" xlink:href="https://elifesciences.org/about">hyperlinks</ext-link>
+                            at any point. Etiam in sem augue.</p>
           </boxed-text>
           <boxed-text id="box2">
             <!-- UPDATE: DOI prefix removed from XML but must be added for display-->
@@ -1985,6 +1985,226 @@ not add all rids to the xref as it does not work. Only add the first one -->
     </sec>
     <sec sec-type="materials|methods" id="s4">
       <title>Materials and methods</title>
+      <table-wrap id="keyresource" position="anchor">
+        <label>Key resources table</label>
+        <table frame="hsides" rules="groups">
+          <thead>
+            <tr>
+              <th>Reagent type <break/>(species) or resource</th>
+              <th>Designation</th>
+              <th>Source or reference</th>
+              <th>Identifiers</th>
+              <th>Additional <break/>information</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>gene (<italic>Drosophila melanogaster</italic>)</td>
+              <td>nito</td>
+              <td>NA</td>
+              <td>FLYB:FBgn0027548</td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td>gene (<italic>D. melanogaste</italic>r)</td>
+              <td>Sxl</td>
+              <td>NA</td>
+              <td>FLYB:FBgn0264270</td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td>genetic reagent (D. melanogaster)</td>
+              <td>MTD-Gal4</td>
+              <td>Bloomington Drosophila Stock Center</td>
+              <td>BDSC:31777; FLYB:FBtp0001612; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/BDSC_31777">BDSC_31777</ext-link></td>
+              <td>FlyBase symbol: P{GAL4-nos.NGT}</td>
+            </tr>
+            <tr>
+              <td>genetic reagent (<italic>D. melanogaster</italic>)</td>
+              <td>ap-Gal4</td>
+              <td>Bloomington Drosophila Stock Center</td>
+              <td>BDSC:3041; FLYB:FBti0002785; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/BDSC_3041">BDSC_3041</ext-link></td>
+              <td>FlyBase symbol: P{GawB}ap[md544]</td>
+            </tr>
+            <tr>
+              <td>genetic reagent (<italic>D. melanogaster</italic>)</td>
+              <td>nub-Gal4</td>
+              <td>PMID:20798049</td>
+              <td>FLYB:FBti0016825</td>
+              <td>FlyBase symbol: P{GawB}nubbin-AC-62</td>
+            </tr>
+            <tr>
+              <td>genetic reagent (<italic>D. melanogaste</italic>r)</td>
+              <td>dome-Gal4</td>
+              <td>PMID:12403714</td>
+              <td>FLYB:FBti0022298</td>
+              <td>FlyBase symbol: P{GawB}dome[PG14]</td>
+            </tr>
+            <tr>
+              <td>genetic reagent (<italic>D. melanogaster</italic>)</td>
+              <td>UAS-2xEYFP</td>
+              <td>PMID:12324968</td>
+              <td>FLYB:FBtp0016537</td>
+              <td>FlyBase symbol: P{UAS-2xEYFP}</td>
+            </tr>
+            <tr>
+              <td>genetic reagent (<italic>D. melanogaster</italic>)</td>
+              <td>nito[HP25329]</td>
+              <td>Bloomington Drosophila Stock Center</td>
+              <td>BDSC:22092; FLYB:FBal0238892; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/BDSC_22092">BDSC_22092</ext-link></td>
+              <td>Genotype: w[1118]; P{w[+mC]=EPg}nito[HP25329]/CyO</td>
+            </tr>
+            <tr>
+              <td>genetic reagent (<italic>D. melanogaster</italic>)</td>
+              <td>nito[1]</td>
+              <td>this paper</td>
+              <td> </td>
+              <td>Progenitor = nito[HP25329]; imprecise excision; lethal</td>
+            </tr>
+            <tr>
+              <td>genetic reagent (<italic>D. melanogaster</italic>)</td>
+              <td>nito shRNA (HMJ02081)</td>
+              <td>Bloomington Drosophila Stock Center</td>
+              <td>TRiP:HMJ02081; BDSC:56852; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/BDSC_56852">BDSC_56852</ext-link></td>
+              <td>FlyBase symbol: P{TRiP.HMJ02081}attP40</td>
+            </tr>
+            <tr>
+              <td>genetic reagent (<italic>D. melanogaster</italic>)</td>
+              <td>nito dsRNA (VDRC 20942)</td>
+              <td>Vienna Drosophila RNAi Center</td>
+              <td>VDRC:20942</td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td>genetic reagent (<italic>D. melanogaster</italic>)</td>
+              <td>FRT[G13]</td>
+              <td>Bloomington Drosophila Stock Center</td>
+              <td>BDSC:1956; FLYB:FBti0001247</td>
+              <td>FlyBase symbol: P{FRT(whs)}G13</td>
+            </tr>
+            <tr>
+              <td>genetic reagent (<italic>D. melanogaster</italic>)</td>
+              <td>"y w hsflp; ubiGFP FRT[G13]"</td>
+              <td>PMID:18160348</td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td>cell line (<italic>D. melanogaste</italic>r)</td>
+              <td>S2</td>
+              <td>other</td>
+              <td>FLYB:FBtc0000181; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/CVCL_Z992">CVCL_Z992</ext-link></td>
+              <td>Cell line maintained in N. Perrimon lab; FlyBase symbol:
+                                S2-DRSC.</td>
+            </tr>
+            <tr>
+              <td>antibody</td>
+              <td>anti-Nito</td>
+              <td>this paper</td>
+              <td> </td>
+              <td>Rabbit polyclonal; against aa 479-500; used YZ3137 (1:500)</td>
+            </tr>
+            <tr>
+              <td>antibody</td>
+              <td>anti-alpha-Spectrin (mouse monoclonal)</td>
+              <td>Developmental Studies Hybridoma Bank</td>
+              <td>DSHB:3A9; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/AB_528473">AB_528473</ext-link></td>
+              <td>(1:10)</td>
+            </tr>
+            <tr>
+              <td>antibody</td>
+              <td>anti-Vasa (rabbit polyclonal)</td>
+              <td>Santa Cruz Biotechnology</td>
+              <td>Santa Cruz:sc-30210; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/AB_793874">AB_793874</ext-link></td>
+              <td>(1:250)</td>
+            </tr>
+            <tr>
+              <td>antibody</td>
+              <td>anti-Sxl (mouse monoclonal)</td>
+              <td>Developmental Studies Hybridoma Bank</td>
+              <td>DSHB:M18; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/AB_528464">AB_528464</ext-link></td>
+              <td>(1:10)</td>
+            </tr>
+            <tr>
+              <td>antibody</td>
+              <td>anti-GFP (rabbit polyclonal)</td>
+              <td>Molecular Probes</td>
+              <td>Molecular Probes:A-6455; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/AB_221570">AB_221570</ext-link></td>
+              <td>(1:1000)</td>
+            </tr>
+            <tr>
+              <td>antibody</td>
+              <td>anti-GFP (mouse monoclonal)</td>
+              <td>Molecular Probes</td>
+              <td>Molecular Probes:A-11120; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/AB_221568">AB_221568</ext-link></td>
+              <td>(1:200)</td>
+            </tr>
+            <tr>
+              <td>antibody</td>
+              <td>anti-HA (rat monoclonal)</td>
+              <td>Roche</td>
+              <td>Roche:3F10; RRID:<ext-link ext-link-type="uri" xlink:href="https://scicrunch.org/resolver/AB_2314622">AB_2314622</ext-link></td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td>antibody</td>
+              <td>Alexa 488- or 555- secondaries</td>
+              <td>Molecular Probes</td>
+              <td> </td>
+              <td>(1:1000)</td>
+            </tr>
+            <tr>
+              <td>other</td>
+              <td>DAPI stain</td>
+              <td>Molecular Probes</td>
+              <td> </td>
+              <td>(1:1000)</td>
+            </tr>
+            <tr>
+              <td>recombinant DNA reagent</td>
+              <td>pAGW (Gateway vector)</td>
+              <td>Drosophila Genomics Resource Center</td>
+              <td>DGRC:1071</td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td>recombinant DNA reagent</td>
+              <td>pAHW (Gateway vector)</td>
+              <td>Drosophila Genomics Resource Center</td>
+              <td>DGRC:1095</td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td>recombinant DNA reagent</td>
+              <td>GH11110 (cDNA)</td>
+              <td>Drosophila Genomics Resource Center</td>
+              <td>DGRC:5666</td>
+              <td> </td>
+            </tr>
+            <tr>
+              <td>recombinant DNA reagent</td>
+              <td>GFP-Nito (plasmid)</td>
+              <td>this paper</td>
+              <td> </td>
+              <td>Progenitors: GH11110 (cDNA); Gateway vector pAGW</td>
+            </tr>
+            <tr>
+              <td>recombinant DNA reagent</td>
+              <td>HA-Sxl (plasmid)</td>
+              <td>PMID:16207758</td>
+              <td> </td>
+              <td>Progentiors: PCR, UAS-Sxl flies; Gateway vector pAHW</td>
+            </tr>
+            <tr>
+              <td>recombinant DNA reagent</td>
+              <td>GFP-Sxl (plasmid)</td>
+              <td>PMID:16207758</td>
+              <td> </td>
+              <td>Progentiors: PCR, UAS-Sxl flies; Gateway vector pAGW</td>
+            </tr>
+          </tbody>
+        </table>
+      </table-wrap>
       <p> eLife is tagged up as XML using the NISO standard JATS DTD. 
                 We conform to the JATS4R recommendations where possible and also deliver our content to PMC.
                 We also convert our JATS XML to PubMed and CrossRef DTDs when we deposit our content with them.
@@ -2116,12 +2336,16 @@ All supplementary files are listed here -->
       </supplementary-material>
       <supplementary-material id="repstand1">
         <!-- UPDATE: DOI prefix removed from XML but must be added for display-->
-        <object-id pub-id-type="doi">10.7554/eLife.00666.022</object-id>
-        <label>Reporting Standard 1.</label>
-        <caption>
-          <title>CONSORT flow diagram.</title>
-        </caption>
+        <object-id pub-id-type="doi">10.7554/eLife.00666.034</object-id>
+        <!-- UPDATE: Must contain a label-->
+        <label>Consort checklist and flow diagram.</label>
         <media mimetype="application" mime-subtype="pdf" xlink:href="elife-00666-repstand1.pdf"/>
+      </supplementary-material>
+      <!-- UPDATE July 2017: added transparent reporting form-->
+      <supplementary-material id="transrepform">
+        <object-id pub-id-type="doi">10.7554/eLife.00666.022</object-id>
+        <label>Transparent reporting form.</label>
+        <media mimetype="application" mime-subtype="pdf" xlink:href="elife-00666-transrepform.pdf"/>
       </supplementary-material>
     </sec>
     <!-- Datasets: this section is subject to change further to outcomes of FORCE11 Data citations working group. 
@@ -4419,6 +4643,8 @@ UPDATE: DOI prefix removed from XML but must be added for display-->
                 1989</xref>), however, if it is a new reference only cited in the decision letter or author response it is not added to the main reference link and is just listed as free
                 text, for example, Butcher et al, 2006. If the author provides the reference it can be added as free text to the end of the letter, however, this is not a requirement
                 .</p>
+      <p>Adding some MathML to the sub-article.<inline-formula><mml:math><mml:mrow><mml:munder><mml:mo/><mml:mi>m</mml:mi></mml:munder><mml:mrow><mml:msub><mml:mover accent="true"><mml:mi>p</mml:mi><mml:mo/></mml:mover><mml:mi>m</mml:mi></mml:msub><mml:mo>=</mml:mo><mml:mn>0</mml:mn></mml:mrow></mml:mrow></mml:math></inline-formula>
+            </p>
     </body>
   </sub-article>
 </article>

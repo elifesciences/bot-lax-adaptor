@@ -506,10 +506,13 @@ SNIPPET = OrderedDict([
     ('-meta', OrderedDict([
         ('location', [getvar('location')]),
     ])),
+
+    # deprecated, merged into article-json body
     ('-history', OrderedDict([
         ('received', [jats('history_date', date_type='received'), to_isoformat, discard_if_none_or_empty]),
         ('accepted', [jats('history_date', date_type='accepted'), to_isoformat, discard_if_none_or_empty]),
     ])),
+
     ('status', [jats('is_poa'), is_poa_to_status]),
     ('id', [jats('publisher_id')]),
     ('version', [getvar('version')]),
@@ -518,6 +521,8 @@ SNIPPET = OrderedDict([
     ('authorLine', [jats('author_line'), discard_if_none_or_empty]),
     ('title', [jats('full_title_json')]),
     ('titlePrefix', [jats('title_prefix_json')]),
+    ('received', [jats('history_date', date_type='received'), to_isoformat, discard_if_none_or_empty]),
+    ('accepted', [jats('history_date', date_type='accepted'), to_isoformat, discard_if_none_or_empty]),
     ('published', [jats('pub_date'), to_isoformat]), # 'published' is the pubdate of the v1 article
     ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
     ('volume', [(jats('pub_date'), jats('volume')), to_volume]),
