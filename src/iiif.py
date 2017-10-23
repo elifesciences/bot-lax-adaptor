@@ -45,9 +45,11 @@ def basic_info(msid, filename):
     return width, height
 
 def iiif_info(msid, filename):
-    context = {'msid': msid, 'iiif_filename': filename,
-               'iiif_info_url': iiif_info_url(msid, filename)}
-
+    context = {
+        'msid': msid,
+        'iiif_filename': filename,
+        'iiif_info_url': iiif_info_url(msid, filename)
+    }
     try:
         resp = utils.requests_get(iiif_info_url(msid, filename))
     except requests.ConnectionError:

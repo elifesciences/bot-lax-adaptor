@@ -440,6 +440,26 @@ def check_authors(data):
     return data
 '''
 
+def non_nil_image_dimensions(ctx, data):
+    """articles not yet in iiif will have their dimensions populated with None.
+    a width or height of None will fail validation with a standard obscure jsonschema dump.
+    used by the API for pre-production articles."""
+    if not ctx.get('fill-missing-image-dimensions'):
+        return data
+
+    def pred(element):
+        return isinstance(element, dict) \
+            and 'image' in element \
+            and 'size' in element['image']
+
+    def fix(element):
+        if not element['image']['size']['height'] or not element['image']['size']['width']:
+            element['image']['size']['height'] = 1
+            element['image']['size']['width'] = 1
+        return element
+
+    return visit(data, pred, fix)
+
 DUMMY_DATE = '2099-01-01T00:00:00Z'
 
 def placeholders_for_validation(data):
@@ -493,6 +513,8 @@ def postprocess(data, ctx):
         format_isbns,
         prune,
         placeholders_for_validation,
+
+        partial(non_nil_image_dimensions, ctx),
 
         # do this last. anything that comes after this can't be altered by user-provided values
         partial(manual_overrides, ctx),
@@ -656,8 +678,10 @@ def main(doc, args=None):
     msid, version = utils.version_from_path(getattr(doc, 'name', doc))
     ctx = {
         'version': version,
-        'override': args.get('override', {}),
+        'override': {},
+        'fill-missing-image-dimensions': False
     }
+    ctx.update(args)
     try:
         article_json = render_single(doc, **ctx)
         return json.dumps(article_json, indent=4)
@@ -679,7 +703,8 @@ def main(doc, args=None):
             'doc': str(doc), # context needs to be json serializable
             'msid': msid,
             'version': version,
-            'override': ctx['override'],
+            'render-ctx': ctx,
+            #'override': ctx['override'],
         }
         LOG.exception("failed to scrape article", extra=log_ctx)
         raise

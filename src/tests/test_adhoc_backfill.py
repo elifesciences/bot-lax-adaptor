@@ -96,7 +96,6 @@ class One(BaseCase):
                 self.assertTrue(partial_match(expected, actual))
 
     def test_request_lax_style_missing_location(self):
-        "dictionaries of article information can be fed in"
         paths = [{
             'msid': 16695,
             'version': 1,

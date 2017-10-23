@@ -59,7 +59,7 @@ class BotLaxResolver(RestyResolver):
         bits = orig_path.split('.') # ll ['api', 'xml', 'search']
 
         module = bits[0] # ll: 'api'
-        # the funname resolution is wonky, so discard it
+        # the funcname resolution is wonky, so discard it
         method = bits[-1] # ll: 'search'
 
         path = operation.path # ll: /article-json/validation/{filename}
@@ -131,7 +131,10 @@ def post_xml():
 
     # generate
     try:
-        article_json = scraper.main(path, {'override': override})
+        article_json = scraper.main(path, {
+            'override': override,
+            'fill-missing-image-dimensions': True
+        })
         json_filename = filename + '.json'
         json_path = join(upload_folder(), json_filename)
         open(json_path, 'w').write(article_json)
