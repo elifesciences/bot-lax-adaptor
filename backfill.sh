@@ -172,7 +172,7 @@ echo > "$prjdir/validate.log"
 time python $prjdir/src/validate_article_json.py "$ajsondir"
 
 # call the lax 'ingest' command with a directory of valid article json
-time $laxdir/manage.sh --skip-install ingest --ingest --force --dir "$validdir"
+LAX_MULTIPROCESSING=1 time $laxdir/manage.sh --skip-install ingest --ingest --force --dir "$validdir"
 
 # clean up
 # rm -rf "$rundir/"
