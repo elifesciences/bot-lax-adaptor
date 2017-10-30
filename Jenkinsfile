@@ -43,4 +43,4 @@ elifeLibrary({
     }
 
 
-}, 'elife-libraries--powerful2')
+}, 'elife-libraries--powerful3')
