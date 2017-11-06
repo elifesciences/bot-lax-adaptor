@@ -159,18 +159,8 @@ CDNS_BY_ENV = {
 }
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
-if ENV == PROD:
-    # used for generating public links
-    CDN_IIIF = 'https://iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
-    # used for direct access to the IIIF server
-    IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
-elif ENV in [CONTINUUMTEST, END2END]:
-    CDN_IIIF = 'https://' + ENV + '--cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
-    IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
-else:
-    # default to prod as a data source for testing
-    CDN_IIIF = cfg('general.cdn_iiif')
-    IIIF = cfg('general.iiif')
+CDN_IIIF = cfg('general.cdn_iiif')
+IIIF = cfg('general.iiif')
 
 # should our http requests to external services be cached?
 REQUESTS_CACHING = True
