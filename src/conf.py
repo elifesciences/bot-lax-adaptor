@@ -169,8 +169,8 @@ elif ENV in [CONTINUUMTEST, END2END]:
     IIIF = 'https://' + ENV + '--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
 else:
     # default to prod as a data source for testing
-    CDN_IIIF = 'https://prod--cdn-iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s'
-    IIIF = 'https://prod--iiif.elifesciences.org/lax:%(padded-msid)s/%(fname)s/info.json'
+    CDN_IIIF = cfg('general.cdn_iiif')
+    IIIF = cfg('general.iiif')
 
 # should our http requests to external services be cached?
 REQUESTS_CACHING = True
