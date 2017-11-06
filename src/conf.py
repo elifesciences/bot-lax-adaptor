@@ -159,8 +159,8 @@ CDNS_BY_ENV = {
 }
 CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
 
-CDN_IIIF = cfg('general.cdn_iiif')
-IIIF = cfg('general.iiif')
+CDN_IIIF = cfg('general.cdn_iiif') + '%(padded-msid)s/%(fname)s'
+IIIF = cfg('general.iiif') + '%(padded-msid)s/%(fname)s/info.json'
 
 # should our http requests to external services be cached?
 REQUESTS_CACHING = True
