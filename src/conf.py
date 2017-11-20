@@ -150,14 +150,9 @@ if ENV != DEV:
     API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
 utils.writable_dir(API_UPLOAD_FOLDER)
 
-CDN1 = 'cdn.elifesciences.org/articles/%(padded-msid)s/%(fname)s'
+CDN1 = cfg('general.cdn1') + '%(padded-msid)s/%(fname)s'
 
-DEFAULT_CDN = CDN1
-CDNS_BY_ENV = {
-    END2END: 'end2end-' + CDN1,
-    CONTINUUMTEST: 'continuumtest-' + CDN1,
-}
-CDN = 'https://' + CDNS_BY_ENV.get(ENV, DEFAULT_CDN)
+CDN = 'https://' + cfg('general.env_for_cdn') + CDN1
 
 CDN_IIIF = cfg('general.cdn_iiif') + '%(padded-msid)s/%(fname)s'
 IIIF = cfg('general.iiif') + '%(padded-msid)s/%(fname)s/info.json'
