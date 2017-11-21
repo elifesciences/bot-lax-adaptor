@@ -152,7 +152,10 @@ utils.writable_dir(API_UPLOAD_FOLDER)
 
 CDN1 = cfg('general.cdn1') + '%(padded-msid)s/%(fname)s'
 
-CDN = 'https://' + cfg('general.env_for_cdn') + CDN1
+if cfg('general.env_for_cdn'):
+    CDN = 'https://' + cfg('general.env_for_cdn') + '-' + CDN1
+else:
+    CDN = 'https://' + CDN1
 
 CDN_IIIF = cfg('general.cdn_iiif') + '%(padded-msid)s/%(fname)s'
 IIIF = cfg('general.iiif') + '%(padded-msid)s/%(fname)s/info.json'
