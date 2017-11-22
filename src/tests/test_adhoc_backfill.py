@@ -1,10 +1,14 @@
 from datetime import datetime
-import conf
 from os.path import join
-from base import BaseCase
-from utils import partial_match
-import utils, adhoc_backfill as bfup
+
 import mock
+
+import src.conf as conf
+from base import BaseCase
+from src.utils import partial_match
+import src.utils as utils
+import src.adhoc_backfill as bfup
+
 
 class One(BaseCase):
     def setUp(self):
@@ -29,7 +33,7 @@ class One(BaseCase):
         }
         expected = {'valid': [expected_lax_response], 'errors': [], 'invalid': []}
 
-        with mock.patch('adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
+        with mock.patch('src.adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
             actual = bfup.do_paths(paths)
             self.assertTrue(partial_match(expected, actual))
 
@@ -48,7 +52,7 @@ class One(BaseCase):
         }
         expected = {'valid': [expected_lax_response] * 3, 'errors': [], 'invalid': []}
 
-        with mock.patch('adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
+        with mock.patch('src.adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
             actual = bfup.do_paths(paths)
             self.assertTrue(partial_match(expected, actual))
 
@@ -90,8 +94,8 @@ class One(BaseCase):
             "datetime": utils.ymdhms(datetime.now())
         }
         expected = {'valid': [expected_lax_response], 'errors': [], 'invalid': []}
-        with mock.patch('adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
-            with mock.patch('adaptor.http_download', autospec=True, return_value=open(self.small_doc, 'r')):
+        with mock.patch('src.adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
+            with mock.patch('src.adaptor.http_download', autospec=True, return_value=open(self.small_doc, 'r')):
                 actual = bfup.do_paths(paths)
                 self.assertTrue(partial_match(expected, actual))
 
@@ -135,7 +139,7 @@ class Two(BaseCase):
 
     def test_bootstrap_read_paths_from_stdin(self):
         "paths can be read from stdin, one per line"
-        with mock.patch('adhoc_backfill.read_from_stdin', return_value=[self.path]):
+        with mock.patch('src.adhoc_backfill.read_from_stdin', return_value=[self.path]):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, self.expected)
 
@@ -143,7 +147,7 @@ class Two(BaseCase):
         "paths can be read from stdin, one per line"
         paths = "\n".join([self.path] * 3)
         expected = self.expected * 3
-        with mock.patch('adhoc_backfill.read_from_stdin', return_value=paths.splitlines()):
+        with mock.patch('src.adhoc_backfill.read_from_stdin', return_value=paths.splitlines()):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, expected)
 
@@ -154,7 +158,7 @@ class Two(BaseCase):
             'id': '16695',
             'location': 'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
         })
-        with mock.patch('adhoc_backfill.read_from_stdin', return_value=[jsonobj]):
+        with mock.patch('src.adhoc_backfill.read_from_stdin', return_value=[jsonobj]):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, self.expected)
 
@@ -166,6 +170,6 @@ class Two(BaseCase):
             'location': u'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
             'id': u'16695'
         })
-        with mock.patch('adhoc_backfill.read_from_stdin', return_value=jsonobj.splitlines()):
+        with mock.patch('src.adhoc_backfill.read_from_stdin', return_value=jsonobj.splitlines()):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, self.expected)

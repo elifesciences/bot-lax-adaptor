@@ -1,18 +1,25 @@
+import json
+import logging
+import os
+from os.path import join
 from StringIO import StringIO
 import traceback
-import os, json, uuid
-from os.path import join
-import conf, utils, adaptor
-from flex.core import validate
-import flex
+import uuid
+
 import connexion
+from connexion.resolver import RestyResolver
 import flask
 from flask import request
-import main as scraper, validate as ajson_validate
+import flex
+from flex.core import validate
 import jsonschema
-from connexion.resolver import RestyResolver
 from werkzeug.exceptions import HTTPException
-import logging
+
+import adaptor
+import conf
+import utils
+import main as scraper
+import validate as ajson_validate
 
 LOG = logging.getLogger(__name__)
 
@@ -58,7 +65,7 @@ class BotLaxResolver(RestyResolver):
         orig_path = super(BotLaxResolver, self).resolve_operation_id_using_rest_semantics(operation)
         bits = orig_path.split('.') # ll ['api', 'xml', 'search']
 
-        module = bits[0] # ll: 'api'
+        module = 'src.' + bits[0] # ll: 'api'
         # the funcname resolution is wonky, so discard it
         method = bits[-1] # ll: 'search'
 

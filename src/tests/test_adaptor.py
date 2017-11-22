@@ -1,10 +1,16 @@
 import re
 from os.path import join
-import base
-import adaptor as adapt, fs_adaptor, conf, utils
-import adaptor
 import unittest
+
 from mock import patch
+
+import base
+import src.adaptor as adapt
+import src.fs_adaptor as fs_adaptor
+import src.conf as conf
+import src.utils as utils
+import src.adaptor as adaptor
+
 
 class Logic(base.BaseCase):
     def setUp(self):
@@ -96,26 +102,26 @@ class Main(base.BaseCase):
         self.patchers = [
             # careful here: I was patching main.render_single with the fixture directly
             # and it ate 18GB of memory and crashed computer :(
-            patch('main.render_single', lambda *args, **kwargs: fixture),
+            patch('src.main.render_single', lambda *args, **kwargs: fixture),
         ]
         [p.start() for p in self.patchers]
 
     def tearDown(self):
         [p.stop() for p in self.patchers]
 
-    @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.INVALID, 'message': 'mock'})
+    @patch('src.adaptor.call_lax', lambda *args, **kwargs: {'status': conf.INVALID, 'message': 'mock'})
     def test_invalid_ingest_publish(self):
         "ingest+publish actions handle 'invalid' responses"
         argstr = '--type fs --action ingest+publish --target %s' % self.ingest_dir
         adapt.main(*argstr.split())
 
-    @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.ERROR, 'message': 'mock'})
+    @patch('src.adaptor.call_lax', lambda *args, **kwargs: {'status': conf.ERROR, 'message': 'mock'})
     def test_error_ingest_publish(self):
         "ingest+publish actions handle 'error' responses"
         argstr = '--type fs --action ingest+publish --target %s' % self.ingest_dir
         adapt.main(*argstr.split())
 
-    @patch('adaptor.call_lax', lambda *args, **kwargs: {'status': conf.VALIDATED, 'message': 'mock'})
+    @patch('src.adaptor.call_lax', lambda *args, **kwargs: {'status': conf.VALIDATED, 'message': 'mock'})
     def test_validated_ingest_publish(self):
         "ingest+publish actions handle 'validated' responses"
         argstr = '--type fs --action ingest+publish --validate-only --target %s' % self.ingest_dir
@@ -128,9 +134,9 @@ class Main(base.BaseCase):
         # have lax return something bogus
         self.call_lax_resp.update({'pants?': 'party!'})
 
-        with patch('adaptor.call_lax', lambda *args, **kwargs: self.call_lax_resp):
+        with patch('src.adaptor.call_lax', lambda *args, **kwargs: self.call_lax_resp):
             # .write is the 'success' method
-            with patch('fs_adaptor.OutgoingQueue.write') as mock:
+            with patch('src.fs_adaptor.OutgoingQueue.write') as mock:
                 adapt.main(*argstr.split())
                 mock.assert_called()
 

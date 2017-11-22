@@ -1,9 +1,12 @@
 import os
 from os.path import join
-from .base import BaseCase
-import utils
-import adaptor as adapt, conf, fs_adaptor
+from base import BaseCase
+import src.utils as utils
+import src.adaptor as adapt
+import src.conf as conf
+import src.fs_adaptor as fs_adaptor
 from jsonschema import ValidationError
+
 
 class FS(BaseCase):
     def setUp(self):

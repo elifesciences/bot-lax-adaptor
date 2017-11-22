@@ -1,9 +1,10 @@
 from StringIO import StringIO
 import json
 from os.path import join
-from .base import BaseCase
-import validate
+from base import BaseCase
+import src.validate as validate
 import jsonschema
+
 
 class TestArticleValidate(BaseCase):
     def setUp(self):

@@ -1,7 +1,8 @@
 from base import BaseCase
 from mock import patch, call
-import utils
+import src.utils as utils
 from datetime import datetime
+
 
 class Utils(BaseCase):
     def setUp(self):
