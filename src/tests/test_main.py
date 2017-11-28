@@ -1,10 +1,11 @@
 import os
 import json
 from os.path import join
-import base
+import src.tests.base as base
 import src.main as main
 import src.utils as utils
 import src.conf as conf
+
 
 class Cmd(base.BaseCase):
     def setUp(self):

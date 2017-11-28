@@ -1,10 +1,15 @@
-import os, json
-from os.path import join
+from __future__ import print_function
+import json
 import logging
-import utils, conf
-from utils import ensure
+import os
+from os.path import join
+
+import src.utils as utils
+import src.conf as conf
+from src.utils import ensure
 
 LOG = logging.getLogger(__name__)
+
 
 def mkreq(path, **overrides):
     ensure(not path.startswith('http://'), "no insecure requests, please")
@@ -80,7 +85,7 @@ class OutgoingQueue(object):
             struct = json.loads(string)
             self.errors.append(struct)
         except ValueError:
-            print 'WHHHHOOAOA - what did I just get??'
+            print('WHHHHOOAOA - what did I just get??')
             self.errors.append(string)
 
     def dump(self):

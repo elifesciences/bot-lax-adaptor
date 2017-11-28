@@ -1,5 +1,6 @@
 import requests_cache
-import conf
+import src.conf as conf
+
 
 def install_cache_requests():
     requests_cache.install_cache(**{

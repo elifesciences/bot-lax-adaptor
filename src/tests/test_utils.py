@@ -1,4 +1,4 @@
-from base import BaseCase
+from src.tests.base import BaseCase
 from mock import patch, call
 import src.utils as utils
 from datetime import datetime
@@ -22,12 +22,12 @@ class Utils(BaseCase):
         self.assertRaises(TypeError, utils.json_dumps, struct)
 
     def test_run_script(self):
-        retcode, stdout = utils.run_script(['echo', '-n', 'foobar'])
+        retcode, stdout = utils.run_script(['echo', '-n', 'foobar'.encode()])
         self.assertEqual(retcode, 0)
         self.assertEqual(stdout, 'foobar')
 
     def test_run_script_stdin(self):
-        retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'pants-party')
+        retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'pants-party'.encode())
         self.assertEqual(stdout, 'pants-party')
 
     def test_video_msid(self):

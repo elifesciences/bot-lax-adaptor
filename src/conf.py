@@ -1,10 +1,14 @@
-import inspect
-import os, json, logging
-from os.path import join
-from pythonjsonlogger import jsonlogger
-import utils
 import configparser as configparser
+import inspect
+import json
+import logging
+import os
+from os.path import join
 import yaml
+
+from pythonjsonlogger import jsonlogger
+
+import src.utils as utils
 
 os.umask(int('002', 8))
 SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/

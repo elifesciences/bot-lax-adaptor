@@ -1,7 +1,12 @@
-from StringIO import StringIO
+from __future__ import absolute_import
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
+
 import json
 from os.path import join
-from base import BaseCase
+from src.tests.base import BaseCase
 import src.validate as validate
 import jsonschema
 

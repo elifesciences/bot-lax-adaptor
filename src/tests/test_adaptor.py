@@ -4,7 +4,7 @@ import unittest
 
 from mock import patch
 
-import base
+import src.tests.base as base
 import src.adaptor as adapt
 import src.fs_adaptor as fs_adaptor
 import src.conf as conf

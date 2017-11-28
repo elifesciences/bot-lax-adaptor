@@ -1,8 +1,15 @@
+from __future__ import absolute_import, print_function
 from os.path import join
-import os, sys, json
-import conf, utils
-import jsonschema
+import os
+import json
+import sys
 import logging
+
+import jsonschema
+
+import src.conf as conf
+import src.utils as utils
+
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler(join(conf.LOG_DIR, "validate.log"))
@@ -44,7 +51,7 @@ if __name__ == '__main__':
         parser = argparse.ArgumentParser()
         parser.add_argument('infile', type=argparse.FileType('r'), default=sys.stdin)
         args = parser.parse_args()
-        print json.dumps(main(args.infile))
+        print(json.dumps(main(args.infile)))
 
     except jsonschema.ValidationError:
         exit(1)

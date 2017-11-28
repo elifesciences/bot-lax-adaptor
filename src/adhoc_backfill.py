@@ -9,12 +9,15 @@ default values in making a request via adaptor.py. these values can be seen in `
 
 """
 
-import sys
-import adaptor, fs_adaptor
 import json
-from conf import logging
+import sys
+
+import src.adaptor as adaptor
+from src.conf import logging
+import src.fs_adaptor as fs_adaptor
 
 LOG = logging.getLogger(__name__)
+
 
 def send_ingest_requests_to_lax(request_list):
     "for each article we want to send a request "
@@ -38,7 +41,7 @@ def mkreq(path):
         LOG.warning("unhandled input type, %r" % type(path))
 
 def do_paths(paths, dry_run=False):
-    ingest_requests = filter(None, map(mkreq, paths))
+    ingest_requests = list(filter(None, map(mkreq, paths)))
     if dry_run:
         return ingest_requests
     return send_ingest_requests_to_lax(ingest_requests)
@@ -63,7 +66,7 @@ def main(args):
     if not paths:
         paths = read_from_stdin()
         try:
-            paths = map(json.loads, paths)
+            paths = list(map(json.loads, paths))
         except ValueError:
             # assume filenames.
             pass

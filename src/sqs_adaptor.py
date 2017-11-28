@@ -1,11 +1,13 @@
-import boto3
 import logging
+
+import boto3
 
 # tell boto to pipe down
 logging.getLogger('botocore').setLevel(logging.WARN)
 logging.getLogger('boto3').setLevel(logging.WARN) # CRITICAL)
 
 LOG = logging.getLogger(__name__)
+
 
 def conn():
     return boto3.resource('sqs')

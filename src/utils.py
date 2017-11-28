@@ -1,22 +1,34 @@
+import copy
+from datetime import datetime
+from dateutil import parser
+import io
+import json
+import os
 import sqlite3
-import requests
-import requests_cache
-import os, copy
 import subprocess
 import time
-import json
+
 import jsonschema
 from jsonschema import validate as validator
 from jsonschema import ValidationError
+from past.builtins import basestring
 import pytz
-from datetime import datetime
-from dateutil import parser
+import requests
+import requests_cache
 from rfc3339 import rfc3339
 
 # import conf # don't do this, conf.py depends on utils.py
 
 import logging
 LOG = logging.getLogger(__name__)
+
+
+def is_file(obj):
+    try:
+        return isinstance(obj, file)
+    except NameError:
+        return isinstance(obj, io.IOBase)
+
 
 class StateError(RuntimeError):
     pass
@@ -95,7 +107,7 @@ def validate(struct, schema):
         else:
             struct = json.loads(json_dumps(struct))
     except ValueError as err:
-        LOG.error("struct is not serializable: %s", err.message)
+        LOG.error("struct is not serializable: %s", str(err))
         raise
 
     try:
@@ -104,11 +116,11 @@ def validate(struct, schema):
 
     except ValueError as err:
         # your json is broken
-        raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
+        raise ValidationError("validation error: '%s' for: %s" % (str(err), struct))
 
     except ValidationError as err:
         # your json is incorrect
-        LOG.error("struct failed to validate against schema: %s" % err.message)
+        LOG.error("struct failed to validate against schema: %s" % str(err))
         raise
 
 def json_dumps(obj, **kwargs):
@@ -137,7 +149,7 @@ def run_script(args, user_input=None):
         stdout, stderr = process.communicate(user_input)
     else:
         stdout, stderr = process.communicate()
-    return process.returncode, stdout
+    return process.returncode, stdout.decode('utf-8')
 
 def version_from_path(path):
     _, msid, ver = os.path.split(path)[-1].split('-') # ll: ['elife', '09560', 'v1.xml']
@@ -173,7 +185,7 @@ def call_n_times(fn, protect_from, num_attempts=3, initial_waiting_time=0):
     Uses exponential backoff not to overload the target, if initial_waiting_time is specified"""
     def wrap(*args, **kwargs):
         waiting_time = initial_waiting_time
-        for i in xrange(0, num_attempts):
+        for i in range(0, num_attempts):
             try:
                 # print 'calling',args[0],i
                 return fn(*args, **kwargs)

@@ -8,7 +8,7 @@ from unittest import skip
 from flask_testing import TestCase
 from mock import patch
 
-import base
+import src.tests.base as base
 import src.api as api
 import src.validate as validate
 import src.utils as utils
@@ -196,8 +196,9 @@ class Two(FlaskTestCase):
         }
         self.assertEqual(resp.status_code, 400)
 
-        # FAILS !!!
-        # self.assertTrue(utils.partial_match(expected_lax_resp, resp.json))
+        # TODO FAILS !!!
+        self.assertTrue(utils.partial_match(expected_lax_resp, resp.json))
+
         # expected_lax_resp = {'status': 'error', 'code': 'problem-scraping-xml'}
         # resp.json = {u'status': u'error', u'code': u'error-sending-article-json'}  # PLUS OTHER KEY: VALUE PAIRS
 

@@ -2,13 +2,21 @@
 looks in the article-xml directory and converts all/some/random xml to article-json
 
 """
+from __future__ import print_function
 import os
 from os.path import join
-import main as scraper
-from StringIO import StringIO
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
+
 from joblib import Parallel, delayed
-import conf
-from utils import ensure
+
+import src.conf as conf
+import src.main as scraper
+from src.utils import ensure
+
 
 def render(path, json_output_dir):
     try:
@@ -29,11 +37,11 @@ def render(path, json_output_dir):
         log.info(strbuffer.getvalue())
 
 def main(xml_dir, json_output_dir):
-    paths = map(lambda fname: join(xml_dir, fname), os.listdir(xml_dir))
-    paths = filter(lambda path: path.lower().endswith('.xml'), paths)
+    paths = list(map(lambda fname: join(xml_dir, fname), os.listdir(xml_dir)))
+    paths = list(filter(lambda path: path.lower().endswith('.xml'), paths))
     paths = sorted(paths, reverse=True)
     Parallel(n_jobs=-1)(delayed(render)(path, json_output_dir) for path in paths)
-    print 'see scrape.log for errors'
+    print('see scrape.log for errors')
 
 if __name__ == '__main__':
     import argparse

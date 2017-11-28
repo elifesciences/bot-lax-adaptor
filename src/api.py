@@ -2,7 +2,12 @@ import json
 import logging
 import os
 from os.path import join
-from StringIO import StringIO
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
+
 import traceback
 import uuid
 
@@ -15,11 +20,11 @@ from flex.core import validate
 import jsonschema
 from werkzeug.exceptions import HTTPException
 
-import adaptor
-import conf
-import utils
-import main as scraper
-import validate as ajson_validate
+import src.adaptor as adaptor
+import src.conf as conf
+import src.utils as utils
+import src.main as scraper
+import src.validate as ajson_validate
 
 LOG = logging.getLogger(__name__)
 
@@ -43,11 +48,11 @@ def http_ensure(case, msg, code=400):
 
 def listfiles(path, ext_list=None):
     "returns a pair of (basename_list, absolute_path_list) for given dir, optionally filtered by extension"
-    path_list = map(lambda fname: os.path.abspath(join(path, fname)), os.listdir(path))
+    path_list = list(map(lambda fname: os.path.abspath(join(path, fname)), os.listdir(path)))
     if ext_list:
-        path_list = filter(lambda path: os.path.splitext(path)[1] in ext_list, path_list)
+        path_list = list(filter(lambda path: os.path.splitext(path)[1] in ext_list, path_list))
     path_list = sorted(filter(os.path.isfile, path_list))
-    return map(os.path.basename, path_list), path_list
+    return list(map(os.path.basename, path_list), path_list)
 
 #
 #
@@ -74,7 +79,7 @@ class BotLaxResolver(RestyResolver):
         # /article-json/validation/{filename} => article_json_validation
         # /article-json/{filename}/validation => article_json_validation
         bits = path.strip('/').split('/') # => ['article-json', 'validation', '{filename}']
-        bits = filter(lambda bit: bit and not bit.startswith('{') and not bit.endswith('}'), bits)
+        bits = list(filter(lambda bit: bit and not bit.startswith('{') and not bit.endswith('}'), bits))
         fnname = '_'.join(bits).replace('-', '_') # ll: article_json_validation
         return '%s.%s_%s' % (module, method, fnname) # ll: api.post_article_json_validation
 

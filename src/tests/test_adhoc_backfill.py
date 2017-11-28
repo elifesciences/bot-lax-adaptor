@@ -4,7 +4,7 @@ from os.path import join
 import mock
 
 import src.conf as conf
-from base import BaseCase
+from src.tests.base import BaseCase
 from src.utils import partial_match
 import src.utils as utils
 import src.adhoc_backfill as bfup
