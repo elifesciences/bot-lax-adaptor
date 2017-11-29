@@ -88,6 +88,7 @@ def find_lax():
     return script
 
 def call_lax(action, id, version, token, article_json=None, force=False, dry_run=False):
+    #raise EnvironmentError("whoooooa. no.")
     cmd = [
         find_lax(), # /srv/lax/manage.sh
         "--skip-install",

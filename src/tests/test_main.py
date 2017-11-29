@@ -377,7 +377,7 @@ class KitchenSink(base.BaseCase):
                 "sourceData": [{
                     "doi": "10.7554/eLife.00666.037",
                     "id": "video1sdata1",
-                    "label": u"Video 1\u2014Source data 1",
+                    "label": u"Video 1\u2014source data 1",
                     "title": "Title of the source code.",
                     "mediaType": "application/xlsx",
                     "caption": [
@@ -400,7 +400,8 @@ class KitchenSink(base.BaseCase):
                              'uri': 'https://static-movie-usa.glencoesoftware.com/webm/10.7554/657/f42a609b0e61fc41798dcba3cc0c87598bd2cf9f/elife-00666-video1.webm'}]
             }]
         }
-        self.assertEqual(tod(expected_media), tod(media))
+        #self.assertEqual(tod(expected_media), tod(media))
+        self.assertCountEqual(tod(expected_media), tod(media)) # content is equal, but not necessarily order
 
     def test_patched_data_present(self):
         """an indication article-json contains patched values is present.

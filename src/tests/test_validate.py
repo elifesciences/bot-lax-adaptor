@@ -6,8 +6,8 @@ except ImportError:
 
 import json
 from os.path import join
-from src.tests.base import BaseCase
-import src.validate as validate
+from .base import BaseCase
+from src import validate
 import jsonschema
 
 

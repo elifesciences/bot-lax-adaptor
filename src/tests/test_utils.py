@@ -1,5 +1,5 @@
 from src.tests.base import BaseCase
-from mock import patch, call
+from unittest.mock import patch, call
 import src.utils as utils
 from datetime import datetime
 

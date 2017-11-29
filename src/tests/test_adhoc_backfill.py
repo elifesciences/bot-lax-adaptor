@@ -1,14 +1,11 @@
 from datetime import datetime
 from os.path import join
 
-import mock
+from unittest import mock
 
-import src.conf as conf
-from src.tests.base import BaseCase
+from src import conf, utils, adhoc_backfill as bfup
+from .base import BaseCase
 from src.utils import partial_match
-import src.utils as utils
-import src.adhoc_backfill as bfup
-
 
 class One(BaseCase):
     def setUp(self):
