@@ -18,12 +18,8 @@ from isbnlib import mask, to_isbn13
 from past.builtins import basestring
 from slugify import slugify
 
-import src.conf as conf
-import src.utils as utils
-import src.glencoe as glencoe
-import src.iiif as iiif
-import src.cdn as cdn
-from src.utils import ensure, is_file
+import conf, utils, glencoe, iiif, cdn
+from utils import ensure, is_file
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler(join(conf.LOG_DIR, 'scrape.log'))
@@ -177,7 +173,7 @@ def figures_pdf_uri(triple):
     graphics, msid, version = triple
     filename_match = '-figsupp'
     if (True in list(map(lambda graphic: graphic.get('xlink_href') and
-                    filename_match in graphic.get('xlink_href'), graphics))):
+                         filename_match in graphic.get('xlink_href'), graphics))):
         filename = "elife-%s-figures-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-figures-v1.pdf
         figures_pdf_cdnlink = cdnlink(msid, filename)
         return cdn.url_exists(figures_pdf_cdnlink, msid)

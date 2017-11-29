@@ -8,7 +8,7 @@ import yaml
 
 from pythonjsonlogger import jsonlogger
 
-import src.utils as utils
+import utils
 
 os.umask(int('002', 8))
 SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/

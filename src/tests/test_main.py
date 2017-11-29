@@ -1,11 +1,8 @@
 import os
 import json
 from os.path import join
-import src.tests.base as base
-import src.main as main
-import src.utils as utils
-import src.conf as conf
-
+from tests import base
+from src import main, utils, conf
 
 class Cmd(base.BaseCase):
     def setUp(self):

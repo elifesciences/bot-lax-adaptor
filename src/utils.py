@@ -57,9 +57,9 @@ def ensure(assertion, msg, *args):
         raise AssertionError(msg % args)
 
 def writable_dir(path):
-    ensure(os.path.exists(path), "path doesn't exist: %s" % path)
+    ensure(os.path.exists(path), "path doesn't exist: %r" % path)
     # directories need to be executable as well to be considered writable
-    ensure(os.access(path, os.W_OK | os.X_OK), "directory isn't writable: %s" % path)
+    ensure(os.access(path, os.W_OK | os.X_OK), "directory isn't writable: %r" % path)
 
 def contains_any(ddict, key_list):
     return any([key in ddict for key in key_list])

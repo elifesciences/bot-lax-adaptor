@@ -2,10 +2,9 @@ import logging
 
 import requests_cache
 
-from src.cache_requests import install_cache_requests
-import src.conf as conf
-import src.utils as utils
-from src.utils import ensure
+from cache_requests import install_cache_requests
+import conf, utils
+from utils import ensure
 
 LOG = logging.getLogger(__name__)
 
