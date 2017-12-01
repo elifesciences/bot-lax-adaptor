@@ -1,3 +1,3 @@
-import src.api as api
+import api
 
 app = api.create_app()

@@ -1,12 +1,8 @@
 import os
 from os.path import join
-from src.tests.base import BaseCase
-import src.utils as utils
-import src.adaptor as adapt
-import src.conf as conf
-import src.fs_adaptor as fs_adaptor
+from .base import BaseCase
+from src import utils, conf, fs_adaptor, adaptor as adapt
 from jsonschema import ValidationError
-
 
 class FS(BaseCase):
     def setUp(self):

@@ -19,7 +19,7 @@ from past.builtins import basestring
 from slugify import slugify
 
 import conf, utils, glencoe, iiif, cdn
-from utils import ensure, is_file
+from utils import ensure, is_file, lmap, lfilter
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler(join(conf.LOG_DIR, 'scrape.log'))
@@ -115,7 +115,7 @@ def related_article_to_related_articles(related_article_list):
     def et(struct):
         return (struct.get('xlink_href') or '').rsplit('.', 1)[-1] or None
     # ll: ['09561'] or None
-    return list(filter(None, map(et, related_article_list)))
+    return lfilter(None, map(et, related_article_list))
 
 def mixed_citation_to_related_articles(mixed_citation_list):
     # ll: [{'article': {'authorLine': 'R Straussman et al',
@@ -131,7 +131,7 @@ def mixed_citation_to_related_articles(mixed_citation_list):
             'authorLine': p(struct, 'article.authorLine'),
             'uri': 'https://doi.org/%s' % p(struct, 'article.doi'),
         }
-    return list(map(et, mixed_citation_list))
+    return lmap(et, mixed_citation_list)
 
 def cdnlink(msid, filename):
     kwargs = {
@@ -164,7 +164,7 @@ def pdf_uri(triple):
     older articles that should have a pdf, don't. this function doesn't
     concern itself with those latter exceptions."""
     content_type, msid, version = triple
-    if content_type and True in list(map(lambda type: type in ['Correction'], content_type)):
+    if content_type and any(lmap(lambda type: type in ['Correction'], content_type)):
         return EXCLUDE_ME
     filename = "elife-%s-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-v1.pdf
     return cdnlink(msid, filename)
@@ -172,8 +172,9 @@ def pdf_uri(triple):
 def figures_pdf_uri(triple):
     graphics, msid, version = triple
     filename_match = '-figsupp'
-    if (True in list(map(lambda graphic: graphic.get('xlink_href') and
-                         filename_match in graphic.get('xlink_href'), graphics))):
+
+    if any(lmap(lambda graphic: graphic.get('xlink_href')
+                and filename_match in graphic.get('xlink_href'), graphics)):
         filename = "elife-%s-figures-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-figures-v1.pdf
         figures_pdf_cdnlink = cdnlink(msid, filename)
         return cdn.url_exists(figures_pdf_cdnlink, msid)
@@ -665,7 +666,7 @@ def serialize_overrides(override_map):
         key = key.strip()
         ensure(key, "key must not be empty")
         return '|'.join([key, json.dumps(val)])
-    return list(map(serialize, override_map.items()))
+    return lmap(serialize, override_map.items())
 
 def deserialize_overrides(override_list):
     def splitter(string):
@@ -676,7 +677,7 @@ def deserialize_overrides(override_list):
         first, rest = string.split('|', 1)
         ensure(rest.strip(), "a value must be provided. use 'null' without quotes to use an empty value")
         return first, rest
-    pairs = list(map(splitter, override_list))
+    pairs = lmap(splitter, override_list)
     return {key: json.loads(val) for key, val in pairs}
 
 

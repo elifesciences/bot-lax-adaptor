@@ -1,6 +1,6 @@
-from src.tests.base import BaseCase
+from .base import BaseCase
 from unittest.mock import patch, call
-import src.utils as utils
+from src import utils
 from datetime import datetime
 
 

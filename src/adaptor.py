@@ -6,20 +6,14 @@ import os
 from os.path import join
 import sys
 from time import time
-
 from awsauth import S3Auth
 import botocore.session
 from jsonschema import ValidationError
 import requests
 import signal
-
-try:
-    from urlparse import urlparse
-except ImportError:
-    from urllib.parse import urlparse
-
-import src.conf as conf
-from src.conf import (
+from urllib.parse import urlparse
+import conf
+from conf import (
     INVALID,
     ERROR,
     VALIDATED,
@@ -27,17 +21,16 @@ from src.conf import (
     PUBLISHED,
     INGEST,
     PUBLISH,
-    INGEST_PUBLISH
+    INGEST_PUBLISH,
+
+    PROJECT_DIR
 )
-from src.conf import PROJECT_DIR
-import src.main as scraper
-import src.fs_adaptor as fs_adaptor
-import src.sqs_adaptor as sqs_adaptor
-import src.utils as utils
-from src.utils import (
+import main as scraper, fs_adaptor, sqs_adaptor, utils
+from utils import (
     subdict,
     renkeys,
-    ensure
+    ensure,
+    lfilter
 )
 
 
@@ -149,7 +142,7 @@ def http_download(location):
         # if we can find credentials, attach them
         session = botocore.session.get_session()
         cred = [getattr(session.get_credentials(), attr) for attr in ['access_key', 'secret_key']]
-        if list(filter(None, cred)): # remove any empty values
+        if lfilter(None, cred): # remove any empty values
             cred = S3Auth(*cred, service_url=s3_base)
     resp = requests.get(location, auth=cred)
     if resp.status_code != 200:
@@ -303,6 +296,8 @@ def handler(json_request, outgoing):
         # when lax fails, we fail
         raise
 
+# todo: why is this imported down here?
+# if the reason is 'circular reference', we need to do a better job
 try:
     import newrelic.agent
     handler = newrelic.agent.background_task()(handler)

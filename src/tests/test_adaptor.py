@@ -131,7 +131,7 @@ class Main(base.BaseCase):
 
         with patch('src.adaptor.call_lax', lambda *args, **kwargs: self.call_lax_resp):
             # .write is the 'success' method
-            with patch('src.fs_adaptor.OutgoingQueue.write') as mock:
+            with patch('fs_adaptor.OutgoingQueue.write') as mock: # todo: why doesn't this require a 'src' prefix?
                 adapt.main(*argstr.split())
                 self.assertTrue(mock.called) # `assert_called` gone missing in 3?
 

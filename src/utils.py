@@ -22,6 +22,14 @@ from rfc3339 import rfc3339
 import logging
 LOG = logging.getLogger(__name__)
 
+lmap = lambda func, *iterable: list(map(func, *iterable))
+
+lfilter = lambda func, *iterable: list(filter(func, *iterable))
+
+#keys = lambda d: list(d.keys())
+
+#lzip = lambda *iterable: list(zip(*iterable))
+
 
 def is_file(obj):
     try:

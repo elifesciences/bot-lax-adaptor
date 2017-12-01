@@ -69,7 +69,7 @@ class Two(FlaskTestCase):
             'message': None # this should trigger an error when logged naively by api.py but doesn't...
         }
 
-        with patch('src.adaptor.call_lax', return_value=expected_lax_resp):
+        with patch('adaptor.call_lax', return_value=expected_lax_resp):
             resp = self.client.post('/xml', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
@@ -127,7 +127,7 @@ class Two(FlaskTestCase):
             'override': override,
             'ajson': expected_ajson,
         }
-        with patch('src.adaptor.call_lax', return_value=mock_lax_resp):
+        with patch('adaptor.call_lax', return_value=mock_lax_resp):
             resp = self.client.post('/xml', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
@@ -174,7 +174,7 @@ class Two(FlaskTestCase):
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
-        with patch('src.main.main', side_effect=AssertionError('meow')):
+        with patch('main.main', side_effect=AssertionError('meow')):
             resp = self.client.post('/xml', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
@@ -288,7 +288,7 @@ class Two(FlaskTestCase):
             u'id': 16695,
             u'datetime': u'2017-07-04T07:37:24Z'
         }
-        with patch('src.adaptor.call_lax', return_value=mock_lax_resp):
+        with patch('adaptor.call_lax', return_value=mock_lax_resp):
             resp = self.client.post('/xml', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
@@ -354,7 +354,6 @@ class Two(FlaskTestCase):
             'message': err_message,
             #'trace': '...' # super long, can't predict, especially when mocking
         }
-        # TODO: why does this break if the path is 'src.glencoe.validate_gc_data' ?
         with patch('glencoe.validate_gc_data', side_effect=AssertionError(err_message)):
             resp = self.client.post('/xml', **{
                 'buffered': True,
@@ -381,7 +380,7 @@ class Two(FlaskTestCase):
         }
 
         # don't call lax
-        with patch('src.adaptor.call_lax', return_value=expected_lax_resp):
+        with patch('adaptor.call_lax', return_value=expected_lax_resp):
             # also, don't call iiif
             no_iiif_info = {}
             with patch('iiif.iiif_info', return_value=no_iiif_info): # another?

@@ -4,7 +4,7 @@ import requests_cache
 
 from cache_requests import install_cache_requests
 import conf, utils
-from utils import ensure
+from utils import ensure, lmap, lfilter
 
 LOG = logging.getLogger(__name__)
 
@@ -55,7 +55,7 @@ def validate_gc_data(gc_data):
     known_sources = SOURCES.keys()
     for v_id, v_data in gc_data.items():
 
-        available_sources = list(filter(lambda mtype: mtype + "_href" in v_data, known_sources))
+        available_sources = lfilter(lambda mtype: mtype + "_href" in v_data, known_sources)
 
         # fail if we have partial data
         msg = "number of available sources less than known sources for %r. missing: %s" % \
@@ -101,7 +101,7 @@ def expand_videos(msid, video):
         'mediaType': SOURCES[mtype],
         'uri': gc_data[v_id][mtype + "_href"]
     }
-    video_data['sources'] = list(map(func, SOURCES))
+    video_data['sources'] = lmap(func, SOURCES)
     video.update(video_data)
 
     del video['uri'] # returned by elife-tools, not part of spec
