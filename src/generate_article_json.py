@@ -40,7 +40,8 @@ def main(xml_dir, json_output_dir):
     paths = list(map(lambda fname: join(xml_dir, fname), os.listdir(xml_dir)))
     paths = list(filter(lambda path: path.lower().endswith('.xml'), paths))
     paths = sorted(paths, reverse=True)
-    Parallel(n_jobs=-1)(delayed(render)(path, json_output_dir) for path in paths)
+    num_processes = 2
+    Parallel(n_jobs=num_processes)(delayed(render)(path, json_output_dir) for path in paths)
     print('see scrape.log for errors')
 
 if __name__ == '__main__':

@@ -2,7 +2,7 @@ import configparser as configparser
 import inspect
 import json
 import logging
-import os
+import os, sys
 from os.path import join
 import yaml
 
@@ -180,6 +180,8 @@ else:
 # should our http requests to external services be cached?
 REQUESTS_CACHING = True
 REQUESTS_CACHE = join(CACHE_PATH, 'requests-cache')
+if sys.version_info.major == 3:
+    REQUESTS_CACHE = join(CACHE_PATH, 'requests_cache')
 
 # *may* improve locked db problem
 # https://requests-cache.readthedocs.io/en/latest/api.html#backends-dbdict
