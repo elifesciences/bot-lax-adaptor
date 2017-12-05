@@ -25,6 +25,6 @@ rfc3339==5.2
 strict-rfc3339==0.7
 uWSGI==2.0.15
 
-#connexion==1.1.10
-git+https://github.com/elifesciences/connexion.git@995ebab9a5731c664434f0fc8f8fd1bc1acfa5b0#egg=connexion
+connexion==1.2
+#git+https://github.com/elifesciences/connexion.git@995ebab9a5731c664434f0fc8f8fd1bc1acfa5b0#egg=connexion
 flex==6.10.0
