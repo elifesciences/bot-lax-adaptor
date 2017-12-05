@@ -4,9 +4,8 @@ import os
 import requests
 import requests_cache
 
-from src.cache_requests import install_cache_requests
-import src.conf as conf
-import src.utils as utils
+from cache_requests import install_cache_requests
+import conf, utils
 
 LOG = logging.getLogger(__name__)
 

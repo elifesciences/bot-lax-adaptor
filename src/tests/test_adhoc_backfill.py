@@ -1,14 +1,11 @@
 from datetime import datetime
 from os.path import join
 
-import mock
+from unittest import mock
 
-import src.conf as conf
-from src.tests.base import BaseCase
+from src import conf, utils, adhoc_backfill as bfup
+from .base import BaseCase
 from src.utils import partial_match
-import src.utils as utils
-import src.adhoc_backfill as bfup
-
 
 class One(BaseCase):
     def setUp(self):
@@ -33,7 +30,7 @@ class One(BaseCase):
         }
         expected = {'valid': [expected_lax_response], 'errors': [], 'invalid': []}
 
-        with mock.patch('src.adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
+        with mock.patch('adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
             actual = bfup.do_paths(paths)
             self.assertTrue(partial_match(expected, actual))
 
@@ -52,7 +49,7 @@ class One(BaseCase):
         }
         expected = {'valid': [expected_lax_response] * 3, 'errors': [], 'invalid': []}
 
-        with mock.patch('src.adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
+        with mock.patch('adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
             actual = bfup.do_paths(paths)
             self.assertTrue(partial_match(expected, actual))
 
@@ -94,8 +91,8 @@ class One(BaseCase):
             "datetime": utils.ymdhms(datetime.now())
         }
         expected = {'valid': [expected_lax_response], 'errors': [], 'invalid': []}
-        with mock.patch('src.adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
-            with mock.patch('src.adaptor.http_download', autospec=True, return_value=open(self.small_doc, 'r')):
+        with mock.patch('adaptor.call_lax', autospec=True, specset=True, return_value=expected_lax_response):
+            with mock.patch('adaptor.http_download', autospec=True, return_value=open(self.small_doc, 'r')):
                 actual = bfup.do_paths(paths)
                 self.assertTrue(partial_match(expected, actual))
 

@@ -2,15 +2,10 @@ import re
 from os.path import join
 import unittest
 
-from mock import patch
+from unittest.mock import patch
 
-import src.tests.base as base
-import src.adaptor as adapt
-import src.fs_adaptor as fs_adaptor
-import src.conf as conf
-import src.utils as utils
-import src.adaptor as adaptor
-
+from . import base
+from src import adaptor as adapt, adaptor, fs_adaptor, conf, utils
 
 class Logic(base.BaseCase):
     def setUp(self):
@@ -136,9 +131,9 @@ class Main(base.BaseCase):
 
         with patch('src.adaptor.call_lax', lambda *args, **kwargs: self.call_lax_resp):
             # .write is the 'success' method
-            with patch('src.fs_adaptor.OutgoingQueue.write') as mock:
+            with patch('fs_adaptor.OutgoingQueue.write') as mock: # todo: why doesn't this require a 'src' prefix?
                 adapt.main(*argstr.split())
-                mock.assert_called()
+                self.assertTrue(mock.called) # `assert_called` gone missing in 3?
 
 class DoublePubGood(base.BaseCase):
     def test_already_published_response_means_aok(self):

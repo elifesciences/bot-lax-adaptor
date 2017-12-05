@@ -3,10 +3,8 @@ import json
 import logging
 import os
 from os.path import join
-
-import src.utils as utils
-import src.conf as conf
-from src.utils import ensure
+import utils, conf
+from utils import ensure
 
 LOG = logging.getLogger(__name__)
 

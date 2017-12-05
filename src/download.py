@@ -1,7 +1,6 @@
 import io
 import sys
-
-import src.adaptor as adaptor
+import adaptor
 
 if __name__ == '__main__':
     inloc, outloc = sys.argv[1:3]

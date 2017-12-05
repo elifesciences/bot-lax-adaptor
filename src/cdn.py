@@ -3,8 +3,8 @@ import logging
 import requests
 import requests_cache
 
-from src.cache_requests import install_cache_requests
-import src.conf as conf
+from cache_requests import install_cache_requests
+import conf
 
 LOG = logging.getLogger(__name__)
 

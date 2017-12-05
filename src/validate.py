@@ -4,11 +4,8 @@ import os
 import json
 import sys
 import logging
-
 import jsonschema
-
-import src.conf as conf
-import src.utils as utils
+import conf, utils
 
 
 LOG = logging.getLogger(__name__)

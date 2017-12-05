@@ -22,6 +22,14 @@ from rfc3339 import rfc3339
 import logging
 LOG = logging.getLogger(__name__)
 
+lmap = lambda func, *iterable: list(map(func, *iterable))
+
+lfilter = lambda func, *iterable: list(filter(func, *iterable))
+
+#keys = lambda d: list(d.keys())
+
+#lzip = lambda *iterable: list(zip(*iterable))
+
 
 def is_file(obj):
     try:
@@ -57,9 +65,9 @@ def ensure(assertion, msg, *args):
         raise AssertionError(msg % args)
 
 def writable_dir(path):
-    ensure(os.path.exists(path), "path doesn't exist: %s" % path)
+    ensure(os.path.exists(path), "path doesn't exist: %r" % path)
     # directories need to be executable as well to be considered writable
-    ensure(os.access(path, os.W_OK | os.X_OK), "directory isn't writable: %s" % path)
+    ensure(os.access(path, os.W_OK | os.X_OK), "directory isn't writable: %r" % path)
 
 def contains_any(ddict, key_list):
     return any([key in ddict for key in key_list])

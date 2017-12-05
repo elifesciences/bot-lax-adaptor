@@ -1,3 +1,3 @@
 #!/bin/bash
-. install.sh
+#. install.sh
 python src/api.py
