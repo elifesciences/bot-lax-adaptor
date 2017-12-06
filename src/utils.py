@@ -154,7 +154,7 @@ def json_loads(string):
 def run_script(args, user_input=None):
     process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     if user_input:
-        stdout, stderr = process.communicate(user_input)
+        stdout, stderr = process.communicate(user_input.encode('UTF-8'))
     else:
         stdout, stderr = process.communicate()
     return process.returncode, stdout.decode('utf-8')
