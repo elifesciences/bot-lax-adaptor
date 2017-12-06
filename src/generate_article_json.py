@@ -4,11 +4,10 @@ looks in the article-xml directory and converts all/some/random xml to article-j
 """
 import os
 from os.path import join
-import main as scraper
-from StringIO import StringIO
+from io import StringIO
 from joblib import Parallel, delayed
-import conf
-from utils import ensure
+import conf, main as scraper
+from utils import ensure, lfilter, lmap
 
 def render(path, json_output_dir):
     try:
@@ -29,11 +28,12 @@ def render(path, json_output_dir):
         log.info(strbuffer.getvalue())
 
 def main(xml_dir, json_output_dir):
-    paths = map(lambda fname: join(xml_dir, fname), os.listdir(xml_dir))
-    paths = filter(lambda path: path.lower().endswith('.xml'), paths)
+    paths = lmap(lambda fname: join(xml_dir, fname), os.listdir(xml_dir))
+    paths = lfilter(lambda path: path.lower().endswith('.xml'), paths)
     paths = sorted(paths, reverse=True)
-    Parallel(n_jobs=-1)(delayed(render)(path, json_output_dir) for path in paths)
-    print 'see scrape.log for errors'
+    num_processes = 2
+    Parallel(n_jobs=num_processes)(delayed(render)(path, json_output_dir) for path in paths)
+    print('see scrape.log for errors')
 
 if __name__ == '__main__':
     import argparse

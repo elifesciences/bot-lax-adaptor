@@ -3,16 +3,16 @@
 this should be run using the ./validate-json.sh script in the project's root.
 it preps and cleans the environment."""
 
-import os, sys
-from utils import first
+import os
 from os.path import join
-import validate
-from StringIO import StringIO
+from io import StringIO
+import sys
 from joblib import Parallel, delayed
-import conf
-from conf import JSON_DIR
+import conf, validate
+from utils import first, lfilter, lmap
 
 VALIDDIR, INVALIDDIR = 'valid', 'invalid'
+
 
 def job(path):
     strbuffer = StringIO()
@@ -40,18 +40,18 @@ def job(path):
         log.info(strbuffer.getvalue())
 
 def main(args=None):
-    target = first(args) or JSON_DIR
+    target = first(args) or conf.JSON_DIR
 
     if os.path.isdir(target):
-        paths = map(lambda fname: join(target, fname), os.listdir(target))
+        paths = lmap(lambda fname: join(target, fname), os.listdir(target))
         paths = sorted(paths, reverse=True)
     else:
         paths = [os.path.abspath(target)]
 
-    paths = filter(lambda path: path.lower().endswith('.json'), paths)
-    print 'jobs %d' % len(paths)
+    paths = lfilter(lambda path: path.lower().endswith('.json'), paths)
+    print('jobs %d' % len(paths))
     Parallel(n_jobs=-1)(delayed(job)(path) for path in paths)
-    print 'see validate.log for errors'
+    print('see validate.log for errors')
 
 if __name__ == '__main__':
     main(sys.argv[1:])

@@ -1,6 +1,7 @@
 import requests_cache
 import conf
 
+
 def install_cache_requests():
     requests_cache.install_cache(**{
         'allowable_methods': ('GET', 'HEAD'),

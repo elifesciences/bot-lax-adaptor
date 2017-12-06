@@ -1,18 +1,23 @@
-from StringIO import StringIO
-import traceback
-import os, json, uuid
+import json
+import logging
+import os
 from os.path import join
-import conf, utils, adaptor
-from flex.core import validate
-import flex
+from io import StringIO
+
+import traceback
+import uuid
+
 import connexion
+from connexion.resolver import RestyResolver
 import flask
 from flask import request
-import main as scraper, validate as ajson_validate
+import flex
+from flex.core import validate
 import jsonschema
-from connexion.resolver import RestyResolver
 from werkzeug.exceptions import HTTPException
-import logging
+
+import adaptor, conf, utils, main as scraper, validate as ajson_validate
+from utils import lmap, lfilter, first
 
 LOG = logging.getLogger(__name__)
 
@@ -36,11 +41,11 @@ def http_ensure(case, msg, code=400):
 
 def listfiles(path, ext_list=None):
     "returns a pair of (basename_list, absolute_path_list) for given dir, optionally filtered by extension"
-    path_list = map(lambda fname: os.path.abspath(join(path, fname)), os.listdir(path))
+    path_list = lmap(lambda fname: os.path.abspath(join(path, fname)), os.listdir(path))
     if ext_list:
-        path_list = filter(lambda path: os.path.splitext(path)[1] in ext_list, path_list)
+        path_list = lfilter(lambda path: os.path.splitext(path)[1] in ext_list, path_list)
     path_list = sorted(filter(os.path.isfile, path_list))
-    return map(os.path.basename, path_list), path_list
+    return lmap(os.path.basename, path_list)
 
 #
 #
@@ -67,7 +72,7 @@ class BotLaxResolver(RestyResolver):
         # /article-json/validation/{filename} => article_json_validation
         # /article-json/{filename}/validation => article_json_validation
         bits = path.strip('/').split('/') # => ['article-json', 'validation', '{filename}']
-        bits = filter(lambda bit: bit and not bit.startswith('{') and not bit.endswith('}'), bits)
+        bits = lfilter(lambda bit: bit and not bit.startswith('{') and not bit.endswith('}'), bits)
         fnname = '_'.join(bits).replace('-', '_') # ll: article_json_validation
         return '%s.%s_%s' % (module, method, fnname) # ll: api.post_article_json_validation
 
@@ -83,10 +88,10 @@ def xml_files():
 
 def search_xml():
     "GET /xml"
-    return xml_files()[0] # just the basenames
+    return first(xml_files()) or [] # just the basenames
 
 def search_article_json():
-    return article_json_files()[0] # just the basenames
+    return first(article_json_files()) or [] # just the basenames
 
 def get_article_json(filename):
     basenames, full_paths = article_json_files()

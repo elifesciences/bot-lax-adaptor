@@ -1,7 +1,8 @@
-from base import BaseCase
-from mock import patch, call
-import utils
+from .base import BaseCase
+from unittest.mock import patch, call
+from src import utils
 from datetime import datetime
+
 
 class Utils(BaseCase):
     def setUp(self):
@@ -21,12 +22,12 @@ class Utils(BaseCase):
         self.assertRaises(TypeError, utils.json_dumps, struct)
 
     def test_run_script(self):
-        retcode, stdout = utils.run_script(['echo', '-n', 'foobar'])
+        retcode, stdout = utils.run_script(['echo', '-n', 'foobar'.encode()])
         self.assertEqual(retcode, 0)
         self.assertEqual(stdout, 'foobar')
 
     def test_run_script_stdin(self):
-        retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'pants-party')
+        retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'pants-party'.encode())
         self.assertEqual(stdout, 'pants-party')
 
     def test_video_msid(self):

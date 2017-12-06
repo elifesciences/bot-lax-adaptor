@@ -3,7 +3,7 @@
 *~
 *.orig
 *.log
-venv/
+venv*/
 app.cfg
 *.swp
 .coverage

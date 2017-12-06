@@ -1,24 +1,39 @@
-from jsonschema import ValidationError
-import json
 from datetime import datetime
-import os, sys
+from functools import partial, wraps
+import json
+import logging
+import os
 from os.path import join
-from urlparse import urlparse
-import requests
-import signal
-import main as scraper, fs_adaptor, sqs_adaptor
-from functools import partial
-import utils
-from utils import subdict, renkeys, ensure
-
+import sys
+from time import time
 from awsauth import S3Auth
 import botocore.session
-
+from jsonschema import ValidationError
+import requests
+import signal
+from urllib.parse import urlparse
 import conf
-from conf import PROJECT_DIR
-from conf import INVALID, ERROR, VALIDATED, INGESTED, PUBLISHED, INGEST, PUBLISH, INGEST_PUBLISH
+from conf import (
+    INVALID,
+    ERROR,
+    VALIDATED,
+    INGESTED,
+    PUBLISHED,
+    INGEST,
+    PUBLISH,
+    INGEST_PUBLISH,
 
-import logging
+    PROJECT_DIR
+)
+import main as scraper, fs_adaptor, sqs_adaptor, utils
+from utils import (
+    subdict,
+    renkeys,
+    ensure,
+    lfilter
+)
+
+
 LOG = logging.getLogger(__name__)
 
 # output to adaptor.log
@@ -27,8 +42,6 @@ _handler.setLevel(logging.DEBUG)
 _handler.setFormatter(conf._formatter)
 LOG.addHandler(_handler)
 
-from time import time
-from functools import wraps
 
 # http://stackoverflow.com/questions/1622943/timeit-versus-timing-decorator
 def timeit(fn):
@@ -56,7 +69,7 @@ def send_response(outgoing, response):
         # response doesn't validate. this probably means
         # we had an error decoding request and have no id or token
         # because the message will not validate, we will not be sending it back
-        response['validation-error-msg'] = err.message
+        response['validation-error-msg'] = str(err)
         channel = outgoing.error
     channel(utils.json_dumps(response))
     return response
@@ -68,6 +81,7 @@ def find_lax():
     return script
 
 def call_lax(action, id, version, token, article_json=None, force=False, dry_run=False):
+    #raise EnvironmentError("whoooooa. no.")
     cmd = [
         find_lax(), # /srv/lax/manage.sh
         "--skip-install",
@@ -112,7 +126,7 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
     except ValueError as err:
         # could not parse lax response. this is a lax error
         raise RuntimeError("failed to parse response from lax, expecting json, got error %r from stdout %r" %
-                           (err.message, lax_stdout))
+                           (str(err), lax_stdout))
 
 def file_handler(path):
     ensure(path.startswith(PROJECT_DIR),
@@ -128,7 +142,7 @@ def http_download(location):
         # if we can find credentials, attach them
         session = botocore.session.get_session()
         cred = [getattr(session.get_credentials(), attr) for attr in ['access_key', 'secret_key']]
-        if filter(None, cred): # remove any empty values
+        if lfilter(None, cred): # remove any empty values
             cred = S3Auth(*cred, service_url=s3_base)
     resp = requests.get(location, auth=cred)
     if resp.status_code != 200:
@@ -210,11 +224,11 @@ def handler(json_request, outgoing):
 
     except ValidationError as err:
         # data is readable, but it's in an unknown/invalid format. die
-        return response(mkresponse(ERROR, "request was incorrectly formed: %s" % err.message))
+        return response(mkresponse(ERROR, "request was incorrectly formed: %s" % str(err)))
 
     except Exception as err:
         # die
-        msg = "unhandled error attempting to handle request: %s" % err.message
+        msg = "unhandled error attempting to handle request: %s" % str(err)
         return response(mkresponse(ERROR, msg))
 
     # we have a valid request :)
@@ -231,11 +245,11 @@ def handler(json_request, outgoing):
                 raise ValueError("no article content available")
 
         except AssertionError as err:
-            msg = "refusing to download article xml: %s" % err.message
+            msg = "refusing to download article xml: %s" % str(err)
             return response(mkresponse(ERROR, msg, request))
 
         except Exception as err:
-            msg = "failed to download article xml from %r: %s" % (request['location'], err.message)
+            msg = "failed to download article xml from %r: %s" % (request['location'], str(err))
             return response(mkresponse(ERROR, msg, request))
 
         LOG.info("got xml")
@@ -247,7 +261,7 @@ def handler(json_request, outgoing):
             LOG.info("rendered article data ")
 
         except Exception as err:
-            error = err.message if hasattr(err, 'message') else err
+            error = str(err) if hasattr(err, 'message') else err
             msg = "failed to render article-json from article-xml: %s" % error
             LOG.exception(msg, extra=params)
             return response(mkresponse(ERROR, msg, request))
@@ -257,7 +271,7 @@ def handler(json_request, outgoing):
         try:
             article_json = utils.json_dumps(article_data)
         except ValueError as err:
-            msg = "failed to serialize article data to article-json: %s" % err.message
+            msg = "failed to serialize article data to article-json: %s" % str(err)
             return response(mkresponse(ERROR, msg, request))
 
         LOG.info("successfully serialized article-data to article-json")
@@ -277,11 +291,13 @@ def handler(json_request, outgoing):
 
     except Exception as err:
         # lax didn't understand us or broke
-        msg = "lax failed attempting to handle our request: %s" % err.message
+        msg = "lax failed attempting to handle our request: %s" % str(err)
         response(mkresponse(ERROR, msg, request))
         # when lax fails, we fail
         raise
 
+# todo: why is this imported down here?
+# if the reason is 'circular reference', we need to do a better job
 try:
     import newrelic.agent
     handler = newrelic.agent.background_task()(handler)

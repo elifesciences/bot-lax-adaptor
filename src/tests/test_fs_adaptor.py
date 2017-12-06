@@ -1,8 +1,7 @@
 import os
 from os.path import join
 from .base import BaseCase
-import utils
-import adaptor as adapt, conf, fs_adaptor
+from src import utils, conf, fs_adaptor, adaptor as adapt
 from jsonschema import ValidationError
 
 class FS(BaseCase):
@@ -23,7 +22,7 @@ class FS(BaseCase):
     def test_incoming_messages(self):
         "each message generated is a valid request"
         inst = fs_adaptor.IncomingQueue(self.ingest_dir, 'ingest')
-        map(lambda req: utils.validate(req, conf.REQUEST_SCHEMA), list(inst)) # raises ValidationException if invalid
+        list(map(lambda req: utils.validate(req, conf.REQUEST_SCHEMA), list(inst))) # raises ValidationException if invalid
 
     def test_fs_incoming_never_generates_invalid_requests(self):
         "invalid requests never generate a message"

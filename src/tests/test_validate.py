@@ -1,9 +1,15 @@
-from StringIO import StringIO
+from __future__ import absolute_import
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
+
 import json
 from os.path import join
 from .base import BaseCase
-import validate
+from src import validate
 import jsonschema
+
 
 class TestArticleValidate(BaseCase):
     def setUp(self):

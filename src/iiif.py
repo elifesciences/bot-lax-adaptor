@@ -1,9 +1,11 @@
-import requests, requests_cache
-from cache_requests import install_cache_requests
 import logging
-import conf
-import utils
 import os
+
+import requests
+import requests_cache
+
+from cache_requests import install_cache_requests
+import conf, utils
 
 LOG = logging.getLogger(__name__)
 

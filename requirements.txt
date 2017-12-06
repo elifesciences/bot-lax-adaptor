@@ -5,11 +5,11 @@ et3==1.5
 git+https://github.com/elifesciences/elife-tools.git@a55a42e01f8d4f68067b61d58894b9d67a45c53a#egg=elifetools
 Flask==0.12.2
 Flask-Testing==0.6.2
+future==0.16.0
 green==2.9.0
 isbnlib==3.7.2
 joblib==0.11
 jsonschema==2.6.0
-mock==2.0.0
 newrelic==2.88.0.72
 pyflakes==1.5.0
 pylint==1.7.2
@@ -25,6 +25,6 @@ rfc3339==5.2
 strict-rfc3339==0.7
 uWSGI==2.0.15
 
-#connexion==1.1.10
-git+https://github.com/elifesciences/connexion.git@995ebab9a5731c664434f0fc8f8fd1bc1acfa5b0#egg=connexion
+connexion==1.2
+#git+https://github.com/elifesciences/connexion.git@995ebab9a5731c664434f0fc8f8fd1bc1acfa5b0#egg=connexion
 flex==6.10.0

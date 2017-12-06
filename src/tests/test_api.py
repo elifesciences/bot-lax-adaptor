@@ -1,11 +1,15 @@
 import json
+import os
 from os.path import join
-from . import base
-import api, validate, utils, main as scraper, conf
-from mock import patch
-import os, shutil, tempfile
-from flask_testing import TestCase
+import shutil
+import tempfile
 from unittest import skip
+
+from flask_testing import TestCase
+from unittest.mock import patch
+
+from . import base
+from src import api, validate, utils, main as scraper, conf
 
 class One(base.BaseCase):
     def setUp(self):
@@ -51,6 +55,7 @@ class FlaskTestCase(TestCase):
     def tearDown(self):
         shutil.rmtree(self.temp_dir)
 
+
 class Two(FlaskTestCase):
     def test_upload_valid_xml(self):
         "the response we expect when everything happens perfectly"
@@ -87,7 +92,7 @@ class Two(FlaskTestCase):
         self.assertEqual(actual_ajson, expected_ajson)
 
         # ensure ajson validated
-        success, _ = validate.main(open(expected_ajson_path, 'rb'))
+        success, _ = validate.main(open(expected_ajson_path, 'r', encoding='utf-8'))
         self.assertTrue(success)
 
         # ensure ajson is successfully sent to lax
@@ -257,7 +262,8 @@ class Two(FlaskTestCase):
         }
         self.assertTrue(utils.partial_match(expected_resp, resp.json))
         self.assertTrue(resp.json['message'])
-        self.assertTrue(resp.json['trace'].startswith("None is not of type u'string'")) # title is missing
+        # title is missing
+        self.assertTrue(resp.json['trace'].startswith("None is not of type 'string'"), "actual trace: %s" % resp.json['trace'])
 
     def test_upload_with_overrides(self):
         xml_fname = 'elife-16695-v1.xml'
@@ -377,7 +383,7 @@ class Two(FlaskTestCase):
         with patch('adaptor.call_lax', return_value=expected_lax_resp):
             # also, don't call iiif
             no_iiif_info = {}
-            with patch('iiif.iiif_info', return_value=no_iiif_info):
+            with patch('iiif.iiif_info', return_value=no_iiif_info): # another?
                 resp = self.client.post('/xml', **{
                     'buffered': True,
                     'content_type': 'multipart/form-data',
@@ -388,6 +394,6 @@ class Two(FlaskTestCase):
 
         # ensure ajson validated
         expected_ajson_path = join(self.temp_dir, xml_fname) + '.json'
-        success, _ = validate.main(open(expected_ajson_path, 'rb'))
+        success, _ = validate.main(open(expected_ajson_path, 'r', encoding='utf-8'))
         self.assertTrue(success)
         self.assertEqual(resp.status_code, 200)

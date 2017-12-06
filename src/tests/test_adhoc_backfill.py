@@ -1,10 +1,11 @@
 from datetime import datetime
-import conf
 from os.path import join
-from base import BaseCase
-from utils import partial_match
-import utils, adhoc_backfill as bfup
-import mock
+
+from unittest import mock
+
+from src import conf, utils, adhoc_backfill as bfup
+from .base import BaseCase
+from src.utils import partial_match
 
 class One(BaseCase):
     def setUp(self):
@@ -135,7 +136,7 @@ class Two(BaseCase):
 
     def test_bootstrap_read_paths_from_stdin(self):
         "paths can be read from stdin, one per line"
-        with mock.patch('adhoc_backfill.read_from_stdin', return_value=[self.path]):
+        with mock.patch('src.adhoc_backfill.read_from_stdin', return_value=[self.path]):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, self.expected)
 
@@ -143,7 +144,7 @@ class Two(BaseCase):
         "paths can be read from stdin, one per line"
         paths = "\n".join([self.path] * 3)
         expected = self.expected * 3
-        with mock.patch('adhoc_backfill.read_from_stdin', return_value=paths.splitlines()):
+        with mock.patch('src.adhoc_backfill.read_from_stdin', return_value=paths.splitlines()):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, expected)
 
@@ -154,7 +155,7 @@ class Two(BaseCase):
             'id': '16695',
             'location': 'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
         })
-        with mock.patch('adhoc_backfill.read_from_stdin', return_value=[jsonobj]):
+        with mock.patch('src.adhoc_backfill.read_from_stdin', return_value=[jsonobj]):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, self.expected)
 
@@ -166,6 +167,6 @@ class Two(BaseCase):
             'location': u'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
             'id': u'16695'
         })
-        with mock.patch('adhoc_backfill.read_from_stdin', return_value=jsonobj.splitlines()):
+        with mock.patch('src.adhoc_backfill.read_from_stdin', return_value=jsonobj.splitlines()):
             actual = bfup.main(['--dry-run'])
             self.assertEqual(actual, self.expected)
