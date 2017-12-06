@@ -30,6 +30,10 @@ class Utils(BaseCase):
         retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'pants-party'.encode())
         self.assertEqual(stdout, 'pants-party')
 
+    def test_run_script_auto_encodes_utf8_if_required(self):
+        retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'pants-party')
+        self.assertEqual(stdout, 'pants-party')
+
     def test_video_msid(self):
         self.assertEqual(9560, utils.video_msid(9560))
         self.assertEqual('9560', utils.video_msid('9560'))
