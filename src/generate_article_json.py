@@ -27,11 +27,13 @@ def render(path, json_output_dir):
         log = conf.multiprocess_log('generation.log', __name__)
         log.info(strbuffer.getvalue())
 
-def main(xml_dir, json_output_dir):
+def main(xml_dir, json_output_dir, num=None):
     paths = lmap(lambda fname: join(xml_dir, fname), os.listdir(xml_dir))
     paths = lfilter(lambda path: path.lower().endswith('.xml'), paths)
     paths = sorted(paths, reverse=True)
-    num_processes = 2
+    if num:
+        paths = paths[:num] # only scrape first n articles
+    num_processes = -1
     Parallel(n_jobs=num_processes)(delayed(render)(path, json_output_dir) for path in paths)
     print('see scrape.log for errors')
 
@@ -40,6 +42,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('xml-dir', nargs='?', default=conf.XML_DIR)
     parser.add_argument('output-dir', nargs='?', default=conf.JSON_DIR)
+    parser.add_argument('--num', type=int, nargs='?')
 
     args = vars(parser.parse_args())
     indir, outdir = [os.path.abspath(args[key]) for key in ['xml-dir', 'output-dir']]
@@ -47,4 +50,4 @@ if __name__ == '__main__':
     ensure(os.path.exists(indir), "the path %r doesn't exist" % indir)
     ensure(os.path.exists(outdir), "the path %r doesn't exist" % outdir)
 
-    main(indir, outdir)
+    main(indir, outdir, args['num'])
