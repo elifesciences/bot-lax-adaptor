@@ -7,7 +7,7 @@ import os
 import sqlite3
 import subprocess
 import time
-
+from collections import OrderedDict
 import jsonschema
 from jsonschema import validate as validator
 from jsonschema import ValidationError
@@ -140,16 +140,8 @@ def json_dumps(obj, **kwargs):
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
     return json.dumps(obj, default=datetime_handler, **kwargs)
 
-
-'''
 def json_loads(string):
-    def datetime_handler(obj):
-        if not obj.get("-type"):
-            return obj
-        return dateutil.parser.parse
-    return json.loads(string, object_hook=datetime_handler)
-'''
-
+    return json.loads(string, object_pairs_hook=OrderedDict)
 
 def run_script(args, user_input=None):
     process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
