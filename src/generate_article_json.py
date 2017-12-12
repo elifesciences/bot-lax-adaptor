@@ -31,7 +31,7 @@ def main(xml_dir, json_output_dir):
     paths = lmap(lambda fname: join(xml_dir, fname), os.listdir(xml_dir))
     paths = lfilter(lambda path: path.lower().endswith('.xml'), paths)
     paths = sorted(paths, reverse=True)
-    num_processes = 2
+    num_processes = -1
     Parallel(n_jobs=num_processes)(delayed(render)(path, json_output_dir) for path in paths)
     print('see scrape.log for errors')
 
