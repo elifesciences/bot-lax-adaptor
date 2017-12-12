@@ -83,7 +83,6 @@ def rmkeys(ddict, key_list, pred):
             del data[key]
     return data
 
-
 def renkeys(data, pair_list):
     "returns a copy of the given data with the list of oldkey->newkey pairs changes made"
     data = copy.deepcopy(data)
@@ -93,9 +92,11 @@ def renkeys(data, pair_list):
             del data[key]
     return data
 
-
 def subdict(data, lst):
-    return {k: v for k, v in data.items() if k in lst}
+    keyvals = [(k, v) for k, v in data.items() if k in lst]
+    fn = OrderedDict if isinstance(data, OrderedDict) else dict
+    return fn(keyvals)
+
 
 def first(x):
     try:
@@ -280,3 +281,13 @@ def ymdhms(dt):
     if dt:
         dt = todt(dt) # convert to utc, etc
         return rfc3339(dt, utc=True)
+
+def sortdict(d):
+    "imposes alphabetical ordering on a dictionary. returns an OrderedDict"
+    if isinstance(d, list):
+        return lmap(sortdict, d)
+    elif not isinstance(d, dict):
+        return d
+    keyvals = sorted(d.items(), key=lambda pair: pair[0])
+    keyvals = lmap(lambda pair: (pair[0], sortdict(pair[1])), keyvals)
+    return OrderedDict(keyvals)

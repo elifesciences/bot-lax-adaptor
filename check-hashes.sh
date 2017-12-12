@@ -21,12 +21,12 @@ sumfile="sums.md5"
 rm -rf article-json/ article-json-1/ article-json-2
 mkdir -p article-json
 
-python src/generate_article_json.py --num 15
+python src/generate_article_json.py --num 100
 md5sum article-json/*.json > article-json/$sumfile
 
 cp -R article-json article-json-1
 
-python src/generate_article_json.py --num 15
+python src/generate_article_json.py --num 100
 md5sum --check article-json/$sumfile || true
 
 mv article-json article-json-2

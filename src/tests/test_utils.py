@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from .base import BaseCase
 from unittest.mock import patch, call
 from src import utils
@@ -89,3 +90,18 @@ class Utils(BaseCase):
         func = utils.call_n_times(fn, [ValueError], num_attempts=10, initial_waiting_time=1)
         self.assertEqual(func(), 'result')
         self.assertEqual(mock_sleep.mock_calls, [call(1), call(2), call(4)])
+
+    def test_sortdict(self):
+        cases = [
+            ({'z': 1, 'g': 1, 'a': 1}, OrderedDict([('a', 1), ('g', 1), ('z', 1)])),
+
+            # nested items are ordered as well
+            ({'z': 1, 'a': {'z': 1, 'g': 1, 'a': 1}}, OrderedDict([('a', OrderedDict([('a', 1), ('g', 1), ('z', 1)])), ('z', 1)])),
+
+            # nested lists of dicts are ordered as well
+            ({'a': [{'z': 1, 'g': 1, 'a': 1}]}, OrderedDict([('a', [OrderedDict([('a', 1), ('g', 1), ('z', 1)])])]))
+        ]
+        for given, expected in cases:
+            self.assertEqual(utils.json_dumps(expected), utils.json_dumps(utils.sortdict(given)))
+            #print(utils.sortdict(given))
+            #utils.ensure(expected == utils.sortdict(given), "%s != %s" % (expected, utils.sortdict(given)))

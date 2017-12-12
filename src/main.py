@@ -63,7 +63,7 @@ def jats(funcname, *args, **kwargs):
 
     @wraps(actual_func)
     def fn(soup):
-        return actual_func(soup, *args, **kwargs)
+        return utils.sortdict(actual_func(soup, *args, **kwargs))
     return fn
 
 #
