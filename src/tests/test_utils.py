@@ -103,5 +103,5 @@ class Utils(BaseCase):
         ]
         for given, expected in cases:
             self.assertEqual(utils.json_dumps(expected), utils.json_dumps(utils.sortdict(given)))
-            #print(utils.sortdict(given))
+            # print(utils.sortdict(given))
             #utils.ensure(expected == utils.sortdict(given), "%s != %s" % (expected, utils.sortdict(given)))
