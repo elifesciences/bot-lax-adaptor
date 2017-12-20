@@ -22,10 +22,21 @@ elife-15893-v1.xml
 "
 
 mkdir -p guinea-pigs
-rm -f guinea-pigs/* guinea-pigs.log
+rm -f guinea-pigs/* guinea-pigs.log sums.md5
 for article in $guinea_pigs; do
     echo "Guinea pig ${article}"
-    ./scrape-article.sh article-xml/articles/$article >> guinea-pigs/$article.json
+    ./scrape-article.sh article-xml/articles/$article > guinea-pigs/$article.json
     ./validate-json.sh guinea-pigs/$article.json >> guinea-pigs.log
 done
 
+md5sum guinea-pigs/*.json > sums.md5
+
+for article in $guinea_pigs; do
+    echo "Guinea pig (scrape two) ${article}"
+    ./scrape-article.sh article-xml/articles/$article > guinea-pigs/$article.json
+done
+
+echo "hash check ..."
+md5sum --check sums.md5 | tee --append guinea-pigs.log
+
+echo "done!"
