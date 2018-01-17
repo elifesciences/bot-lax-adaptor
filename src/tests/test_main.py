@@ -334,7 +334,7 @@ class KitchenSink(base.BaseCase):
                 'id': 'fig1',
                 'image': {
                     'alt': '',
-                    'attribution': ['For the purpose having a example of how to tag a separate license for an item, we have indicated in the XML and display this is a\n                                        copyrighted figure; however it is not.'],
+                    'attribution': ['\u00a9 2016 eLife. All rights reserved. For the purpose having a example of how to tag a separate license for an item, we have indicated in the XML and display this is a\n                                        copyrighted figure; however it is not.'],
                     'size': {
                         'height': None,
                         'width': None,
