@@ -23,4 +23,4 @@ echo "successfully scraped and validated"
 
 lax="/srv/lax/"
 action="ingest"
-time "$lax/manage.sh" ingest "--$action" --force --dir "$tmpdir"
+time "$lax/manage.sh" ingest "--$action" --force --serial --dir "$tmpdir"
