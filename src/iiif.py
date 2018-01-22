@@ -1,9 +1,7 @@
 import logging
 import os
-
 import requests
 import requests_cache
-
 from cache_requests import install_cache_requests
 import conf, utils
 
@@ -39,12 +37,10 @@ def iiif_info_url(msid, filename):
     return utils.pad_filename(msid, raw_link)
 
 def basic_info(msid, filename):
-    info_data = iiif_info(msid, filename)
-    width = iiif_width(info_data)
-    height = iiif_height(info_data)
     if 'FORCED_IIIF' in os.environ and int(os.environ['FORCED_IIIF']):
         return 1, 1
-    return width, height
+    info_data = iiif_info(msid, filename)
+    return info_data.get("width"), info_data.get("height")
 
 def iiif_info(msid, filename):
     context = {
@@ -70,18 +66,12 @@ def iiif_info(msid, filename):
         raise ValueError(msg + ": %s" % resp.status_code)
 
     try:
-        info_data = resp.json()
+        info_data = utils.sortdict(resp.json())
         return info_data
     except BaseException:
         # clear cache, we don't want bad data hanging around
         clear_cache(msid, filename)
         raise
-
-def iiif_width(info_data):
-    return info_data.get("width")
-
-def iiif_height(info_data):
-    return info_data.get("height")
 
 def clear_cache(msid, filename):
     requests_cache.core.get_cache().delete_url(iiif_info_url(msid, filename))

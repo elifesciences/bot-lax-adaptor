@@ -1,10 +1,9 @@
 import logging
-
 import requests_cache
-
 from cache_requests import install_cache_requests
 import conf, utils
-from utils import ensure, lmap, lfilter
+from utils import ensure, lmap, lfilter, sortdict
+from collections import OrderedDict
 
 LOG = logging.getLogger(__name__)
 
@@ -36,11 +35,11 @@ glencoe_resp = {
 '''
 
 
-SOURCES = {
-    'mp4': 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
-    'webm': 'video/webm; codecs="vp8.0, vorbis"',
-    'ogv': 'video/ogg; codecs="theora, vorbis"',
-}
+SOURCES = OrderedDict([
+    ('mp4', 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'),
+    ('webm', 'video/webm; codecs="vp8.0, vorbis"'),
+    ('ogv', 'video/ogg; codecs="theora, vorbis"'),
+])
 
 def glencoe_url(msid):
     doi = "10.7554/eLife." + utils.pad_msid(msid)
@@ -60,7 +59,7 @@ def validate_gc_data(gc_data):
         # fail if we have partial data
         msg = "number of available sources less than known sources for %r. missing: %s" % \
             (v_id, ", ".join(set(known_sources) - set(available_sources)))
-        assert len(available_sources) == len(known_sources), msg
+        ensure(len(available_sources) == len(known_sources), msg)
 
 def clear_cache(msid):
     requests_cache.core.get_cache().delete_url(glencoe_url(msid))
@@ -78,7 +77,7 @@ def metadata(msid):
         raise ValueError(msg + ": %s" % resp.status_code)
 
     try:
-        gc_data = resp.json()
+        gc_data = sortdict(resp.json())
         validate_gc_data(gc_data)
         return gc_data
     except AssertionError:
@@ -97,17 +96,17 @@ def expand_videos(msid, video):
     video_data = utils.subdict(video_data, ['jpg_href', 'width', 'height'])
     video_data = utils.renkeys(video_data, [('jpg_href', 'image')])
 
-    func = lambda mtype: {
-        'mediaType': SOURCES[mtype],
-        'uri': gc_data[v_id][mtype + "_href"]
-    }
+    func = lambda mtype: OrderedDict([
+        ('mediaType', SOURCES[mtype]),
+        ('uri', gc_data[v_id][mtype + "_href"])
+    ])
     video_data['sources'] = lmap(func, SOURCES)
     video.update(video_data)
 
     del video['uri'] # returned by elife-tools, not part of spec
 
     # Add placeholder, the video thumbnail image
-    video["placeholder"] = {}
+    video["placeholder"] = OrderedDict()
     video["placeholder"]["uri"] = video["image"].split('/')[-1]
     video["placeholder"]["alt"] = ""
 

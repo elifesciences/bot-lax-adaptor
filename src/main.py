@@ -63,7 +63,7 @@ def jats(funcname, *args, **kwargs):
 
     @wraps(actual_func)
     def fn(soup):
-        return actual_func(soup, *args, **kwargs)
+        return utils.sortdict(actual_func(soup, *args, **kwargs))
     return fn
 
 #
@@ -124,13 +124,13 @@ def mixed_citation_to_related_articles(mixed_citation_list):
     #      'journal': {'volume': u'487', 'lpage': u'504', 'name': u'Nature', 'fpage': u'500'}}]
 
     def et(struct):
-        return {
-            'type': 'external-article',
-            'articleTitle': p(struct, 'article.title'),
-            'journal': p(struct, 'journal.name'),
-            'authorLine': p(struct, 'article.authorLine'),
-            'uri': 'https://doi.org/%s' % p(struct, 'article.doi'),
-        }
+        return OrderedDict([
+            ('type', 'external-article'),
+            ('articleTitle', p(struct, 'article.title')),
+            ('journal', p(struct, 'journal.name')),
+            ('authorLine', p(struct, 'article.authorLine')),
+            ('uri', 'https://doi.org/%s' % p(struct, 'article.doi')),
+        ])
     return lmap(et, mixed_citation_list)
 
 def cdnlink(msid, filename):
@@ -273,7 +273,7 @@ def visit(data, pred, fn, coll=None):
             results[key] = visit(val, pred, fn, coll)
         return results
     elif isinstance(data, dict):
-        return {key: visit(val, pred, fn, coll) for key, val in data.items()}
+        return OrderedDict([(key, visit(val, pred, fn, coll)) for key, val in data.items()])
     elif isinstance(data, list):
         return [visit(row, pred, fn, coll) for row in data]
     # unsupported type/no further matches
@@ -324,7 +324,7 @@ def expand_iiif_uri(msid, element, element_type):
     element[element_type]["uri"] = iiiflink(msid, element[element_type]["uri"].split('/')[-1])
 
     (width, height) = iiif.basic_info(msid, element[element_type]["uri"].split('/')[-1])
-    element[element_type]["size"] = {"width": width, "height": height}
+    element[element_type]["size"] = OrderedDict([("width", width), ("height", height)])
     element[element_type]["source"] = iiifsource(msid, element[element_type]["uri"].split('/')[-1])
 
     return element
@@ -678,8 +678,7 @@ def deserialize_overrides(override_list):
         ensure(rest.strip(), "a value must be provided. use 'null' without quotes to use an empty value")
         return first, rest
     pairs = lmap(splitter, override_list)
-    return {key: json.loads(val) for key, val in pairs}
-
+    return OrderedDict([(key, utils.json_loads(val)) for key, val in pairs])
 
 def main(doc, args=None):
     args = args or {}

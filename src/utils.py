@@ -7,7 +7,7 @@ import os
 import sqlite3
 import subprocess
 import time
-
+from collections import OrderedDict
 import jsonschema
 from jsonschema import validate as validator
 from jsonschema import ValidationError
@@ -83,7 +83,6 @@ def rmkeys(ddict, key_list, pred):
             del data[key]
     return data
 
-
 def renkeys(data, pair_list):
     "returns a copy of the given data with the list of oldkey->newkey pairs changes made"
     data = copy.deepcopy(data)
@@ -93,9 +92,11 @@ def renkeys(data, pair_list):
             del data[key]
     return data
 
-
 def subdict(data, lst):
-    return {k: v for k, v in data.items() if k in lst}
+    keyvals = [(k, v) for k, v in data.items() if k in lst]
+    fn = OrderedDict if isinstance(data, OrderedDict) else dict
+    return fn(keyvals)
+
 
 def first(x):
     try:
@@ -140,16 +141,8 @@ def json_dumps(obj, **kwargs):
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
     return json.dumps(obj, default=datetime_handler, **kwargs)
 
-
-'''
 def json_loads(string):
-    def datetime_handler(obj):
-        if not obj.get("-type"):
-            return obj
-        return dateutil.parser.parse
-    return json.loads(string, object_hook=datetime_handler)
-'''
-
+    return json.loads(string, object_pairs_hook=OrderedDict)
 
 def run_script(args, user_input=None):
     process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -288,3 +281,13 @@ def ymdhms(dt):
     if dt:
         dt = todt(dt) # convert to utc, etc
         return rfc3339(dt, utc=True)
+
+def sortdict(d):
+    "imposes alphabetical ordering on a dictionary. returns an OrderedDict"
+    if isinstance(d, list):
+        return lmap(sortdict, d)
+    elif not isinstance(d, dict):
+        return d
+    keyvals = sorted(d.items(), key=lambda pair: pair[0])
+    keyvals = lmap(lambda pair: (pair[0], sortdict(pair[1])), keyvals)
+    return OrderedDict(keyvals)
