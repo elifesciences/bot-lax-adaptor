@@ -7,6 +7,17 @@ if [ "$#" != 3 ]; then
     exit 1
 fi
 
+# we ingest from the latest on the master branch
+prjdir=$(pwd) # bot-lax project, where this script lives
+xmlrepodir="$prjdir/article-xml/articles"
+(
+    . download-elife-xml.sh
+    cd $xmlrepodir
+    git reset --hard
+    git checkout master
+    git pull
+)
+
 msid="$1"
 version="$2"
 location="$3"
