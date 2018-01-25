@@ -85,9 +85,9 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
     cmd = [
         find_lax(), # /srv/lax/manage.sh
         "--skip-install",
-        "--serial",
         "ingest",
         "--" + action, # ll: --ingest+publish
+        "--serial",
         "--id", str(id),
         "--version", str(version),
     ]
