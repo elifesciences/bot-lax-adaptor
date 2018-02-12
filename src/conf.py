@@ -6,9 +6,12 @@ import os, sys
 from os.path import join
 import yaml
 
-from pythonjsonlogger import jsonlogger
+import log
+log.setup_root_logger()
 
 import utils
+
+_formatter = log.json_formatter()
 
 os.umask(int('002', 8))
 SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
@@ -39,61 +42,6 @@ ENV = cfg('general.env')
 DEV, VAGRANT, CONTINUUMTEST, END2END, PROD = 'dev', 'vagrant', 'continuumtest', 'end2end', 'prod'
 if ENV == DEV and os.path.exists('/vagrant'):
     ENV = VAGRANT
-
-#
-#
-#
-
-ROOTLOG = logging.getLogger("")
-
-_supported_keys = [
-    'asctime',
-    #'created',
-    'filename',
-    'funcName',
-    'levelname',
-    #'levelno',
-    'lineno',
-    'module',
-    #'msecs',
-    'message',
-    'name',
-    'pathname',
-    #'process',
-    #'processName',
-    #'relativeCreated',
-    #'thread',
-    #'threadName'
-]
-# optional json logging if you need it
-_log_format = ['%({0:s})'.format(i) for i in _supported_keys]
-_log_format = ' '.join(_log_format)
-_formatter = jsonlogger.JsonFormatter(_log_format)
-
-# output to stderr
-_handler = logging.StreamHandler()
-_handler.setLevel(logging.INFO)
-
-class FormatterWithEncodedExtras(logging.Formatter):
-    def format(self, record):
-        # exclude all known keys in Record
-        # bundle the remainder into an 'extra' field,
-        # bypassing attempt to make Record read-only
-        _known_keys = [
-            'asctime', 'created', 'filename', 'funcName', 'levelname', 'levelno', 'lineno',
-            'module', 'msecs', 'message', 'name', 'pathname', 'process', 'processName',
-            'relativeCreated', 'thread', 'threadName',
-            # non-formatting fields present in __dict__
-            'exc_text', 'exc_info', 'msg', 'args',
-        ]
-        unknown_fields = {key: val for key, val in record.__dict__.items() if key not in _known_keys}
-        record.__dict__['extra'] = utils.json_dumps(unknown_fields)
-        return super(FormatterWithEncodedExtras, self).format(record)
-
-_handler.setFormatter(FormatterWithEncodedExtras('%(levelname)s - %(asctime)s - %(message)s -- %(extra)s'))
-
-ROOTLOG.addHandler(_handler)
-ROOTLOG.setLevel(logging.DEBUG)
 
 def multiprocess_log(filename, name=__name__):
     """Creates a shared log for name and the current process, writing to filename
