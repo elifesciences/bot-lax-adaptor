@@ -1,6 +1,4 @@
 import copy
-from datetime import datetime
-from dateutil import parser
 import io
 import json
 import os
@@ -12,10 +10,9 @@ import jsonschema
 from jsonschema import validate as validator
 from jsonschema import ValidationError
 from past.builtins import basestring
-import pytz
 import requests
 import requests_cache
-from rfc3339 import rfc3339
+import dateutils
 
 # import conf # don't do this, conf.py depends on utils.py
 
@@ -133,18 +130,15 @@ def validate(struct, schema):
         raise
 
 def json_dumps(obj, **kwargs):
-    "drop-in for json.dumps that handles datetime objects."
-    def datetime_handler(obj):
-        if hasattr(obj, 'isoformat'):
-            return ymdhms(obj)
-        else:
-            raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
-    return json.dumps(obj, default=datetime_handler, **kwargs)
+    return dateutils.json_dumps(obj, **kwargs)
 
 def json_loads(string):
     return json.loads(string, object_pairs_hook=OrderedDict)
 
 def run_script(args, user_input=None):
+    # doesn't log because LOG is created before conf.py is evaluated
+    # extract src/logger.py
+    LOG.info("run_script: %s", args)
     process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     if user_input:
         try:
@@ -256,31 +250,10 @@ def requests_get(*args, **kwargs):
     return resp
 
 def todt(val):
-    "turn almost any formatted datetime string into a UTC datetime object"
-    if val is None:
-        return None
-    dt = val
-    if not isinstance(dt, datetime):
-        dt = parser.parse(val, fuzzy=False)
-    dt.replace(microsecond=0) # not useful, never been useful, will never be useful.
-
-    if not dt.tzinfo:
-        # no timezone (naive), assume UTC and make it explicit
-        LOG.debug("encountered naive timestamp %r from %r. UTC assumed.", dt, val)
-        return pytz.utc.localize(dt)
-
-    else:
-        # ensure tz is UTC
-        if dt.tzinfo != pytz.utc:
-            LOG.debug("converting an aware dt that isn't in utc TO utc: %r", dt)
-            return dt.astimezone(pytz.utc)
-    return dt
+    return dateutils.todt(val)
 
 def ymdhms(dt):
-    "returns an rfc3339 representation of a datetime object"
-    if dt:
-        dt = todt(dt) # convert to utc, etc
-        return rfc3339(dt, utc=True)
+    return dateutils.ymdhms(dt)
 
 def sortdict(d):
     "imposes alphabetical ordering on a dictionary. returns an OrderedDict"
