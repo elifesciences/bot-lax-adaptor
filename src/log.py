@@ -6,8 +6,8 @@ def setup_root_logger():
     root_logger = logging.getLogger("")
 
     # output to stderr
-    _handler = logging.StreamHandler()
-    _handler.setLevel(logging.INFO)
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.INFO)
 
     class FormatterWithEncodedExtras(logging.Formatter):
         def format(self, record):
@@ -25,13 +25,13 @@ def setup_root_logger():
             record.__dict__['extra'] = dateutils.json_dumps(unknown_fields)
             return super(FormatterWithEncodedExtras, self).format(record)
 
-    _handler.setFormatter(FormatterWithEncodedExtras('%(levelname)s - %(asctime)s - %(message)s -- %(extra)s'))
+    handler.setFormatter(FormatterWithEncodedExtras('%(levelname)s - %(asctime)s - %(message)s -- %(extra)s'))
 
-    root_logger.addHandler(_handler)
+    root_logger.addHandler(handler)
     root_logger.setLevel(logging.DEBUG)
 
 def json_formatter():
-    _supported_keys = [
+    supported_keys = [
         'asctime',
         #'created',
         'filename',
@@ -52,6 +52,6 @@ def json_formatter():
     ]
 
     # optional json logging if you need it
-    _log_format = ['%({0:s})'.format(i) for i in _supported_keys]
-    _log_format = ' '.join(_log_format)
-    return jsonlogger.JsonFormatter(_log_format)
+    log_format = ['%({0:s})'.format(i) for i in supported_keys]
+    log_format = ' '.join(log_format)
+    return jsonlogger.JsonFormatter(log_format)
