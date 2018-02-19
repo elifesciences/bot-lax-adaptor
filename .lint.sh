@@ -14,7 +14,11 @@ echo "pyflakes"
 pyflakes ./src/
 
 echo "pylint"
-pylint -E src/* --disable=unbalanced-tuple-unpacking 2> /dev/null
+pylint -E src/*  2> /dev/null
+# specific warnings we're interested in, comma separated with no spaces
+# presence of these warnings are a failure
+pylint ./src/* --disable=all --reports=n --score=n \
+    --enable=redefined-builtin
 
 echo "scrubbing"
 . .scrub.sh 2> /dev/null

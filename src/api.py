@@ -187,7 +187,7 @@ def post_xml():
             'force': True,
 
             # article details
-            'id': msid,
+            'msid': msid,
             'version': int(version),
             'article_json': article_json,
 

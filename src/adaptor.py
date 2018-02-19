@@ -80,7 +80,7 @@ def find_lax():
     ensure(os.path.exists(script), "could not find lax's manage.sh script")
     return script
 
-def call_lax(action, id, version, token, article_json=None, force=False, dry_run=False):
+def call_lax(action, msid, version, token, article_json=None, force=False, dry_run=False):
     #raise EnvironmentError("whoooooa. no.")
     cmd = [
         find_lax(), # /srv/lax/manage.sh
@@ -88,7 +88,7 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
         "ingest",
         "--" + action, # ll: --ingest+publish
         "--serial",
-        "--id", str(id),
+        "--id", str(msid),
         "--version", str(version),
     ]
     if dry_run:
@@ -101,7 +101,7 @@ def call_lax(action, id, version, token, article_json=None, force=False, dry_run
         lax_resp = json.loads(lax_stdout)
 
         bot_lax_resp = {
-            "id": id,
+            "id": msid,
             "status": None,
             # not present in success responses
             # added in error responses
