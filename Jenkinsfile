@@ -34,6 +34,7 @@ elifeLibrary({
 
     elifeMainlineOnly {    
         stage 'Master', {
+            elifeGithubCommitStatus elifeGitRevision(), 'success', 'continuous-integration/jenkins/pr-head', 'Alfred automated merge to master'
             elifeGitMoveToBranch elifeGitRevision(), 'master'
         }
 
