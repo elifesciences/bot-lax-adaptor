@@ -236,7 +236,7 @@ def handler(json_request, outgoing):
     LOG.info("valid request")
 
     params = subdict(request, ['action', 'id', 'token', 'version', 'force', 'validate-only'])
-    params = renkeys(params, [('validate-only', 'dry_run')])
+    params = renkeys(params, [('validate-only', 'dry_run'), ('id', 'msid')])
 
     # if we're to ingest/publish, then we expect a location to download article data
     if params['action'] in [INGEST, INGEST_PUBLISH]:
