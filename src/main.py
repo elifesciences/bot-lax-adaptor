@@ -185,7 +185,7 @@ def category_codes(cat_list):
     subjects = []
     for cat in cat_list:
         subject = OrderedDict()
-        subject['id'] = slugify(cat, stopwords=['and'])
+        subject['id'] = slugify(cat, stopwords=['and', 'of'])
         subject['name'] = cat
         subjects.append(subject)
     return subjects
