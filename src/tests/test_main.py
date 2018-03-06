@@ -201,6 +201,11 @@ class ArticleScrape(base.BaseCase):
         expected = main.EXCLUDE_ME
         self.assertEqual(expected, main.pdf_uri(given))
 
+    def test_pdf_uri_retraction(self):
+        given = (['Retraction'], 1234, 1)
+        expected = main.EXCLUDE_ME
+        self.assertEqual(expected, main.pdf_uri(given))
+
     def test_pdf_uri_bad(self):
         cases = [
             ("asdf", "asdf", "asdf"),
