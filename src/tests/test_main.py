@@ -196,6 +196,11 @@ class ArticleScrape(base.BaseCase):
         expected = 'https://cdn.elifesciences.org/articles/01234/elife-01234-v1.pdf'
         self.assertEqual(expected, main.pdf_uri(given))
 
+    def test_xml_uri(self):
+        given = (['research-article'], 1234, 1)
+        expected = 'https://cdn.elifesciences.org/articles/01234/elife-01234-v1.xml'
+        self.assertEqual(expected, main.xml_uri(given))
+
     def test_pdf_uri_correction(self):
         given = (['Correction'], 1234, 1)
         expected = main.EXCLUDE_ME
