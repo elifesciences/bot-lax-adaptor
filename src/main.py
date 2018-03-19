@@ -172,8 +172,6 @@ def pdf_uri(triple):
 def xml_uri(triple):
     """predict an article's xml url."""
     content_type, msid, version = triple
-    if content_type and any(lmap(lambda type: type in ['Correction', 'Retraction'], content_type)):
-        return EXCLUDE_ME
     filename = "elife-%s-v%s.xml" % (utils.pad_msid(msid), version) # ll: elife-09560-v1.xml
     return cdnlink(msid, filename)
 
