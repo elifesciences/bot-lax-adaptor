@@ -595,7 +595,8 @@
         "versionDate": "2017-09-19T00:00:00Z", 
         "volume": 6, 
         "elocationId": "e24271", 
-        "pdf": "https://cdn.elifesciences.org/articles/24271/elife-24271-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/24271/elife-24271-v1.pdf",
+        "xml": "https://cdn.elifesciences.org/articles/24271/elife-24271-v1.xml",
         "figuresPdf": "https://cdn.elifesciences.org/articles/24271/elife-24271-figures-v1.pdf", 
         "subjects": [
             {
