@@ -24,7 +24,8 @@
         "volume": 6, 
         "elocationId": "e24271", 
         "pdf": "https://cdn.elifesciences.org/articles/24271/elife-24271-v1.pdf", 
-        "figuresPdf": "https://cdn.elifesciences.org/articles/24271/elife-24271-figures-v1.pdf", 
+        "xml": "https://cdn.elifesciences.org/articles/24271/elife-24271-v1.xml",
+        "figuresPdf": "https://cdn.elifesciences.org/articles/24271/elife-24271-figures-v1.pdf",
         "subjects": [
             {
                 "id": "cell-biology", 
