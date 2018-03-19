@@ -197,7 +197,7 @@ class ArticleScrape(base.BaseCase):
         self.assertEqual(expected, main.pdf_uri(given))
 
     def test_xml_uri(self):
-        given = (['research-article'], 1234, 1)
+        given = (1234, 1)
         expected = 'https://cdn.elifesciences.org/articles/01234/elife-01234-v1.xml'
         self.assertEqual(expected, main.xml_uri(given))
 
