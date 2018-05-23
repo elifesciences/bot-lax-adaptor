@@ -197,7 +197,8 @@ def category_codes(cat_list):
     return subjects
 
 def handle_isbn(val):
-    return mask(to_isbn13(str(val)))
+    if val:
+        return mask(to_isbn13(str(val)))
 
 def to_volume(pair):
     pub_date, volume = pair
