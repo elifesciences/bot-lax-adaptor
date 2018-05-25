@@ -281,6 +281,8 @@ class ArticleScrape(base.BaseCase):
 
     def test_isbn(self):
         cases = [
+            (None, None),
+
             # 10 digits => formatted 13 digits
             ("0198526636", "978-0-19-852663-6"),
             ("0-19-852663-6", "978-0-19-852663-6"),
