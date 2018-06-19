@@ -5,7 +5,7 @@ import requests_cache
 from cache_requests import install_cache_requests
 import conf, utils
 
-LOG = logging.getLogger(__name__)
+LOG = conf.multiprocess_log('iiif.log', __name__)
 
 if conf.REQUESTS_CACHING:
     install_cache_requests()
@@ -49,6 +49,7 @@ def iiif_info(msid, filename):
         'iiif_info_url': iiif_info_url(msid, filename)
     }
     try:
+        LOG.warn(iiif_info_url(msid, filename))
         resp = utils.requests_get(iiif_info_url(msid, filename))
     except requests.ConnectionError:
         LOG.debug("IIIF request failed", extra=context)
