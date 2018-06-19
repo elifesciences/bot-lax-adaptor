@@ -1,4 +1,3 @@
-import logging
 import os
 import requests
 import requests_cache
@@ -49,8 +48,9 @@ def iiif_info(msid, filename):
         'iiif_info_url': iiif_info_url(msid, filename)
     }
     try:
-        LOG.warn(iiif_info_url(msid, filename))
-        resp = utils.requests_get(iiif_info_url(msid, filename))
+        url = iiif_info_url(msid, filename)
+        LOG.info("Loading IIIF info URL: %s", url)
+        resp = utils.requests_get(url)
     except requests.ConnectionError:
         LOG.debug("IIIF request failed", extra=context)
         return {}
