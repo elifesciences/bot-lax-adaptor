@@ -57,6 +57,10 @@ class OutgoingQueue(object):
 
     def write(self, string):
         "called when given a validated response"
+        # totally naive. unicode check probably needed
+        if len(string) >= 256000:
+            LOG.error("message to be sent is very large and will be truncated to 256KB")
+        string = string[:256000]
         self.queue.send_message(MessageBody=string)
 
     def error(self, string):
