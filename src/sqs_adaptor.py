@@ -24,8 +24,11 @@ def poll(queue_obj):
                 WaitTimeSeconds=20 # maximum setting for long polling
             )
         message = messages[0]
-        yield message.body
-        message.delete()
+        try:
+            yield message.body
+        finally:
+            # message is always deleted, even if this leads to no response to sent messages
+            message.delete()
 
 class IncomingQueue(object):
     def __init__(self, queue_name, flag=None):
@@ -57,10 +60,6 @@ class OutgoingQueue(object):
 
     def write(self, string):
         "called when given a validated response"
-        # totally naive. unicode check probably needed
-        if len(string) >= 256000:
-            LOG.error("message to be sent is very large and will be truncated to 256KB")
-        string = string[:256000]
         self.queue.send_message(MessageBody=string)
 
     def error(self, string):
