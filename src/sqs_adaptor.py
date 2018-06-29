@@ -51,8 +51,10 @@ class IncomingQueue(object):
 
             LOG.debug("processing message")
             message = messages[0]
-            yield message.body
-            message.delete()
+            try:
+                yield message.body
+            finally:
+                message.delete()
 
 class OutgoingQueue(object):
     def __init__(self, queue_name):

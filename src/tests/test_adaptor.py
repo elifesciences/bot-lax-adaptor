@@ -75,7 +75,6 @@ class Logic(base.BaseCase):
         titles_of_appendices = re.findall('<title>Appendix[^<]*</title>', xml_text)
         self.assertIn(u'<title>Appendix\xa01</title>', titles_of_appendices)
 
-
 class Main(base.BaseCase):
     def setUp(self):
         self.ingest_dir = join(self.fixtures_dir, 'dir-ingest-small', 'v1')
