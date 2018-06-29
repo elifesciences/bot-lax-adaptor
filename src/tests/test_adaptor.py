@@ -1,9 +1,8 @@
 import re
 from os.path import join
 import unittest
-
 from unittest.mock import patch
-
+from jsonschema import ValidationError
 from . import base
 from src import adaptor as adapt, adaptor, fs_adaptor, conf, utils
 
@@ -87,10 +86,10 @@ class Main(base.BaseCase):
             'id': 'b',
         }
 
-        # we're not testing the scraping here, we're testing the response from lax
-        # by calling adaptor.main directly we're obliged to pass a directory by we
+        # we're not testing the scraping here, we're testing the response from lax.
+        # by calling adaptor.main directly we're obliged to pass a directory but we
         # don't need to do any scraping.
-        # the ingest_dir contains just one article and this patch return the ajson
+        # the ingest_dir contains just one article and this patch returns the ajson
         fixture = base.load_ajson(join(self.ingest_dir, 'elife-09560-v1.xml.json'))
 
         self.patchers = [
@@ -134,7 +133,7 @@ class Main(base.BaseCase):
                 adapt.main(*argstr.split())
                 self.assertTrue(mock.called) # `assert_called` gone missing in 3?
 
-class DoublePubGood(base.BaseCase):
+class AdaptorResponse(base.BaseCase):
     def test_already_published_response_means_aok(self):
         "bot-lax coerces already-published error responses to successful 'published' responses"
         lax_resp = {
@@ -152,3 +151,27 @@ class DoublePubGood(base.BaseCase):
 
         # coercion doesn't result in an invalid response
         utils.validate(resp, conf.RESPONSE_SCHEMA)
+
+    def test_extra_large_response_data_from_lax(self):
+        "bot-lax handles messages larger than 256KB from lax gracefully"
+        lax_resp = {
+            'status': conf.INVALID,
+            'message': 'mock',
+            'token': 'a',
+            'id': 'b',
+
+            'code': 'invalid' # correct? eh
+        }
+
+        resp = adapt.mkresponse(**lax_resp)
+        resp['message'] = ''
+
+        max_size_resp_in_bytes = 262144
+        resp_size = len(adaptor.serialise_response(resp))
+        available_bytes = max_size_resp_in_bytes - resp_size
+
+        resp['message'] = 'p' * available_bytes
+        adaptor.validate_response(resp)
+
+        resp['message'] = 'p' * (available_bytes + 1)
+        self.assertRaises(ValidationError, adaptor.validate_response, resp)

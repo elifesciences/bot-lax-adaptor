@@ -54,6 +54,7 @@ class IncomingQueue(object):
             try:
                 yield message.body
             finally:
+                # message is always deleted, even if this leads to no response to sent messages
                 message.delete()
 
 class OutgoingQueue(object):

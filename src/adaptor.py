@@ -60,10 +60,19 @@ def timeit(fn):
 #
 #
 
+def serialise_response(struct):
+    return utils.json_dumps(struct)
+
+def validate_response(response):
+    utils.validate(response, conf.RESPONSE_SCHEMA)
+    max_size_in_bytes = 262144
+    response_size = len(serialise_response(response))
+    ensure(response_size <= max_size_in_bytes, "response size (%s) is too large: %s" % (response_size, max_size_in_bytes), ValidationError)
+
 def send_response(outgoing, response):
     # `response` here is the result of `mkresponse` below
     try:
-        utils.validate(response, conf.RESPONSE_SCHEMA)
+        validate_response(response)
         channel = outgoing.write
     except ValidationError as err:
         # response doesn't validate. this probably means
@@ -71,7 +80,7 @@ def send_response(outgoing, response):
         # because the message will not validate, we will not be sending it back
         response['validation-error-msg'] = str(err)
         channel = outgoing.error
-    channel(utils.json_dumps(response))
+    channel(serialise_response(response))
     return response
 
 def find_lax():
@@ -282,7 +291,7 @@ def handler(json_request, outgoing):
         params['article_json'] = article_json
 
     try:
-        LOG.info("calling lax") # with params: %r" % params)
+        LOG.info("calling lax")
 
         lax_response = call_lax(**params)
 
