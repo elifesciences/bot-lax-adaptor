@@ -120,7 +120,7 @@ def post_xml():
     # upload
     try:
         xml = request.files['xml']
-        filename = xml.filename # todo: sanitize this. assumes a name like 'elife-00000-v1.xml'
+        filename = os.path.basename(xml.filename)
         http_ensure(os.path.splitext(filename)[1] == '.xml', "file doesn't look like xml")
         path = join(upload_folder(), filename)
         xml.save(path)

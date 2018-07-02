@@ -143,7 +143,7 @@ class Two(FlaskTestCase):
         # response is exactly as we anticipated
         self.assertEqual(mock_lax_resp, resp.json)
 
-    def test_bad_upload(self):
+    def test_bad_upload_ext(self):
         "the response we expect when the xml fails to upload"
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
@@ -168,6 +168,34 @@ class Two(FlaskTestCase):
         self.assertTrue(utils.partial_match(expected_lax_resp, resp.json))
         self.assertTrue(resp.json['trace'].startswith('Traceback (most recent call last):'))
         self.assertTrue(resp.json['message']) # one exists and isn't empty
+
+    def test_bad_upload_filename(self):
+        "the response we expect when the xml fails to upload"
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+
+        # msid doesn't match
+        # filename doesn't match pattern 'elife-msid-vN.xml'
+        bad_path = '/var/www/html/_default/cms/cms-0.9.40-alpha/ecs_includes/packageCreator/19942-v1.xml'
+        resp = self.client.post('/xml', **{
+            'buffered': True,
+            'content_type': 'multipart/form-data',
+            'data': {
+                'xml': (open(xml_fixture, 'rb'), bad_path),
+            }
+        })
+
+        expected_lax_resp = {
+            'status': conf.ERROR,
+            'code': conf.BAD_SCRAPE,
+            #'message': '...', # we just care that a message exists
+            #'trace': '...', # same again, just that a trace exists
+        }
+        self.assertEqual(resp.status_code, 400)
+        self.assertTrue(utils.partial_match(expected_lax_resp, resp.json))
+        self.assertTrue(resp.json['trace'].startswith('Traceback (most recent call last):'))
+        # self.assertTrue(resp.json['message']) # one exists and isn't empty
+        self.assertTrue(resp.json['message'].startswith('not enough values to unpack')) # todo: gotta fix this filename parsing
 
     def test_bad_scrape(self):
         "the response we expect the xml fails to scrape"
