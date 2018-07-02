@@ -7,8 +7,7 @@ import subprocess
 import time
 from collections import OrderedDict
 import jsonschema
-from jsonschema import validate as validator
-from jsonschema import ValidationError
+from jsonschema import validate as validator, ValidationError
 from past.builtins import basestring
 import requests
 import requests_cache
@@ -55,11 +54,11 @@ def video_msid(msid):
         return pad_msid(str(msid)[-5:])
     return msid
 
-def ensure(assertion, msg, *args):
+def ensure(assertion, msg, exception_class=AssertionError):
     """intended as a convenient replacement for `assert` statements that
     get compiled away with -O flags"""
     if not assertion:
-        raise AssertionError(msg % args)
+        raise exception_class(msg)
 
 def writable_dir(path):
     ensure(os.path.exists(path), "path doesn't exist: %r" % path)
@@ -106,7 +105,7 @@ def first(x):
 
 def validate(struct, schema):
     # if given a string, assume it's json and try to load it
-    # if given a data, assume it's serializable, dump it and load it
+    # else, assume it's serializable, dump it and load it
     try:
         if isinstance(struct, basestring):
             struct = json.loads(struct)

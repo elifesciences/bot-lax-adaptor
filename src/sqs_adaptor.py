@@ -24,8 +24,11 @@ def poll(queue_obj):
                 WaitTimeSeconds=20 # maximum setting for long polling
             )
         message = messages[0]
-        yield message.body
-        message.delete()
+        try:
+            yield message.body
+        finally:
+            # message is always deleted, even if this leads to no response to sent messages
+            message.delete()
 
 class IncomingQueue(object):
     def __init__(self, queue_name, flag=None):
@@ -48,8 +51,11 @@ class IncomingQueue(object):
 
             LOG.debug("processing message")
             message = messages[0]
-            yield message.body
-            message.delete()
+            try:
+                yield message.body
+            finally:
+                # message is always deleted, even if this leads to no response to sent messages
+                message.delete()
 
 class OutgoingQueue(object):
     def __init__(self, queue_name):
