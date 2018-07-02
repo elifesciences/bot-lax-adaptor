@@ -89,9 +89,10 @@ DISPLAY_CHANNEL_TYPES = {
     "Replication study": "replication-study",
 
     # NOTE: have not seen the below ones yet, guessing
-    "Research exchange": "research-exchange",
+    "Research exchange": "research-exchange", # deprecated in favour of Scientific Correspondence
     "Retraction": "retraction",
     "Scientific Correspondence": "scientific-correspondence",
+    "Research Communication": "research-communication",
 }
 
 def display_channel_to_article_type(display_channel_list):
