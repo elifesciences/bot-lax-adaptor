@@ -331,9 +331,9 @@ def expand_image(msid, data):
 def expand_iiif_uri(msid, element, element_type):
     element[element_type]["uri"] = iiiflink(msid, element[element_type]["uri"].split('/')[-1])
 
-    (width, height) = iiif.basic_info(msid, element[element_type]["uri"].split('/')[-1])
+    (width, height) = iiif.basic_info(msid, element[element_type]["uri"].split('%2F')[-1])
     element[element_type]["size"] = OrderedDict([("width", width), ("height", height)])
-    element[element_type]["source"] = iiifsource(msid, element[element_type]["uri"].split('/')[-1])
+    element[element_type]["source"] = iiifsource(msid, element[element_type]["uri"].split('%2F')[-1])
 
     return element
 
