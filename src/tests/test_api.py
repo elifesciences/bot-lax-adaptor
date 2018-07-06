@@ -70,7 +70,7 @@ class Two(FlaskTestCase):
         }
 
         with patch('adaptor.call_lax', return_value=expected_lax_resp):
-            resp = self.client.post('/xml', **{
+            resp = self.client.post('/xml?id=16695&version=1', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
                 'data': {

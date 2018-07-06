@@ -26,7 +26,7 @@ LOG = logging.getLogger(__name__)
 #
 
 def validate_schema():
-    "validates the api scheme"
+    "validates the api schema"
     path = join(conf.PROJECT_DIR, 'schema', 'api.yaml')
     spec = flex.load(path)
     validate(spec)
@@ -103,6 +103,8 @@ def get_article_json(filename):
 
 def post_xml():
     "upload jats xml, generate xml, validate, send to lax as a dry run"
+    LOG.info(request.__dict__)
+
     http_ensure('xml' in request.files, "xml file required", 404)
 
     try:
@@ -176,7 +178,9 @@ def post_xml():
 
     # send to lax
     try:
-        msid, version = utils.version_from_path(filename)
+        #msid, version = utils.version_from_path(filename)
+        msid = request.args['id']
+        version = request.args['version']
         token = str(uuid.uuid4())
         args = {
             # the *most* important parameter. don't modify lax.
