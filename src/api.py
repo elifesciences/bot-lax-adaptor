@@ -115,7 +115,7 @@ def post_xml():
             'code': conf.BAD_OVERRIDES,
             'message': 'an error occurred attempting to parse your given overrides.',
             'trace': sio.getvalue()
-        }
+        }, 400
 
     # upload
     try:
