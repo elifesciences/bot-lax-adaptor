@@ -105,7 +105,7 @@ def post_xml():
     "upload jats xml, generate xml, validate, send to lax as a dry run"
     LOG.info(request.__dict__)
 
-    http_ensure('xml' in request.files, "xml file required", 404)
+    http_ensure('xml' in request.files, "xml file required", 400)
 
     try:
         override = scraper.deserialize_overrides(request.form.getlist('override'))

@@ -55,6 +55,55 @@ class FlaskTestCase(TestCase):
     def tearDown(self):
         shutil.rmtree(self.temp_dir)
 
+class Http(FlaskTestCase):
+
+    def test_bad_request_missing_msid_version(self):
+        "both msid and version are required parameters"
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        with patch('adaptor.call_lax'):
+            resp = self.client.post('/xml', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': {
+                    'xml': (open(xml_fixture, 'rb'), xml_fname),
+                }
+            })
+        self.assertEqual(resp.status_code, 400)
+
+    def test_bad_request_missing_msid(self):
+        "both msid and version are required parameters"
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        with patch('adaptor.call_lax'):
+            resp = self.client.post('/xml?version=1', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': {
+                    'xml': (open(xml_fixture, 'rb'), xml_fname),
+                }
+            })
+        self.assertEqual(resp.status_code, 400)
+
+    def test_bad_request_missing_version(self):
+        "both msid and version are required parameters"
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        with patch('adaptor.call_lax'):
+            resp = self.client.post('/xml?id=16695', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': {
+                    'xml': (open(xml_fixture, 'rb'), xml_fname),
+                }
+            })
+        self.assertEqual(resp.status_code, 400)
+
+    def test_bad_request_missing_body(self):
+        "both msid and version are required parameters"
+        with patch('adaptor.call_lax'):
+            resp = self.client.post('/xml?id=16695&version=1')
+        self.assertEqual(resp.status_code, 400)
 
 class Two(FlaskTestCase):
     def test_upload_valid_xml(self):
