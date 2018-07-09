@@ -421,7 +421,6 @@ class Two(FlaskTestCase):
                 })
 
         # ensure ajson validated
-        print(self.temp_dir, ' ', xml_fname)
         expected_ajson_path = join(self.temp_dir, xml_fname) + '.json'
         success, _ = validate.main(open(expected_ajson_path, 'r', encoding='utf-8'))
         self.assertTrue(success)
