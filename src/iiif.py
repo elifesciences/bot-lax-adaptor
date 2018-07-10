@@ -4,7 +4,7 @@ import requests_cache
 from cache_requests import install_cache_requests
 import conf, utils
 
-LOG = conf.multiprocess_log('iiif.log', __name__)
+LOG = conf.multiprocess_log(conf.IIIF_LOG_PATH, __name__)
 
 if conf.REQUESTS_CACHING:
     install_cache_requests()

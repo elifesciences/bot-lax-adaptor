@@ -61,6 +61,8 @@ if ENV != DEV:
     LOG_DIR = '/var/log/bot-lax-adaptor/'
 utils.writable_dir(LOG_DIR)
 
+IIIF_LOG_PATH = join(LOG_DIR, 'iiif.log')
+
 #
 #
 #
