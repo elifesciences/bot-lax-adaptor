@@ -112,8 +112,8 @@ if cfg('general.env_for_cdn'):
 else:
     CDN = 'https://' + CDN1
 
-CDN_IIIF = cfg('general.cdn_iiif') + '%(padded-msid)s/%(fname)s'
-IIIF = cfg('general.iiif') + '%(padded-msid)s/%(fname)s/info.json'
+CDN_IIIF = cfg('general.cdn_iiif') + '%(padded-msid)s%%2F%(fname)s'
+IIIF = cfg('general.iiif') + '%(padded-msid)s%%2F%(fname)s/info.json'
 
 # should our http requests to external services be cached?
 REQUESTS_CACHING = True
