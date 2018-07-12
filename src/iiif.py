@@ -23,7 +23,7 @@ iiif_resp = {
     "height": 2803,
     "width": 2386,
     "@context": "http://iiif.io/api/image/2/context.json",
-    "@id": "https://iiif.elifesciences.org/lax:24125%2Felife-24125-fig1-v2.jpg"
+    "@id": "https://iiif.elifesciences.org/lax/24125%2Felife-24125-fig1-v2.jpg"
 }
 '''
 
