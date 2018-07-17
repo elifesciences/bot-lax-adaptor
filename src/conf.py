@@ -105,6 +105,9 @@ if ENV != DEV:
     API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
 utils.writable_dir(API_UPLOAD_FOLDER)
 
+# pre-validate means 'validate with placeholders in bot-lax before proper validating on lax'
+API_PRE_VALIDATE = cfg('api.pre_validate', True)
+
 CDN1 = cfg('general.cdn1') + '%(padded-msid)s/%(fname)s'
 
 if cfg('general.env_for_cdn'):

@@ -420,6 +420,30 @@ class Two(FlaskTestCase):
         for key, expected_val in expected.items():
             self.assertEqual(ajson['article'][key], expected_val)
 
+    @patch('conf.API_PRE_VALIDATE', False)
+    def test_bad_request_prevalidate_off(self):
+        "local validation is skipped in favour of validation lax-side"
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+
+        mock_lax_resp = {
+            'status': conf.INVALID,
+            'force': True,
+            'dry-run': True,
+            'id': 16695,
+            'datetime': '2017-07-04T07:37:24Z'
+        }
+        with patch('adaptor.call_lax', return_value=mock_lax_resp): # don't call lax
+            with patch('validate.main', side_effect=Exception("should not be called")):
+                resp = self.client.post('/xml?id=666&version=1', **{
+                    'buffered': True,
+                    'content_type': 'multipart/form-data',
+                    'data': {
+                        'xml': (open(xml_fixture, 'rb'), xml_fname),
+                    }
+                })
+        self.assertEqual(resp.status_code, 400) # bad request
+
     def test_broken_glencoe_response(self):
         "the response we expect when the glencoe code fails"
 
