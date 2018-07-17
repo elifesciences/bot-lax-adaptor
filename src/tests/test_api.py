@@ -44,7 +44,7 @@ class FlaskTestCase(TestCase):
     render_templates = False
 
     def create_app(self):
-        self.temp_dir = tempfile.mkdtemp(suffix='bot-lax-api-test')
+        self.temp_dir = tempfile.mkdtemp(suffix='-bot-lax-api-test')
         cxx = api.create_app({
             'DEBUG': True,
             'UPLOAD_FOLDER': self.temp_dir
@@ -54,6 +54,55 @@ class FlaskTestCase(TestCase):
     def tearDown(self):
         shutil.rmtree(self.temp_dir)
 
+class Http(FlaskTestCase):
+
+    def test_bad_request_missing_msid_version(self):
+        "both msid and version are required parameters"
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        with patch('adaptor.call_lax'):
+            resp = self.client.post('/xml', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': {
+                    'xml': (open(xml_fixture, 'rb'), xml_fname),
+                }
+            })
+        self.assertEqual(resp.status_code, 400)
+
+    def test_bad_request_missing_msid(self):
+        "both msid and version are required parameters"
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        with patch('adaptor.call_lax'):
+            resp = self.client.post('/xml?version=1', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': {
+                    'xml': (open(xml_fixture, 'rb'), xml_fname),
+                }
+            })
+        self.assertEqual(resp.status_code, 400)
+
+    def test_bad_request_missing_version(self):
+        "both msid and version are required parameters"
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+        with patch('adaptor.call_lax'):
+            resp = self.client.post('/xml?id=16695', **{
+                'buffered': True,
+                'content_type': 'multipart/form-data',
+                'data': {
+                    'xml': (open(xml_fixture, 'rb'), xml_fname),
+                }
+            })
+        self.assertEqual(resp.status_code, 400)
+
+    def test_bad_request_missing_body(self):
+        "both msid and version are required parameters"
+        with patch('adaptor.call_lax'):
+            resp = self.client.post('/xml?id=16695&version=1')
+        self.assertEqual(resp.status_code, 400)
 
 class Two(FlaskTestCase):
     def test_upload_valid_xml(self):
@@ -69,7 +118,7 @@ class Two(FlaskTestCase):
         }
 
         with patch('adaptor.call_lax', return_value=expected_lax_resp):
-            resp = self.client.post('/xml', **{
+            resp = self.client.post('/xml?id=16695&version=1', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
                 'data': {
@@ -127,7 +176,7 @@ class Two(FlaskTestCase):
             'ajson': expected_ajson,
         }
         with patch('adaptor.call_lax', return_value=mock_lax_resp):
-            resp = self.client.post('/xml', **{
+            resp = self.client.post('/xml?id=16695&version=1', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
                 'data': payload,
@@ -148,7 +197,7 @@ class Two(FlaskTestCase):
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
         bad_ext = '.pants'
-        resp = self.client.post('/xml', **{
+        resp = self.client.post('/xml?id=16695&version=1', **{
             'buffered': True,
             'content_type': 'multipart/form-data',
             'data': {
@@ -176,7 +225,7 @@ class Two(FlaskTestCase):
         # msid doesn't match
         # filename doesn't match pattern 'elife-msid-vN.xml'
         bad_path = '/var/www/html/_default/cms/cms-0.9.40-alpha/ecs_includes/packageCreator/19942-v1.xml'
-        resp = self.client.post('/xml', **{
+        resp = self.client.post('/xml?id=16695&version=1', **{
             'buffered': True,
             'content_type': 'multipart/form-data',
             'data': {
@@ -202,7 +251,7 @@ class Two(FlaskTestCase):
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
         with patch('main.main', side_effect=AssertionError('meow')):
-            resp = self.client.post('/xml', **{
+            resp = self.client.post('/xml?id=16695&version=1', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
                 'data': {
@@ -234,7 +283,7 @@ class Two(FlaskTestCase):
 
         for override in cases:
             with open(xml_fixture, 'rb') as fh:
-                resp = self.client.post('/xml', **{
+                resp = self.client.post('/xml?id=16695&version=1', **{
                     'buffered': True,
                     'content_type': 'multipart/form-data',
                     'data': {
@@ -263,7 +312,7 @@ class Two(FlaskTestCase):
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
         with patch('adaptor.call_lax', side_effect=AssertionError("test shouldn't make it this far!")):
-            resp = self.client.post('/xml', **{
+            resp = self.client.post('/xml?id=666&version=1', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
                 'data': {
@@ -315,7 +364,7 @@ class Two(FlaskTestCase):
             u'datetime': u'2017-07-04T07:37:24Z'
         }
         with patch('adaptor.call_lax', return_value=mock_lax_resp):
-            resp = self.client.post('/xml', **{
+            resp = self.client.post('/xml?id=16695&version=1', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
                 'data': payload,
@@ -355,7 +404,7 @@ class Two(FlaskTestCase):
             u'datetime': u'2017-07-04T07:37:24Z'
         }
         with patch('adaptor.call_lax', return_value=mock_lax_resp):
-            resp = self.client.post('/xml', **{
+            resp = self.client.post('/xml?id=16695&version=1', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
                 'data': payload,
@@ -381,7 +430,7 @@ class Two(FlaskTestCase):
             #'trace': '...' # super long, can't predict, especially when mocking
         }
         with patch('glencoe.validate_gc_data', side_effect=AssertionError(err_message)):
-            resp = self.client.post('/xml', **{
+            resp = self.client.post('/xml?id=666&version=1', **{
                 'buffered': True,
                 'content_type': 'multipart/form-data',
                 'data': {
@@ -410,7 +459,7 @@ class Two(FlaskTestCase):
             # also, don't call iiif
             no_iiif_info = {}
             with patch('iiif.iiif_info', return_value=no_iiif_info): # another?
-                resp = self.client.post('/xml', **{
+                resp = self.client.post('/xml?id=24271&version=1', **{
                     'buffered': True,
                     'content_type': 'multipart/form-data',
                     'data': {

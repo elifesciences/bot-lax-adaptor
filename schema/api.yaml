@@ -78,7 +78,17 @@ paths:
           uniqueItems: true
           items:
             type: string
-            
+        - name: id
+          description: 'the article ID, aka "manuscript id" or "msid"'
+          type: number
+          in: query
+          required: true
+        - name: version
+          description: 'the article version'
+          type: number
+          in: query
+          required: true
+
         #- name: override
         #  in: body
         #  description: "a pipe separated key and value, for example: title|new title"

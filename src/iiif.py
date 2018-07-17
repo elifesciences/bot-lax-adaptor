@@ -4,7 +4,7 @@ import requests_cache
 from cache_requests import install_cache_requests
 import conf, utils
 
-LOG = conf.multiprocess_log('iiif.log', __name__)
+LOG = conf.multiprocess_log(conf.IIIF_LOG_PATH, __name__)
 
 if conf.REQUESTS_CACHING:
     install_cache_requests()
@@ -23,7 +23,7 @@ iiif_resp = {
     "height": 2803,
     "width": 2386,
     "@context": "http://iiif.io/api/image/2/context.json",
-    "@id": "https://prod--iiif.elifesciences.org/lax%3A24125%2Felife-24125-fig1-v2.jpg"
+    "@id": "https://iiif.elifesciences.org/lax/24125%2Felife-24125-fig1-v2.jpg"
 }
 '''
 

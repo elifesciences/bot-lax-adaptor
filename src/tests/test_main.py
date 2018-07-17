@@ -354,9 +354,9 @@ class KitchenSink(base.BaseCase):
                     'source': {
                         'filename': 'elife-00666-fig1.jpg',
                         'mediaType': 'image/jpeg',
-                        'uri': 'https://iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif/full/full/0/default.jpg'
+                        'uri': 'https://iiif.elifesciences.org/lax/00666%2Felife-00666-fig1.tif/full/full/0/default.jpg'
                     },
-                    'uri': 'https://iiif.elifesciences.org/lax:00666/elife-00666-fig1.tif'},
+                    'uri': 'https://iiif.elifesciences.org/lax/00666%2Felife-00666-fig1.tif'},
                 'label': 'Figure 1',
                 'title': 'Single figure: The header of an eLife article example on the HTML page. In the PDf this is represented as a single column.',
                 'type': 'image',
@@ -382,9 +382,9 @@ class KitchenSink(base.BaseCase):
                     "source": {
                         "filename": "elife-00666-video1.jpg",
                         "mediaType": "image/jpeg",
-                        "uri": "https://iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg/full/full/0/default.jpg"
+                        "uri": "https://iiif.elifesciences.org/lax/00666%2Felife-00666-video1.jpg/full/full/0/default.jpg"
                     },
-                    "uri": "https://iiif.elifesciences.org/lax:00666/elife-00666-video1.jpg"
+                    "uri": "https://iiif.elifesciences.org/lax/00666%2Felife-00666-video1.jpg"
                 },
                 "sourceData": [{
                     "doi": "10.7554/eLife.00666.037",
