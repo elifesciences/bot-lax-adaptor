@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-python=/usr/bin/python3.5
+python=$(which python3.5) # python3.5?
 py=${python##*/} # ll: python3.5
 
 # check for exact version of python3
