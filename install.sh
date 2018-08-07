@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-python=$(which python3.5) # python3.5?
-py=${python##*/} # ll: python3.5
+python=$(which python3.6) # python3.6?
+py=${python##*/} # ll: python3.6
 
 # check for exact version of python3
 if [ ! -e "venv/bin/$py" ]; then
