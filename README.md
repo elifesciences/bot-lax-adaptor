@@ -85,7 +85,12 @@ This is quite eLife-specific but can be modified easily if you're a developer:
 
 ## testing
 
+```
     $ ./test.sh
+    # single test
+    $ source venv/bin/activate
+    # PYTHONPATH=src green src.tests.test_utils
+```
 
 ## Copyright & Licence
 
