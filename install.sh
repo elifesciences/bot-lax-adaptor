@@ -17,6 +17,12 @@ source venv/bin/activate
 if [ ! -e app.cfg ]; then
     echo "* no app.cfg found! using the example settings (elife.cfg) by default."
     ln -s elife.cfg app.cfg
+    if [ "$ENVIRONMENT_NAME" = "ci" ]; then
+        echo "* share cache between builds for better performance (cache_path)"
+        cp app.cfg app.cfg.ci
+        sed -i -e 's#cache_path:.*#cache_path: /home/elife#g' app.cfg.ci
+        mv app.cfg.ci app.cfg
+    fi
 fi
 
 if pip list | grep elifetools; then

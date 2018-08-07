@@ -11,11 +11,11 @@ This application:
 
     $ ./install.sh
     
-Edit the app.cfg file:
+This will create a default `app.cfg` file. You can edit the app.cfg file to set the `cache_path` value to another directory if the `.` default doesn't suit you:
 
-Set the cach_path value to a suitable directory e.g.
-
-cache_path: .
+```
+cache_path: /tmp
+```
 
 ## web interface
 
