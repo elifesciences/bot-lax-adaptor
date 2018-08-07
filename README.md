@@ -10,6 +10,12 @@ This application:
 ## installation
 
     $ ./install.sh
+    
+Edit the app.cfg file:
+
+Set the cach_path value to a suitable directory e.g.
+
+cache_path: .
 
 ## web interface
 
