@@ -123,6 +123,7 @@ REQUESTS_CACHING = True
 REQUESTS_CACHE = join(CACHE_PATH, 'requests-cache')
 if sys.version_info.major == 3:
     REQUESTS_CACHE = join(CACHE_PATH, 'requests_cache')
+utils.writable_dir(REQUESTS_CACHE)
 
 # *may* improve locked db problem
 # https://requests-cache.readthedocs.io/en/latest/api.html#backends-dbdict
