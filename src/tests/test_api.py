@@ -209,8 +209,8 @@ class Two(FlaskTestCase):
         expected_lax_resp = {
             'status': conf.ERROR,
             'code': conf.BAD_UPLOAD,
-            #'message': '...', # we just care that a message exists
-            #'trace': '...', # same again, just that a trace exists
+            # 'message': '...', # we just care that a message exists
+            # 'trace': '...', # same again, just that a trace exists
         }
         self.assertEqual(resp.status_code, 400)
 
@@ -237,8 +237,8 @@ class Two(FlaskTestCase):
         expected_lax_resp = {
             'status': conf.ERROR,
             'code': conf.BAD_SCRAPE,
-            #'message': '...', # we just care that a message exists
-            #'trace': '...', # same again, just that a trace exists
+            # 'message': '...', # we just care that a message exists
+            # 'trace': '...', # same again, just that a trace exists
         }
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(utils.partial_match(expected_lax_resp, resp.json))
@@ -263,8 +263,8 @@ class Two(FlaskTestCase):
         expected_lax_resp = {
             'status': conf.ERROR,
             'code': conf.BAD_SCRAPE,
-            #'message': '...', # we just care that a message exists
-            #'trace': '...', # same again, just that a trace exists
+            # 'message': '...', # we just care that a message exists
+            # 'trace': '...', # same again, just that a trace exists
         }
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(utils.partial_match(expected_lax_resp, resp.json))
@@ -297,8 +297,8 @@ class Two(FlaskTestCase):
                 expected_resp = {
                     'status': conf.ERROR,
                     'code': conf.BAD_OVERRIDES,
-                    #'message': '...',
-                    #'trace': '...',
+                    # 'message': '...',
+                    # 'trace': '...',
                 }
 
                 self.assertEqual(resp.status_code, 400)
@@ -334,8 +334,8 @@ class Two(FlaskTestCase):
         expected_resp = {
             'status': conf.INVALID,
             'code': conf.ERROR_INVALID,
-            #'message': '...', # will probably change
-            #'trace': '...', # stacktrace
+            # 'message': '...', # will probably change
+            # 'trace': '...', # stacktrace
         }
         self.assertTrue(utils.partial_match(expected_resp, resp.json))
         self.assertTrue(resp.json['message'])
@@ -453,7 +453,7 @@ class Two(FlaskTestCase):
             'status': conf.ERROR,
             'code': conf.BAD_SCRAPE,
             'message': err_message,
-            #'trace': '...' # super long, can't predict, especially when mocking
+            # 'trace': '...' # super long, can't predict, especially when mocking
         }
         with patch('glencoe.validate_gc_data', side_effect=AssertionError(err_message)):
             resp = self.client.post('/xml?id=666&version=1', **{
