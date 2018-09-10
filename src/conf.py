@@ -48,7 +48,7 @@ def multiprocess_log(filename, name=__name__):
     with the append flag.
 
     On Linux this should ensure that no log entries are lost, thanks to kernel-specific behavior"""
-    log = logging.getLogger("%s.%d" % (__name__, os.getpid()))
+    log = logging.getLogger("%s.%d" % (name, os.getpid()))
     if not log.handlers:
         _handler = logging.FileHandler(filename)
         _handler.setLevel(logging.INFO)
