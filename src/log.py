@@ -33,22 +33,22 @@ def setup_root_logger():
 def json_formatter():
     supported_keys = [
         'asctime',
-        #'created',
+        # 'created',
         'filename',
         'funcName',
         'levelname',
-        #'levelno',
+        # 'levelno',
         'lineno',
         'module',
-        #'msecs',
+        # 'msecs',
         'message',
         'name',
         'pathname',
-        #'process',
-        #'processName',
-        #'relativeCreated',
-        #'thread',
-        #'threadName'
+        # 'process',
+        # 'processName',
+        # 'relativeCreated',
+        # 'thread',
+        # 'threadName'
     ]
 
     # optional json logging if you need it
