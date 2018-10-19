@@ -65,15 +65,20 @@ def clear_cache(msid):
     requests_cache.core.get_cache().delete_url(glencoe_url(msid))
 
 def metadata(msid):
-    resp = utils.requests_get(glencoe_url(msid))
-    context = {'msid': msid, 'status-code': resp.status_code}
+    # 2018-10-19: it's now possible for glencoe to be queried about an article before media
+    # has been deposited by elife-bot. only successful responses will be cached
+    url = glencoe_url(msid)
+    resp = utils.requests_get(url)
+    context = {'msid': msid, 'glencoe-url': url, 'status-code': resp.status_code}
     if resp.status_code == 404:
         LOG.debug("article has no videos", extra=context)
+        clear_cache(msid)
         return {}
 
     elif resp.status_code != 200:
         msg = "unhandled status code from Glencoe"
         LOG.warn(msg, extra=context)
+        clear_cache(msid)
         raise ValueError(msg + ": %s" % resp.status_code)
 
     try:
@@ -90,6 +95,7 @@ def expand_videos(msid, video):
     gc_id_str = ", ".join(gc_data.keys())
 
     v_id = video['id']
+    ensure(gc_data, "glencoe doesn't know %r, it doesn't have any media")
     ensure(v_id in gc_data, "glencoe doesn't know %r, only %r" % (v_id, gc_id_str))
 
     video_data = gc_data[v_id]
