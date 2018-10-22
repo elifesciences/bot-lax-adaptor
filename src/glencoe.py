@@ -70,16 +70,18 @@ def metadata(msid):
     url = glencoe_url(msid)
     resp = utils.requests_get(url)
     context = {'msid': msid, 'glencoe-url': url, 'status-code': resp.status_code}
-    if resp.status_code == 404:
-        LOG.debug("article has no videos", extra=context)
-        clear_cache(msid)
-        return {}
 
-    elif resp.status_code != 200:
-        msg = "unhandled status code from Glencoe"
-        LOG.warn(msg, extra=context)
+    if resp.status_code != 200:
         clear_cache(msid)
-        raise ValueError(msg + ": %s" % resp.status_code)
+
+        if resp.status_code == 404:
+            LOG.debug("article has no videos", extra=context)
+            return {}
+
+        msg = "unhandled status code from Glencoe"
+        context["response"] = resp # TODO: object handling?
+        LOG.error(msg, extra=context)
+        raise ValueError("%s: %s" % (msg, resp.status_code))
 
     try:
         gc_data = sortdict(resp.json())
