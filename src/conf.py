@@ -9,9 +9,9 @@ import yaml
 import log
 log.setup_root_logger()
 
-import utils
+import utils # is this ordering of utils after log important?
 
-_formatter = log.json_formatter()
+_formatter = log.json_formatter() # todo: _formatter is unused, function call has side effects
 
 os.umask(int('002', 8))
 SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
