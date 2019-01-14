@@ -19,7 +19,7 @@ python-dateutil==2.7.3
 python-json-logger==0.1.9
 python-slugify==1.2.6
 pytz==2018.5
-PyYAML==3.12
+PyYAML==4.2b2
 requests==2.20.0
 requests-aws==0.1.8
 requests-cache==0.4.13
