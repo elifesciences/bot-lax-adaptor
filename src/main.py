@@ -87,6 +87,7 @@ DISPLAY_CHANNEL_TYPES = {
     "Tools and Resources": "tools-resources",
     "Replication Study": "replication-study",
     "Replication study": "replication-study",
+    "Review Article": "review-article",
 
     # NOTE: have not seen the below ones yet, guessing
     "Research exchange": "research-exchange", # deprecated in favour of Scientific Correspondence
