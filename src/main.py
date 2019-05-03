@@ -507,6 +507,21 @@ def placeholders_for_validation(data):
         # a versionDate wouldn't be present if we're dealing with a version > 1
         art['versionDate'] = DUMMY_DATE
 
+    
+    for ref in art.get('references'):
+        # reference, add missing date value
+        if not ref.get('date'):
+            ref['date'] = '1000'
+
+        # reference, add placeholder author if missing
+        if not ref.get('editors') and not ref.get('authors'):
+            ref['authors'] = [
+                {
+                    "name": "n/a",
+                    "type": "group"
+                }
+                ]
+
     data['article'] = art
 
     return data
