@@ -111,9 +111,9 @@ API_PRE_VALIDATE = cfg('api.pre_validate', True)
 CDN1 = cfg('general.cdn1') + '%(padded-msid)s/%(fname)s'
 
 if cfg('general.env_for_cdn'):
-    CDN = 'https://' + cfg('general.env_for_cdn') + '-' + CDN1
+    CDN = 'http://' + cfg('general.env_for_cdn') + '-' + CDN1
 else:
-    CDN = 'https://' + CDN1
+    CDN = 'http://' + CDN1
 
 CDN_IIIF = cfg('general.cdn_iiif') + '%(padded-msid)s%%2F%(fname)s'
 IIIF = cfg('general.iiif') + '%(padded-msid)s%%2F%(fname)s/info.json'

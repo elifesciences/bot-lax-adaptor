@@ -72,6 +72,7 @@ def jats(funcname, *args, **kwargs):
 
 
 DISPLAY_CHANNEL_TYPES = {
+    "Book review": "scientific-correspondence",
     "Correction": "correction",
     "Editorial": "editorial",
     "Feature Article": "feature",
@@ -167,7 +168,7 @@ def pdf_uri(triple):
     content_type, msid, version = triple
     if content_type and any(lmap(lambda type: type in ['Correction', 'Retraction'], content_type)):
         return EXCLUDE_ME
-    filename = "elife-%s-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-v1.pdf
+    filename = "ijm-%s.pdf" % (utils.pad_msid(msid))
     return cdnlink(msid, filename)
 
 def xml_uri(params):
@@ -213,6 +214,9 @@ def to_volume(pair):
             pub_year = pub_date[0]  # to_isoformat(pub_date)[:4]
         volume = pub_year - (conf.JOURNAL_INCEPTION - 1) # 2011 for elife
     return int(volume)
+
+def to_int(value):
+    return int(value)
 
 @requires_context
 def discard_if_not_v1(ctx, ver):
@@ -495,7 +499,8 @@ def placeholders_for_validation(data):
 
     # the statusDate is when an article transitioned from POA to VOR and can't be known
     # in all cases without consulting the article history
-    art['statusDate'] = DUMMY_DATE
+    if 'statusDate' not in art:
+        art['statusDate'] = DUMMY_DATE
 
     if 'versionDate' not in art:
         # a versionDate is when this specific version of an article was published
@@ -546,9 +551,9 @@ JOURNAL = OrderedDict([
 ])
 
 SNIPPET = OrderedDict([
-    ('-meta', OrderedDict([
-        ('location', [getvar('location')]),
-    ])),
+    # ('-meta', OrderedDict([
+    #     ('location', [getvar('location')]),
+    # ])),
     ('-history', OrderedDict([
         ('received', [jats('history_date', date_type='received'), to_isoformat, discard_if_none_or_empty]),
         ('accepted', [jats('history_date', date_type='accepted'), to_isoformat, discard_if_none_or_empty]),
@@ -563,10 +568,12 @@ SNIPPET = OrderedDict([
     ('titlePrefix', [jats('title_prefix_json')]),
     ('published', [jats('pub_date'), to_isoformat, fail_if_none('pubdate')]), # 'published' is the pubdate of the v1 article
     ('versionDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
+    ('statusDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
     ('volume', [(jats('pub_date'), jats('volume')), to_volume]),
-    ('elocationId', [jats('elocation_id')]),
+    ('issue', [jats('issue'), to_int]),
+    ('elocationId', [jats('elocation_id'), 'n/a']),
     ('pdf', [(jats('display_channel'), jats('publisher_id'), getvar('version')), pdf_uri]),
-    ('xml', [(jats('publisher_id'), getvar('version')), xml_uri]),
+    # ('xml', [(jats('publisher_id'), getvar('version')), xml_uri]),
     ('figuresPdf', [(jats('graphics'), jats('publisher_id'), getvar('version')), figures_pdf_uri, discard_if_none_or_empty]),
     ('subjects', [jats('category'), category_codes, discard_if_none_or_empty]),
     ('researchOrganisms', [jats('research_organism_json')]),
@@ -604,8 +611,8 @@ VOR_SNIPPET.update(OrderedDict([
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
-    ('-related-articles-internal', [jats('related_article'), related_article_to_related_articles]),
-    ('-related-articles-external', [jats('mixed_citations'), mixed_citation_to_related_articles]),
+    # ('-related-articles-internal', [jats('related_article'), related_article_to_related_articles]),
+    # ('-related-articles-external', [jats('mixed_citations'), mixed_citation_to_related_articles]),
     ('digest', [jats('digest_json')]),
     ('body', [body]),
     ('references', [jats('references_json')]),
