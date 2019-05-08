@@ -512,7 +512,7 @@ def placeholders_for_validation(data):
             # reference, add missing date value
             if not ref.get('date'):
                 ref['date'] = '1000'
-            elif ref.get('date') and not re.match(r'^[0-9]$', ref.get('date')):
+            elif ref.get('date') and not re.match(r'^[0-9]*$', ref.get('date')):
                 ref['date'] = '1000'
 
             # reference, add placeholder author if missing
