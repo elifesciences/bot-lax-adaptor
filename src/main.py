@@ -73,6 +73,7 @@ def jats(funcname, *args, **kwargs):
 
 DISPLAY_CHANNEL_TYPES = {
     "Book review": "scientific-correspondence",
+    "Software review": "scientific-correspondence",
     "Correction": "correction",
     "Editorial": "editorial",
     "Feature Article": "feature",
