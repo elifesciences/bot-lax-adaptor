@@ -2,7 +2,7 @@ autopep8==1.4
 boto3==1.8.7
 connexion==1.5.2
 coverage==4.1
-et3==1.5
+et3==1.5.1
 git+https://github.com/elifesciences/elife-tools.git@2bf01632a748fce47b2de7939fdf859dc538f9c7#egg=elifetools
 Flask==1.0.2
 Flask-Testing==0.7.1
