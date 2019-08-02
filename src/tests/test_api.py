@@ -208,8 +208,8 @@ class Two(FlaskTestCase):
         expected_lax_resp = {
             'status': conf.ERROR,
             'code': conf.BAD_UPLOAD,
-            #'message': '...', # we just care that a message exists
-            #'trace': '...', # same again, just that a trace exists
+            # 'message': '...', # we just care that a message exists
+            # 'trace': '...', # same again, just that a trace exists
         }
         self.assertEqual(resp.status_code, 400)
 
@@ -236,8 +236,8 @@ class Two(FlaskTestCase):
         expected_lax_resp = {
             'status': conf.ERROR,
             'code': conf.BAD_SCRAPE,
-            #'message': '...', # we just care that a message exists
-            #'trace': '...', # same again, just that a trace exists
+            # 'message': '...', # we just care that a message exists
+            # 'trace': '...', # same again, just that a trace exists
         }
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(utils.partial_match(expected_lax_resp, resp.json))
@@ -262,8 +262,8 @@ class Two(FlaskTestCase):
         expected_lax_resp = {
             'status': conf.ERROR,
             'code': conf.BAD_SCRAPE,
-            #'message': '...', # we just care that a message exists
-            #'trace': '...', # same again, just that a trace exists
+            # 'message': '...', # we just care that a message exists
+            # 'trace': '...', # same again, just that a trace exists
         }
         self.assertEqual(resp.status_code, 400)
         self.assertTrue(utils.partial_match(expected_lax_resp, resp.json))
@@ -292,12 +292,12 @@ class Two(FlaskTestCase):
                     }
                 })
 
-            expected_resp = {
-                'status': conf.ERROR,
-                'code': conf.BAD_OVERRIDES,
-                #'message': '...',
-                #'trace': '...',
-            }
+                expected_resp = {
+                    'status': conf.ERROR,
+                    'code': conf.BAD_OVERRIDES,
+                    # 'message': '...',
+                    # 'trace': '...',
+                }
 
             self.assertEqual(resp.status_code, 400)
             self.assertTrue(utils.partial_match(expected_resp, resp.json))
@@ -332,8 +332,8 @@ class Two(FlaskTestCase):
         expected_resp = {
             'status': conf.INVALID,
             'code': conf.ERROR_INVALID,
-            #'message': '...', # will probably change
-            #'trace': '...', # stacktrace
+            # 'message': '...', # will probably change
+            # 'trace': '...', # stacktrace
         }
         self.assertTrue(utils.partial_match(expected_resp, resp.json))
         self.assertTrue(resp.json['message'])
@@ -418,6 +418,30 @@ class Two(FlaskTestCase):
         for key, expected_val in expected.items():
             self.assertEqual(ajson['article'][key], expected_val)
 
+    @patch('conf.API_PRE_VALIDATE', False)
+    def test_bad_request_prevalidate_off(self):
+        "local validation is skipped in favour of validation lax-side"
+        xml_fname = 'elife-16695-v1.xml'
+        xml_fixture = join(self.fixtures_dir, xml_fname)
+
+        mock_lax_resp = {
+            'status': conf.INVALID,
+            'force': True,
+            'dry-run': True,
+            'id': 16695,
+            'datetime': '2017-07-04T07:37:24Z'
+        }
+        with patch('adaptor.call_lax', return_value=mock_lax_resp): # don't call lax
+            with patch('validate.main', side_effect=Exception("should not be called")):
+                resp = self.client.post('/xml?id=666&version=1', **{
+                    'buffered': True,
+                    'content_type': 'multipart/form-data',
+                    'data': {
+                        'xml': (open(xml_fixture, 'rb'), xml_fname),
+                    }
+                })
+        self.assertEqual(resp.status_code, 400) # bad request
+
     def test_broken_glencoe_response(self):
         "the response we expect when the glencoe code fails"
 
@@ -427,7 +451,7 @@ class Two(FlaskTestCase):
             'status': conf.ERROR,
             'code': conf.BAD_SCRAPE,
             'message': err_message,
-            #'trace': '...' # super long, can't predict, especially when mocking
+            # 'trace': '...' # super long, can't predict, especially when mocking
         }
         with patch('glencoe.validate_gc_data', side_effect=AssertionError(err_message)):
             resp = self.client.post('/xml?id=666&version=1', **{

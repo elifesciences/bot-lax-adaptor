@@ -20,7 +20,7 @@ class One(BaseCase):
         paths = [self.small_doc]
 
         expected_lax_response = {
-            #"id": '09560',
+            # "id": '09560',
             "id": "16695",
             "requested-action": 'ingest',
             "token": 'pants-party', # set by fs-adaptor
@@ -39,7 +39,7 @@ class One(BaseCase):
         paths = [self.small_doc] * 3 # send the same article three times
 
         expected_lax_response = {
-            #"id": '09560',
+            # "id": '09560',
             "id": "16695",
             "requested-action": 'ingest',
             "token": 'pants-party', # set by fs-adaptor

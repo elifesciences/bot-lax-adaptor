@@ -114,9 +114,9 @@ def call_lax(action, msid, version, token, article_json=None, force=False, dry_r
             "status": None,
             # not present in success responses
             # added in error responses
-            #"message":
-            #"code":
-            #"comment":
+            # "message":
+            # "code":
+            # "comment":
             "datetime": datetime.now(),
 
             # additional attributes we'll be returning
@@ -228,7 +228,7 @@ def handler(json_request, outgoing):
 
     try:
         request = utils.validate(json_request, conf.REQUEST_SCHEMA)
-    except ValueError as err:
+    except ValueError:
         # bad data. who knows what it was. die
         return response(mkresponse(ERROR, "request could not be parsed: %s" % json_request))
 

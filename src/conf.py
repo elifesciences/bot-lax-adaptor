@@ -9,9 +9,9 @@ import yaml
 import log
 log.setup_root_logger()
 
-import utils
+import utils # is this ordering of utils after log important?
 
-_formatter = log.json_formatter()
+_formatter = log.json_formatter() # todo: _formatter is unused, function call has side effects
 
 os.umask(int('002', 8))
 SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
@@ -48,7 +48,7 @@ def multiprocess_log(filename, name=__name__):
     with the append flag.
 
     On Linux this should ensure that no log entries are lost, thanks to kernel-specific behavior"""
-    log = logging.getLogger("%s.%d" % (__name__, os.getpid()))
+    log = logging.getLogger("%s.%d" % (name, os.getpid()))
     if not log.handlers:
         _handler = logging.FileHandler(filename)
         _handler.setLevel(logging.INFO)
@@ -104,6 +104,9 @@ API_UPLOAD_FOLDER = join(PROJECT_DIR, "uploads")
 if ENV != DEV:
     API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
 utils.writable_dir(API_UPLOAD_FOLDER)
+
+# pre-validate means 'validate with placeholders in bot-lax before proper validating on lax'
+API_PRE_VALIDATE = cfg('api.pre_validate', True)
 
 CDN1 = cfg('general.cdn1') + '%(padded-msid)s/%(fname)s'
 

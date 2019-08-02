@@ -3,10 +3,8 @@ import logging
 import os
 from os.path import join
 from io import StringIO
-
 import traceback
 import uuid
-
 import connexion
 from connexion.resolver import RestyResolver
 import flask
@@ -15,7 +13,6 @@ import flex
 from flex.core import validate
 import jsonschema
 from werkzeug.exceptions import HTTPException
-
 import adaptor, conf, utils, main as scraper, validate as ajson_validate
 from utils import lmap, lfilter, first
 
@@ -107,7 +104,7 @@ def post_xml():
 
     try:
         override = scraper.deserialize_overrides(request.form.getlist('override'))
-    except ValueError as err:
+    except ValueError:
         sio = StringIO()
         traceback.print_exc(file=sio)
         return {
@@ -124,7 +121,8 @@ def post_xml():
         http_ensure(os.path.splitext(filename)[1] == '.xml', "file doesn't look like xml")
         path = join(upload_folder(), filename)
         xml.save(path)
-    except Exception as err:
+
+    except Exception:
         sio = StringIO()
         traceback.print_exc(file=sio)
         return {
@@ -132,7 +130,7 @@ def post_xml():
             'code': conf.BAD_UPLOAD,
             'message': 'an error occured uploading the article xml to be processed',
             'trace': sio.getvalue(),
-        }, 400 # everything is always the client's fault.
+        }, 400 # shouldn't this be a 500? everything is always the client's fault.
 
     # generate
     try:
@@ -143,6 +141,7 @@ def post_xml():
         json_filename = filename + '.json'
         json_path = join(upload_folder(), json_filename)
         open(json_path, 'w').write(article_json)
+
     except Exception as err:
         sio = StringIO()
         traceback.print_exc(file=sio)
@@ -155,7 +154,7 @@ def post_xml():
 
     # validate
     try:
-        ajson_validate.main(open(json_path, 'r'))
+        conf.API_PRE_VALIDATE and ajson_validate.main(open(json_path, 'r'))
 
     except jsonschema.ValidationError as err:
         return {
@@ -164,7 +163,8 @@ def post_xml():
             'message': 'the generated article-json failed validation, see trace for details.',
             'trace': str(err), # todo: any good?
         }, 400
-    except Exception as err:
+
+    except Exception:
         sio = StringIO()
         traceback.print_exc(file=sio)
         return {
@@ -172,7 +172,7 @@ def post_xml():
             'code': conf.ERROR_VALIDATING,
             'message': 'an error occurred attempting to validate the generated article-json',
             'trace': sio.getvalue()
-        }, 400
+        }, 400 # TODO: shouldn't this be a 500?
 
     # send to lax
     try:
@@ -212,7 +212,7 @@ def post_xml():
         api_resp['override'] = override
         return api_resp, 200
 
-    except Exception as err:
+    except Exception:
         # lax returned something indecipherable
         sio = StringIO()
         traceback.print_exc(file=sio)
@@ -221,7 +221,7 @@ def post_xml():
             'code': conf.ERROR_COMMUNICATING,
             'message': "lax responded with something that couldn't be decoded",
             'trace': sio.getvalue(),
-        }, 400
+        }, 400 # TODO: shouldn't this be a 500?
 
 def create_app(cfg_overrides=None):
     app = connexion.App(__name__, specification_dir=join(conf.PROJECT_DIR, 'schema'))
@@ -238,7 +238,7 @@ def create_app(cfg_overrides=None):
 
 def main():
     app = create_app({
-        #'DEBUG': True,
+        # 'DEBUG': True,
         # Flask/Jinja caches templates
         'TEMPLATES_AUTO_RELOAD': True
     })
