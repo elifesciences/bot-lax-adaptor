@@ -8,13 +8,14 @@ Flask==1.0.2
 Flask-Testing==0.7.1
 flex==6.13.2
 future==0.16.0
-green==2.12.1
 isbnlib==3.9.1
 joblib==0.12.3
 jsonschema==2.6.0
 newrelic==4.2.0.100
 pyflakes==2.0.0
 pylint==1.9.3
+pytest==5.0.1
+pytest-cov==2.7.1
 python-dateutil==2.7.3
 python-json-logger==0.1.9
 python-slugify==1.2.6

@@ -7,15 +7,11 @@ export PYTHONPATH="src"
 pyflakes src/
 
 args="$@"
-module=""
-if [ ! -z "$args" ]; then
-    module=".$args"
-fi
-green src"$module" --run-coverage -vvv #--debug
+pytest "$args" -vvv --cov=src
 
 # run coverage test
 # only report coverage if we're running a complete set of tests
-if [ -z "$module" ]; then
+if [ -z "$args" ]; then
     # is only run if tests pass
     covered=$(coverage report | grep TOTAL | awk '{print $6}' | sed 's/%//')
     if [ $covered -lt 82 ]; then
