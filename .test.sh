@@ -7,8 +7,7 @@ export PYTHONPATH="src"
 pyflakes src/
 
 args="$@"
-# TODO: coverage
-pytest "$args" -vvv
+pytest "$args" -vvv --cov=src
 
 # run coverage test
 # only report coverage if we're running a complete set of tests

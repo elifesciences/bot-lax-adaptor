@@ -14,7 +14,8 @@ jsonschema==2.6.0
 newrelic==4.2.0.100
 pyflakes==2.0.0
 pylint==1.9.3
-pytest==3.6.3
+pytest==5.0.1
+pytest-cov==2.7.1
 python-dateutil==2.7.3
 python-json-logger==0.1.9
 python-slugify==1.2.6
