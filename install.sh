@@ -1,15 +1,10 @@
 #!/bin/bash
-set -e
+set -e # everything must succeed.
+echo "[-] install.sh"
 
-python=$(which python3.6) # python3.6?
-py=${python##*/} # ll: python3.6
+. download-api-raml.sh
 
-# check for exact version of python3
-if [ ! -e "venv/bin/$py" ]; then
-    echo "could not find venv/bin/$py, recreating venv"
-    rm -rf venv
-    virtualenv --python=$python venv/
-fi
+. mkvenv.sh
 
 source venv/bin/activate
 
@@ -36,4 +31,4 @@ fi
 
 pip install -r requirements.txt
 
-. download-api-raml.sh
+echo "[✓] install.sh"
