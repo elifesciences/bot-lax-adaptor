@@ -87,6 +87,7 @@ DISPLAY_CHANNEL_TYPES = {
     "Tools and Resources": "tools-resources",
     "Replication Study": "replication-study",
     "Replication study": "replication-study",
+    "Review Article": "review-article",
 
     # NOTE: have not seen the below ones yet, guessing
     "Research exchange": "research-exchange", # deprecated in favour of Scientific Correspondence
@@ -156,7 +157,7 @@ def iiifsource(msid, filename):
     source = OrderedDict()
     source["mediaType"] = "image/jpeg"
     source["uri"] = iiiflink(msid, filename) + '/full/full/0/default.jpg'
-    source["filename"] = re.sub('\.tif$', '.jpg', filename)
+    source["filename"] = re.sub(r'\.tif$', '.jpg', filename)
     return source
 
 def pdf_uri(triple):
@@ -720,7 +721,7 @@ def main(doc, args=None):
             'msid': msid,
             'version': version,
             'render-ctx': ctx,
-            #'override': ctx['override'],
+            # 'override': ctx['override'],
         }
         LOG.exception("failed to scrape article", extra=log_ctx)
         raise

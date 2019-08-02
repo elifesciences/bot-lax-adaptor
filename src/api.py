@@ -104,7 +104,7 @@ def post_xml():
 
     try:
         override = scraper.deserialize_overrides(request.form.getlist('override'))
-    except ValueError as err:
+    except ValueError:
         sio = StringIO()
         traceback.print_exc(file=sio)
         return {
@@ -122,7 +122,7 @@ def post_xml():
         path = join(upload_folder(), filename)
         xml.save(path)
 
-    except Exception as err:
+    except Exception:
         sio = StringIO()
         traceback.print_exc(file=sio)
         return {
@@ -164,7 +164,7 @@ def post_xml():
             'trace': str(err), # todo: any good?
         }, 400
 
-    except Exception as err:
+    except Exception:
         sio = StringIO()
         traceback.print_exc(file=sio)
         return {
@@ -212,7 +212,7 @@ def post_xml():
         api_resp['override'] = override
         return api_resp, 200
 
-    except Exception as err:
+    except Exception:
         # lax returned something indecipherable
         sio = StringIO()
         traceback.print_exc(file=sio)
@@ -238,7 +238,7 @@ def create_app(cfg_overrides=None):
 
 def main():
     app = create_app({
-        #'DEBUG': True,
+        # 'DEBUG': True,
         # Flask/Jinja caches templates
         'TEMPLATES_AUTO_RELOAD': True
     })

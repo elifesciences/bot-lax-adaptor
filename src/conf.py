@@ -9,9 +9,9 @@ import yaml
 import log
 log.setup_root_logger()
 
-import utils
+import utils # is this ordering of utils after log important?
 
-_formatter = log.json_formatter()
+_formatter = log.json_formatter() # todo: _formatter is unused, function call has side effects
 
 os.umask(int('002', 8))
 SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
@@ -48,7 +48,7 @@ def multiprocess_log(filename, name=__name__):
     with the append flag.
 
     On Linux this should ensure that no log entries are lost, thanks to kernel-specific behavior"""
-    log = logging.getLogger("%s.%d" % (__name__, os.getpid()))
+    log = logging.getLogger("%s.%d" % (name, os.getpid()))
     if not log.handlers:
         _handler = logging.FileHandler(filename)
         _handler.setLevel(logging.INFO)
