@@ -225,11 +225,18 @@ def loadobj(path):
 
 def requests_get(*args, **kwargs):
     def target(*args, **kwargs):
+        # https://2.python-requests.org/en/master/user/advanced/#prepared-requests
         request = requests.Request('GET', *args, **kwargs)
         prepared_request = request.prepare()
-        cache_key = requests_cache_create_key(prepared_request)
-        LOG.info("Requesting url %s (cache key '%s')", args[0], cache_key)
         s = requests.Session()
+
+        # if caching enabled, log the key used to cache the response
+        if hasattr(s, 'cache'): # test if requests_cache is enabled
+            cache_key = requests_cache_create_key(prepared_request)
+            LOG.info("Requesting url %s (cache key '%s')", args[0], cache_key)
+        else:
+            LOG.info("Requesting url %s", args[0])
+
         response = s.send(prepared_request)
         if response.status_code >= 500:
             raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)

@@ -4,6 +4,8 @@ from cache_requests import install_cache_requests
 import conf, utils
 from utils import ensure, lmap, lfilter, sortdict
 from collections import OrderedDict
+from contextlib import contextmanager
+from functools import partial
 
 LOG = logging.getLogger(__name__)
 
@@ -61,6 +63,16 @@ def validate_gc_data(gc_data):
             (v_id, ", ".join(set(known_sources) - set(available_sources)))
         ensure(len(available_sources) == len(known_sources), msg)
 
+@contextmanager
+def glencoe_caching_rules():
+    """Glencoe has special caching rules: only cache if global requests
+    caching is on AND glencoe caching is on"""
+    cache = conf.REQUESTS_CACHING and conf.GLENCOE_REQUESTS_CACHING
+    cache_name = conf.REQUESTS_CACHE
+    caching = partial(requests_cache.enabled, cache_name) if cache else requests_cache.disabled
+    with caching():
+        yield
+
 def clear_cache(msid):
     requests_cache.core.get_cache().delete_url(glencoe_url(msid))
 
@@ -68,7 +80,13 @@ def metadata(msid):
     # 2018-10-19: it's now possible for glencoe to be queried about an article before media
     # has been deposited by elife-bot. only successful responses will be cached
     url = glencoe_url(msid)
-    resp = utils.requests_get(url)
+
+    if conf.REQUESTS_CACHING and conf.GLENCOE_REQUESTS_CACHING:
+        resp = utils.requests_get(url)
+    else:
+        with requests_cache.disabled():
+            resp = utils.requests_get(url)
+
     context = {'msid': msid, 'glencoe-url': url, 'status-code': resp.status_code}
 
     if resp.status_code != 200:

@@ -18,4 +18,5 @@ elife-tools/
 src/elifetools
 /*.sqlite3
 run-*/
+.pytest_cache/
 unpub-article-xml/

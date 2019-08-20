@@ -118,12 +118,16 @@ else:
 CDN_IIIF = cfg('general.cdn_iiif') + '%(padded-msid)s%%2F%(fname)s'
 IIIF = cfg('general.iiif') + '%(padded-msid)s%%2F%(fname)s/info.json'
 
-# should our http requests to external services be cached?
+# global requests_cache switch
 REQUESTS_CACHING = True
+# glencoe specific requests_cache switch
+GLENCOE_REQUESTS_CACHING = cfg('glencoe.cache_requests', True)
+
 REQUESTS_CACHE = join(CACHE_PATH, 'requests-cache')
 if sys.version_info.major == 3:
     REQUESTS_CACHE = join(CACHE_PATH, 'requests_cache')
 
+# todo: remove this, unused
 # *may* improve locked db problem
 # https://requests-cache.readthedocs.io/en/latest/api.html#backends-dbdict
 ASYNC_CACHE_WRITES = False
