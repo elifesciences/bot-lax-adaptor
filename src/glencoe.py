@@ -4,8 +4,6 @@ from cache_requests import install_cache_requests
 import conf, utils
 from utils import ensure, lmap, lfilter, sortdict
 from collections import OrderedDict
-from contextlib import contextmanager
-from functools import partial
 
 LOG = logging.getLogger(__name__)
 
@@ -62,16 +60,6 @@ def validate_gc_data(gc_data):
         msg = "number of available sources less than known sources for %r. missing: %s" % \
             (v_id, ", ".join(set(known_sources) - set(available_sources)))
         ensure(len(available_sources) == len(known_sources), msg)
-
-@contextmanager
-def glencoe_caching_rules():
-    """Glencoe has special caching rules: only cache if global requests
-    caching is on AND glencoe caching is on"""
-    cache = conf.REQUESTS_CACHING and conf.GLENCOE_REQUESTS_CACHING
-    cache_name = conf.REQUESTS_CACHE
-    caching = partial(requests_cache.enabled, cache_name) if cache else requests_cache.disabled
-    with caching():
-        yield
 
 def clear_cache(msid):
     requests_cache.core.get_cache().delete_url(glencoe_url(msid))
