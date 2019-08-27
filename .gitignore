@@ -19,3 +19,4 @@ src/elifetools
 /*.sqlite3
 run-*/
 unpub-article-xml/
+.pytest_cache/
