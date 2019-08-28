@@ -68,7 +68,13 @@ def metadata(msid):
     # 2018-10-19: it's now possible for glencoe to be queried about an article before media
     # has been deposited by elife-bot. only successful responses will be cached
     url = glencoe_url(msid)
-    resp = utils.requests_get(url)
+
+    if conf.REQUESTS_CACHING and conf.GLENCOE_REQUESTS_CACHING:
+        resp = utils.requests_get(url)
+    else:
+        with requests_cache.disabled():
+            resp = utils.requests_get(url)
+
     context = {'msid': msid, 'glencoe-url': url, 'status-code': resp.status_code}
 
     if resp.status_code != 200:
