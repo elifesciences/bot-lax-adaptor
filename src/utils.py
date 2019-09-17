@@ -207,6 +207,11 @@ class RemoteResponsePermanentError(RuntimeError):
 def requests_cache_create_key(prepared_request):
     return requests_cache.core.get_cache().create_key(prepared_request)
 
+# lsh@2019-09-17, shifted here to mock response during testing
+def _requests_get_send(session, prepared_request):
+    response = session.send(prepared_request)
+    return response
+
 def requests_get(*args, **kwargs):
     def target(*args, **kwargs):
 
@@ -227,11 +232,11 @@ def requests_get(*args, **kwargs):
         else:
             LOG.info("Requesting url %s", args[0])
 
-        response = s.send(prepared_request)
+        response = _requests_get_send(s, prepared_request)
         if response.status_code >= 500:
             raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
 
-        # lsh@2019-09-17, introduced to retry glencoe requests returning 404 responses when, just seconds ago 
+        # lsh@2019-09-17, introduced to retry glencoe requests returning 404 responses when, just seconds ago
         # in elife-bot, it was returning a successful response
         if response.status_code == 404 and special_args.get('retry_on_404'):
             raise RemoteResponseTemporaryError("Status code was 404 and special option 'retry_on_404' is set")
