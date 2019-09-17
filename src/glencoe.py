@@ -70,10 +70,10 @@ def metadata(msid):
     url = glencoe_url(msid)
 
     if conf.REQUESTS_CACHING and conf.GLENCOE_REQUESTS_CACHING:
-        resp = utils.requests_get(url)
+        resp = utils.requests_get(url, retry_on_404=True)
     else:
         with requests_cache.disabled():
-            resp = utils.requests_get(url)
+            resp = utils.requests_get(url, retry_on_404=True)
 
     context = {'msid': msid, 'glencoe-url': url, 'status-code': resp.status_code}
 

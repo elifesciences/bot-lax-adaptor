@@ -207,24 +207,14 @@ class RemoteResponsePermanentError(RuntimeError):
 def requests_cache_create_key(prepared_request):
     return requests_cache.core.get_cache().create_key(prepared_request)
 
-'''
-# works, but only good for debugging/mocking responses
-def dumpobj(obj):
-    import cPickle, time
-    from os.path import join
-    import conf
-    fname = str(int(time.time() * 1000000)) + ".pickle"
-    path = join(conf.PROJECT_DIR, fname)
-    pickler = cPickle.Pickler(open(path, 'w'))
-    pickler.dump(obj)
-    return path
-
-def loadobj(path):
-    pass
-'''
-
 def requests_get(*args, **kwargs):
     def target(*args, **kwargs):
+
+        # these arguments are *not* passed to requests.get
+        special_keys = ['retry_on_404']
+        special_args = subdict(kwargs, ['retry_on_404'])
+        kwargs = rmkeys(kwargs, special_keys, lambda *_: True)
+
         # https://2.python-requests.org/en/master/user/advanced/#prepared-requests
         request = requests.Request('GET', *args, **kwargs)
         prepared_request = request.prepare()
@@ -240,7 +230,12 @@ def requests_get(*args, **kwargs):
         response = s.send(prepared_request)
         if response.status_code >= 500:
             raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
-        #dumpobj((request, response))
+
+        # lsh@2019-09-17, introduced to retry glencoe requests returning 404 responses when, just seconds ago 
+        # in elife-bot, it was returning a successful response
+        if response.status_code == 404 and special_args.get('retry_on_404'):
+            raise RemoteResponseTemporaryError("Status code was 404 and special option 'retry_on_404' is set")
+
         return response
     num_attempts = 3
     resp = call_n_times(
