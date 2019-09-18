@@ -239,6 +239,7 @@ def requests_get(*args, **kwargs):
         # lsh@2019-09-17, introduced to retry glencoe requests returning 404 responses when, just seconds ago
         # in elife-bot, it was returning a successful response
         if response.status_code == 404 and special_args.get('retry_on_404'):
+            LOG.warn("404 response from Glencoe: %s", args[0])
             raise RemoteResponseTemporaryError("Status code was 404 and special option 'retry_on_404' is set")
 
         return response
