@@ -92,7 +92,7 @@ def load(path):
         return yaml.load(open(path, 'r'))
 
 POA_SCHEMA = load('api-raml/dist/model/article-poa.v2.json')
-VOR_SCHEMA = load('api-raml/dist/model/article-vor.v2.json')
+VOR_SCHEMA = load('api-raml/dist/model/article-vor.v3.json')
 
 REQUEST_SCHEMA = load('request-schema.json')
 RESPONSE_SCHEMA = load('response-schema.json')
