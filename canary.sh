@@ -5,7 +5,7 @@ set -e
 
 # reload the virtualenv
 rm -rf venv/
-virtualenv --python=`which python2` venv
+. mkvenv.sh
 source venv/bin/activate
 pip install -r requirements.txt
 
