@@ -1,0 +1,355 @@
+{
+    "journal": {
+        "id": "eLife",
+        "title": "eLife",
+        "issn": "2050-084X"
+    },
+    "snippet": {
+        "-meta": {
+            "location": "./src/tests/fixtures/elife-99999-v1.xml"
+        },
+        "-history": {
+            "received": "2015-06-19T00:00:00Z",
+            "accepted": "2015-08-04T00:00:00Z"
+        },
+        "status": "vor",
+        "id": "99999",
+        "version": 1,
+        "type": "research-article",
+        "doi": "10.7554/eLife.99999",
+        "authorLine": "Lee R Berger",
+        "title": "Structured abstract test article",
+        "published": "2015-09-10T00:00:00Z",
+        "versionDate": "2015-09-10T00:00:00Z",
+        "volume": 4,
+        "elocationId": "e99999",
+        "pdf": "https://cdn.elifesciences.org/articles/99999/elife-99999-v1.pdf",
+        "xml": "https://cdn.elifesciences.org/articles/99999/elife-99999-v1.xml",
+        "subjects": [
+            {
+                "id": "genomics-evolutionary-biology",
+                "name": "Genomics and Evolutionary Biology"
+            }
+        ],
+        "abstract": {
+            "content": [
+                {
+                    "content": [
+                        {
+                            "text": "Background text.",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs1",
+                    "title": "Background:",
+                    "type": "section"
+                },
+                {
+                    "content": [
+                        {
+                            "text": "Methods text.",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs2",
+                    "title": "Methods:",
+                    "type": "section"
+                },
+                {
+                    "content": [
+                        {
+                            "text": "Results text.",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs3",
+                    "title": "Results:",
+                    "type": "section"
+                },
+                {
+                    "content": [
+                        {
+                            "text": "Conclusions text.",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs4",
+                    "title": "Conclusions:",
+                    "type": "section"
+                },
+                {
+                    "content": [
+                        {
+                            "text": "Funded by X, Y and Z.",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs5",
+                    "title": "Funding",
+                    "type": "section"
+                },
+                {
+                    "content": [
+                        {
+                            "id": "CT1",
+                            "text": "<a href=\"https://clinicaltrials.gov/show/NCT02968459\">NCT02968459.</a>",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs6",
+                    "title": "Clinical trial number:",
+                    "type": "section"
+                }
+            ]
+        },
+        "copyright": {
+            "license": "CC-BY-4.0",
+            "holder": "Berger et al.",
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        },
+        "authors": [
+            {
+                "affiliations": [
+                    {
+                        "address": {
+                            "components": {
+                                "country": "South Africa",
+                                "locality": [
+                                    "Johannesburg"
+                                ]
+                            },
+                            "formatted": [
+                                "Johannesburg",
+                                "South Africa"
+                            ]
+                        },
+                        "name": [
+                            "Evolutionary Studies Institute and Centre of Excellence in PalaeoSciences",
+                            "University of the Witwatersrand"
+                        ]
+                    }
+                ],
+                "emailAddresses": [
+                    "Lee.Berger@wits.ac.za"
+                ],
+                "name": {
+                    "index": "Berger, Lee R",
+                    "preferred": "Lee R Berger"
+                },
+                "type": "person"
+            }
+        ],
+        "reviewers": [
+            {
+                "affiliations": [
+                    {
+                        "address": {
+                            "components": {
+                                "country": "Germany"
+                            },
+                            "formatted": [
+                                "Germany"
+                            ]
+                        },
+                        "name": [
+                            "University of T\u00fcbingen"
+                        ]
+                    }
+                ],
+                "name": {
+                    "index": "Krause, Johannes",
+                    "preferred": "Johannes Krause"
+                },
+                "role": "Reviewing Editor",
+                "type": "person"
+            }
+        ]
+    },
+    "article": {
+        "-meta": {
+            "location": "/Users/gnott/collections/elife/repos/bot-lax-adaptor/src/tests/fixtures/elife-99999-v1.xml",
+            "patched": true
+        },
+        "-history": {
+            "received": "2015-06-19T00:00:00Z",
+            "accepted": "2015-08-04T00:00:00Z"
+        },
+        "status": "vor",
+        "id": "99999",
+        "version": 1,
+        "type": "research-article",
+        "doi": "10.7554/eLife.99999",
+        "authorLine": "Lee R Berger",
+        "title": "Structured abstract test article",
+        "published": "2015-09-10T00:00:00Z",
+        "versionDate": "2015-09-10T00:00:00Z",
+        "volume": 4,
+        "elocationId": "e99999",
+        "pdf": "https://cdn.elifesciences.org/articles/99999/elife-99999-v1.pdf",
+        "xml": "https://cdn.elifesciences.org/articles/99999/elife-99999-v1.xml",
+        "subjects": [
+            {
+                "id": "genomics-evolutionary-biology",
+                "name": "Genomics and Evolutionary Biology"
+            }
+        ],
+        "abstract": {
+            "content": [
+                {
+                    "content": [
+                        {
+                            "text": "Background text.",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs1",
+                    "title": "Background:",
+                    "type": "section"
+                },
+                {
+                    "content": [
+                        {
+                            "text": "Methods text.",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs2",
+                    "title": "Methods:",
+                    "type": "section"
+                },
+                {
+                    "content": [
+                        {
+                            "text": "Results text.",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs3",
+                    "title": "Results:",
+                    "type": "section"
+                },
+                {
+                    "content": [
+                        {
+                            "text": "Conclusions text.",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs4",
+                    "title": "Conclusions:",
+                    "type": "section"
+                },
+                {
+                    "content": [
+                        {
+                            "text": "Funded by X, Y and Z.",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs5",
+                    "title": "Funding",
+                    "type": "section"
+                },
+                {
+                    "content": [
+                        {
+                            "id": "CT1",
+                            "text": "<a href=\"https://clinicaltrials.gov/show/NCT02968459\">NCT02968459.</a>",
+                            "type": "paragraph"
+                        }
+                    ],
+                    "id": "abs6",
+                    "title": "Clinical trial number:",
+                    "type": "section"
+                }
+            ]
+        },
+        "copyright": {
+            "license": "CC-BY-4.0",
+            "holder": "Berger et al.",
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        },
+        "authors": [
+            {
+                "affiliations": [
+                    {
+                        "address": {
+                            "components": {
+                                "country": "South Africa",
+                                "locality": [
+                                    "Johannesburg"
+                                ]
+                            },
+                            "formatted": [
+                                "Johannesburg",
+                                "South Africa"
+                            ]
+                        },
+                        "name": [
+                            "Evolutionary Studies Institute and Centre of Excellence in PalaeoSciences",
+                            "University of the Witwatersrand"
+                        ]
+                    }
+                ],
+                "emailAddresses": [
+                    "Lee.Berger@wits.ac.za"
+                ],
+                "name": {
+                    "index": "Berger, Lee R",
+                    "preferred": "Lee R Berger"
+                },
+                "type": "person"
+            }
+        ],
+        "reviewers": [
+            {
+                "affiliations": [
+                    {
+                        "address": {
+                            "components": {
+                                "country": "Germany"
+                            },
+                            "formatted": [
+                                "Germany"
+                            ]
+                        },
+                        "name": [
+                            "University of T\u00fcbingen"
+                        ]
+                    }
+                ],
+                "name": {
+                    "index": "Krause, Johannes",
+                    "preferred": "Johannes Krause"
+                },
+                "role": "Reviewing Editor",
+                "type": "person"
+            }
+        ],
+        "keywords": [
+            "\n<i>Homo naledi</i>\n",
+            "hominin",
+            "Dinaledi Chamber",
+            "paleoanthropology"
+        ],
+        "-related-articles-internal": [
+            "99999"
+        ],
+        "-related-articles-external": [],
+        "body": [
+            {
+                "content": [
+                    {
+                        "text": "Sample.",
+                        "type": "paragraph"
+                    }
+                ],
+                "id": "s1",
+                "title": "Introduction",
+                "type": "section"
+            }
+        ],
+        "stage": "published",
+        "statusDate": "2099-01-01T00:00:00Z"
+    }
+}

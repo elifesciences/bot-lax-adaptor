@@ -35,3 +35,13 @@ class TestArticleValidate(BaseCase):
     def test_is_poa_not_poa(self):
         # For test coverage
         self.assertFalse(validate.is_poa({}))
+
+
+class TestValidateStructuredAbstract(BaseCase):
+    def setUp(self):
+        self.doc_json = join(self.fixtures_dir, 'elife-99999-v1.xml.json')
+
+    def test_main_valid(self):
+        "valid output is returned"
+        valid, results = validate.main(open(self.doc_json, 'r'))
+        self.assertTrue(valid)
