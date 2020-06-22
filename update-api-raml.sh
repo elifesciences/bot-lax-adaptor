@@ -5,7 +5,7 @@ set -e
 
 cd schema/api-raml/
 git fetch
-sha=$(git rev-parse origin/structured-abstract-compiled)
+sha=$(git rev-parse origin/master)
 cd -
 
 echo $sha > api-raml.sha1
