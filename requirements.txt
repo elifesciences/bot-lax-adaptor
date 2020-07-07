@@ -9,6 +9,8 @@ Flask-Testing==0.7.1
 flex==6.13.2
 future==0.16.0
 isbnlib==3.9.1
+# lsh@2020-07-07: isort pinned at 4.x as 5.x breaks api
+isort==4.3.21
 joblib==0.12.3
 jsonschema==2.6.0
 newrelic==4.2.0.100
