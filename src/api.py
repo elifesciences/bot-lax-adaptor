@@ -112,7 +112,7 @@ def post_xml():
             'code': conf.BAD_OVERRIDES,
             'message': 'an error occurred attempting to parse your given overrides.',
             'trace': sio.getvalue()
-        } # shouldn't this be a 400?
+        }, 400
 
     # upload
     try:
@@ -130,7 +130,7 @@ def post_xml():
             'code': conf.BAD_UPLOAD,
             'message': 'an error occured uploading the article xml to be processed',
             'trace': sio.getvalue(),
-        }, 400 # shouldn't this be a 500?
+        }, 400 # shouldn't this be a 500? everything is always the client's fault.
 
     # generate
     try:

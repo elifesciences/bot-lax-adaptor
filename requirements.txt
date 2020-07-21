@@ -2,19 +2,22 @@ autopep8==1.4
 boto3==1.8.7
 connexion==1.5.2
 coverage==4.1
-et3==1.5
-git+https://github.com/elifesciences/elife-tools.git@4b9e38cbe485c61a4ed7cbd8970c6b318334fd86#egg=elifetools
+et3==1.5.1
+git+https://github.com/elifesciences/elife-tools.git@ffa1e5e8f25544c9d111e410728f6f3282f7be5c#egg=elifetools
 Flask==1.0.2
 Flask-Testing==0.7.1
 flex==6.13.2
 future==0.16.0
-green==2.12.1
 isbnlib==3.9.1
+# lsh@2020-07-07: isort pinned at 4.x as 5.x breaks api
+isort==4.3.21
 joblib==0.12.3
 jsonschema==2.6.0
 newrelic==4.2.0.100
 pyflakes==2.0.0
 pylint==1.9.3
+pytest==5.0.1
+pytest-cov==2.7.1
 python-dateutil==2.7.3
 python-json-logger==0.1.9
 python-slugify==1.2.6
@@ -25,4 +28,6 @@ requests-aws==0.1.8
 requests-cache==0.4.13
 rfc3339==6.0
 strict-rfc3339==0.7
+# https://github.com/jarus/flask-testing/issues/143
+Werkzeug==0.16.1
 uWSGI==2.0.17.1

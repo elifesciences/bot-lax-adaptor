@@ -89,6 +89,7 @@ DISPLAY_CHANNEL_TYPES = {
     "Tools and Resources": "tools-resources",
     "Replication Study": "replication-study",
     "Replication study": "replication-study",
+    "Review Article": "review-article",
 
     # NOTE: have not seen the below ones yet, guessing
     "Research exchange": "research-exchange", # deprecated in favour of Scientific Correspondence
@@ -707,9 +708,9 @@ def deserialize_overrides(override_list):
         if isinstance(string, list):
             pair = string # already split into pairs, return what we have
             return pair
-        ensure('|' in string, "override key and value must be seperated by a pipe '|'")
+        ensure('|' in string, "override key and value must be seperated by a pipe '|'", ValueError)
         first, rest = string.split('|', 1)
-        ensure(rest.strip(), "a value must be provided. use 'null' without quotes to use an empty value")
+        ensure(rest.strip(), "a value must be provided. use 'null' without quotes to use an empty value", ValueError)
         return first, rest
     pairs = lmap(splitter, override_list)
     return OrderedDict([(key, utils.json_loads(val)) for key, val in pairs])

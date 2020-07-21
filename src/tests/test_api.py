@@ -3,7 +3,6 @@ import os
 from os.path import join
 import shutil
 import tempfile
-from unittest import skip
 
 from flask_testing import TestCase
 from unittest.mock import patch
@@ -271,7 +270,6 @@ class Two(FlaskTestCase):
         self.assertTrue(resp.json['trace'].startswith('Traceback (most recent call last):'))
         self.assertTrue(resp.json['message']) # one exists and isn't empty
 
-    @skip("this test is failing in green for some bizarre reason")
     def test_bad_overrides(self):
         "ensure a number of bad cases for overrides fail"
         cases = [
@@ -283,12 +281,12 @@ class Two(FlaskTestCase):
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
-        with open(xml_fixture, 'rb') as fh:
-            for override in cases:
+        for override in cases:
+            with open(xml_fixture, 'rb') as fh:
                 resp = self.client.post('/xml?id=16695&version=1', **{
                     'buffered': True,
                     'content_type': 'multipart/form-data',
-                    'data': { # culprit lies in the payload here somewhere
+                    'data': {
                         'xml': fh,
                         'override': [override],
                     }
@@ -301,10 +299,10 @@ class Two(FlaskTestCase):
                     # 'trace': '...',
                 }
 
-                self.assertEqual(resp.status_code, 400)
-                self.assertTrue(utils.partial_match(expected_resp, resp.json))
-                self.assertTrue(resp.json['trace'].startswith('Traceback (most recent call last):'))
-                self.assertTrue(resp.json['message']) # one exists and isn't empty
+            self.assertEqual(resp.status_code, 400)
+            self.assertTrue(utils.partial_match(expected_resp, resp.json))
+            self.assertTrue(resp.json['trace'].startswith('Traceback (most recent call last):'))
+            self.assertTrue(resp.json['message']) # one exists and isn't empty
 
     # this test is taking a long time ...
     def test_upload_invalid(self):
