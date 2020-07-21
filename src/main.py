@@ -86,6 +86,7 @@ DISPLAY_CHANNEL_TYPES = {
     "Research article": "research-article",
     "Short report": "short-report",
     "Short Report": "short-report",
+    "Data watch": "tools-resources",
     "Tools and Resources": "tools-resources",
     "Replication Study": "replication-study",
     "Replication study": "replication-study",
