@@ -218,8 +218,21 @@ def to_volume(pair):
         volume = pub_year - (conf.JOURNAL_INCEPTION - 1) # 2011 for elife
     return int(volume)
 
+
+def elocation_id_from_fpage_lpage(pair):
+    fpage, lpage = pair
+    return '%s-%s' % (fpage, lpage) if fpage and lpage else None
+
+
 def to_int(value):
-    return int(value)
+    return int(value) if value else None
+
+def try_to_int(value):
+    try:
+        return int(value)
+    except ValueError:
+        return value
+    return value
 
 @requires_context
 def discard_if_not_v1(ctx, ver):
@@ -261,6 +274,11 @@ def discard_if_none_or_cc0(pair):
     if not holder or str(licence).upper().startswith('CC0-'):
         return EXCLUDE_ME
     return holder
+
+def not_applicable_if_none(v):
+    if not v:
+        return 'n/a'
+    return v
 
 def body(soup):
     return jats('body_json', base_url(jats('publisher_id')(soup)))(soup)
@@ -591,7 +609,9 @@ SNIPPET = OrderedDict([
     ('statusDate', [jats('pub_date'), to_isoformat, discard_if_not_v1]), # date *this version* published. provided by Lax.
     ('volume', [(jats('pub_date'), jats('volume')), to_volume]),
     ('issue', [jats('issue'), to_int]),
-    ('elocationId', [jats('elocation_id'), 'n/a']),
+    ('fpage', [jats('fpage'), try_to_int, not_applicable_if_none]),
+    ('lpage', [jats('lpage'), try_to_int, not_applicable_if_none]),
+    ('elocationId', [(jats('fpage'), jats('lpage')), elocation_id_from_fpage_lpage, not_applicable_if_none]),
     ('pdf', [(jats('display_channel'), jats('publisher_id'), getvar('version')), pdf_uri]),
     # ('xml', [(jats('publisher_id'), getvar('version')), xml_uri]),
     ('figuresPdf', [(jats('graphics'), jats('publisher_id'), getvar('version')), figures_pdf_uri, discard_if_none_or_empty]),
