@@ -97,6 +97,8 @@ DISPLAY_CHANNEL_TYPES = {
     "Retraction": "retraction",
     "Scientific Correspondence": "scientific-correspondence",
     "Research Communication": "research-communication",
+    "Research note": "short-report",
+    "software review": "scientific-correspondence",
 }
 
 def display_channel_to_article_type(display_channel_list):
