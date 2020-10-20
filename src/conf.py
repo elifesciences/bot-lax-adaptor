@@ -91,8 +91,8 @@ def load(path):
     elif path.endswith('.yaml'):
         return yaml.load(open(path, 'r'))
 
-POA_SCHEMA = load('api-raml/dist/model/article-poa.v2.json')
-VOR_SCHEMA = load('api-raml/dist/model/article-vor.v3.json')
+POA_SCHEMA = load('api-raml/dist/model/article-poa.v3.json')
+VOR_SCHEMA = load('api-raml/dist/model/article-vor.v4.json')
 
 REQUEST_SCHEMA = load('request-schema.json')
 RESPONSE_SCHEMA = load('response-schema.json')
