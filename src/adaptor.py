@@ -331,6 +331,15 @@ def read_from_fs(path, **kwargs):
     outgoing = fs_adaptor.OutgoingQueue()
     return incoming, outgoing
 
+def read_from_s3(path, kwargs):
+    "generates a message for a file on s3 like SQS, but without using SQS"
+    kwargs = subdict(kwargs, ['action', 'validate_only', 'force'])
+    kwargs = renkeys(kwargs, [('validate_only', 'validate-only')])
+    path_list = [fs_adaptor.mkreq(path, **kwargs)]
+    incoming = fs_adaptor.SimpleQueue(path_list)
+    outgoing = fs_adaptor.OutgoingQueue()
+    return incoming, outgoing
+
 class Flag:
     def __init__(self):
         self.should_stop = False
@@ -363,7 +372,7 @@ def _setup_interrupt_flag():
 def main(*flgs):
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--type', choices=['sqs', 'fs'])
+    parser.add_argument('--type', choices=['sqs', 'fs', 's3'])
 
     # fs options
     parser.add_argument('--target', default=join(PROJECT_DIR, 'article-xml', 'articles'))
@@ -373,19 +382,16 @@ def main(*flgs):
 
     args = parser.parse_args(flgs or sys.argv[1:])
 
+    flag = _setup_interrupt_flag()
+
     adaptors = {
-        'fs': partial(read_from_fs, args.target),
-        'sqs': read_from_sqs,
+        'fs': partial(read_from_fs, args.target, action=args.action, force=args.force),
+        'sqs': partial(read_from_sqs, env=conf.ENV, flag=flag),
+        's3': partial(read_from_s3, args.target, args.__dict__)
     }
     adaptor_type = args.type
 
     fn = adaptors[adaptor_type]
-    flag = _setup_interrupt_flag()
-
-    if adaptor_type == 'fs':
-        fn = partial(fn, action=args.action, force=args.force)
-    else:
-        fn = partial(fn, env=conf.ENV, flag=flag)
 
     do(*fn())
 
