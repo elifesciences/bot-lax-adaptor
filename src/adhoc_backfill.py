@@ -49,6 +49,8 @@ def do_paths(paths, dry_run=False):
 # bootstrap
 #
 
+read_from_stdin = sys.stdin.readlines
+
 def main(args):
     import argparse
     parser = argparse.ArgumentParser()
@@ -61,7 +63,7 @@ def main(args):
 
     # failing that, try reading from stdin
     if not paths:
-        paths = sys.stdin.readlines()
+        paths = read_from_stdin()
         try:
             paths = lmap(json.loads, paths)
         except ValueError:
