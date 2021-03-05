@@ -3,8 +3,8 @@
 This application:
 
 1. listens for messages from the [elife-bot](https://github.com/elifesciences/elife-bot)
-2. downloads xml from S3 via HTTP
-3. converts it to a partial representation of our [article-json schema](https://github.com/elifesciences/api-raml)
+2. downloads XML from S3 via HTTP
+3. converts XML to a mostly complete representation of our [article-json schema](https://github.com/elifesciences/api-raml)
 4. sends article-json to [Lax](https://github.com/elifesciences/lax) to be ingested
 
 ## installation
@@ -68,14 +68,24 @@ use of all available cores:
 
     $ ./validate-all-json.sh
 
-## listening/sending
+## backfill
 
 ### populating a Lax installation
 
-This script ties several others together and simply does: generate, validate and
-then an `ingest --force` to lax.
+This generates, validates and then performs an `ingest --force` to lax for each article in the article-xml repository.
 
     $ ./backfill.sh
+
+The generation, validation and ingest actions happen in separate steps for greater parallelism.
+
+### updating a small subset of articles in Lax
+
+This reads a list of article IDs from a file and then generates, validates and performs an `ingest --force` to lax for
+each article sequentially. It can be quite slow for a large number of articles.
+
+    $ ./backfill-many.sh
+
+## listening/sending
 
 ### receiving messages from an AWS SQS queue
 
@@ -89,7 +99,7 @@ This is quite eLife-specific but can be modified easily if you're a developer:
 
 ## Copyright & Licence
 
-Copyright 2016 eLife Sciences. Licensed under the [GPLv3](LICENCE.txt)
+Copyright 2021 eLife Sciences. Licensed under the [GPLv3](LICENCE.txt)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
