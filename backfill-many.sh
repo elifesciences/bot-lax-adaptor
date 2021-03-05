@@ -11,8 +11,8 @@ backfill_file=${1:-backfill.txt}
 prjdir=$(pwd) # bot-lax project, where this script lives
 xmlrepodir="$prjdir/article-xml/articles"
 (
-    #. download-elife-xml.sh
-    cd $xmlrepodir
+    . download-elife-xml.sh
+    cd "$xmlrepodir"
     # do this because 'download-elife-xml.sh' obeys article-xml repository pin
     git reset --hard
     git checkout master
@@ -21,4 +21,4 @@ xmlrepodir="$prjdir/article-xml/articles"
 
 source venv/bin/activate
 
-python ./src/backfill-many.py --xml-repo-dir "$xmlrepodir" --backfill-file "$backfill_file" --dry-run
+python ./src/backfill-many.py --xml-repo-dir "$xmlrepodir" --backfill-file "$backfill_file"

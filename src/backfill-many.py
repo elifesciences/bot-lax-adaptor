@@ -15,7 +15,7 @@ def main(xml_repo_dir, backfill_file, dry_run):
         globbed_path = os.path.abspath(globbed_path)
         result = glob.glob(globbed_path)
         assert result, "failed to find/expand path: %s" % globbed_path
-        path_list.extend(result) # glob glob glob
+        path_list.extend(result)
 
     for path in path_list:
         assert os.path.exists(path), "path does not exist: %s" % path
