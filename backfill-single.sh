@@ -1,4 +1,8 @@
 #!/bin/bash
+# backills a *single* article from XML on the filesystem.
+# see `backfill-many.sh` to backfill *many* (but not *all*) articles from XML.
+# see `backfill.sh` to backfill *all* articles from XML.
+
 set -e
 
 if [ "$#" != 3 ]; then
