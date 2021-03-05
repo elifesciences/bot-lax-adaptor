@@ -8,7 +8,7 @@ import adhoc_backfill
 
 def main(xml_repo_dir, backfill_file, dry_run):
     assert os.path.exists(xml_repo_dir), "path to XML repository doesn't exist: %s" % xml_repo_dir
-    
+
     path_list = []
     for globbed_path in open("backfill.txt", 'r').read().splitlines():
         globbed_path = os.path.join(xml_repo_dir, globbed_path)
@@ -21,7 +21,7 @@ def main(xml_repo_dir, backfill_file, dry_run):
         assert os.path.exists(path), "path does not exist: %s" % path
 
     # prompt
-        
+
     path_list = sorted(path_list, reverse=True)
     for path in path_list:
         print(path)
@@ -34,11 +34,11 @@ def main(xml_repo_dir, backfill_file, dry_run):
         return False
 
     # finally
-    
+
     adhoc_backfill.do_paths(path_list, dry_run)
 
     # examine results for failures?
-    
+
     return True
 
 if __name__ == '__main__':
