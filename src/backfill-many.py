@@ -10,7 +10,7 @@ def main(xml_repo_dir, backfill_file, dry_run):
     assert os.path.exists(xml_repo_dir), "path to XML repository doesn't exist: %s" % xml_repo_dir
 
     path_list = []
-    for globbed_path in open("backfill.txt", 'r').read().splitlines():
+    for globbed_path in open(backfill_file, 'r').read().splitlines():
         globbed_path = os.path.join(xml_repo_dir, globbed_path)
         globbed_path = os.path.abspath(globbed_path)
         result = glob.glob(globbed_path)
