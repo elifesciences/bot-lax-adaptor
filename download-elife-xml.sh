@@ -15,6 +15,7 @@ if [ ! -d article-xml ]; then
         git remote add origin https://github.com/elifesciences/elife-article-xml
         cd -
     else
+        # article-xml respository doesn't exist, create it
         git clone https://github.com/elifesciences/elife-article-xml article-xml
     fi
 fi
