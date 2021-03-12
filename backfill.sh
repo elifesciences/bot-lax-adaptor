@@ -117,7 +117,7 @@ set +o nounset; . install.sh; set -o nounset;
     IFS=,
 
     errcho "fetching articles from lax"
-    $laxdir/manage.sh --skip-install report all-article-versions-as-csv | while read msid version remotepath
+    $laxdir/manage.sh --skip-install output --report article_version_list_as_csv | while read msid version remotepath
     do
         # ll: elife-00003-v1.xml
         fname="elife-$msid-v$version.xml" 
@@ -161,6 +161,8 @@ set +o nounset; . install.sh; set -o nounset;
     done
     IFS=$OLDIFS
 )
+
+source venv/bin/activate
 
 # generate article-json 
 # generated files are stored in $ajsondir
