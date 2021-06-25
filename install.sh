@@ -7,6 +7,7 @@ echo "[-] install.sh"
 . mkvenv.sh
 
 source venv/bin/activate
+pip install pip wheel --upgrade
 
 # link the default (elife) config if no app.cfg file found
 if [ ! -e app.cfg ]; then
@@ -23,6 +24,7 @@ if pip list | grep connexion; then
     pip uninstall -y connexion
 fi
 
-pip install -r requirements.txt
+# use legacy resolver until we can port to pipenv
+pip install -r requirements.txt --use-deprecated=legacy-resolver
 
 echo "[✓] install.sh"
