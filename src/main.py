@@ -18,8 +18,8 @@ from isbnlib import mask, to_isbn13
 from past.builtins import basestring
 from slugify import slugify
 
-import conf, utils, glencoe, iiif, cdn
-from utils import ensure, is_file, lmap, lfilter
+from . import conf, utils, glencoe, iiif, cdn
+from utils import ensure, is_file, lmap, lfilter, first
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler(join(conf.LOG_DIR, 'scrape.log'))
@@ -261,6 +261,23 @@ def body(soup):
 
 def appendices(soup):
     return jats('appendices_json', base_url(jats('publisher_id')(soup)))(soup)
+
+def preprint_events(struct):
+    "returns a list of 'preprint' type events from article's pub-history or `None`"
+    if not struct or not isinstance(struct, list) or len(struct) == 0:
+        return
+    return [event for event in struct if event.get('type') == 'preprint'] or None
+
+def to_preprint(preprint):
+    "returns a struct that passes api-raml validation for preprint events"
+    if not preprint:
+        return
+    return {
+        'status': 'preprint',
+        'description': preprint['event_desc_html'],
+        'uri': preprint['uri'],
+        'date': to_isoformat(preprint['date'])
+    }
 
 #
 # post processing
@@ -536,6 +553,7 @@ def postprocess(data, ctx):
         partial(manual_overrides, ctx),
     ])
     return data
+
 #
 #
 #
@@ -551,6 +569,7 @@ SNIPPET = OrderedDict([
         ('location', [getvar('location')]),
     ])),
     ('-history', OrderedDict([
+        ('preprint', [jats('pub_history'), preprint_events, first, to_preprint, discard_if_none_or_empty]),
         ('received', [jats('history_date', date_type='received'), to_isoformat, discard_if_none_or_empty]),
         ('accepted', [jats('history_date', date_type='accepted'), to_isoformat, discard_if_none_or_empty]),
     ])),
