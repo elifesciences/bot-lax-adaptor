@@ -6,7 +6,7 @@ et3==1.5.1
 git+https://github.com/elifesciences/elife-tools.git@31509bfc9a8b84656ed6a1e8433894c56eff0b83#egg=elifetools
 Flask==1.0.2
 Flask-Testing==0.7.1
-flex==6.13.2
+flex==6.14.1
 future==0.16.0
 isbnlib==3.9.1
 # lsh@2020-07-07: isort pinned at 4.x as 5.x breaks api
