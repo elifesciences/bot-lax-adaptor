@@ -63,7 +63,7 @@ def iiif_info(msid, filename):
 
     elif resp.status_code != 200:
         msg = "unhandled status code from IIIF"
-        LOG.warn(msg, extra=context)
+        LOG.warning(msg, extra=context)
         raise ValueError(msg + ": %s" % resp.status_code)
 
     try:

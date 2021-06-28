@@ -98,12 +98,12 @@ DISPLAY_CHANNEL_TYPES = {
 
 def display_channel_to_article_type(display_channel_list):
     if not display_channel_list:
-        LOG.warn("type: display channel list not provided")
+        LOG.warning("type: display channel list not provided")
         return
     display_channel = display_channel_list[0]
     retval = DISPLAY_CHANNEL_TYPES.get(display_channel)
     if not retval:
-        LOG.warn("type: given value %r has no mention in idx: %s", display_channel, DISPLAY_CHANNEL_TYPES.keys())
+        LOG.warning("type: given value %r has no mention in idx: %s", display_channel, DISPLAY_CHANNEL_TYPES.keys())
     return retval
 
 LICENCE_TYPES = {
@@ -227,15 +227,6 @@ def getvar(varname):
     def fn(ctx, _):
         return ctx[varname]
     return fn
-
-'''
-def discard_if(pred): # can also be used like: discard_if(None)
-    def fn(v):
-        if pred is None:
-            return EXCLUDE_ME
-        return EXCLUDE_ME if pred(v) else v
-    return fn
-'''
 
 def fail_if_none(label):
     def wrap(v):
@@ -372,13 +363,13 @@ def expand_uris(msid, data):
             # all urls must have a protocol.
             # this should have been picked up in the bot or in production.
             fixed = 'http://' + element['uri']
-            LOG.warn("broken url: %r has become %r" % (uri, fixed))
+            LOG.warning("broken url: %r has become %r" % (uri, fixed))
             element['uri'] = fixed
             return element
         # edge case: 'doi:' is not a protocol
         if uri.startswith('doi:'):
             fixed = 'https://doi.org/' + uri[4:]
-            LOG.warn("broken url: %r has become %r" % (uri, fixed))
+            LOG.warning("broken url: %r has become %r" % (uri, fixed))
             element['uri'] = fixed
             return element
         # normal case: cdn link
@@ -448,29 +439,6 @@ def format_isbns(data):
         return element
 
     return visit(data, pred, fn)
-
-'''
-# this is validation code rather than transformation code
-# validation is handled by our laborious efforts with json-schema and CI
-# it needs a really good reason to be uncommented or it's going to be removed
-def check_authors(data):
-    "in postprocessing, check all authors have competingInterests except in certain article types"
-    skip_types = ['correction']
-    if data['snippet']['type'] in skip_types:
-        return data
-    # continue
-    context = {
-        'msid': data['snippet'].get('id'),
-        'version': data['snippet'].get('version')
-    }
-    if 'authors' in data['snippet']:
-        for author in data['snippet']['authors']:
-            if (author.get('type') in ['person', 'group']
-                    and author.get('competingInterests') is None):
-                context['author'] = author
-                raise ValueError("Author missing required competingInterests", context)
-    return data
-'''
 
 def non_nil_image_dimensions(ctx, data):
     """articles not yet in iiif will have their dimensions populated with None.
@@ -670,7 +638,7 @@ def expand_location(path):
         return "https://raw.githubusercontent.com/elifesciences/elife-article-xml/%s/articles/%s" % (sha, fname)
 
     # who knows what this path is ...
-    LOG.warn("scraping article content in a non-repeatable way. path %r not found in article-xml dir. please don't send the results to lax", path)
+    LOG.warning("scraping article content in a non-repeatable way. path %r not found in article-xml dir. please don't send the results to lax", path)
     return path
 
 def render_single(doc, **ctx):
