@@ -18,7 +18,7 @@ from isbnlib import mask, to_isbn13
 from past.builtins import basestring
 from slugify import slugify
 
-from . import conf, utils, glencoe, iiif, cdn
+import conf, utils, glencoe, iiif, cdn
 from utils import ensure, is_file, lmap, lfilter, first
 
 LOG = logging.getLogger(__name__)
@@ -270,14 +270,13 @@ def preprint_events(struct):
 
 def to_preprint(preprint):
     "returns a struct that passes api-raml validation for preprint events"
-    if not preprint:
-        return
-    return {
-        'status': 'preprint',
-        'description': preprint['event_desc_html'],
-        'uri': preprint['uri'],
-        'date': to_isoformat(preprint['date'])
-    }
+    if preprint:
+        return {
+            'status': 'preprint',
+            'description': preprint['event_desc_html'],
+            'uri': preprint['uri'],
+            'date': to_isoformat(preprint['date'])
+        }
 
 #
 # post processing
