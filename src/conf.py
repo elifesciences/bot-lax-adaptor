@@ -19,7 +19,7 @@ PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/adaptor/
 
 
 CFG_NAME = 'app.cfg'
-DYNCONFIG = configparser.SafeConfigParser(**{
+DYNCONFIG = configparser.ConfigParser(**{
     'allow_no_value': True,
     # these can be used like template variables
     # https://docs.python.org/2/library/configparser.html
@@ -89,7 +89,7 @@ def load(path):
     if path.endswith('.json'):
         return json.load(open(path, 'r'))
     elif path.endswith('.yaml'):
-        return yaml.load(open(path, 'r'))
+        return yaml.load(open(path, 'r'), Loader=yaml.FullLoader)
 
 POA_SCHEMA = load('api-raml/dist/model/article-poa.v3.json')
 VOR_SCHEMA = load('api-raml/dist/model/article-vor.v5.json')
