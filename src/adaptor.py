@@ -355,7 +355,7 @@ def do(incoming, outgoing):
             handler(request, outgoing)
 
     except KeyboardInterrupt:
-        LOG.warn("stopping abruptly due to KeyboardInterrupt")
+        LOG.warning("stopping abruptly due to KeyboardInterrupt")
 
     LOG.info("graceful shutdown")
 

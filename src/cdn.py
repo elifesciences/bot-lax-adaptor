@@ -38,5 +38,5 @@ def url_exists(url, msid=None):
         LOG.debug("CDN url not found", extra=context)
     else:
         msg = "unhandled status code from CDN"
-        LOG.warn(msg, extra=context)
+        LOG.warning(msg, extra=context)
         raise ValueError(msg + ": %s" % resp.status_code)

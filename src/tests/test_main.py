@@ -1,3 +1,5 @@
+from collections import OrderedDict
+import time
 import os
 import json
 from os.path import join
@@ -123,41 +125,11 @@ class ArticleScrape(base.BaseCase):
                      "name": "Microbiology and Infectious Disease"}]
         self.assertEqual(main.category_codes(cat_list), expected)
 
-    """
-    # disable test due to code snippet is also disabled at this time
-    def test_check_authors(self):
-        cases = [
-            {"snippet": {"type": "research-article", "authors": [{"type": "person", "competingInterests": "A competing interest"}]}},
-            {"snippet": {"type": "correction", "authors": [{"type": "person"}]}}
-        ]
-        for snippet in cases:
-            self.assertEqual(main.check_authors(snippet), snippet)
-    """
-
-    """
-    # disable test due to code snippet is also disabled at this time
-    def test_check_authors_failure(self):
-        snippet = {"snippet": {"type": "research-article", "authors": [{"type": "person"}]}}
-        self.assertRaises(ValueError, main.check_authors, snippet)
-    """
-
     def test_related_article_to_related_articles_whem_empty(self):
         # For increased test coverage, test and empty list
         related_article_list = [{'junk': 'not related'}]
         expected = []
         self.assertEqual(main.related_article_to_related_articles(related_article_list), expected)
-
-    '''
-    def test_clean_if_none(self):
-        snippet = {'abstract': None}
-        expected = {}
-        self.assertEqual(main.clean_if_none(snippet), expected)
-
-    def test_clean_if_empty(self):
-        snippet = {'researchOrganisms': []}
-        expected = {}
-        self.assertEqual(main.clean_if_empty(snippet), expected)
-    '''
 
     def test_display_channel_to_article_type_fails(self):
         display_channel = ['']
@@ -326,6 +298,7 @@ class ArticleScrape(base.BaseCase):
         for bad_key, val in expected.items():
             self.assertRaises(AssertionError, main.serialize_overrides, {bad_key: val})
 
+
 class KitchenSink(base.BaseCase):
     def setUp(self):
         self.doc = join(self.fixtures_dir, 'elife-00666-v1.xml')
@@ -427,3 +400,82 @@ class Locations(base.BaseCase):
         uri = 'https://s3-external-1.amazonaws.com/elife-publishing-expanded/25605.3/b8bd7e0b-a259-4d60-9ab2-c8ea9ecc31dc/elife-25605-v3.xml'
         expanded = main.expand_location(uri)
         self.assertEqual(expanded, uri)
+
+def test_preprint_events__empty_cases():
+    "`preprint_events` filters bad values and returns `None` if final result is empty"
+    cases = [
+        (None, None),
+        ({}, None),
+        ([], None),
+        ("", None),
+        ([{}], None),
+        ([{'type': 'foo'}], None)
+    ]
+    for given, expected in cases:
+        assert expected == main.preprint_events(given)
+
+def test_preprint_events():
+    "`preprint_events` returns a list of preprints filtered from the `pub_history` results"
+    timeobj = time.gmtime()
+    cases = [
+        # only type=preprint are returned
+        ([{"type": "preprint"}, {}], [{"type": "preprint"}]),
+
+        # expected structs are passed through as-is
+        ([{"type": "preprint",
+           "uri": "http://foo.bar",
+           "date": timeobj}],
+         [{"type": "preprint",
+           "uri": "http://foo.bar",
+           "date": timeobj}])
+    ]
+    for given, expected in cases:
+        assert expected == main.preprint_events(given)
+
+def test_to_preprint__empty_cases():
+    "`to_preprint` returns `None` for bad/empty cases"
+    cases = [
+        (None, None),
+        ([], None),
+        ({}, None),
+        ("", None)
+    ]
+    for given, expected in cases:
+        assert expected == main.to_preprint(given)
+
+def test_to_preprint():
+    "`to_preprint` takes the raw data from `pub_history` and converts it to a API RAML valid format"
+    given = OrderedDict([
+        ("event_type", "preprint"),
+        ("event_desc", "This manuscript was published as a preprint at bioRxiv."),
+        (
+            "event_desc_html",
+            "This manuscript was published as a preprint at bioRxiv.",
+        ),
+        ("uri", "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1"),
+        ("day", "15"),
+        ("month", "02"),
+        ("year", "2019"),
+        (
+            "date",
+            time.struct_time(
+                (2019,
+                 2,
+                 15,
+                 0,
+                 0,
+                 0,
+                 4,
+                 46,
+                 0)
+            ),
+        ),
+        ("iso-8601-date", "2019-02-15"),
+    ])
+
+    expected = {
+        "status": "preprint",
+        "description": "This manuscript was published as a preprint at bioRxiv.",
+        "uri": "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1",
+        "date": '2019-02-15T00:00:00Z'}
+    assert expected == main.to_preprint(given)
