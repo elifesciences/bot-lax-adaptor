@@ -7,7 +7,7 @@ set -e
 rm -rf venv/
 . mkvenv.sh
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt --use-deprecated=legacy-resolver
 
 # upgrade all deps to latest version
 pip install pip-review
