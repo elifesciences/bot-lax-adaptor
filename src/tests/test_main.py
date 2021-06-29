@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import time
 import os
 import json
@@ -444,16 +445,37 @@ def test_to_preprint__empty_cases():
 
 def test_to_preprint():
     "`to_preprint` takes the raw data from `pub_history` and converts it to a API RAML valid format"
-    timeobj = time.strptime("2021-06-28T06:56:54Z", "%Y-%m-%dT%H:%M:%SZ")
-    given = {
-        "type": "preprint",
-        "uri": "http://foo.bar",
-        "event_desc_html": "foo",
-        "date": timeobj
-    }
+    given = OrderedDict([
+        ("event_type", "preprint"),
+        ("event_desc", "This manuscript was published as a preprint at bioRxiv."),
+        (
+            "event_desc_html",
+            "This manuscript was published as a preprint at bioRxiv.",
+        ),
+        ("uri", "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1"),
+        ("day", "15"),
+        ("month", "02"),
+        ("year", "2019"),
+        (
+            "date",
+            time.struct_time(
+                (2019,
+                 2,
+                 15,
+                 0,
+                 0,
+                 0,
+                 4,
+                 46,
+                 0)
+            ),
+        ),
+        ("iso-8601-date", "2019-02-15"),
+    ])
+
     expected = {
         "status": "preprint",
-        "description": "foo",
-        "uri": "http://foo.bar",
-        "date": '2021-06-28T06:56:54Z'}
+        "description": "This manuscript was published as a preprint at bioRxiv.",
+        "uri": "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1",
+        "date": '2019-02-15T00:00:00Z'}
     assert expected == main.to_preprint(given)
