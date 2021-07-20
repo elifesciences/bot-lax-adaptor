@@ -409,7 +409,7 @@ def test_preprint_events__empty_cases():
         ([], None),
         ("", None),
         ([{}], None),
-        ([{'type': 'foo'}], None)
+        ([{'event_type': 'foo'}], None)
     ]
     for given, expected in cases:
         assert expected == main.preprint_events(given)
@@ -419,13 +419,13 @@ def test_preprint_events():
     timeobj = time.gmtime()
     cases = [
         # only type=preprint are returned
-        ([{"type": "preprint"}, {}], [{"type": "preprint"}]),
+        ([{"event_type": "preprint"}, {}], [{"event_type": "preprint"}]),
 
         # expected structs are passed through as-is
-        ([{"type": "preprint",
+        ([{"event_type": "preprint",
            "uri": "http://foo.bar",
            "date": timeobj}],
-         [{"type": "preprint",
+         [{"event_type": "preprint",
            "uri": "http://foo.bar",
            "date": timeobj}])
     ]
