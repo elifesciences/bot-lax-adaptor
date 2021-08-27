@@ -103,7 +103,7 @@ def expand_videos(msid, video):
     gc_id_str = ", ".join(gc_data.keys())
 
     v_id = video['id']
-    ensure(gc_data, "glencoe doesn't know %r, it doesn't have any media" % (v_id,))
+    ensure(gc_data, "glencoe doesn't know %r, it doesn't have any media for: %s" % (v_id, msid,))
     ensure(v_id in gc_data, "glencoe doesn't know %r, only %r" % (v_id, gc_id_str))
 
     video_data = gc_data[v_id]
