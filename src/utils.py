@@ -41,7 +41,7 @@ def pad_msid(msid):
     return str(int(msid)).zfill(5)
 
 def pad_filename(msid, filename):
-    # Rename the file itself for end2end tests
+    "rename the file itself for end2end tests"
     match = '-' + str(video_msid(msid)) + '-'
     replacement = '-' + str(pad_msid(msid)) + '-'
     return filename.replace(match, replacement)
@@ -53,6 +53,26 @@ def video_msid(msid):
     if int(msid) > 100000:
         return pad_msid(str(msid)[-5:])
     return msid
+
+def video_msid_2(msid, video_href=None):
+    """Replaces the msid of testing articles with the reference one they were generated from.
+    Leaves real articles AND the kitchen sink untouched.
+
+    Testing uses actual articles and generate a very long random msid from their shorter one.
+      for example: 09560 => 5432109560 (trailing msid is preserved)
+
+    All instances of the msid in the XML are replaced with this generated msid.
+    `utils.video_msid` *truncates* this so external references continue pointing to the actual article assets.
+      for example: 5432109560 => 09560
+
+    The kitchen sink however is its own article with its own set of videos.
+    Its msid is still changed from 1234567890 to a generated one *except* for video hrefs.
+    See `elife-spectrum/update-kitchen-sinks-from-github.sh`."""
+    kitchen_sink_msid = '1234567890'
+    # `video_href` looks like "elife-1234567890-fig3-video1.mp4"
+    if video_href and kitchen_sink_msid in video_href:
+        return kitchen_sink_msid
+    return video_msid(msid)
 
 def ensure(assertion, msg, exception_class=AssertionError):
     """intended as a convenient replacement for `assert` statements that

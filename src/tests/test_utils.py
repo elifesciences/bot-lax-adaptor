@@ -36,11 +36,42 @@ class Utils(BaseCase):
         self.assertEqual(stdout, 'pants-party')
 
     def test_video_msid(self):
-        self.assertEqual(9560, utils.video_msid(9560))
-        self.assertEqual('9560', utils.video_msid('9560'))
-        self.assertEqual('09560', utils.video_msid('09560'))
-        self.assertEqual('09560', utils.video_msid('10009560'))
-        self.assertEqual('09560', utils.video_msid(10009560))
+        cases = [
+            (9560, 9560),
+            ('9560', '9560'),
+            ('09560', '09560'),
+
+            (10009560, '09560'),
+            ('10009560', '09560'),
+
+            # *not* what we want for the kitchen sink.
+            # see `test_video_msid_2`
+            (1234567890, '67890'),
+            ('1234567890', '67890'),
+        ]
+        for given, expected in cases:
+            self.assertEqual(expected, utils.video_msid(given))
+
+    def test_video_msid_2(self):
+        cases = [
+            # all these should still work
+            ((9560, None), 9560),
+            (('9560', None), '9560'),
+            (('09560', None), '09560'),
+
+            ((10009560, None), '09560'),
+            (('10009560', None), '09560'),
+
+            # kitchen sink should now behave differently.
+            ((1234567890, None), '67890'),
+            (('1234567890', None), '67890'),
+
+            ((1234567890, 'elife-1234567890-fig3-video1.mp4'), '1234567890'),
+            (('1234567890', 'elife-1234567890-fig3-video1.mp4'), '1234567890'),
+        ]
+        for (given, video_href), expected in cases:
+            actual = utils.video_msid_2(given, video_href)
+            self.assertEqual(expected, actual)
 
     def test_pad_filename(self):
         cases = [

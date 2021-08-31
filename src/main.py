@@ -302,7 +302,11 @@ def expand_videos(data):
     def pred(element):
         return isinstance(element, dict) and element.get("type") == "video"
 
-    return visit(data, pred, partial(glencoe.expand_videos, utils.video_msid(msid)))
+    def fn(element):
+        new_msid = utils.video_msid_2(msid, element.get('uri'))
+        return glencoe.expand_videos(new_msid, element)
+
+    return visit(data, pred, fn)
 
 def expand_placeholder(msid, data):
 
