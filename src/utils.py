@@ -41,8 +41,10 @@ def pad_msid(msid):
     return str(int(msid)).zfill(5)
 
 def pad_filename(msid, filename):
-    "rename the file itself for end2end tests"
-    match = '-' + str(video_msid(msid)) + '-'
+    "rename the referenced file for end2end tests"
+    # elife-09560-foo.ext => "-09560-" =>  elife-676378463709560-foo.ext
+    # elife-1234567890-foo.ext => "-1234567890-" =>  elife-676301234567890-foo.ext
+    match = '-' + str(video_msid_2(msid, filename)) + '-'
     replacement = '-' + str(pad_msid(msid)) + '-'
     return filename.replace(match, replacement)
 

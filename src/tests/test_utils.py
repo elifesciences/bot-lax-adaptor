@@ -75,10 +75,22 @@ class Utils(BaseCase):
 
     def test_pad_filename(self):
         cases = [
-            ((1234, "https://foo.bar/baz.bup"), "https://foo.bar/baz.bup"),
-            ((10001234, "https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf"), "https://publishing-cdn.elifesciences.org/01234/elife-10001234-v1.pdf"),
+            # no msid present
+            (("https://foo.bar/baz.bup", 1234), "https://foo.bar/baz.bup"),
+
+            # regular filename, regular article ID
+            (("https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf", 1234),
+             "https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf"),
+
+            # regular filename, end2end article ID
+            (("https://publishing-cdn.elifesciences.org/01234/elife-01234-v1.pdf", 10001234),
+             "https://publishing-cdn.elifesciences.org/01234/elife-10001234-v1.pdf"),
+
+            # kitchensink filename, end2end article ID
+            (("https://publishing-cdn.elifesciences.org/1234567890/elife-1234567890-v1.pdf", 67171561234567890),
+             "https://publishing-cdn.elifesciences.org/1234567890/elife-67171561234567890-v1.pdf"),
         ]
-        for (msid, filename), expected in cases:
+        for (filename, msid), expected in cases:
             self.assertEqual(utils.pad_filename(msid, filename), expected)
 
     def test_call_n_times(self):
