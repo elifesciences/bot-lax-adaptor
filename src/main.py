@@ -602,7 +602,7 @@ VOR.update(OrderedDict([
     ('references', [jats('references_json')]),
     ('appendices', [appendices]),
     ('acknowledgements', [jats('acknowledgements_json')]),
-    ('editorEvaluation', [jats('editor_evaluation')]),
+    ('editorEvaluation', [jats('editor_evaluation'), discard_if_none_or_empty]),
     ('decisionLetter', [jats('decision_letter')]),
     ('authorResponse', [jats('author_response')]),
 ]))
