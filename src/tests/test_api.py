@@ -3,39 +3,13 @@ import os
 from os.path import join
 import shutil
 import tempfile
-
 from flask_testing import TestCase
 from unittest.mock import patch
-
 from . import base
 from src import api, validate, utils, main as scraper, conf
 
-class One(base.BaseCase):
-    def setUp(self):
-        self.doc = join(self.fixtures_dir, 'elife-09560-v1.xml')
-        self.small_doc = join(self.fixtures_dir, 'elife-16695-v1.xml')
-
-    def tearDown(self):
-        pass
-
-    def test_schema_validates(self):
-        self.assertTrue(api.validate_schema())
-
-    '''
-    # this approach has promise, but all the libraries in this domain are woefully
-    # implemented and maintained. I've had to modify swagger-tester and swagger-parser
-    # quite a bit aleady just to get this far. I need:
-    # * the ability to override the test for certain cases.
-    # * the ability to continue testing other paths/methods/parameters if any one fails
-    # * the ability to setup and teardown state for any given test
-    def test_foo(self):
-        import conf
-        from swagger_tester import swagger_test
-        path = join(conf.PROJECT_DIR, 'schema', 'api.yaml')
-        print 'path',path
-        swagger_test(path, resolver=api.AsdfResolver('api'))
-    '''
-
+def test_schema_validates():
+    assert api.validate_schema()
 
 class FlaskTestCase(TestCase):
     maxDiff = None

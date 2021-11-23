@@ -23,7 +23,8 @@ LOG = logging.getLogger(__name__)
 #
 
 def validate_schema():
-    "validates the api schema"
+    """validates the api schema.
+    raises a ValueError if the schema is invalid, otherwise returns `True`."""
     path = join(conf.PROJECT_DIR, 'schema', 'api.yaml')
     spec = flex.load(path)
     validate(spec)
