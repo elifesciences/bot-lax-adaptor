@@ -1,5 +1,6 @@
 #!/bin/bash
-# generates and validate a small subset of articles that should always pass
+# generates and validate a small subset of articles that should always pass.
+# ensures generated article-json is reproducible.
 
 set -e
 
