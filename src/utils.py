@@ -49,23 +49,22 @@ def pad_filename(msid, filename):
     return filename.replace(match, replacement)
 
 def video_msid(msid):
-    """Replaces the msid of testing articles with the reference one they were generated from.
-
-    Leaves real articles untouched"""
+    """Replaces the `msid` of testing articles with the reference one they were generated from.
+    Leaves real articles untouched."""
     if int(msid) > 100000:
         return pad_msid(str(msid)[-5:])
     return msid
 
 def video_msid_2(msid, video_href=None):
-    """Replaces the msid of testing articles with the reference one they were generated from.
+    """Replaces the `msid` of testing articles with the reference one they were generated from.
     Leaves real articles AND the kitchen sink untouched.
 
-    Testing uses actual articles and generate a very long random msid from their shorter one.
-      for example: 09560 => 5432109560 (trailing msid is preserved)
+    Testing uses actual articles and generates a very long random msid from their shorter one.
+    For example: 09560 => 5432109560 (trailing msid is preserved)
 
     All instances of the msid in the XML are replaced with this generated msid.
     `utils.video_msid` *truncates* this so external references continue pointing to the actual article assets.
-      for example: 5432109560 => 09560
+    For example: 5432109560 => 09560
 
     The kitchen sink however is its own article with its own set of videos.
     Its msid is still changed from 1234567890 to a generated one *except* for video hrefs.
