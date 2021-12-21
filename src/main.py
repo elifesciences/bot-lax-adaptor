@@ -283,7 +283,17 @@ def not_applicable_if_none(v):
     return v
 
 def body(soup):
-    return jats('body_json', base_url(jats('publisher_id')(soup)))(soup)
+    body_json = jats('body_json', base_url(jats('publisher_id')(soup)))(soup)
+    footnotes_json = jats('footnotes_json', base_url(jats('publisher_id')(soup)))(soup)
+    if footnotes_json:
+        footnotes_section = {"id": "footnotes",
+                        "title": "Footnotes",
+                        "type": "section",
+                        "content": []}
+        for f_json in footnotes_json:
+            footnotes_section["content"].append(f_json)
+        body_json.append(footnotes_section)
+    return body_json
 
 def appendices(soup):
     return jats('appendices_json', base_url(jats('publisher_id')(soup)))(soup)
