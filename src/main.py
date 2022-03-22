@@ -8,13 +8,11 @@ import json
 from os.path import join
 import os
 import re
-
 from elifetools import parseJATS
 from et3.extract import lookup as p
 from et3.render import render, doall, EXCLUDE_ME
 from et3.utils import requires_context
 from isbnlib import mask, to_isbn13
-from past.builtins import basestring
 from slugify import slugify
 
 import conf, utils, glencoe, iiif, cdn
@@ -45,7 +43,7 @@ def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
 
 def to_soup(doc):
-    if isinstance(doc, basestring):
+    if isinstance(doc, str):
         if os.path.exists(doc):
             return parseJATS.parse_document(doc)
         return parseJATS.parse_xml(doc)
@@ -205,7 +203,7 @@ def to_volume(pair):
     pub_date, volume = pair
     if not volume:
         # no volume on unpublished PoA articles, calculate based on year published
-        if isinstance(pub_date, basestring):
+        if isinstance(pub_date, str):
             # assume yyyy-mm-dd formatted string
             pub_year = int(pub_date[:4])
         else:
@@ -661,7 +659,7 @@ def render_single(doc, **ctx):
 def serialize_overrides(override_map):
     def serialize(pair):
         key, val = pair
-        ensure(isinstance(key, basestring), "key must be a string")
+        ensure(isinstance(key, str), "key must be a string")
         ensure('|' not in key, "key must not contain a pipe")
         key = key.strip()
         ensure(key, "key must not be empty")

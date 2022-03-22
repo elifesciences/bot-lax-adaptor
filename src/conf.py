@@ -1,3 +1,4 @@
+import utils
 import configparser as configparser
 import inspect
 import json
@@ -5,11 +6,8 @@ import logging
 import os, sys
 from os.path import join
 import yaml
-
 import log
 log.setup_root_logger()
-
-import utils # is this ordering of utils after log important?
 
 _formatter = log.json_formatter() # todo: _formatter is unused, function call has side effects
 

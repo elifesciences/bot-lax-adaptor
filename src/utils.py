@@ -8,7 +8,6 @@ import time
 from collections import OrderedDict
 import jsonschema
 from jsonschema import validate as validator, ValidationError
-from past.builtins import basestring
 import requests
 import requests_cache
 import dateutils
@@ -128,7 +127,7 @@ def validate(struct, schema):
     # if given a string, assume it's json and try to load it
     # else, assume it's serializable, dump it and load it
     try:
-        if isinstance(struct, basestring):
+        if isinstance(struct, str):
             struct = json.loads(struct)
         else:
             struct = json.loads(json_dumps(struct))
