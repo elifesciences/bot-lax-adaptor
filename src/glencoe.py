@@ -62,7 +62,7 @@ def validate_gc_data(gc_data):
         ensure(len(available_sources) == len(known_sources), msg)
 
 def clear_cache(msid):
-    requests_cache.core.get_cache().delete_url(glencoe_url(msid))
+    requests_cache.get_cache().delete_url(glencoe_url(msid))
 
 def metadata(msid):
     # 2018-10-19: it's now possible for glencoe to be queried about an article before media
