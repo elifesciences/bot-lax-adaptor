@@ -14,6 +14,7 @@ pip install pip wheel --upgrade
 
 # updates the Pipfile.lock file and then installs the newly updated dependencies.
 # the envvar is necessary otherwise pipenv will use it's own .venv directory.
+rm -f Pipfile.lock # presence of a lock file can lead to indefinite hanging
 VIRTUAL_ENV="venv" pipenv update --dev
 
 datestamp=$(date -I)
