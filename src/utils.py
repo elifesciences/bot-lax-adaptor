@@ -2,18 +2,12 @@ import copy
 import io
 import json
 import os
-import sqlite3
 import subprocess
 import time
 from collections import OrderedDict
 import jsonschema
 from jsonschema import validate as validator, ValidationError
-from past.builtins import basestring
-import requests
-import requests_cache
 import dateutils
-
-# import conf # don't do this, conf.py depends on utils.py
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -21,11 +15,6 @@ LOG = logging.getLogger(__name__)
 lmap = lambda func, *iterable: list(map(func, *iterable))
 
 lfilter = lambda func, *iterable: list(filter(func, *iterable))
-
-#keys = lambda d: list(d.keys())
-
-#lzip = lambda *iterable: list(zip(*iterable))
-
 
 def is_file(obj):
     try:
@@ -81,11 +70,6 @@ def ensure(assertion, msg, exception_class=AssertionError):
     if not assertion:
         raise exception_class(msg)
 
-def writable_dir(path):
-    ensure(os.path.exists(path), "path doesn't exist: %r" % path)
-    # directories need to be executable as well to be considered writable
-    ensure(os.access(path, os.W_OK | os.X_OK), "directory isn't writable: %r" % path)
-
 def contains_any(ddict, key_list):
     return any([key in ddict for key in key_list])
 
@@ -128,7 +112,7 @@ def validate(struct, schema):
     # if given a string, assume it's json and try to load it
     # else, assume it's serializable, dump it and load it
     try:
-        if isinstance(struct, basestring):
+        if isinstance(struct, str):
             struct = json.loads(struct)
         else:
             struct = json.loads(json_dumps(struct))
@@ -217,64 +201,6 @@ def call_n_times(fn, protect_from, num_attempts=3, initial_waiting_time=0):
                     continue
                 raise
     return wrap
-
-class RemoteResponseTemporaryError(RuntimeError):
-    pass
-
-class RemoteResponsePermanentError(RuntimeError):
-    pass
-
-# keeping this here as cache_requests would create a mutual dependency between conf and utils
-def requests_cache_create_key(prepared_request):
-    return requests_cache.core.get_cache().create_key(prepared_request)
-
-'''
-# works, but only good for debugging/mocking responses
-def dumpobj(obj):
-    import cPickle, time
-    from os.path import join
-    import conf
-    fname = str(int(time.time() * 1000000)) + ".pickle"
-    path = join(conf.PROJECT_DIR, fname)
-    pickler = cPickle.Pickler(open(path, 'w'))
-    pickler.dump(obj)
-    return path
-
-def loadobj(path):
-    pass
-'''
-
-def requests_get(*args, **kwargs):
-    def target(*args, **kwargs):
-        # https://2.python-requests.org/en/master/user/advanced/#prepared-requests
-        request = requests.Request('GET', *args, **kwargs)
-        prepared_request = request.prepare()
-        s = requests.Session()
-
-        # if caching enabled, log the key used to cache the response
-        if hasattr(s, 'cache'): # test if requests_cache is enabled
-            cache_key = requests_cache_create_key(prepared_request)
-            LOG.info("Requesting url %s (cache key '%s')", args[0], cache_key)
-        else:
-            LOG.info("Requesting url %s", args[0])
-
-        response = s.send(prepared_request)
-        if response.status_code >= 500:
-            raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
-        #dumpobj((request, response))
-        return response
-    num_attempts = 3
-    resp = call_n_times(
-        target,
-        [sqlite3.OperationalError, RemoteResponseTemporaryError],
-        num_attempts,
-        initial_waiting_time=1
-    )(*args, **kwargs)
-    if resp is None:
-        # function has been called num_attempts and has been caught each time.
-        # at this point we have an empty response.
-        raise RemoteResponsePermanentError("failed to call %r %s times" % (args[0], num_attempts))
-    return resp
 
 def todt(val):
     return dateutils.todt(val)

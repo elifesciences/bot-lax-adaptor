@@ -1,13 +1,8 @@
 import os
 import requests
-import requests_cache
-from cache_requests import install_cache_requests
-import conf, utils
+import conf, utils, http
 
 LOG = conf.multiprocess_log(conf.IIIF_LOG_PATH, __name__)
-
-if conf.REQUESTS_CACHING:
-    install_cache_requests()
 
 '''
 iiif_resp = {
@@ -50,7 +45,7 @@ def iiif_info(msid, filename):
     try:
         url = iiif_info_url(msid, filename)
         LOG.info("Loading IIIF info URL: %s", url)
-        resp = utils.requests_get(url)
+        resp = http.requests_get(url)
     except requests.ConnectionError:
         LOG.debug("IIIF request failed", extra=context)
         return {}
@@ -75,4 +70,4 @@ def iiif_info(msid, filename):
         raise
 
 def clear_cache(msid, filename):
-    requests_cache.core.get_cache().delete_url(iiif_info_url(msid, filename))
+    return http.clear_cached_response(iiif_info_url(msid, filename))

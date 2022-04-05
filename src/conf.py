@@ -2,14 +2,24 @@ import configparser as configparser
 import inspect
 import json
 import logging
-import os, sys
+import os
 from os.path import join
 import yaml
-
+# import utils # don't do this
 import log
-log.setup_root_logger()
 
-import utils # is this ordering of utils after log important?
+def writable_dir(path):
+    """returns `True` if given `path` exists, is a directory and writeable+executable.
+    raises an `AssertionError` if not."""
+    if not os.path.exists(path):
+        raise AssertionError("path doesn't exist: %r" % path)
+    if not os.path.isdir(path):
+        raise AssertionError("path is not a directory: %r" % path)
+    if not os.access(path, os.W_OK | os.X_OK):
+        raise AssertionError("directory isn't writeable: %r" % path)
+    return True
+
+log.setup_root_logger()
 
 _formatter = log.json_formatter() # todo: _formatter is unused, function call has side effects
 
@@ -59,7 +69,7 @@ def multiprocess_log(filename, name=__name__):
 LOG_DIR = PROJECT_DIR
 if ENV != DEV:
     LOG_DIR = '/var/log/bot-lax-adaptor/'
-utils.writable_dir(LOG_DIR)
+writable_dir(LOG_DIR)
 
 IIIF_LOG_PATH = join(LOG_DIR, 'iiif.log')
 
@@ -103,7 +113,7 @@ API_SCHEMA = load('api.yaml')
 API_UPLOAD_FOLDER = join(PROJECT_DIR, "uploads")
 if ENV != DEV:
     API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
-utils.writable_dir(API_UPLOAD_FOLDER)
+writable_dir(API_UPLOAD_FOLDER)
 
 # pre-validate means 'validate with placeholders in bot-lax before proper validating on lax'
 API_PRE_VALIDATE = cfg('api.pre_validate', True)
@@ -118,19 +128,17 @@ else:
 CDN_IIIF = cfg('general.cdn_iiif') + '%(padded-msid)s%%2F%(fname)s'
 IIIF = cfg('general.iiif') + '%(padded-msid)s%%2F%(fname)s/info.json'
 
-# global requests_cache switch
+# global requests caching switch
 REQUESTS_CACHING = True
-# glencoe specific requests_cache switch
+
+# how long should a request be cached for?
+REQUESTS_CACHE_EXPIRY_SECONDS = None # None is 'no expiry'
+
+# glencoe specific requests caching switch.
+# this allow you to disable caching responses from Glencoe while caching all other requests.
 GLENCOE_REQUESTS_CACHING = cfg('glencoe.cache_requests', True)
 
-REQUESTS_CACHE = join(CACHE_PATH, 'requests-cache')
-if sys.version_info.major == 3:
-    REQUESTS_CACHE = join(CACHE_PATH, 'requests_cache')
-
-# todo: remove this, unused
-# *may* improve locked db problem
-# https://requests-cache.readthedocs.io/en/latest/api.html#backends-dbdict
-ASYNC_CACHE_WRITES = False
+REQUESTS_CACHE_PATH = join(CACHE_PATH, 'requests_cache')
 
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 

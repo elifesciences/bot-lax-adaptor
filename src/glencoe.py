@@ -1,14 +1,9 @@
 import logging
-import requests_cache
-from cache_requests import install_cache_requests
-import conf, utils
+import conf, utils, http
 from utils import ensure, lmap, lfilter, sortdict
 from collections import OrderedDict
 
 LOG = logging.getLogger(__name__)
-
-if conf.REQUESTS_CACHING:
-    install_cache_requests()
 
 '''
 glencoe_resp = {
@@ -62,30 +57,28 @@ def validate_gc_data(gc_data):
         ensure(len(available_sources) == len(known_sources), msg)
 
 def clear_cache(msid):
-    requests_cache.core.get_cache().delete_url(glencoe_url(msid))
+    http.clear_cached_response(glencoe_url(msid))
 
 def metadata(msid):
     # 2018-10-19: it's now possible for glencoe to be queried about an article before media
     # has been deposited by elife-bot. only successful responses will be cached
     url = glencoe_url(msid)
 
-    if conf.REQUESTS_CACHING and conf.GLENCOE_REQUESTS_CACHING:
-        resp = utils.requests_get(url)
-    else:
-        with requests_cache.disabled():
-            resp = utils.requests_get(url)
+    disable_cache = not (conf.REQUESTS_CACHING and conf.GLENCOE_REQUESTS_CACHING)
+    resp = http.requests_get(url, disable_cache=disable_cache)
+    status_code = resp['status_code']
 
-    context = {'msid': msid, 'glencoe-url': url, 'status-code': resp.status_code}
+    context = {'msid': msid, 'glencoe-url': url, 'status-code': status_code}
 
-    if resp.status_code != 200:
+    if status_code != 200:
         clear_cache(msid)
 
-        if resp.status_code == 404:
+        if status_code == 404:
             LOG.debug("article has no videos", extra=context)
             return {}
 
         msg = "unhandled status code from Glencoe"
-        context["response"] = resp # TODO: object handling?
+        context["response"] = resp
         LOG.error(msg, extra=context)
         raise ValueError("%s: %s" % (msg, resp.status_code))
 
