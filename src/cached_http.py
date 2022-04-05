@@ -26,7 +26,7 @@ def write_response_to_cache(simple_response, cache_key):
     "writes a cache file to disk as json"
     os.makedirs(os.path.dirname(cache_key), exist_ok=True)
     with open(cache_key, "w") as fh:
-        json.dump(simple_response, fh)
+        json.dump(simple_response, fh, indent=4)
 
 def _valid_cache_exists(cache_key, expiry_seconds):
     """returns `True` if the given `cache_key` is 'valid'.
@@ -60,7 +60,7 @@ def requests_cache_create_key(url, cache_root=None):
         params = "&".join(sorted(params.split("&")))
         params = "?" + params
     url = "%s://%s%s%s" % (bits.scheme, bits.netloc, bits.path, params)
-    b64_encoded_url = base64.urlsafe_b64encode(url)
+    b64_encoded_url = base64.urlsafe_b64encode(url.encode("utf-8")).decode()
     # "/path/to/cache/static-movie-usa.glencoesoftware.com/0f10378e095dde7aaf579af504c4bfdc6fb86550==.json"
     # "/path/to/cache/prod--iiif.elifesciences.org/0f10378e095dde7aaf579af504c4bfdc6fb86550==.json"
     path = os.path.join(cache_root, bits.netloc, b64_encoded_url) + ".json"
@@ -69,7 +69,7 @@ def requests_cache_create_key(url, cache_root=None):
 def _clear_cached_response(cache_key):
     "deletes a cache file from the disk"
     LOG.debug("deleting cached response: %s" % (cache_key,))
-    #os.unlink(cache_key) # TODO: reenable once thoroughly tested
+    # os.unlink(cache_key) # TODO: reenable once thoroughly tested
     return True
 
 def clear_cached_response(url, cache_root=None):
@@ -117,7 +117,7 @@ def _request(url, *args, **kwargs):
 
     else:
         LOG.debug("cache miss: %s" % url)
-        response = fn(*args, **kwargs)
+        response = fn(url, *args, **kwargs)
         simple_response = make_response_simple(response)
 
         # only cache successful responses

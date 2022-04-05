@@ -1,5 +1,5 @@
 import logging
-import conf, utils, http
+import conf, utils, cached_http
 from utils import ensure, lmap, lfilter, sortdict
 from collections import OrderedDict
 
@@ -57,7 +57,7 @@ def validate_gc_data(gc_data):
         ensure(len(available_sources) == len(known_sources), msg)
 
 def clear_cache(msid):
-    http.clear_cached_response(glencoe_url(msid))
+    cached_http.clear_cached_response(glencoe_url(msid))
 
 def metadata(msid):
     # 2018-10-19: it's now possible for glencoe to be queried about an article before media
@@ -65,7 +65,7 @@ def metadata(msid):
     url = glencoe_url(msid)
 
     disable_cache = not (conf.REQUESTS_CACHING and conf.GLENCOE_REQUESTS_CACHING)
-    resp = http.requests_get(url, disable_cache=disable_cache)
+    resp = cached_http.requests_get(url, disable_cache=disable_cache)
     status_code = resp['status_code']
 
     context = {'msid': msid, 'glencoe-url': url, 'status-code': status_code}

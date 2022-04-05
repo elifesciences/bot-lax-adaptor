@@ -1,6 +1,7 @@
+import json
 import os
 import requests
-import conf, utils, http
+import conf, utils, cached_http
 
 LOG = conf.multiprocess_log(conf.IIIF_LOG_PATH, __name__)
 
@@ -45,24 +46,25 @@ def iiif_info(msid, filename):
     try:
         url = iiif_info_url(msid, filename)
         LOG.info("Loading IIIF info URL: %s", url)
-        resp = http.requests_get(url)
+        resp = cached_http.requests_get(url)
     except requests.ConnectionError:
         LOG.debug("IIIF request failed", extra=context)
         return {}
 
-    context['status-code'] = resp.status_code
+    status_code = resp['status_code']
+    context['status-code'] = status_code
 
-    if resp.status_code == 404:
+    if status_code == 404:
         LOG.debug("IIIF image not found", extra=context)
         return {}
 
-    elif resp.status_code != 200:
+    elif status_code != 200:
         msg = "unhandled status code from IIIF"
         LOG.warning(msg, extra=context)
-        raise ValueError(msg + ": %s" % resp.status_code)
+        raise ValueError(msg + ": %s" % status_code)
 
     try:
-        info_data = utils.sortdict(resp.json())
+        info_data = utils.sortdict(json.loads(resp['text']))
         return info_data
     except BaseException:
         # clear cache, we don't want bad data hanging around
@@ -70,4 +72,4 @@ def iiif_info(msid, filename):
         raise
 
 def clear_cache(msid, filename):
-    return http.clear_cached_response(iiif_info_url(msid, filename))
+    return cached_http.clear_cached_response(iiif_info_url(msid, filename))

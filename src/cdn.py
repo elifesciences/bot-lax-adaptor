@@ -1,5 +1,5 @@
 import logging
-import http
+import cached_http
 import requests
 
 LOG = logging.getLogger(__name__)
@@ -8,7 +8,7 @@ def url_exists(url, msid=None):
     context = {'msid': msid, 'url': url}
 
     try:
-        resp = http.requests_head(url)
+        resp = cached_http.requests_head(url)
     except requests.ConnectionError:
         LOG.debug("CDN request failed", extra=context)
         return None
