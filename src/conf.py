@@ -121,7 +121,7 @@ REQUESTS_CACHING = True
 # glencoe specific requests_cache switch
 GLENCOE_REQUESTS_CACHING = cfg('glencoe.cache_requests', True)
 
-REQUESTS_CACHE = join(CACHE_PATH, 'requests_cache.sqlite3')
+REQUESTS_CACHE = join(CACHE_PATH, 'requests_cache')
 
 # todo: remove this, unused
 # *may* improve locked db problem

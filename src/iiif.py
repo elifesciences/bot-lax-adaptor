@@ -75,4 +75,4 @@ def iiif_info(msid, filename):
         raise
 
 def clear_cache(msid, filename):
-    requests_cache.get_cache().delete_url(iiif_info_url(msid, filename))
+    requests_cache.core.get_cache().delete_url(iiif_info_url(msid, filename))

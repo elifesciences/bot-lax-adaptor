@@ -12,7 +12,7 @@ if conf.REQUESTS_CACHING:
     install_cache_requests()
 
 def clear_cache(url):
-    conf.REQUESTS_CACHING and requests_cache.get_cache().delete_url(url)
+    conf.REQUESTS_CACHING and requests_cache.core.get_cache().delete_url(url)
 
 def url_exists(url, msid=None):
     context = {'msid': msid, 'url': url}

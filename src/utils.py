@@ -225,7 +225,7 @@ class RemoteResponsePermanentError(RuntimeError):
 
 # keeping this here as cache_requests would create a mutual dependency between conf and utils
 def requests_cache_create_key(prepared_request):
-    return requests_cache.get_cache().create_key(prepared_request)
+    return requests_cache.core.get_cache().create_key(prepared_request)
 
 '''
 # works, but only good for debugging/mocking responses
