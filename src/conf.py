@@ -1,21 +1,19 @@
+import utils
 import configparser as configparser
 import inspect
 import json
 import logging
-import os, sys
+import os
 from os.path import join
 import yaml
-
 import log
 log.setup_root_logger()
-
-import utils # is this ordering of utils after log important?
 
 _formatter = log.json_formatter() # todo: _formatter is unused, function call has side effects
 
 os.umask(int('002', 8))
-SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/adaptor/src/
-PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/adaptor/
+SRC_DIR = os.path.dirname(inspect.getfile(inspect.currentframe())) # ll: /path/to/bot-lax-adaptor/src/
+PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/bot-lax-adaptor
 
 
 CFG_NAME = 'app.cfg'
@@ -123,9 +121,7 @@ REQUESTS_CACHING = True
 # glencoe specific requests_cache switch
 GLENCOE_REQUESTS_CACHING = cfg('glencoe.cache_requests', True)
 
-REQUESTS_CACHE = join(CACHE_PATH, 'requests-cache')
-if sys.version_info.major == 3:
-    REQUESTS_CACHE = join(CACHE_PATH, 'requests_cache')
+REQUESTS_CACHE = join(CACHE_PATH, 'requests_cache')
 
 # todo: remove this, unused
 # *may* improve locked db problem

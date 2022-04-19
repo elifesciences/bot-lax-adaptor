@@ -1,0 +1,10 @@
+elifeUpdatePipeline(
+    { commit ->
+        sh "./update-dependencies.sh ${params.package} ${params.tag} exact"
+    },
+    {
+        return "Dependency `${params.package}` pinned to `${params.tag}`"
+    },
+    "update_${params.package}/",
+    library=true
+)

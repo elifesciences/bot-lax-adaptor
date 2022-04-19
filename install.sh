@@ -15,16 +15,6 @@ if [ ! -e app.cfg ]; then
     ln -s elife.cfg app.cfg
 fi
 
-if pip list | grep elifetools; then
-    pip uninstall -y elifetools
-fi
-
-# temporary until connexion library fixes their requirements config
-if pip list | grep connexion; then
-    pip uninstall -y connexion
-fi
-
-# use legacy resolver until we can port to pipenv
-pip install -r requirements.txt --use-deprecated=legacy-resolver
+pip install -r requirements.txt
 
 echo "[✓] install.sh"
