@@ -37,6 +37,9 @@ Werkzeug = "~=0.16"
 uWSGI = "~=2.0"
 
 [dev-packages]
+# lsh@2022-03-14: greater versions not available for python3.8.
+# remove once using python3.8 exclusively
+dataclasses = "<=0.6"
 autopep8 = "~=1.4"
 coverage = "~=4.1"
 newrelic = "~=4.2"
