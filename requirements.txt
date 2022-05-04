@@ -1,17 +1,17 @@
-# file generated 2022-05-03 - see update-dependencies.sh
+# file generated 2022-05-04 - see update-dependencies.sh
 astroid==1.6.6
 attrs==21.4.0
 autopep8==1.6.0
 beautifulsoup4==4.11.1
-boto3==1.22.5
-botocore==1.25.5
+boto3==1.22.6
+botocore==1.25.6
 certifi==2021.10.8
 charset-normalizer==2.0.12
 click==7.1.2
 clickclick==20.10.2
 connexion==1.5.3
 coverage==4.5.4
-dataclasses==0.8
+dataclasses==0.6
 elifetools==0.15.0
 et3==1.5.2
 Flask==1.1.4
