@@ -1,6 +1,7 @@
 elifeUpdatePipeline(
     { commit ->
         sh "./update-dependencies.sh ${params.package} ${params.tag} exact"
+        sh "git add Pipfile Pipfile.lock requirements.txt"
     },
     {
         return "Dependency `${params.package}` pinned to `${params.tag}`"
