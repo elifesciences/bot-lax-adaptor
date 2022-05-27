@@ -51,7 +51,8 @@ def to_soup(doc):
             return parseJATS.parse_document(doc)
         return parseJATS.parse_xml(doc)
     # assume it's a file-like object and attempt to .read() it's contents
-    return parseJATS.parse_xml(doc.read())
+    # for IJM, remove newline characters before parsing
+    return parseJATS.parse_xml(doc.read().replace("\n", ""))
 
 def jats(funcname, *args, **kwargs):
     aliases = {
