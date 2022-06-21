@@ -122,11 +122,20 @@ REQUESTS_CACHING = True
 GLENCOE_REQUESTS_CACHING = cfg('glencoe.cache_requests', True)
 
 REQUESTS_CACHE = join(CACHE_PATH, 'requests_cache')
+REQUESTS_CACHE_DB = REQUESTS_CACHE + '.sqlite3'
 
 # todo: remove this, unused
 # *may* improve locked db problem
 # https://requests-cache.readthedocs.io/en/latest/api.html#backends-dbdict
 ASYNC_CACHE_WRITES = False
+
+REQUESTS_CACHE_CONFIG = {
+    'allowable_methods': ('GET', 'HEAD'),
+    'cache_name': REQUESTS_CACHE,
+    'backend': 'sqlite',
+    'fast_save': ASYNC_CACHE_WRITES,
+    'extension': '.sqlite3'
+}
 
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
 
