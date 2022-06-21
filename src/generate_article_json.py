@@ -41,7 +41,7 @@ def main(xml_dir, json_output_dir, num=None):
     paths = lmap(lambda fname: join(xml_dir, fname), os.listdir(xml_dir))
     paths = lfilter(lambda path: path.lower().endswith('.xml'), paths)
     paths = sorted(paths, reverse=True)
-    if num > -1:
+    if num is not None and num > -1:
         paths = paths[:num] # only scrape first n articles
     num_processes = -1
     Parallel(n_jobs=num_processes)(delayed(render)(path, json_output_dir) for path in paths)
