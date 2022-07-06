@@ -30,7 +30,7 @@ joblib==0.17.0
 jsonpointer==2.3
 jsonschema==2.6.0
 lazy-object-proxy==1.7.1
-lxml==4.8.0
+lxml==4.9.1
 MarkupSafe==2.0.1
 mccabe==0.7.0
 more-itertools==8.12.0
