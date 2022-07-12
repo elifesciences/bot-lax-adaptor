@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"
 
 [packages]
 boto3 = "~=1.8"
@@ -30,7 +30,11 @@ requests-aws = "~=0.1"
 requests-cache = "==0.4.13"
 rfc3339 = "~=6.0"
 #strict-rfc3339 = "==0.7"
+# pinned, Flask depends on MarkupSafe (same guy/org), which removed a feature in a minor version.
+# - https://github.com/pallets/flask/issues/4455
+# - https://github.com/pallets/markupsafe/issues/286
 Flask = "~=1.0"
+MarkupSafe = "==2.0.1"
 PyYAML = "~=5.4"
 # https://github.com/jarus/flask-testing/issues/143
 Werkzeug = "~=0.16"
