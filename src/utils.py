@@ -50,8 +50,8 @@ def pad_filename(msid, filename):
 def video_msid(msid):
     """Replaces the `msid` of testing articles with the reference one they were generated from.
     Leaves real articles untouched."""
-    if int(msid) > 100000:
-        return pad_msid(str(msid)[-5:])
+    if int(msid) > 1000000:
+        return pad_msid(str(msid)[-6:])
     return msid
 
 def video_msid_2(msid, video_href=None):
