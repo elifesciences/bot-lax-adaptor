@@ -46,8 +46,8 @@ class Utils(BaseCase):
 
             # *not* what we want for the kitchen sink.
             # see `test_video_msid_2`
-            (1234567890, '567890'),
-            ('1234567890', '567890'),
+            (1234567890, '67890'),
+            ('1234567890', '67890'),
         ]
         for given, expected in cases:
             self.assertEqual(expected, utils.video_msid(given))
@@ -64,8 +64,8 @@ class Utils(BaseCase):
 
             # special case handling for the kitchen sink.
             # without a qualifier, the old behaviour is preserved.
-            ((1234567890, None), '567890'),
-            (('1234567890', None), '567890'),
+            ((1234567890, None), '67890'),
+            (('1234567890', None), '67890'),
 
             # with a qualifier, the kitchen sink now behaves differently.
             ((1234567890, 'elife-1234567890-fig3-video1.mp4'), '1234567890'),
