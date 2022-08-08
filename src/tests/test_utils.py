@@ -62,10 +62,12 @@ class Utils(BaseCase):
             ((10009560, None), '09560'),
             (('10009560', None), '09560'),
 
-            # kitchen sink should now behave differently.
+            # special case handling for the kitchen sink.
+            # without a qualifier, the old behaviour is preserved.
             ((1234567890, None), '67890'),
             (('1234567890', None), '67890'),
 
+            # with a qualifier, the kitchen sink now behaves differently.
             ((1234567890, 'elife-1234567890-fig3-video1.mp4'), '1234567890'),
             (('1234567890', 'elife-1234567890-fig3-video1.mp4'), '1234567890'),
         ]
