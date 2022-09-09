@@ -1,4 +1,4 @@
-# file generated 2022-09-01 - see update-dependencies.sh
+# file generated 2022-09-09 - see update-dependencies.sh
 astroid==2.11.7
 attrs==21.4.0
 autopep8==1.6.0
@@ -13,7 +13,7 @@ connexion==1.5.3
 coverage==4.5.4
 dataclasses==0.6
 dill==0.3.5.1
-elifetools==0.23.0
+elifetools==0.24.0
 et3==1.5.2
 Flask==1.1.4
 Flask-Testing==0.8.1
