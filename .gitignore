@@ -14,8 +14,6 @@ app.cfg
 /kitchen-sinks/
 api-raml/
 htmlcov/
-elife-tools/
-src/elifetools
 /*.sqlite3
 run-*/
 .pytest_cache/
