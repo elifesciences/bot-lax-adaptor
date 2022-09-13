@@ -1,8 +1,6 @@
 [run]
 # whether to measure branch coverage in addition to statement coverage.
 branch = true
-omit =
-    elife-tools/*
 
 [report]
 show_missing = false
