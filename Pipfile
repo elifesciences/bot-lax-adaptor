@@ -17,7 +17,7 @@ isbnlib = "~=3.9"
 # lsh@2020-07-07: isort pinned at 4.x as 5.x breaks api
 isort = "~=4.3"
 # todo: revisit
-joblib = "~=0.12"
+joblib = "~=1.2"
 jsonschema = "~=2.6"
 python-dateutil = "~=2.7"
 # todo: revisit
