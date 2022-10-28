@@ -50,6 +50,6 @@ newrelic = "~=4.2"
 pyflakes = "~=2.0"
 # lsh@2022-10-10: pylint has broken again in 2.15.3, pinning it to patch versions of 2.14 only
 pylint = "==2.14.*"
-pytest = "~=5.0"
+pytest = "~=7.2"
 pytest-cov = "~=2.7"
 Flask-Testing = "~=0.7"
