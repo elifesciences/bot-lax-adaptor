@@ -3,7 +3,7 @@ boto3==1.8.7
 connexion==1.5.2
 coverage==6.2
 et3==1.5.1
-git+https://github.com/elifesciences/elife-tools.git@fab87c9ba29085cdba3c19a6e5d8e73c19335633#egg=elifetools
+git+https://github.com/elifesciences/elife-tools.git@860286c224049efc4b76f1475cbdb4800661422a#egg=elifetools
 Flask==1.0.2
 Flask-Testing==0.7.1
 flex==6.14.1
