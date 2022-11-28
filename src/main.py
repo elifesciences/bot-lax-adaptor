@@ -254,7 +254,7 @@ def preprint_events(struct):
     "returns a list of 'preprint' type events from article's pub-history or `None`"
     if not struct or not isinstance(struct, list) or len(struct) == 0:
         return
-    return [event for event in struct if event.get('event_type') == 'preprint'] or None
+    return [event for event in struct if event.get('event_type') in ['preprint', 'reviewed-preprint']] or None
 
 def to_preprint(preprint):
     "returns a struct that passes api-raml validation for preprint events"

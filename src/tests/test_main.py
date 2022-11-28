@@ -321,8 +321,9 @@ def test_preprint_events():
     "`preprint_events` returns a list of preprints filtered from the `pub_history` results"
     timeobj = time.gmtime()
     cases = [
-        # only type=preprint are returned
-        ([{"event_type": "preprint"}, {}], [{"event_type": "preprint"}]),
+        # only preprint and reviewed-preprint types are returned
+        ([{"event_type": "preprint"}], [{"event_type": "preprint"}]),
+        ([{"event_type": "reviewed-preprint"}], [{"event_type": "reviewed-preprint"}]),
 
         # expected structs are passed through as-is
         ([{"event_type": "preprint",
@@ -381,4 +382,8 @@ def test_to_preprint():
         "description": "This manuscript was published as a preprint at bioRxiv.",
         "uri": "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1",
         "date": '2019-02-15T00:00:00Z'}
+    assert expected == main.to_preprint(given)
+
+    # reviewed-preprint events generate regular preprint events
+    given['event_type'] = 'reviewed-preprint'
     assert expected == main.to_preprint(given)
