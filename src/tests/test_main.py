@@ -351,28 +351,12 @@ def test_to_preprint():
     given = OrderedDict([
         ("event_type", "preprint"),
         ("event_desc", "This manuscript was published as a preprint at bioRxiv."),
-        (
-            "event_desc_html",
-            "This manuscript was published as a preprint at bioRxiv.",
-        ),
+        ("event_desc_html", "This manuscript was published as a preprint at bioRxiv."),
         ("uri", "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1"),
         ("day", "15"),
         ("month", "02"),
         ("year", "2019"),
-        (
-            "date",
-            time.struct_time(
-                (2019,
-                 2,
-                 15,
-                 0,
-                 0,
-                 0,
-                 4,
-                 46,
-                 0)
-            ),
-        ),
+        ("date", time.struct_time((2019, 2, 15, 0, 0, 0, 4, 46, 0))),
         ("iso-8601-date", "2019-02-15"),
     ])
 
@@ -382,3 +366,31 @@ def test_to_preprint():
         "uri": "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1",
         "date": '2019-02-15T00:00:00Z'}
     assert expected == main.to_preprint(given)
+
+def test_reviewed_preprint_events():
+    cases = [
+        (None, []),
+        ({}, []),
+        ([], []),
+        ('', []),
+        ([None], []),
+        ([{}], []),
+        ([{'foo': 'bar'}], []),
+
+        ([OrderedDict([
+            ("event_type", "reviewed-preprint"),
+            ("event_desc", "This manuscript was published as a reviewed preprint."),
+            ("event_desc_html", "This manuscript was published as a reviewed preprint."),
+            ("uri", "https://doi.org/10.7554/eLife.1234567890.1"),
+            ("day", "15"),
+            ("month", "04"),
+            ("year", "2023"),
+            ("date", time.struct_time((2023, 4, 15, 0, 0, 0, 4, 46, 0))),
+            ("iso-8601-date", "2023-04-15")])],
+         [{'status': 'reviewed-preprint',
+           'description': "This manuscript was published as a reviewed preprint.",
+           'uri': "https://doi.org/10.7554/eLife.1234567890.1",
+           'date': '2023-04-15T00:00:00Z'}]),
+    ]
+    for given, expected in cases:
+        assert expected == main.reviewed_preprint_events(given)

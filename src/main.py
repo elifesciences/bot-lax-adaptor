@@ -266,6 +266,19 @@ def to_preprint(preprint):
             'date': to_isoformat(preprint['date'])
         }
 
+def reviewed_preprint_events(struct):
+    "returns a list of 'reviewed-preprint' events from article's pub-history or an empty list."
+    if not isinstance(struct, list):
+        return []
+    return [{
+        'status': 'reviewed-preprint',
+        'description': event['event_desc_html'],
+        'uri': event['uri'],
+        'date': to_isoformat(event['date'])
+    } for event in struct if
+        isinstance(event, dict) and
+        event.get('event_type') == 'reviewed-preprint']
+
 #
 # post processing
 #
@@ -537,6 +550,7 @@ SNIPPET = OrderedDict([
         ('location', [getvar('location')]),
     ])),
     ('-history', OrderedDict([
+        ('reviewed-preprint-list', [jats('pub_history'), reviewed_preprint_events, discard_if_none_or_empty]),
         ('preprint', [jats('pub_history'), preprint_events, first, to_preprint, discard_if_none_or_empty]),
         ('received', [jats('history_date', date_type='received'), to_isoformat, discard_if_none_or_empty]),
         ('accepted', [jats('history_date', date_type='accepted'), to_isoformat, discard_if_none_or_empty]),
