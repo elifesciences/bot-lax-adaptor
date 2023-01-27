@@ -614,8 +614,11 @@ VOR.update(OrderedDict([
     ('appendices', [appendices]),
     ('acknowledgements', [jats('acknowledgements_json')]),
     ('editorEvaluation', [jats('editor_evaluation'), discard_if_none_or_empty]),
+    ('elifeAssessment', [jats('elife_assessment'), discard_if_none_or_empty]),
     ('decisionLetter', [jats('decision_letter')]),
+    ('recommendationsForAuthors', [jats('recommendations_for_authors'), discard_if_none_or_empty]),
     ('authorResponse', [jats('author_response')]),
+    ('publicReviews', [jats('public_reviews'), discard_if_none_or_empty]),
 ]))
 
 def mkdescription(poa=True):
