@@ -1,0 +1,350 @@
+    <!-- article-type changed from decision-letter to referee-report -->
+    <sub-article id="sa1" article-type="referee-report">
+        <front-stub>
+            <article-id pub-id-type="doi">10.7554/eLife.1234567890.4.sa1</article-id>
+            <title-group>
+                <article-title>Reviewer #1 (public review)</article-title>
+            </title-group>
+            <contrib-group>
+                <!-- contrib-type changed to author, only one reviewer per reviwer report -->
+                <contrib contrib-type="author">
+                    <name><surname>Taylor</surname><given-names>J Paul</given-names></name>
+                    <!-- role element added with appropriate specific-use attribute value -->
+                    <role specific-use="referee">Reviewer</role>
+                    <contrib-id authenticated="true" contrib-id-type="orcid">https://orcid.org/0070-0001-0404-000X</contrib-id>
+                    <aff>
+                        <institution>St Jude Children's Research Hospital</institution>
+                        <country country="US">United States</country>
+                    </aff>
+                </contrib>
+            </contrib-group>
+            <custom-meta-group>
+                <!-- custom-meta to indicate that this review was transferred from elsewhere -->
+                <custom-meta>
+                    <meta-name>transferred-from</meta-name>
+                    <meta-value>Review Commons</meta-value>
+                </custom-meta>
+                <!-- custom-meta to indicate peer review type -->
+                <custom-meta>
+                    <meta-name>PeerReviewType</meta-name>
+                    <meta-value>visible</meta-value>
+                </custom-meta>
+            </custom-meta-group>
+        </front-stub>
+        <body>
+            <p>This paper combines two complementary approaches, translating ribosome affinity purification (TRAP) and ribosome profiling, to provide the first quantitative insight into the impact of PrP<sup>Sc</sup> on cell type-specific translation. Surprisingly few translational changes were detected in neurons. In contrast, substantial alterations to translation were evident in astrocytes and microglia prior to manifestation of prion disease features, suggesting that aberrant translation in these cell types may be a primary driver of neurodegeneration.</p>
+            <p>The reviewers have discussed the reviews with one another and the Reviewing Editor has drafted this decision to help you prepare a revised submission.</p>
+            <p>You need to make sure the XML structure you create works on the display of the PMC platform and also that there is enough information contained within the tagging to generate a typeset PDF from the XML with no additional information provided. See <xref ref-type="fig" rid="sa1fig1">Review image 1.</xref>, <xref ref-type="table" rid="sa1table1">Review table 1</xref> and <xref ref-type="video" rid="sa1video1">Review video 1</xref>.</p>
+            <fig id="sa1fig1" position="float">
+                <label>Review image 1.</label>
+                <caption>
+                    <p>Single figure: The header of an eLife article example on the HTML page.</p>
+                </caption>
+                <graphic mimetype="image" mime-subtype="tiff" xlink:href="elife-1234567890-sa1-fig1.tif"/>
+            </fig>
+            <table-wrap id="sa1table1" position="float">
+                <label>Review table 1.</label>
+                <caption>
+                    <p>Review table.</p>
+                </caption>
+                <table frame="hsides" rules="groups">
+                    <thead>
+                        <tr>
+                            <th>Sample</th>
+                            <th>Same</th>
+                            <th>Difference more than 10%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>DKO1.cell.1</td>
+                            <td>77.00%</td>
+                            <td>6.90%</td>
+                        </tr>
+                        <tr>
+                            <td>DKO1.cell.2</td>
+                            <td>78.80%</td>
+                            <td>7.20%</td>
+                        </tr>
+                        <tr>
+                            <td>DKO1.cell.3</td>
+                            <td>79.10%</td>
+                            <td>6.70%</td>
+                        </tr>
+                        <tr>
+                            <td>DKO1.exo.1</td>
+                            <td>78.90%</td>
+                            <td>6.50%</td>
+                        </tr>
+                        <tr>
+                            <td>DKO1.exo.2</td>
+                            <td>80.00%</td>
+                            <td>5.80%</td>
+                        </tr>
+                        <tr>
+                            <td>DKO1.exo.3</td>
+                            <td>86.80%</td>
+                            <td>2.30%</td>
+                        </tr>
+                        <tr>
+                            <td>DKS8.cell.1</td>
+                            <td>77.30%</td>
+                            <td>7.80%</td>
+                        </tr>
+                        <tr>
+                            <td>DKS8.cell.2</td>
+                            <td>79.70%</td>
+                            <td>6.70%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </table-wrap>
+            <media mimetype="video" mime-subtype="mp4" id="sa1video1" xlink:href="elife-1234567890-sa1-video1.mp4">
+                <label>Review video 1.</label>
+                <caption>
+                    <title>Caption and/or a title is required.</title>
+                </caption>
+            </media>
+            <p>Adding some MathML to the sub-article.<inline-formula>
+                <mml:math id="sa1m1">
+                    <mml:mstyle displaystyle="true" scriptlevel="0">
+                        <mml:mrow>
+                            <mml:msup>
+                                <mml:mi>F</mml:mi>
+                                <mml:mrow>
+                                    <mml:mi>A</mml:mi>
+                                    <mml:mi>B</mml:mi>
+                                </mml:mrow>
+                            </mml:msup>
+                            <mml:mo>∼</mml:mo>
+                            <mml:mfrac>
+                                <mml:msubsup>
+                                    <mml:mi>k</mml:mi>
+                                    <mml:mrow>
+                                        <mml:mi>f</mml:mi>
+                                    </mml:mrow>
+                                    <mml:mrow>
+                                        <mml:mi>A</mml:mi>
+                                        <mml:mi>B</mml:mi>
+                                    </mml:mrow>
+                                </mml:msubsup>
+                                <mml:msqrt>
+                                    <mml:msubsup>
+                                        <mml:mi>k</mml:mi>
+                                        <mml:mrow>
+                                            <mml:mi>f</mml:mi>
+                                        </mml:mrow>
+                                        <mml:mrow>
+                                            <mml:mi>A</mml:mi>
+                                            <mml:mi>A</mml:mi>
+                                        </mml:mrow>
+                                    </mml:msubsup>
+                                    <mml:msubsup>
+                                        <mml:mi>k</mml:mi>
+                                        <mml:mrow>
+                                            <mml:mi>f</mml:mi>
+                                        </mml:mrow>
+                                        <mml:mrow>
+                                            <mml:mi>B</mml:mi>
+                                            <mml:mi>B</mml:mi>
+                                        </mml:mrow>
+                                    </mml:msubsup>
+                                </mml:msqrt>
+                            </mml:mfrac>
+                            <mml:msqrt>
+                                <mml:msup>
+                                    <mml:mi>F</mml:mi>
+                                    <mml:mrow>
+                                        <mml:mi>A</mml:mi>
+                                        <mml:mi>A</mml:mi>
+                                    </mml:mrow>
+                                </mml:msup>
+                                <mml:msup>
+                                    <mml:mi>F</mml:mi>
+                                    <mml:mrow>
+                                        <mml:mi>B</mml:mi>
+                                        <mml:mi>B</mml:mi>
+                                    </mml:mrow>
+                                </mml:msup>
+                            </mml:msqrt>
+                        </mml:mrow>
+                    </mml:mstyle>
+                </mml:math>
+            </inline-formula>
+            </p>
+            <p>May also contain a formula as a block
+                <disp-formula id="sa1equ1">
+                    <label>(1)</label>
+                        <mml:math id="sa1m2">
+                            <mml:mstyle displaystyle="true" scriptlevel="0">
+                                <mml:mrow>
+                                    <mml:mi>d</mml:mi>
+                                    <mml:mtext> </mml:mtext>
+                                    <mml:mo>=</mml:mo>
+                                    <mml:mtext> </mml:mtext>
+                                    <mml:msqrt>
+                                        <mml:msup>
+                                            <mml:mrow>
+                                                <mml:mo>(</mml:mo>
+                                                <mml:mfrac>
+                                                    <mml:mrow>
+                                                        <mml:mi>P</mml:mi>
+                                                        <mml:mi>r</mml:mi>
+                                                        <mml:mi>e</mml:mi>
+                                                        <mml:mi>d</mml:mi>
+                                                        <mml:mi>i</mml:mi>
+                                                        <mml:mi>c</mml:mi>
+                                                        <mml:mi>t</mml:mi>
+                                                        <mml:mi>e</mml:mi>
+                                                        <mml:mi>d</mml:mi>
+                                                        <mml:mtext> </mml:mtext>
+                                                        <mml:mi>c</mml:mi>
+                                                        <mml:mi>o</mml:mi>
+                                                        <mml:mi>u</mml:mi>
+                                                        <mml:mi>n</mml:mi>
+                                                        <mml:msub>
+                                                            <mml:mi>t</mml:mi>
+                                                            <mml:mrow>
+                                                                <mml:mi mathvariant="bold-italic">i</mml:mi>
+                                                                <mml:mtext> </mml:mtext>
+                                                            </mml:mrow>
+                                                        </mml:msub>
+                                                        <mml:mo>−</mml:mo>
+                                                        <mml:mtext> </mml:mtext>
+                                                        <mml:mi>O</mml:mi>
+                                                        <mml:mi>b</mml:mi>
+                                                        <mml:mi>s</mml:mi>
+                                                        <mml:mi>e</mml:mi>
+                                                        <mml:mi>r</mml:mi>
+                                                        <mml:mi>v</mml:mi>
+                                                        <mml:mi>e</mml:mi>
+                                                        <mml:mi>d</mml:mi>
+                                                        <mml:mtext> </mml:mtext>
+                                                        <mml:mi>c</mml:mi>
+                                                        <mml:mi>o</mml:mi>
+                                                        <mml:mi>u</mml:mi>
+                                                        <mml:mi>n</mml:mi>
+                                                        <mml:msub>
+                                                            <mml:mi>t</mml:mi>
+                                                            <mml:mrow>
+                                                                <mml:mi>i</mml:mi>
+                                                            </mml:mrow>
+                                                        </mml:msub>
+                                                    </mml:mrow>
+                                                    <mml:mrow>
+                                                        <mml:mi>O</mml:mi>
+                                                        <mml:mi>b</mml:mi>
+                                                        <mml:mi>s</mml:mi>
+                                                        <mml:mi>e</mml:mi>
+                                                        <mml:mi>r</mml:mi>
+                                                        <mml:mi>v</mml:mi>
+                                                        <mml:mi>e</mml:mi>
+                                                        <mml:mi>d</mml:mi>
+                                                        <mml:mtext> </mml:mtext>
+                                                        <mml:mi>c</mml:mi>
+                                                        <mml:mi>o</mml:mi>
+                                                        <mml:mi>u</mml:mi>
+                                                        <mml:mi>n</mml:mi>
+                                                        <mml:msub>
+                                                            <mml:mi>t</mml:mi>
+                                                            <mml:mrow>
+                                                                <mml:mi>i</mml:mi>
+                                                            </mml:mrow>
+                                                        </mml:msub>
+                                                    </mml:mrow>
+                                                </mml:mfrac>
+                                                <mml:mo>)</mml:mo>
+                                            </mml:mrow>
+                                            <mml:mrow>
+                                                <mml:mn>2</mml:mn>
+                                            </mml:mrow>
+                                        </mml:msup>
+                                    </mml:msqrt>
+                                </mml:mrow>
+                            </mml:mstyle>
+                        </mml:math>
+                </disp-formula>
+            </p>
+            <list id="sa1list1" list-type="order">
+                <list-item>
+                    <p>'Contamination'</p>
+                    <list id="sa1list2" list-type="roman-lower">
+                        <list-item>
+                            <p>Cell line <sup>superscript</sup><sub>subscript</sub> &amp; p&lt;0.001</p>
+                        </list-item>
+                        <list-item>
+                            <p><italic>C. elegans</italic></p>
+                        </list-item>
+                    </list>
+                </list-item>
+            </list>
+        </body>
+    </sub-article>
+    <sub-article id="sa2" article-type="referee-report">
+        <front-stub>
+            <article-id pub-id-type="doi">10.7554/eLife.1234567890.4.sa2</article-id>
+            <title-group>
+                <article-title>Reviewer #2 (public review)</article-title>
+            </title-group>
+            <contrib-group>
+                <!-- Anonymous reviewer -->
+                <contrib contrib-type="author">
+                    <anonymous/>
+                    <role specific-use="referee">Reviewer</role>
+                </contrib>
+            </contrib-group>
+            <custom-meta-group>
+                <!-- custom-meta to indicate that this review was transferred from elsewhere -->
+                <custom-meta>
+                    <meta-name>transferred-from</meta-name>
+                    <meta-value>Review Commons</meta-value>
+                </custom-meta>
+                <!-- custom-meta to indicate peer review type -->
+                <custom-meta>
+                    <meta-name>PeerReviewType</meta-name>
+                    <meta-value>visible</meta-value>
+                </custom-meta>
+            </custom-meta-group>
+        </front-stub>
+        <body>
+            <p>Each reviewer's report is included as a separate sub-article. This will usually mean three reviews, though more or fewer are permitted. Reviews may be published anonymously.</p>
+            <p>Review assets are ordered sequentially across all the separate reviews, so the second image will be called <xref ref-type="fig" rid="sa2fig1">Review image 2</xref> regardless of which reviews it appears in.</p>
+            <fig id="sa2fig1" position="float">
+                <label>Review image 2.</label>
+                <caption>
+                    <p>Another review illustrative image.</p>
+                </caption>
+                <graphic mimetype="image" mime-subtype="tiff" xlink:href="elife-1234567890-sa2-fig1.tif"/>
+            </fig>
+        </body>
+    </sub-article>
+    <sub-article id="sa3" article-type="referee-report">
+        <front-stub>
+            <article-id pub-id-type="doi">10.7554/eLife.1234567890.4.sa3</article-id>
+            <title-group>
+                <article-title>Reviewer #3 (public review)</article-title>
+            </title-group>
+            <contrib-group>
+                <!-- Anonymous reviewer -->
+                <contrib contrib-type="author">
+                    <anonymous/>
+                    <role specific-use="referee">Reviewer</role>
+                </contrib>
+            </contrib-group>
+            <custom-meta-group>
+                <!-- custom-meta to indicate that this review was transferred from elsewhere -->
+                <custom-meta>
+                    <meta-name>transferred-from</meta-name>
+                    <meta-value>Review Commons</meta-value>
+                </custom-meta>
+                <!-- custom-meta to indicate peer review type -->
+                <custom-meta>
+                    <meta-name>PeerReviewType</meta-name>
+                    <meta-value>visible</meta-value>
+                </custom-meta>
+            </custom-meta-group>
+        </front-stub>
+        <body>
+            <p>Each reviewer's report is included as a separate sub-article. This will usually mean three reviews, though more or fewer are permitted. Reviews may be published anonymously.</p>
+        </body>
+    </sub-article>

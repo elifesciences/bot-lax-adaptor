@@ -1,0 +1,116 @@
+[
+    {
+        "publicReviews": [
+            {
+                "content": [
+                    {
+                        "text": "This paper combines two complementary approaches, translating ribosome affinity purification (TRAP) and ribosome profiling, to provide the first quantitative insight into the impact of PrP<sup>Sc</sup> on cell type-specific translation. Surprisingly few translational changes were detected in neurons. In contrast, substantial alterations to translation were evident in astrocytes and microglia prior to manifestation of prion disease features, suggesting that aberrant translation in these cell types may be a primary driver of neurodegeneration.",
+                        "type": "paragraph"
+                    },
+                    {
+                        "text": "The reviewers have discussed the reviews with one another and the Reviewing Editor has drafted this decision to help you prepare a revised submission.",
+                        "type": "paragraph"
+                    },
+                    {
+                        "text": "You need to make sure the XML structure you create works on the display of the PMC platform and also that there is enough information contained within the tagging to generate a typeset PDF from the XML with no additional information provided. See <a href=\"#sa1fig1\">Review image 1.</a>, <a href=\"#sa1table1\">Review table 1</a> and <a href=\"#sa1video1\">Review video 1</a>.",
+                        "type": "paragraph"
+                    },
+                    {
+                        "assets": [
+                            {
+                                "caption": [
+                                    {
+                                        "text": "Single figure: The header of an eLife article example on the HTML page.",
+                                        "type": "paragraph"
+                                    }
+                                ],
+                                "id": "sa1fig1",
+                                "label": "Review image 1",
+                                "type": "image"
+                            }
+                        ],
+                        "type": "figure"
+                    },
+                    {
+                        "assets": [
+                            {
+                                "caption": [
+                                    {
+                                        "text": "Review table.",
+                                        "type": "paragraph"
+                                    }
+                                ],
+                                "id": "sa1table1",
+                                "label": "Review table 1",
+                                "tables": [
+                                    "<table>\n<thead>\n<tr>\n<th>Sample</th>\n<th>Same</th>\n<th>Difference more than 10%</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>DKO1.cell.1</td>\n<td>77.00%</td>\n<td>6.90%</td>\n</tr>\n<tr>\n<td>DKO1.cell.2</td>\n<td>78.80%</td>\n<td>7.20%</td>\n</tr>\n<tr>\n<td>DKO1.cell.3</td>\n<td>79.10%</td>\n<td>6.70%</td>\n</tr>\n<tr>\n<td>DKO1.exo.1</td>\n<td>78.90%</td>\n<td>6.50%</td>\n</tr>\n<tr>\n<td>DKO1.exo.2</td>\n<td>80.00%</td>\n<td>5.80%</td>\n</tr>\n<tr>\n<td>DKO1.exo.3</td>\n<td>86.80%</td>\n<td>2.30%</td>\n</tr>\n<tr>\n<td>DKS8.cell.1</td>\n<td>77.30%</td>\n<td>7.80%</td>\n</tr>\n<tr>\n<td>DKS8.cell.2</td>\n<td>79.70%</td>\n<td>6.70%</td>\n</tr>\n</tbody>\n</table>"
+                                ],
+                                "type": "table"
+                            }
+                        ],
+                        "type": "figure"
+                    },
+                    {
+                        "assets": [
+                            {
+                                "id": "sa1video1",
+                                "label": "Review video 1",
+                                "title": "Caption and/or a title is required.",
+                                "type": "video"
+                            }
+                        ],
+                        "type": "figure"
+                    },
+                    {
+                        "text": "Adding some MathML to the sub-article. <math id=\"sa1m1\"> &lt;mstyle displaystyle=\"true\" scriptlevel=\"0\"&gt; &lt;mrow&gt; &lt;msup&gt; &lt;mi&gt;F&lt;/mi&gt; &lt;mrow&gt; &lt;mi&gt;A&lt;/mi&gt; &lt;mi&gt;B&lt;/mi&gt; &lt;/mrow&gt; &lt;/msup&gt; &lt;mo&gt;\u223c&lt;/mo&gt; &lt;mfrac&gt; &lt;msubsup&gt; &lt;mi&gt;k&lt;/mi&gt; &lt;mrow&gt; &lt;mi&gt;f&lt;/mi&gt; &lt;/mrow&gt; &lt;mrow&gt; &lt;mi&gt;A&lt;/mi&gt; &lt;mi&gt;B&lt;/mi&gt; &lt;/mrow&gt; &lt;/msubsup&gt; &lt;msqrt&gt; &lt;msubsup&gt; &lt;mi&gt;k&lt;/mi&gt; &lt;mrow&gt; &lt;mi&gt;f&lt;/mi&gt; &lt;/mrow&gt; &lt;mrow&gt; &lt;mi&gt;A&lt;/mi&gt; &lt;mi&gt;A&lt;/mi&gt; &lt;/mrow&gt; &lt;/msubsup&gt; &lt;msubsup&gt; &lt;mi&gt;k&lt;/mi&gt; &lt;mrow&gt; &lt;mi&gt;f&lt;/mi&gt; &lt;/mrow&gt; &lt;mrow&gt; &lt;mi&gt;B&lt;/mi&gt; &lt;mi&gt;B&lt;/mi&gt; &lt;/mrow&gt; &lt;/msubsup&gt; &lt;/msqrt&gt; &lt;/mfrac&gt; &lt;msqrt&gt; &lt;msup&gt; &lt;mi&gt;F&lt;/mi&gt; &lt;mrow&gt; &lt;mi&gt;A&lt;/mi&gt; &lt;mi&gt;A&lt;/mi&gt; &lt;/mrow&gt; &lt;/msup&gt; &lt;msup&gt; &lt;mi&gt;F&lt;/mi&gt; &lt;mrow&gt; &lt;mi&gt;B&lt;/mi&gt; &lt;mi&gt;B&lt;/mi&gt; &lt;/mrow&gt; &lt;/msup&gt; &lt;/msqrt&gt; &lt;/mrow&gt; &lt;/mstyle&gt; </math>",
+                        "type": "paragraph"
+                    },
+                    {
+                        "text": "May also contain a formula as a block",
+                        "type": "paragraph"
+                    },
+                    {
+                        "id": "sa1equ1",
+                        "label": "(1)",
+                        "mathml": "<math>\n&lt;mstyle displaystyle=\"true\" scriptlevel=\"0\"&gt;\n&lt;mrow&gt;\n&lt;mi&gt;d&lt;/mi&gt;\n&lt;mtext&gt; &lt;/mtext&gt;\n&lt;mo&gt;=&lt;/mo&gt;\n&lt;mtext&gt; &lt;/mtext&gt;\n&lt;msqrt&gt;\n&lt;msup&gt;\n&lt;mrow&gt;\n&lt;mo&gt;(&lt;/mo&gt;\n&lt;mfrac&gt;\n&lt;mrow&gt;\n&lt;mi&gt;P&lt;/mi&gt;\n&lt;mi&gt;r&lt;/mi&gt;\n&lt;mi&gt;e&lt;/mi&gt;\n&lt;mi&gt;d&lt;/mi&gt;\n&lt;mi&gt;i&lt;/mi&gt;\n&lt;mi&gt;c&lt;/mi&gt;\n&lt;mi&gt;t&lt;/mi&gt;\n&lt;mi&gt;e&lt;/mi&gt;\n&lt;mi&gt;d&lt;/mi&gt;\n&lt;mtext&gt; &lt;/mtext&gt;\n&lt;mi&gt;c&lt;/mi&gt;\n&lt;mi&gt;o&lt;/mi&gt;\n&lt;mi&gt;u&lt;/mi&gt;\n&lt;mi&gt;n&lt;/mi&gt;\n&lt;msub&gt;\n&lt;mi&gt;t&lt;/mi&gt;\n&lt;mrow&gt;\n&lt;mi mathvariant=\"bold-italic\"&gt;i&lt;/mi&gt;\n&lt;mtext&gt; &lt;/mtext&gt;\n&lt;/mrow&gt;\n&lt;/msub&gt;\n&lt;mo&gt;\u2212&lt;/mo&gt;\n&lt;mtext&gt; &lt;/mtext&gt;\n&lt;mi&gt;O&lt;/mi&gt;\n&lt;mi&gt;b&lt;/mi&gt;\n&lt;mi&gt;s&lt;/mi&gt;\n&lt;mi&gt;e&lt;/mi&gt;\n&lt;mi&gt;r&lt;/mi&gt;\n&lt;mi&gt;v&lt;/mi&gt;\n&lt;mi&gt;e&lt;/mi&gt;\n&lt;mi&gt;d&lt;/mi&gt;\n&lt;mtext&gt; &lt;/mtext&gt;\n&lt;mi&gt;c&lt;/mi&gt;\n&lt;mi&gt;o&lt;/mi&gt;\n&lt;mi&gt;u&lt;/mi&gt;\n&lt;mi&gt;n&lt;/mi&gt;\n&lt;msub&gt;\n&lt;mi&gt;t&lt;/mi&gt;\n&lt;mrow&gt;\n&lt;mi&gt;i&lt;/mi&gt;\n&lt;/mrow&gt;\n&lt;/msub&gt;\n&lt;/mrow&gt;\n&lt;mrow&gt;\n&lt;mi&gt;O&lt;/mi&gt;\n&lt;mi&gt;b&lt;/mi&gt;\n&lt;mi&gt;s&lt;/mi&gt;\n&lt;mi&gt;e&lt;/mi&gt;\n&lt;mi&gt;r&lt;/mi&gt;\n&lt;mi&gt;v&lt;/mi&gt;\n&lt;mi&gt;e&lt;/mi&gt;\n&lt;mi&gt;d&lt;/mi&gt;\n&lt;mtext&gt; &lt;/mtext&gt;\n&lt;mi&gt;c&lt;/mi&gt;\n&lt;mi&gt;o&lt;/mi&gt;\n&lt;mi&gt;u&lt;/mi&gt;\n&lt;mi&gt;n&lt;/mi&gt;\n&lt;msub&gt;\n&lt;mi&gt;t&lt;/mi&gt;\n&lt;mrow&gt;\n&lt;mi&gt;i&lt;/mi&gt;\n&lt;/mrow&gt;\n&lt;/msub&gt;\n&lt;/mrow&gt;\n&lt;/mfrac&gt;\n&lt;mo&gt;)&lt;/mo&gt;\n&lt;/mrow&gt;\n&lt;mrow&gt;\n&lt;mn&gt;2&lt;/mn&gt;\n&lt;/mrow&gt;\n&lt;/msup&gt;\n&lt;/msqrt&gt;\n&lt;/mrow&gt;\n&lt;/mstyle&gt;\n</math>",
+                        "type": "mathml"
+                    },
+                    {
+                        "items": [
+                            [
+                                {
+                                    "text": "'Contamination'",
+                                    "type": "paragraph"
+                                },
+                                {
+                                    "items": [
+                                        [
+                                            {
+                                                "text": "Cell line <sup>superscript</sup><sub>subscript</sub> &amp; p&lt;0.001",
+                                                "type": "paragraph"
+                                            }
+                                        ],
+                                        [
+                                            {
+                                                "text": "<i>C. elegans</i>",
+                                                "type": "paragraph"
+                                            }
+                                        ]
+                                    ],
+                                    "prefix": "roman-lower",
+                                    "type": "list"
+                                }
+                            ]
+                        ],
+                        "prefix": "number",
+                        "type": "list"
+                    }
+                ],
+                "doi": "10.7554/eLife.1234567890.4.sa1",
+                "id": "sa1",
+                "title": "Reviewer #1 (public review)"
+            }
+        ]
+    }
+]
+

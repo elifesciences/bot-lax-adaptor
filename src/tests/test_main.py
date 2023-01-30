@@ -1,3 +1,4 @@
+from elifetools import parseJATS
 from collections import OrderedDict
 import time
 import os
@@ -394,3 +395,36 @@ def test_reviewed_preprint_events():
     ]
     for given, expected in cases:
         assert expected == main.reviewed_preprint_events(given)
+
+def test_elife_assessment():
+    expected = [
+        {'elifeAssessment':
+         {'content': [
+             {'text': 'This is an eLife assessment, which is a summary of the peer reviews provided by the BRE. It will only contain one or more paragraphs, no figures, tables or videos. It might say something like, "with respect to blah blah, this study is <b>noteworthy</b> backed up by data that is <b>compelling</b>, however the model design for blah is <b>flawed</b> and the evidence <b>incomplete</b>.', 'type': 'paragraph'}],
+          'doi': '10.7554/eLife.1234567890.4.sa0',
+          'id': 'sa0',
+          'title': 'eLife assessment'}}]
+    soup = parseJATS.parse_xml(base.read_fixture("xml-snippets/elife-1234567890-v2.elife-assessment.xml"))
+    description = {'elifeAssessment': main.VOR['elifeAssessment']}
+    actual = list(main.render(description, [soup]))
+    assert expected == actual
+
+def test_recommendations_for_authors():
+    expected = [
+        {'recommendationsForAuthors':
+         {'content': [{'text': 'Recommendations for edits to the initial preprint, based on the reviewers\' comments.',
+                       'type': 'paragraph'}],
+          'doi': '10.7554/eLife.1234567890.4.sa4',
+          'id': 'sa4',
+          'title': 'Recommendations for authors'}}]
+    soup = parseJATS.parse_xml(base.read_fixture("xml-snippets/elife-1234567890-v2.recommendations-for-authors.xml"))
+    description = {'recommendationsForAuthors': main.VOR['recommendationsForAuthors']}
+    actual = list(main.render(description, [soup]))
+    assert expected == actual
+
+def test_public_reviews():
+    expected = json.loads(base.read_fixture("xml-snippets/elife-1234567890-v2.public-reviews.json"))
+    soup = parseJATS.parse_xml(base.read_fixture("xml-snippets/elife-1234567890-v2.public-reviews.xml"))
+    description = {'publicReviews': main.VOR['publicReviews']}
+    actual = list(main.render(description, [soup]))
+    assert expected == actual
