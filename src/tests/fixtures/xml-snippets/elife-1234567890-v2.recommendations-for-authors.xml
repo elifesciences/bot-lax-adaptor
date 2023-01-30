@@ -1,0 +1,59 @@
+    <sub-article id="sa4" article-type="referee-report">
+        <front-stub>
+            <article-id pub-id-type="doi">10.7554/eLife.1234567890.4.sa4</article-id>
+            <title-group>
+                <article-title>Recommendations for authors</article-title>
+            </title-group>
+            <contrib-group>
+                <!-- Reviewing editor -->
+                <contrib contrib-type="author">
+                    <name>
+                        <surname>Helaine</surname>
+                        <given-names>Sophie</given-names>
+                    </name>
+                    <!-- role element added with appropriate specific-use attribute value -->
+                    <role specific-use="editor">Reviewing Editor</role>
+                    <contrib-id authenticated="true" contrib-id-type="orcid">https://orcid.org/0000-0000-0404-001X</contrib-id>
+                    <aff>
+                        <!-- ROR ids also permitted here -->
+                        <institution-wrap>
+                            <institution-id institution-id-type="ror">https://ror.org/041kmwe10</institution-id>
+                            <institution>Imperial College London</institution>
+                        </institution-wrap>
+                        <country country="GB">United Kingdom</country>
+                    </aff>
+                </contrib>
+                <!-- Reviewer -->
+                <contrib contrib-type="author">
+                    <name><surname>Taylor</surname><given-names>J Paul</given-names></name>
+                    <!-- role element added with appropriate specific-use attribute value -->
+                    <role specific-use="referee">Reviewer</role>
+                    <contrib-id authenticated="true" contrib-id-type="orcid">https://orcid.org/0070-0001-0404-000X</contrib-id>
+                    <aff>
+                        <institution>St Jude Children's Research Hospital</institution>
+                        <country country="US">United States</country>
+                    </aff>
+                </contrib>
+                <!-- Anonymous reviewer -->
+                <contrib contrib-type="author">
+                    <anonymous/>
+                    <role specific-use="referee">Reviewer</role>
+                </contrib>
+                <!-- Anonymous reviewer -->
+                <contrib contrib-type="author">
+                    <anonymous/>
+                    <role specific-use="referee">Reviewer</role>
+                </contrib>
+            </contrib-group>
+            <custom-meta-group>               
+                <!-- custom-meta to indicate peer review type -->
+                <custom-meta>
+                    <meta-name>PeerReviewType</meta-name>
+                    <meta-value>visible</meta-value>
+                </custom-meta>
+            </custom-meta-group>
+        </front-stub>
+        <body>
+            <p>Recommendations for edits to the initial preprint, based on the reviewers' comments.</p>
+        </body>
+    </sub-article>
