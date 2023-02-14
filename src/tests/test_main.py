@@ -126,11 +126,14 @@ class ArticleScrape(base.BaseCase):
                      "name": "Microbiology and Infectious Disease"}]
         self.assertEqual(main.category_codes(cat_list), expected)
 
-    def test_related_article_to_related_articles_whem_empty(self):
-        # For increased test coverage, test and empty list
-        related_article_list = [{'junk': 'not related'}]
-        expected = []
-        self.assertEqual(main.related_article_to_related_articles(related_article_list), expected)
+    def test_related_article_to_related_articles(self):
+        cases = [
+            ({'junk': 'not related'}, []),
+            ({'xlink_href': '10.7554/eLife.09561', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}, ['09561']),
+            ({'xlink_href': 'foo', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}, [])
+        ]
+        for given, expected in cases:
+            self.assertEqual(main.related_article_to_related_articles(given), expected)
 
     def test_display_channel_to_article_type_fails(self):
         display_channel = ['']
