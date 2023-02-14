@@ -128,9 +128,11 @@ class ArticleScrape(base.BaseCase):
 
     def test_related_article_to_related_articles(self):
         cases = [
-            ({'junk': 'not related'}, []),
-            ({'xlink_href': '10.7554/eLife.09561', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}, ['09561']),
-            ({'xlink_href': 'foo', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}, [])
+            ([{'junk': 'not related'}], []),
+            ([{'xlink_href': '10.7554/eLife.09561', 'related_article_type': 'article-reference', 'ext_link_type': u'doi'}], ['09561']),
+            ([{'xlink_href': '10.7554/eLife.09560', 'related_article_type': 'article-reference', 'ext_link_type': u'doi'},
+              {'xlink_href': '10.7554/eLife.09561', 'related_article_type': 'article-reference', 'ext_link_type': u'doi'}], ['09560', '09561']),
+            ([{'xlink_href': 'foo', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}], [])
         ]
         for given, expected in cases:
             self.assertEqual(main.related_article_to_related_articles(given), expected)
