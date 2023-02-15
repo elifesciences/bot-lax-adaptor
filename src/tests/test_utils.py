@@ -150,3 +150,29 @@ class Utils(BaseCase):
             self.assertEqual(utils.json_dumps(expected), utils.json_dumps(utils.sortdict(given)))
             # print(utils.sortdict(given))
             #utils.ensure(expected == utils.sortdict(given), "%s != %s" % (expected, utils.sortdict(given)))
+
+def test_msid_from_elife_doi():
+    cases = [
+        ('10.7554/eLife.09560', '09560'),
+        # component
+        ('10.7554/eLife.09560.sa0', '09560'),
+        # versioned
+        ('10.7554/eLife.09560.1', '09560'),
+        ('10.7554/eLife.09560.1.sa0', '09560'),
+        # testing msid
+        ('10.7554/eLife.97832421234567890', '97832421234567890'),
+        # case insensitive
+        ('10.7554/ELIFE.09560', '09560'),
+        # unlikely cases
+        ('10.7554/eLife.0', '0'),
+        ('10.7554/eLife.0.1', '0'),
+        ('10.7554/eLife.0.1.2.3.4', '0'),
+        # no match cases
+        (None, None),
+        ('', None),
+        ([], None),
+        ({}, None),
+        ('pants', None),
+    ]
+    for given, expected in cases:
+        assert expected == utils.msid_from_elife_doi(given)

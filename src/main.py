@@ -16,7 +16,7 @@ from isbnlib import mask, to_isbn13
 from slugify import slugify
 
 import conf, utils, glencoe, iiif, cdn
-from utils import ensure, is_file, lmap, lfilter, first
+from utils import ensure, is_file, lmap, first
 
 LOG = logging.getLogger(__name__)
 _handler = logging.FileHandler(join(conf.LOG_DIR, 'scrape.log'))
@@ -110,11 +110,12 @@ LICENCE_TYPES = {
 }
 
 def related_article_to_related_articles(related_article_list):
-    # ll: [{'xlink_href': u'10.7554/eLife.09561', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}]
+    """returns a list of eLife manuscript IDs from the list returned by `related_articles` or an empty list."""
+    # [{'xlink_href': u'10.7554/eLife.09561', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}]
+    # => ['09561']
     def et(struct):
-        return (struct.get('xlink_href') or '').rsplit('.', 1)[-1] or None
-    # ll: ['09561'] or None
-    return lfilter(None, map(et, related_article_list))
+        return utils.msid_from_elife_doi(struct.get('xlink_href'))
+    return list(filter(None, map(et, related_article_list)))
 
 def mixed_citation_to_related_articles(mixed_citation_list):
     # ll: [{'article': {'authorLine': 'R Straussman et al',

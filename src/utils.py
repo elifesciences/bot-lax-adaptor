@@ -1,3 +1,4 @@
+import re
 import copy
 import io
 import json
@@ -20,11 +21,6 @@ LOG = logging.getLogger(__name__)
 lmap = lambda func, *iterable: list(map(func, *iterable))
 
 lfilter = lambda func, *iterable: list(filter(func, *iterable))
-
-#keys = lambda d: list(d.keys())
-
-#lzip = lambda *iterable: list(zip(*iterable))
-
 
 def is_file(obj):
     try:
@@ -290,3 +286,13 @@ def sortdict(d):
     keyvals = sorted(d.items(), key=lambda pair: pair[0])
     keyvals = lmap(lambda pair: (pair[0], sortdict(pair[1])), keyvals)
     return OrderedDict(keyvals)
+
+def msid_from_elife_doi(doi):
+    """converts a DOI like '10.7554/eLife.012345' to the string '012345'.
+    supports DOIs with components/versioned portions, like '10.7554/eLife.012345.sa0' and '10.7554/eLife.012345.5'."""
+    if not doi:
+        return None
+    if not isinstance(doi, str):
+        return None
+    regex = r"10.7554/elife\.(?P<msid>\d+)"
+    return first(re.findall(regex, doi, re.IGNORECASE))
