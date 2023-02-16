@@ -12,15 +12,12 @@ connexion = "~=1.5"
 et3 = "~=1.5"
 elifetools = "==0.31.0"
 flex = "~=6.14"
-#future = "==0.16.0"
 isbnlib = "~=3.9"
 # lsh@2020-07-07: isort pinned at 4.x as 5.x breaks api
 isort = "~=4.3"
-# todo: revisit
 joblib = "~=1.2"
 jsonschema = "~=2.6"
 python-dateutil = "~=2.7"
-# todo: revisit
 python-json-logger = "~=0.1.9"
 python-slugify = "~=1.2"
 pytz = "*"
@@ -29,15 +26,10 @@ requests-aws = "~=0.1"
 # pinned, dependency is unstable and breaks in higher versions.
 requests-cache = "==0.4.13"
 rfc3339 = "~=6.0"
-#strict-rfc3339 = "==0.7"
-# pinned, Flask depends on MarkupSafe (same guy/org), which removed a feature in a minor version.
-# - https://github.com/pallets/flask/issues/4455
-# - https://github.com/pallets/markupsafe/issues/286
 Flask = "~=1.0"
-MarkupSafe = "==2.0.1"
 PyYAML = "~=5.4"
-# https://github.com/jarus/flask-testing/issues/143
-Werkzeug = "~=0.16"
+# lsh@2023-02-17: CVE-2023-25577
+Werkzeug = ">=2.2.3"
 uWSGI = "~=2.0"
 
 [dev-packages]
