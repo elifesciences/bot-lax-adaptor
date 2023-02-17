@@ -120,8 +120,9 @@ class Two(FlaskTestCase):
         # ensure ajson is successfully sent to lax
         self.assertEqual(resp.status_code, 200)
 
-        del resp.json['ajson']['-meta'] # remove the -meta key from the response.
-        self.assertEqual(resp.json, expected_lax_resp)
+        resp_json = resp.get_json()
+        del resp_json['ajson']['-meta'] # remove the -meta key from the response.
+        self.assertEqual(expected_lax_resp, resp_json)
 
     def test_upload_valid_xml_overrides(self):
         "the response we expect when everything happens perfectly with overrides"
@@ -160,10 +161,11 @@ class Two(FlaskTestCase):
         self.assertEqual(resp.status_code, 200)
 
         # remove the meta because we can't compare it
-        del resp.json['ajson']['-meta']
+        resp_json = resp.get_json()
+        del resp_json['ajson']['-meta']
 
         # response is exactly as we anticipated
-        self.assertEqual(mock_lax_resp, resp.json)
+        self.assertEqual(mock_lax_resp, resp_json)
 
     def test_bad_upload_ext(self):
         "the response we expect when the xml fails to upload"
