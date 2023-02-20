@@ -1,4 +1,4 @@
-# file generated 2023-02-17 - see update-dependencies.sh
+# file generated 2023-02-20 - see update-dependencies.sh
 astroid==2.11.7
 attrs==22.2.0
 autopep8==1.7.0
@@ -13,7 +13,7 @@ connexion==2.14.2
 coverage==4.5.4
 dataclasses==0.6
 dill==0.3.6
-elifetools==0.31.0
+elifetools==0.32.0
 et3==1.5.2
 exceptiongroup==1.1.0
 Flask==2.2.3
