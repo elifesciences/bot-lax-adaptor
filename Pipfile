@@ -11,8 +11,6 @@ boto3 = "~=1.8"
 et3 = "~=1.5"
 elifetools = "==0.32.0"
 isbnlib = "~=3.9"
-# lsh@2020-07-07: isort pinned at 4.x as 5.x breaks api
-isort = "~=4.3"
 joblib = "~=1.2"
 jsonschema = "~=4.17"
 python-dateutil = "~=2.7"
