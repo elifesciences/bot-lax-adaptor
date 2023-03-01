@@ -283,14 +283,13 @@ def todt(val):
     return dt
 
 def ymdhms(dt):
-    "returns an rfc3339 representation of a datetime object"
+    "returns an rfc3339 (2023-03-01T04:48:16Z) representation of a datetime object."
     if not dt:
         return
     if not isinstance(dt, datetime):
         raise AssertionError("given datetime value is not a datetime.datetime object: %r" % dt)
     dt = todt(dt) # convert to utc, etc
     return rfc3339(dt, utc=True)
-
 
 def sortdict(d):
     "imposes alphabetical ordering on a dictionary. returns an OrderedDict"

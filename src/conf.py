@@ -5,7 +5,6 @@ import json
 import logging
 import os
 from os.path import join
-import yaml
 import log
 log.setup_root_logger()
 
@@ -84,18 +83,13 @@ JSON_DIR = join(PROJECT_DIR, 'article-json')
 
 def load(path):
     path = join(PROJECT_DIR, 'schema', path)
-    if path.endswith('.json'):
-        return json.load(open(path, 'r'))
-    elif path.endswith('.yaml'):
-        return yaml.load(open(path, 'r'), Loader=yaml.FullLoader)
+    return json.load(open(path, 'r'))
 
 POA_SCHEMA = load('api-raml/dist/model/article-poa.v3.json')
 VOR_SCHEMA = load('api-raml/dist/model/article-vor.v7.json')
 
 REQUEST_SCHEMA = load('request-schema.json')
 RESPONSE_SCHEMA = load('response-schema.json')
-
-API_SCHEMA = load('api.yaml')
 
 # can be overriden when creating an app
 API_UPLOAD_FOLDER = join(PROJECT_DIR, "uploads")

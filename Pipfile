@@ -23,9 +23,6 @@ requests-cache = "==0.5.2"
 rfc3339 = "~=6.0"
 # not semver, it removes major features in minor versions
 Flask = "==2.2.*"
-PyYAML = "~=5.4"
-# lsh@2023-02-17: CVE-2023-25577
-Werkzeug = ">=2.2.3"
 uWSGI = "~=2.0"
 
 [dev-packages]
