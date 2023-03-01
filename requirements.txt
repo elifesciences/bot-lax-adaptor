@@ -42,10 +42,9 @@ pyrsistent==0.19.3
 pytest==7.2.1
 pytest-cov==4.0.0
 python-dateutil==2.8.2
-python-json-logger==0.1.11
+python-json-logger==2.0.7
 python-slugify==1.2.6
 pytz==2022.7.1
-PyYAML==6.0
 requests==2.28.2
 requests-aws==0.1.8
 requests-cache==0.5.2
