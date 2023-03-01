@@ -11,7 +11,9 @@ import jsonschema
 from jsonschema import validate as validator, ValidationError
 import requests
 import requests_cache
-import dateutils
+from datetime import datetime
+import pytz
+from rfc3339 import rfc3339
 
 # import conf # don't do this, conf.py depends on utils.py
 
@@ -119,33 +121,14 @@ def first(x):
     except (StopIteration, IndexError, TypeError):
         return None
 
-def validate(struct, schema):
-    # if given a string, assume it's json and try to load it
-    # else, assume it's serializable, dump it and load it
-    try:
-        if isinstance(struct, str):
-            struct = json.loads(struct)
-        else:
-            struct = json.loads(json_dumps(struct))
-    except ValueError as err:
-        LOG.error("struct is not serializable: %s", str(err))
-        raise
-
-    try:
-        validator(struct, schema, format_checker=jsonschema.FormatChecker())
-        return struct
-
-    except ValueError as err:
-        # your json is broken
-        raise ValidationError("validation error: '%s' for: %s" % (str(err), struct))
-
-    except ValidationError as err:
-        # your json is incorrect
-        LOG.error("struct failed to validate against schema: %s" % str(err))
-        raise
-
 def json_dumps(obj, **kwargs):
-    return dateutils.json_dumps(obj, **kwargs)
+    "drop-in for json.dumps that handles datetime objects."
+    def datetime_handler(obj):
+        if hasattr(obj, 'isoformat'):
+            return ymdhms(obj)
+        else:
+            raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
+    return json.dumps(obj, default=datetime_handler, **kwargs)
 
 def json_loads(string):
     return json.loads(string, object_pairs_hook=OrderedDict)
@@ -272,10 +255,42 @@ def requests_get(*args, **kwargs):
     return resp
 
 def todt(val):
-    return dateutils.todt(val)
+    "turn almost any formatted datetime string into a UTC datetime object"
+    if val is None:
+        return None
+    dt = val
+    # lsh@2023-03-01: removed direct dependency `dateutil`.
+    # 1. this is copied+pasted code.
+    # 2. we shouldn't be guessing
+    # 3. 'fuzzy' was already false
+    # if not isinstance(dt, datetime):
+    #    dt = parser.parse(val, fuzzy=False)
+
+    # lsh@2023-03-01: todt is now strict about val
+    if not isinstance(dt, datetime):
+        raise AssertionError("given value is not a datetime.datetime object: %r" % dt)
+
+    dt.replace(microsecond=0) # not useful, never been useful, will never be useful.
+
+    # no tz. assume UTC and make it explicit.
+    if not dt.tzinfo:
+        return pytz.utc.localize(dt)
+
+    # has tz, but it's not utc. ensure tz is UTC.
+    if dt.tzinfo != pytz.utc:
+        return dt.astimezone(pytz.utc)
+
+    return dt
 
 def ymdhms(dt):
-    return dateutils.ymdhms(dt)
+    "returns an rfc3339 representation of a datetime object"
+    if not dt:
+        return
+    if not isinstance(dt, datetime):
+        raise AssertionError("given datetime value is not a datetime.datetime object: %r" % dt)
+    dt = todt(dt) # convert to utc, etc
+    return rfc3339(dt, utc=True)
+
 
 def sortdict(d):
     "imposes alphabetical ordering on a dictionary. returns an OrderedDict"
@@ -296,3 +311,28 @@ def msid_from_elife_doi(doi):
         return None
     regex = r"10.7554/elife\.(?P<msid>\d+)"
     return first(re.findall(regex, doi, re.IGNORECASE))
+
+def validate(struct, schema):
+    # if given a string, assume it's json and try to load it
+    # else, assume it's serializable, dump it and load it
+    try:
+        if isinstance(struct, str):
+            struct = json.loads(struct)
+        else:
+            struct = json.loads(json_dumps(struct))
+    except ValueError as err:
+        LOG.error("struct is not serializable: %s", str(err))
+        raise
+
+    try:
+        validator(struct, schema, format_checker=jsonschema.FormatChecker())
+        return struct
+
+    except ValueError as err:
+        # your json is broken
+        raise ValidationError("validation error: '%s' for: %s" % (str(err), struct))
+
+    except ValidationError as err:
+        # your json is incorrect
+        LOG.error("struct failed to validate against schema: %s" % str(err))
+        raise
