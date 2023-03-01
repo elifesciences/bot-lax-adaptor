@@ -8,7 +8,6 @@ python_version = "3.8"
 
 [packages]
 boto3 = "~=1.8"
-connexion = "~=2.0"
 et3 = "~=1.5"
 elifetools = "==0.32.0"
 flex = "~=6.14"

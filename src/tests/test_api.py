@@ -19,11 +19,10 @@ class FlaskTestCase(TestCase):
 
     def create_app(self):
         self.temp_dir = tempfile.mkdtemp(suffix='-bot-lax-api-test')
-        cxx = api.create_app({
+        return api.create_app({
             'DEBUG': True,
             'UPLOAD_FOLDER': self.temp_dir
         })
-        return cxx.app
 
     def tearDown(self):
         shutil.rmtree(self.temp_dir)

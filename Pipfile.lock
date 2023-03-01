@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a706e07c7561f87ff2aff7c577676cb913d059854bbad01264b3a39b574fef81"
+            "sha256": "d3c300c0488189b31d12b4a1df678820641c1bca47cd6e4bd218a768eb4efe6b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -158,21 +158,6 @@
             "markers": "python_version >= '3.7'",
             "version": "==8.1.3"
         },
-        "clickclick": {
-            "hashes": [
-                "sha256:4efb13e62353e34c5eef7ed6582c4920b418d7dedc86d819e22ee089ba01802c",
-                "sha256:c8f33e6d9ec83f68416dd2136a7950125bd256ec39ccc9a85c6e280a16be2bb5"
-            ],
-            "version": "==20.10.2"
-        },
-        "connexion": {
-            "hashes": [
-                "sha256:a73b96a0e07b16979a42cde7c7e26afe8548099e352cf350f80c57185e0e0b36",
-                "sha256:dbc06f52ebeebcf045c9904d570f24377e8bbd5a6521caef15a06f634cf85646"
-            ],
-            "index": "pypi",
-            "version": "==2.14.2"
-        },
         "elifetools": {
             "hashes": [
                 "sha256:10e1635e1af4ee931f3522ace7ba5da2d7f462f73b57924d573f08b19550dd2d",
@@ -227,14 +212,6 @@
             ],
             "markers": "python_version < '3.9'",
             "version": "==5.12.0"
-        },
-        "inflection": {
-            "hashes": [
-                "sha256:1a29730d366e996aaacffb2f1f1cb9593dc38e2ddd30c91250c6dde09ea9b417",
-                "sha256:f38b2b640938a4f35ade69ac3d053042959b62a0f1076a5bbaa1b9526605a8a2"
-            ],
-            "markers": "python_version >= '3.5'",
-            "version": "==0.5.1"
         },
         "isbnlib": {
             "hashes": [
@@ -438,14 +415,6 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==2.1.2"
-        },
-        "packaging": {
-            "hashes": [
-                "sha256:714ac14496c3e68c99c29b00845f7a2b85f3bb6f1078fd9f72fd20f0570002b2",
-                "sha256:b6ad297f8907de0fa2fe1ccbd26fdaf387f5f47c7275fedf8cce89f99446cf97"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==23.0"
         },
         "pkgutil-resolve-name": {
             "hashes": [

@@ -256,7 +256,7 @@ def requests_get(*args, **kwargs):
         response = s.send(prepared_request)
         if response.status_code >= 500:
             raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
-        #dumpobj((request, response))
+        # dumpobj((request, response))
         return response
     num_attempts = 3
     resp = call_n_times(

@@ -5,8 +5,8 @@ from os.path import join
 from io import StringIO
 import traceback
 import uuid
-import connexion
-from connexion.resolver import RestyResolver
+# import connexion
+# from connexion.resolver import RestyResolver
 import flask
 from flask import request
 import flex
@@ -15,13 +15,17 @@ import jsonschema
 from werkzeug.exceptions import HTTPException
 import adaptor, conf, utils, main as scraper, validate as ajson_validate
 from utils import lmap, lfilter, first
+from flask import Blueprint
 
 LOG = logging.getLogger(__name__)
+
+urls = Blueprint('urls', __name__,)
 
 #
 # utils
 #
 
+# todo: add as a flask command. make this useful.
 def validate_schema():
     """validates the api schema.
     raises a ValueError if the schema is invalid, otherwise returns `True`."""
@@ -52,28 +56,6 @@ def listfiles(path, ext_list=None):
 def upload_folder():
     return flask.current_app.config['UPLOAD_FOLDER']
 
-class BotLaxResolver(RestyResolver):
-    """custom resolver that flattens func name lookup after initial module.
-    RestyResolver parent assumes icky classes with .post and .search methods"""
-
-    def resolve_operation_id_using_rest_semantics(self, operation):
-        # ll: api.xml.search
-        orig_path = super(BotLaxResolver, self).resolve_operation_id_using_rest_semantics(operation)
-        bits = orig_path.split('.') # ll ['api', 'xml', 'search']
-
-        module = bits[0] # ll: 'api'
-        # the funcname resolution is wonky, so discard it
-        method = bits[-1] # ll: 'search'
-
-        path = operation.path # ll: /article-json/validation/{filename}
-        # we want something like:
-        # /article-json/validation/{filename} => article_json_validation
-        # /article-json/{filename}/validation => article_json_validation
-        bits = path.strip('/').split('/') # => ['article-json', 'validation', '{filename}']
-        bits = lfilter(lambda bit: bit and not bit.startswith('{') and not bit.endswith('}'), bits)
-        fnname = '_'.join(bits).replace('-', '_') # ll: article_json_validation
-        return '%s.%s_%s' % (module, method, fnname) # ll: api.post_article_json_validation
-
 def article_json_files():
     return listfiles(upload_folder(), ext_list=['.json'])
 
@@ -84,13 +66,16 @@ def xml_files():
 # api
 #
 
+@urls.route("/xml", methods=["GET"])
 def search_xml():
     "GET /xml"
     return first(xml_files()) or [] # just the basenames
 
+@urls.route("/article-json", methods=["GET"])
 def search_article_json():
     return first(article_json_files()) or [] # just the basenames
 
+@urls.route("/article-json/<string:filename>", methods=["GET"])
 def get_article_json(filename):
     basenames, full_paths = article_json_files()
     if not filename:
@@ -99,6 +84,7 @@ def get_article_json(filename):
     idx = dict(zip(basenames, full_paths))
     return json.load(open(idx[filename], 'r'))
 
+@urls.route("/xml", methods=["POST"])
 def post_xml():
     "upload jats xml, generate xml, validate, send to lax as a dry run"
     http_ensure('xml' in request.files, "xml file required", 400)
@@ -177,7 +163,7 @@ def post_xml():
 
     # send to lax
     try:
-        #msid, version = utils.version_from_path(filename)
+        # msid, version = utils.version_from_path(filename)
         msid = request.args['id']
         version = request.args['version']
         token = str(uuid.uuid4())
@@ -225,8 +211,7 @@ def post_xml():
         }, 400 # TODO: shouldn't this be a 500?
 
 def create_app(cfg_overrides=None):
-    app = connexion.App(__name__, specification_dir=join(conf.PROJECT_DIR, 'schema'))
-    app.add_api('api.yaml', resolver=BotLaxResolver('api'), strict_validation=True)
+    app = flask.Flask(__name__)
     cfg = {
         'SECRET_KEY': os.urandom(24), # necessary for uploads
         # http://flask.pocoo.org/docs/0.11/config/#instance-folders
@@ -234,9 +219,11 @@ def create_app(cfg_overrides=None):
     }
     if cfg_overrides:
         cfg.update(cfg_overrides)
-    app.app.config.update(cfg)
+    app.config.update(cfg)
+    app.register_blueprint(urls)
     return app
 
+# see `main()` for dev entry point and `wsgi.py` for non-dev entry point.
 def main():
     app = create_app({
         # 'DEBUG': True,
