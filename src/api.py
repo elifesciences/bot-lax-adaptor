@@ -5,12 +5,8 @@ from os.path import join
 from io import StringIO
 import traceback
 import uuid
-# import connexion
-# from connexion.resolver import RestyResolver
 import flask
 from flask import request
-import flex
-from flex.core import validate
 import jsonschema
 from werkzeug.exceptions import HTTPException
 import adaptor, conf, utils, main as scraper, validate as ajson_validate
@@ -24,15 +20,6 @@ urls = Blueprint('urls', __name__,)
 #
 # utils
 #
-
-# todo: add as a flask command. make this useful.
-def validate_schema():
-    """validates the api schema.
-    raises a ValueError if the schema is invalid, otherwise returns `True`."""
-    path = join(conf.PROJECT_DIR, 'schema', 'api.yaml')
-    spec = flex.load(path)
-    validate(spec)
-    return True
 
 def http_ensure(case, msg, code=400):
     "if not case, raise a client error exception (by default)"

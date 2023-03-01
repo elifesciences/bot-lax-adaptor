@@ -8,9 +8,6 @@ from unittest.mock import patch
 from . import base
 from src import api, validate, utils, main as scraper, conf
 
-def test_schema_validates():
-    assert api.validate_schema()
-
 class FlaskTestCase(TestCase):
     maxDiff = None
     this_dir = os.path.realpath(os.path.dirname(__file__))
