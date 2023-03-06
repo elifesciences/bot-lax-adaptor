@@ -147,12 +147,13 @@ def http_download(location):
     cred = None
     if location.startswith('https://s3-external-1.amazonaws.com/') or location.startswith('https://s3.amazonaws.com/'):
         # if we can find credentials, attach them
-        session = botocore.session.get_session()
-        credentials = session.get_credentials().__dict__
-        if 'access_key' in credentials and 'secret_key' in credentials:
-            service = 's3'
-            region = 'us-east-1'
-            cred = AWS4Auth(credentials['access_key'], credentials['secret_key'], region, service)
+        credentials = botocore.session.get_session().get_credentials()
+        if credentials:
+            credentials = credentials.__dict__
+            if 'access_key' in credentials and 'secret_key' in credentials:
+                service = 's3'
+                region = 'us-east-1'
+                cred = AWS4Auth(credentials['access_key'], credentials['secret_key'], region, service)
     resp = requests.get(location, auth=cred)
     if resp.status_code != 200:
         raise RuntimeError("failed to download xml from %r, got response code: %s\n%s" % (location, resp.status_code, resp.content))

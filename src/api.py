@@ -34,7 +34,7 @@ def listfiles(path, ext_list=None):
     if ext_list:
         path_list = lfilter(lambda path: os.path.splitext(path)[1] in ext_list, path_list)
     path_list = sorted(filter(os.path.isfile, path_list))
-    return lmap(os.path.basename, path_list)
+    return lmap(os.path.basename, path_list), path_list
 
 #
 #
