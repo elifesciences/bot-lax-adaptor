@@ -468,3 +468,28 @@ class Two(FlaskTestCase):
         success, _ = validate.main(open(expected_ajson_path, 'r', encoding='utf-8'))
         self.assertTrue(success)
         self.assertEqual(resp.status_code, 200)
+
+def test_listfiles():
+    expected = (
+        ['bar.xml', 'foo.json'],
+        ['/tmp/bar.xml', '/tmp/foo.json'])
+    fixture = [
+        '/tmp/foo.json',
+        '/tmp/bar.xml'
+    ]
+    with patch('os.listdir', return_value=fixture):
+        with patch('os.path.isfile', return_value=True):
+            assert api.listfiles("/tmp") == expected
+
+def test_listfiles__with_exts():
+    expected_json = (['foo.json'],['/tmp/foo.json'])
+    expected_xml =  (['bar.xml'],['/tmp/bar.xml'])
+    fixture = [
+        '/tmp/foo.json',
+        '/tmp/bar.xml'
+    ]
+    with patch('os.listdir', return_value=fixture):
+        with patch('os.path.isfile', return_value=True):
+            assert api.listfiles("/tmp", ext_list=['.json']) == expected_json
+            assert api.listfiles("/tmp", ext_list=['.xml']) == expected_xml
+    
