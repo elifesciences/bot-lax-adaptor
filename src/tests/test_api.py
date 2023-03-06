@@ -482,8 +482,8 @@ def test_listfiles():
             assert api.listfiles("/tmp") == expected
 
 def test_listfiles__with_exts():
-    expected_json = (['foo.json'],['/tmp/foo.json'])
-    expected_xml =  (['bar.xml'],['/tmp/bar.xml'])
+    expected_json = (['foo.json'], ['/tmp/foo.json'])
+    expected_xml = (['bar.xml'], ['/tmp/bar.xml'])
     fixture = [
         '/tmp/foo.json',
         '/tmp/bar.xml'
@@ -492,4 +492,3 @@ def test_listfiles__with_exts():
         with patch('os.path.isfile', return_value=True):
             assert api.listfiles("/tmp", ext_list=['.json']) == expected_json
             assert api.listfiles("/tmp", ext_list=['.xml']) == expected_xml
-    

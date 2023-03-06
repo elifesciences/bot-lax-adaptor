@@ -249,17 +249,17 @@ def todt(dt):
     # if not isinstance(dt, datetime):
     #    dt = parser.parse(dt, fuzzy=False)
 
-    # lsh@2023-03-01: todt is now strict about given dt
+    # lsh@2023-03-01: todt is now strict about requiring dt object
     if not isinstance(dt, datetime):
-        raise AssertionError("given value is not a datetime.datetime object: %r" % dt)
+        raise TypeError("given value is not a datetime.datetime object: %r" % dt)
 
-    dt.replace(microsecond=0) # not useful, never been useful, will never be useful.
+    dt.replace(microsecond=0) # not useful, never been useful
 
-    # no tz. assume UTC and make it explicit.
+    # no TZ. assume UTC and make it explicit.
     if not dt.tzinfo:
         return pytz.utc.localize(dt)
 
-    # has tz, but it's not UTC. ensure tz is UTC.
+    # has TZ but it's not UTC. ensure TZ is UTC.
     if dt.tzinfo != pytz.utc:
         return dt.astimezone(pytz.utc)
 
@@ -300,7 +300,7 @@ def validate(struct, schema):
     if given a string, assume it is json and try to load it,
     otherwise assume it's serializable data, dump it and load it as json.
 
-    throws a ValidationError on both bad and incorrect JSON."""
+    throws a `jsonschema.ValidationError` on bad and incorrect JSON."""
     try:
         if isinstance(struct, str):
             struct = json.loads(struct)
