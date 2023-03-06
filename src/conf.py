@@ -131,6 +131,6 @@ REQUESTS_CACHE_CONFIG = {
     'extension': '.sqlite3'
 }
 
-XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read()
+XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read().strip()
 
 JOURNAL_INCEPTION = 2012 # used to calculate volumes

@@ -651,9 +651,7 @@ def expand_location(path):
         # this article is coming from the local ./article-xml/ directory, which
         # is almost certainly a git checkout. we want a location that looks like:
         # https://raw.githubusercontent.com/elifesciences/elife-article-xml/5f1179c24c9b8a8b700c5f5bf3543d16a32fbe2f/articles/elife-00003-v1.xml
-        rc, rawsha = utils.run_script(["cat", "elife-article-xml.sha1"])
-        ensure(rc == 0, "failed to read the contents of './elife-article-xml.sha1'")
-        sha = rawsha.strip()
+        sha = conf.XML_REV
         fname = os.path.basename(path)
         return "https://raw.githubusercontent.com/elifesciences/elife-article-xml/%s/articles/%s" % (sha, fname)
 
