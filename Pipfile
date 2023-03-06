@@ -17,7 +17,7 @@ python-json-logger = "~=2.0"
 python-slugify = "~=1.2"
 pytz = "*"
 requests = "~=2.20"
-requests-aws = "~=0.1"
+requests-aws4auth = "~=1.2"
 # pinned, dependency is unstable and breaks in higher versions.
 requests-cache = "==0.5.2"
 rfc3339 = "~=6.0"
