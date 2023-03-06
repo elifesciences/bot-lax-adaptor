@@ -150,7 +150,6 @@ def post_xml():
 
     # send to lax
     try:
-        # msid, version = utils.version_from_path(filename)
         msid = request.args['id']
         version = request.args['version']
         token = str(uuid.uuid4())

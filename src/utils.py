@@ -122,12 +122,11 @@ def first(x):
         return None
 
 def json_dumps(obj, **kwargs):
-    "drop-in for json.dumps that handles datetime objects."
+    "drop-in for `json.dumps` that handles `datetime` objects."
     def datetime_handler(obj):
         if hasattr(obj, 'isoformat'):
             return ymdhms(obj)
-        else:
-            raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
+        raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
     return json.dumps(obj, default=datetime_handler, **kwargs)
 
 def json_loads(string):
@@ -206,22 +205,6 @@ class RemoteResponsePermanentError(RuntimeError):
 def requests_cache_create_key(prepared_request):
     return requests_cache.core.get_cache().create_key(prepared_request)
 
-'''
-# works, but only good for debugging/mocking responses
-def dumpobj(obj):
-    import cPickle, time
-    from os.path import join
-    import conf
-    fname = str(int(time.time() * 1000000)) + ".pickle"
-    path = join(conf.PROJECT_DIR, fname)
-    pickler = cPickle.Pickler(open(path, 'w'))
-    pickler.dump(obj)
-    return path
-
-def loadobj(path):
-    pass
-'''
-
 def requests_get(*args, **kwargs):
     def target(*args, **kwargs):
         # https://2.python-requests.org/en/master/user/advanced/#prepared-requests
@@ -239,7 +222,6 @@ def requests_get(*args, **kwargs):
         response = s.send(prepared_request)
         if response.status_code >= 500:
             raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
-        # dumpobj((request, response))
         return response
     num_attempts = 3
     resp = call_n_times(
@@ -254,19 +236,20 @@ def requests_get(*args, **kwargs):
         raise RemoteResponsePermanentError("failed to call %r %s times" % (args[0], num_attempts))
     return resp
 
-def todt(val):
-    "turn almost any formatted datetime string into a UTC datetime object"
-    if val is None:
+def todt(dt):
+    """turn almost any datetime object into a UTC datetime object.
+    if no timezone attached, assumes UTC."""
+    if dt is None:
         return None
-    dt = val
+
     # lsh@2023-03-01: removed direct dependency `dateutil`.
     # 1. this is copied+pasted code.
     # 2. we shouldn't be guessing
     # 3. 'fuzzy' was already false
     # if not isinstance(dt, datetime):
-    #    dt = parser.parse(val, fuzzy=False)
+    #    dt = parser.parse(dt, fuzzy=False)
 
-    # lsh@2023-03-01: todt is now strict about val
+    # lsh@2023-03-01: todt is now strict about given dt
     if not isinstance(dt, datetime):
         raise AssertionError("given value is not a datetime.datetime object: %r" % dt)
 
@@ -276,7 +259,7 @@ def todt(val):
     if not dt.tzinfo:
         return pytz.utc.localize(dt)
 
-    # has tz, but it's not utc. ensure tz is UTC.
+    # has tz, but it's not UTC. ensure tz is UTC.
     if dt.tzinfo != pytz.utc:
         return dt.astimezone(pytz.utc)
 
@@ -287,8 +270,8 @@ def ymdhms(dt):
     if not dt:
         return
     if not isinstance(dt, datetime):
-        raise AssertionError("given datetime value is not a datetime.datetime object: %r" % dt)
-    dt = todt(dt) # convert to utc, etc
+        raise TypeError("given datetime value is not a datetime.datetime object: %r" % dt)
+    dt = todt(dt) # convert to UTC, etc
     return rfc3339(dt, utc=True)
 
 def sortdict(d):
@@ -312,8 +295,12 @@ def msid_from_elife_doi(doi):
     return first(re.findall(regex, doi, re.IGNORECASE))
 
 def validate(struct, schema):
-    # if given a string, assume it's json and try to load it
-    # else, assume it's serializable, dump it and load it
+    """validates the given data `struct` against the given `schema`.
+    `struct` can be a string of json or regular python data.
+    if given a string, assume it is json and try to load it,
+    otherwise assume it's serializable data, dump it and load it as json.
+
+    throws a ValidationError on both bad and incorrect JSON."""
     try:
         if isinstance(struct, str):
             struct = json.loads(struct)
@@ -328,10 +315,10 @@ def validate(struct, schema):
         return struct
 
     except ValueError as err:
-        # your json is broken
+        # json is broken
         raise ValidationError("validation error: '%s' for: %s" % (str(err), struct))
 
     except ValidationError as err:
-        # your json is incorrect
+        # json is incorrect
         LOG.error("struct failed to validate against schema: %s" % str(err))
         raise
