@@ -8,9 +8,6 @@ from unittest.mock import patch
 from . import base
 from src import api, validate, utils, main as scraper, conf
 
-def test_schema_validates():
-    assert api.validate_schema()
-
 class FlaskTestCase(TestCase):
     maxDiff = None
     this_dir = os.path.realpath(os.path.dirname(__file__))
@@ -19,11 +16,10 @@ class FlaskTestCase(TestCase):
 
     def create_app(self):
         self.temp_dir = tempfile.mkdtemp(suffix='-bot-lax-api-test')
-        cxx = api.create_app({
+        return api.create_app({
             'DEBUG': True,
             'UPLOAD_FOLDER': self.temp_dir
         })
-        return cxx.app
 
     def tearDown(self):
         shutil.rmtree(self.temp_dir)
@@ -472,3 +468,27 @@ class Two(FlaskTestCase):
         success, _ = validate.main(open(expected_ajson_path, 'r', encoding='utf-8'))
         self.assertTrue(success)
         self.assertEqual(resp.status_code, 200)
+
+def test_listfiles():
+    expected = (
+        ['bar.xml', 'foo.json'],
+        ['/tmp/bar.xml', '/tmp/foo.json'])
+    fixture = [
+        '/tmp/foo.json',
+        '/tmp/bar.xml'
+    ]
+    with patch('os.listdir', return_value=fixture):
+        with patch('os.path.isfile', return_value=True):
+            assert api.listfiles("/tmp") == expected
+
+def test_listfiles__with_exts():
+    expected_json = (['foo.json'], ['/tmp/foo.json'])
+    expected_xml = (['bar.xml'], ['/tmp/bar.xml'])
+    fixture = [
+        '/tmp/foo.json',
+        '/tmp/bar.xml'
+    ]
+    with patch('os.listdir', return_value=fixture):
+        with patch('os.path.isfile', return_value=True):
+            assert api.listfiles("/tmp", ext_list=['.json']) == expected_json
+            assert api.listfiles("/tmp", ext_list=['.xml']) == expected_xml

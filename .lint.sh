@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "[-] .lint.sh"
-
 export PYTHONPATH="src/"
 
 # remove any old compiled python files
@@ -22,5 +20,3 @@ pylint ./src/* --disable=all --reports=n --score=n \
 
 echo "scrubbing"
 . .scrub.sh
-
-echo "[✓] .lint.sh"

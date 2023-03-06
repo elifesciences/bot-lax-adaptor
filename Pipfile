@@ -8,41 +8,29 @@ python_version = "3.8"
 
 [packages]
 boto3 = "~=1.8"
-connexion = "~=2.0"
 et3 = "~=1.5"
 elifetools = "==0.32.0"
-flex = "~=6.14"
 isbnlib = "~=3.9"
-# lsh@2020-07-07: isort pinned at 4.x as 5.x breaks api
-isort = "~=4.3"
 joblib = "~=1.2"
-jsonschema = "~=2.6"
-python-dateutil = "~=2.7"
-python-json-logger = "~=0.1.9"
+jsonschema = "~=4.17"
+python-json-logger = "~=2.0"
 python-slugify = "~=1.2"
 pytz = "*"
 requests = "~=2.20"
-requests-aws = "~=0.1"
+requests-aws4auth = "~=1.2"
 # pinned, dependency is unstable and breaks in higher versions.
-requests-cache = "==0.4.13"
+requests-cache = "==0.5.2"
 rfc3339 = "~=6.0"
 # not semver, it removes major features in minor versions
 Flask = "==2.2.*"
-PyYAML = "~=5.4"
-# lsh@2023-02-17: CVE-2023-25577
-Werkzeug = ">=2.2.3"
 uWSGI = "~=2.0"
 
 [dev-packages]
-# lsh@2022-03-14: greater versions not available for python3.8.
-# remove once using python3.8 exclusively
-dataclasses = "<=0.6"
-autopep8 = "~=1.4"
-coverage = "~=4.1"
-newrelic = "~=4.2"
-pyflakes = "~=2.0"
-# lsh@2022-10-10: pylint has broken again in 2.15.3, pinning it to patch versions of 2.14 only
-pylint = "==2.14.*"
+autopep8 = "~=2.0"
+coverage = "~=7.2"
+newrelic = "~=8.7"
+pyflakes = "~=3.0"
+pylint = "~=2.16"
 pytest = "~=7.2"
-pytest-cov = "~=2.7"
-Flask-Testing = "~=0.7"
+pytest-cov = "*"
+Flask-Testing = "*"

@@ -6,12 +6,11 @@ import os
 from os.path import join
 import sys
 from time import time
-from awsauth import S3Auth
+from requests_aws4auth import AWS4Auth
 import botocore.session
 from jsonschema import ValidationError
 import requests
 import signal
-from urllib.parse import urlparse
 import conf
 from conf import (
     INVALID,
@@ -29,8 +28,7 @@ import main as scraper, fs_adaptor, sqs_adaptor, utils
 from utils import (
     subdict,
     renkeys,
-    ensure,
-    lfilter
+    ensure
 )
 
 
@@ -90,7 +88,6 @@ def find_lax():
     return script
 
 def call_lax(action, msid, version, token, article_json=None, force=False, dry_run=False):
-    #raise EnvironmentError("whoooooa. no.")
     cmd = [
         find_lax(), # /srv/lax/manage.sh
         "--skip-install",
@@ -148,12 +145,14 @@ def file_handler(path):
 def http_download(location):
     cred = None
     if location.startswith('https://s3-external-1.amazonaws.com/') or location.startswith('https://s3.amazonaws.com/'):
-        s3_base = urlparse(location).hostname
         # if we can find credentials, attach them
-        session = botocore.session.get_session()
-        cred = [getattr(session.get_credentials(), attr) for attr in ['access_key', 'secret_key']]
-        if lfilter(None, cred): # remove any empty values
-            cred = S3Auth(*cred, service_url=s3_base)
+        credentials = botocore.session.get_session().get_credentials()
+        if credentials:
+            credentials = credentials.__dict__
+            if 'access_key' in credentials and 'secret_key' in credentials:
+                service = 's3'
+                region = 'us-east-1'
+                cred = AWS4Auth(credentials['access_key'], credentials['secret_key'], region, service)
     resp = requests.get(location, auth=cred)
     if resp.status_code != 200:
         raise RuntimeError("failed to download xml from %r, got response code: %s\n%s" % (location, resp.status_code, resp.content))

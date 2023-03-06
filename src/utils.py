@@ -11,7 +11,9 @@ import jsonschema
 from jsonschema import validate as validator, ValidationError
 import requests
 import requests_cache
-import dateutils
+from datetime import datetime
+import pytz
+from rfc3339 import rfc3339
 
 # import conf # don't do this, conf.py depends on utils.py
 
@@ -119,33 +121,13 @@ def first(x):
     except (StopIteration, IndexError, TypeError):
         return None
 
-def validate(struct, schema):
-    # if given a string, assume it's json and try to load it
-    # else, assume it's serializable, dump it and load it
-    try:
-        if isinstance(struct, str):
-            struct = json.loads(struct)
-        else:
-            struct = json.loads(json_dumps(struct))
-    except ValueError as err:
-        LOG.error("struct is not serializable: %s", str(err))
-        raise
-
-    try:
-        validator(struct, schema, format_checker=jsonschema.FormatChecker())
-        return struct
-
-    except ValueError as err:
-        # your json is broken
-        raise ValidationError("validation error: '%s' for: %s" % (str(err), struct))
-
-    except ValidationError as err:
-        # your json is incorrect
-        LOG.error("struct failed to validate against schema: %s" % str(err))
-        raise
-
 def json_dumps(obj, **kwargs):
-    return dateutils.json_dumps(obj, **kwargs)
+    "drop-in for `json.dumps` that handles `datetime` objects."
+    def datetime_handler(obj):
+        if hasattr(obj, 'isoformat'):
+            return ymdhms(obj)
+        raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
+    return json.dumps(obj, default=datetime_handler, **kwargs)
 
 def json_loads(string):
     return json.loads(string, object_pairs_hook=OrderedDict)
@@ -223,22 +205,6 @@ class RemoteResponsePermanentError(RuntimeError):
 def requests_cache_create_key(prepared_request):
     return requests_cache.core.get_cache().create_key(prepared_request)
 
-'''
-# works, but only good for debugging/mocking responses
-def dumpobj(obj):
-    import cPickle, time
-    from os.path import join
-    import conf
-    fname = str(int(time.time() * 1000000)) + ".pickle"
-    path = join(conf.PROJECT_DIR, fname)
-    pickler = cPickle.Pickler(open(path, 'w'))
-    pickler.dump(obj)
-    return path
-
-def loadobj(path):
-    pass
-'''
-
 def requests_get(*args, **kwargs):
     def target(*args, **kwargs):
         # https://2.python-requests.org/en/master/user/advanced/#prepared-requests
@@ -256,7 +222,6 @@ def requests_get(*args, **kwargs):
         response = s.send(prepared_request)
         if response.status_code >= 500:
             raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
-        #dumpobj((request, response))
         return response
     num_attempts = 3
     resp = call_n_times(
@@ -271,11 +236,43 @@ def requests_get(*args, **kwargs):
         raise RemoteResponsePermanentError("failed to call %r %s times" % (args[0], num_attempts))
     return resp
 
-def todt(val):
-    return dateutils.todt(val)
+def todt(dt):
+    """turn almost any datetime object into a UTC datetime object.
+    if no timezone attached, assumes UTC."""
+    if dt is None:
+        return None
+
+    # lsh@2023-03-01: removed direct dependency `dateutil`.
+    # 1. this is copied+pasted code.
+    # 2. we shouldn't be guessing
+    # 3. 'fuzzy' was already false
+    # if not isinstance(dt, datetime):
+    #    dt = parser.parse(dt, fuzzy=False)
+
+    # lsh@2023-03-01: todt is now strict about requiring dt object
+    if not isinstance(dt, datetime):
+        raise TypeError("given value is not a datetime.datetime object: %r" % dt)
+
+    dt.replace(microsecond=0) # not useful, never been useful
+
+    # no TZ. assume UTC and make it explicit.
+    if not dt.tzinfo:
+        return pytz.utc.localize(dt)
+
+    # has TZ but it's not UTC. ensure TZ is UTC.
+    if dt.tzinfo != pytz.utc:
+        return dt.astimezone(pytz.utc)
+
+    return dt
 
 def ymdhms(dt):
-    return dateutils.ymdhms(dt)
+    "returns an rfc3339 (2023-03-01T04:48:16Z) representation of a datetime object."
+    if not dt:
+        return
+    if not isinstance(dt, datetime):
+        raise TypeError("given datetime value is not a datetime.datetime object: %r" % dt)
+    dt = todt(dt) # convert to UTC, etc
+    return rfc3339(dt, utc=True)
 
 def sortdict(d):
     "imposes alphabetical ordering on a dictionary. returns an OrderedDict"
@@ -296,3 +293,32 @@ def msid_from_elife_doi(doi):
         return None
     regex = r"10.7554/elife\.(?P<msid>\d+)"
     return first(re.findall(regex, doi, re.IGNORECASE))
+
+def validate(struct, schema):
+    """validates the given data `struct` against the given `schema`.
+    `struct` can be a string of json or regular python data.
+    if given a string, assume it is json and try to load it,
+    otherwise assume it's serializable data, dump it and load it as json.
+
+    throws a `jsonschema.ValidationError` on bad and incorrect JSON."""
+    try:
+        if isinstance(struct, str):
+            struct = json.loads(struct)
+        else:
+            struct = json.loads(json_dumps(struct))
+    except ValueError as err:
+        LOG.error("struct is not serializable: %s", str(err))
+        raise
+
+    try:
+        validator(struct, schema, format_checker=jsonschema.FormatChecker())
+        return struct
+
+    except ValueError as err:
+        # json is broken
+        raise ValidationError("validation error: '%s' for: %s" % (str(err), struct))
+
+    except ValidationError as err:
+        # json is incorrect
+        LOG.error("struct failed to validate against schema: %s" % str(err))
+        raise

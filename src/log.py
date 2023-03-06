@@ -1,6 +1,6 @@
 import logging
 from pythonjsonlogger import jsonlogger
-import dateutils
+import utils
 
 def setup_root_logger():
     root_logger = logging.getLogger("")
@@ -22,7 +22,7 @@ def setup_root_logger():
                 'exc_text', 'exc_info', 'msg', 'args',
             ]
             unknown_fields = {key: val for key, val in record.__dict__.items() if key not in _known_keys}
-            record.__dict__['extra'] = dateutils.json_dumps(unknown_fields)
+            record.__dict__['extra'] = utils.json_dumps(unknown_fields)
             return super(FormatterWithEncodedExtras, self).format(record)
 
     handler.setFormatter(FormatterWithEncodedExtras('%(levelname)s - %(asctime)s - %(message)s -- %(extra)s'))
