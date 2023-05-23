@@ -555,6 +555,7 @@ SNIPPET = OrderedDict([
         ('preprint', [jats('pub_history'), preprint_events, first, to_preprint, discard_if_none_or_empty]),
         ('received', [jats('history_date', date_type='received'), to_isoformat, discard_if_none_or_empty]),
         ('accepted', [jats('history_date', date_type='accepted'), to_isoformat, discard_if_none_or_empty]),
+        ('sent-for-peer-review', [jats('history_date', date_type='sent-for-review'), to_isoformat, discard_if_none_or_empty]),
     ])),
     ('status', [jats('is_poa'), is_poa_to_status]),
     ('id', [jats('publisher_id')]),

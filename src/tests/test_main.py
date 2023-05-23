@@ -1,3 +1,4 @@
+import et3.render
 from elifetools import parseJATS
 from collections import OrderedDict
 import time
@@ -400,6 +401,21 @@ def test_reviewed_preprint_events():
     ]
     for given, expected in cases:
         assert expected == main.reviewed_preprint_events(given)
+
+def test_sent_for_peer_review():
+    desc = {'sent-for-peer-review': main.SNIPPET['-history']['sent-for-peer-review']}
+    desc['sent-for-peer-review'][0] = lambda v: v # patch the call to `main.jats`
+    cases = [
+        # empty values are elided
+        (None, [{}]),
+        ("", [{}]),
+
+        # time structs are handled
+        (time.struct_time((2023, 12, 31, 1, 2, 3, 4, 56, 7)),
+         [{'sent-for-peer-review': '2023-12-31T01:02:03Z'}])
+    ]
+    for given, expected in cases:
+        assert expected == list(et3.render.render(desc, [given]))
 
 def test_elife_assessment():
     expected = [

@@ -9,6 +9,8 @@ pyflakes src/
 args="$*"
 pytest "$args" \
     -vvv \
+    --capture=sys \
+    --show-capture=all \
     --cov=src \
     --cov-report=
 
