@@ -35,7 +35,7 @@ elifeLibrary({
         }
 
         stage 'Downstream', {
-            build job: 'dependencies-lax-update-bot-lax-adaptor', wait: false
+            build job: '/dependencies/dependencies-lax-update-bot-lax-adaptor', wait: false
         }
     }
 
