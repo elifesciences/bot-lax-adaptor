@@ -562,6 +562,7 @@ SNIPPET = OrderedDict([
     ('version', [getvar('version')]),
     ('type', [jats('display_channel'), display_channel_to_article_type]),
     ('doi', [jats('doi')]),
+    ('doiVersion', [jats('version_doi'), discard_if_none_or_empty]),
     ('authorLine', [jats('author_line'), discard_if_none_or_empty]),
     ('title', [jats('full_title_json')]),
     ('titlePrefix', [jats('title_prefix_json')]),
