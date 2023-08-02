@@ -121,6 +121,12 @@ def first(x):
     except (StopIteration, IndexError, TypeError):
         return None
 
+def second(x):
+    try:
+        return x[1]
+    except (IndexError, TypeError):
+        return None
+    
 def json_dumps(obj, **kwargs):
     "drop-in for `json.dumps` that handles `datetime` objects."
     def datetime_handler(obj):
