@@ -455,3 +455,29 @@ def test_public_reviews():
     description = {'publicReviews': main.VOR['publicReviews']}
     actual = list(main.render(description, [soup]))
     assert expected == actual
+
+def test_doi_version():
+    "the doi 'version' field is extracted from XML as expected"
+    xml = """<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Archiving and Interchange DTD with MathML3 v1.2 20190208//EN
+" "JATS-archivearticle1-mathml3.dtd">
+<article article-type="research-article" dtd-version="1.2" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ali
+="http://www.niso.org/schemas/ali/1.0/">
+    <front>
+        <article-meta>
+            <article-id pub-id-type="doi" specific-use="version">10.7554/eLife.1234567890.4</article-id>
+        </article-meta>
+    </front>
+</article>"""
+    soup = main.to_soup(xml)
+    expected = {'doiVersion': '10.7554/eLife.1234567890.4'}
+    description = utils.subdict(main.SNIPPET, ['doiVersion'])
+    actual = next(main.render(description, [soup]))
+    assert expected == actual
+
+def test_doi_version__missing():
+    "missing values are not rendered"
+    soup = main.to_soup("")
+    description = utils.subdict(main.SNIPPET, ['doiVersion'])
+    expected = {}
+    actual = next(main.render(description, [soup]))
+    assert expected == actual
