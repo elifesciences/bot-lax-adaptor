@@ -88,13 +88,11 @@ def test_main_bootstrap_failure():
 
 class ArticleScrape(base.BaseCase):
     def setUp(self):
-        self.doc = join(self.fixtures_dir, 'elife-09560-v1.xml')
         self.small_doc = join(self.fixtures_dir, 'elife-16695-v1.xml')
-        self.soup = main.to_soup(self.doc)
 
     def test_render_single(self):
         "ensure the scrape scrapes and has something resembling the correct structure"
-        results = main.render_single(self.doc, version=1)
+        results = main.render_single(self.small_doc, version=1)
         self.assertTrue('article' in results)
         self.assertTrue('journal' in results)
         # NOTE! leave article validation to json schema
