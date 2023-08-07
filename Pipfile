@@ -10,6 +10,8 @@ python_version = "3.8"
 boto3 = "~=1.8"
 et3 = "~=1.5"
 elifetools = "==0.32.0"
+# not semver, it removes major features in minor versions
+Flask = "==2.2.*"
 isbnlib = "~=3.9"
 joblib = "~=1.2"
 # lsh@2023-07-26: pinned to 4.17, not semver, breaking changes introduced in 4.18
@@ -22,16 +24,14 @@ requests-aws4auth = "~=1.2"
 # pinned, dependency is unstable and breaks in higher versions.
 requests-cache = "==0.5.2"
 rfc3339 = "~=6.0"
-# not semver, it removes major features in minor versions
-Flask = "==2.2.*"
 uWSGI = "~=2.0"
 
 [dev-packages]
 autopep8 = "~=2.0"
 coverage = "~=7.2"
+Flask-Testing = "*"
 newrelic = "~=8.7"
 pyflakes = "~=3.0"
 pylint = "~=2.16"
 pytest = "~=7.2"
 pytest-cov = "*"
-Flask-Testing = "*"
