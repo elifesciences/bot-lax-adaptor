@@ -21,12 +21,12 @@ class Logic(base.BaseCase):
 
     def test_handler_bad_json(self):
         "bad json request generates an error"
-        adapt.handler("pants-party", self.out)
+        adapt.handler("foo-bar", self.out)
         self.assertEqual(len(self.out.errors), 1)
 
     def test_handler_good_json_but_invalid(self):
         "good json but invalid request generates an error"
-        adapt.handler('{"I-hope-you-have-a-very": "pants-party"}', self.out)
+        adapt.handler('{"foo-bar": "baz"}', self.out)
         self.assertEqual(len(self.out.errors), 1)
 
     def test_handler_bad_bad_data(self):
@@ -125,7 +125,7 @@ class Main(base.BaseCase):
         argstr = '--type fs --action ingest+publish --validate-only --target %s' % self.ingest_dir
 
         # have lax return something bogus
-        self.call_lax_resp.update({'pants?': 'party!'})
+        self.call_lax_resp.update({'foo?': 'bar!'})
 
         with patch('src.adaptor.call_lax', lambda *args, **kwargs: self.call_lax_resp):
             # .write is the 'success' method

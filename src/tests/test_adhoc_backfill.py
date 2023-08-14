@@ -1,8 +1,6 @@
 from datetime import datetime
 from os.path import join
-
 from unittest import mock
-
 from src import conf, utils, adhoc_backfill as bfup
 from .base import BaseCase
 from src.utils import partial_match
@@ -23,7 +21,7 @@ class One(BaseCase):
             # "id": '09560',
             "id": "16695",
             "requested-action": 'ingest',
-            "token": 'pants-party', # set by fs-adaptor
+            "token": 'foobar', # set by fs-adaptor
             "status": conf.INGESTED,
             "message": '...?',
             "datetime": utils.ymdhms(datetime.now())
@@ -42,7 +40,7 @@ class One(BaseCase):
             # "id": '09560',
             "id": "16695",
             "requested-action": 'ingest',
-            "token": 'pants-party', # set by fs-adaptor
+            "token": 'foobar', # set by fs-adaptor
             "status": conf.INGESTED,
             "message": '...?',
             "datetime": utils.ymdhms(datetime.now())
@@ -85,7 +83,7 @@ class One(BaseCase):
         expected_lax_response = {
             "id": "16695",
             "requested-action": 'ingest',
-            "token": 'pants-party',
+            "token": 'foobar',
             "status": conf.INGESTED,
             "message": '...?',
             "datetime": utils.ymdhms(datetime.now())
@@ -113,7 +111,7 @@ class Two(BaseCase):
             {
                 "validate-only": False,
                 "force": True,
-                "token": "pants-party",
+                "token": "foobar",
                 "version": 1,
                 "location": "file://" + join(conf.PROJECT_DIR, self.path),
                 "action": "ingest",

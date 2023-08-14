@@ -26,7 +26,7 @@ class FS(BaseCase):
 
     def test_fs_incoming_never_generates_invalid_requests(self):
         "invalid requests never generate a message"
-        inst = fs_adaptor.IncomingQueue(self.ingest_dir, action='pants-party')
+        inst = fs_adaptor.IncomingQueue(self.ingest_dir, action='some-action')
         self.assertRaises(ValidationError, list, inst)
 
     def test_fs_outgoing_valid(self):

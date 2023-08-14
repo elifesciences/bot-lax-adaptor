@@ -28,12 +28,12 @@ class Utils(BaseCase):
         self.assertEqual(stdout, 'foobar')
 
     def test_run_script_stdin(self):
-        retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'pants-party'.encode())
-        self.assertEqual(stdout, 'pants-party')
+        retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'foo-bar'.encode())
+        self.assertEqual(stdout, 'foo-bar')
 
     def test_run_script_auto_encodes_utf8_if_required(self):
-        retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'pants-party')
-        self.assertEqual(stdout, 'pants-party')
+        retcode, stdout = utils.run_script(['xargs', 'echo', '-n'], 'foo-bar')
+        self.assertEqual(stdout, 'foo-bar')
 
     def test_video_msid(self):
         cases = [
@@ -170,7 +170,7 @@ def test_msid_from_elife_doi():
         ('', None),
         ([], None),
         ({}, None),
-        ('pants', None),
+        ('foo', None),
     ]
     for given, expected in cases:
         assert expected == utils.msid_from_elife_doi(given)

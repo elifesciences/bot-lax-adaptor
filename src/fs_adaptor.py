@@ -24,7 +24,7 @@ def mkreq(path, **overrides):
         'version': ver,
         'force': True, # TODO: shouldn't this be False?
         'validate-only': False,
-        'token': 'pants-party'
+        'token': 'foobar'
     }
     request.update(overrides)
     # don't ever generate an invalid request

@@ -67,7 +67,6 @@ def jats(funcname, *args, **kwargs):
 #
 #
 
-
 DISPLAY_CHANNEL_TYPES = {
     "Correction": "correction",
     "Editorial": "editorial",
@@ -109,6 +108,10 @@ LICENCE_TYPES = {
     "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
 }
 
+def related_article_to_reviewed_preprint(related_article_list):
+    """returns a list of reviewed-preprint snippets for any related article that has one."""
+    return []
+
 def related_article_to_related_articles(related_article_list):
     """returns a list of eLife manuscript IDs from the list returned by `related_articles` or an empty list."""
     # [{'xlink_href': u'10.7554/eLife.09561', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}]
@@ -119,9 +122,9 @@ def related_article_to_related_articles(related_article_list):
 
 def mixed_citation_to_related_articles(mixed_citation_list):
     # ll: [{'article': {'authorLine': 'R Straussman et al',
-    #      'authors': [{'given': u'R', 'surname': u'Straussman'}, ...}],
-    #      'doi': u'10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': u'Pants-Party'},
-    #      'journal': {'volume': u'487', 'lpage': u'504', 'name': u'Nature', 'fpage': u'500'}}]
+    #                   'authors': [{'given': u'R', 'surname': u'Straussman'}, ...}],
+    #                   'doi': '10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': 'Foo-Bar'},
+    #                   'journal': {'volume': '487', 'lpage': '504', 'name': 'Nature', 'fpage': '500'}}]
 
     def et(struct):
         return OrderedDict([
@@ -609,6 +612,7 @@ VOR_SNIPPET.update(OrderedDict([
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
+    ('-related-articles-reviewed-preprints', [jats('related_article'), related_article_to_reviewed_preprint]),
     ('-related-articles-internal', [jats('related_article'), related_article_to_related_articles]),
     ('-related-articles-external', [jats('mixed_citations'), mixed_citation_to_related_articles]),
     ('digest', [jats('digest_json')]),

@@ -168,7 +168,7 @@ class Two(FlaskTestCase):
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
-        bad_ext = '.pants'
+        bad_ext = '.foo'
         resp = self.client.post('/xml?id=16695&version=1', **{
             'buffered': True,
             'content_type': 'multipart/form-data',

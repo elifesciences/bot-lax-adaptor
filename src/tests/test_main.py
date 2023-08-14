@@ -152,7 +152,7 @@ def test_licence_holder():
         ((None, 'CC-BY-4'), main.EXCLUDE_ME),
         (('John', 'CC-BY-4'), 'John'),
         (('John', 'CC0-1.0'), main.EXCLUDE_ME),
-        (('Jane', 'cC0-2.pants'), main.EXCLUDE_ME)
+        (('Jane', 'cC0-2.foo'), main.EXCLUDE_ME)
     ]
     for given, expected in cases:
         actual = main.discard_if_none_or_cc0(given)
