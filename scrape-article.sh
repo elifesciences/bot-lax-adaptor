@@ -1,6 +1,7 @@
-#/bin/bash
-# generates article-json from a random article in the elife-article-xml repo
-set -e # everything must pass
+#!/bin/bash
+# generate article-json from an xml article
+
+set -e
 
 if [ ! -d venv ]; then
     . install.sh > /dev/null
@@ -11,7 +12,10 @@ if [ ! -d article-xml ]; then
     . download-elife-xml.sh &> /dev/null
 fi
 
-#PWD=article-xml/articles/
-#random_file=$(ls $PWD | sort -R | tail -n 1)
-path_to_article_xml=$1
+path_to_article_xml="$1"
+if [ ! -e "$path_to_article_xml" ]; then
+    echo "file not found"
+    exit 1
+fi
+
 python src/main.py "$path_to_article_xml"
