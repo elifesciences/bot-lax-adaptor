@@ -15,7 +15,7 @@ from et3.utils import requires_context
 from isbnlib import mask, to_isbn13
 from slugify import slugify
 
-import conf, utils, glencoe, iiif, cdn
+import conf, utils, glencoe, iiif, cdn, epp
 from utils import ensure, is_file, lmap, first
 
 LOG = logging.getLogger(__name__)
@@ -31,13 +31,17 @@ LOG.addHandler(_handler)
 def doi(item):
     return parseJATS.doi(item)
 
+def to_datetime(time_struct):
+    if not time_struct:
+        return time_struct
+    # time_struct: time.struct_time(tm_year=2015, tm_mon=9, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=253, tm_isdst=0)
+    ts = calendar.timegm(time_struct) # ll: 1441843200
+    return datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
+
 def to_isoformat(time_struct):
     if not time_struct:
         return time_struct
-    # time_struct ll: time.struct_time(tm_year=2015, tm_mon=9, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=253, tm_isdst=0)
-    ts = calendar.timegm(time_struct) # ll: 1441843200
-    ts = datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
-    return utils.ymdhms(ts)
+    return utils.ymdhms(to_datetime(time_struct))
 
 def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
@@ -108,9 +112,19 @@ LICENCE_TYPES = {
     "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
 }
 
-def related_article_to_reviewed_preprint(related_article_list):
-    """returns a list of reviewed-preprint snippets for any related article that has one."""
-    return []
+def related_article_to_reviewed_preprint(pub_date__related_article_list):
+    """returns a list of reviewed-preprint snippets for any related article that has one.
+    """
+    pub_date, related_article_list = pub_date__related_article_list
+    pub_date = to_datetime(pub_date)
+    if not pub_date:
+        return []
+    if epp.before_inception(pub_date):
+        return []
+
+    def et(struct):
+        return epp.snippet(utils.msid_from_elife_doi(struct.get('xlink_href')))
+    return list(filter(None, map(et, related_article_list)))
 
 def related_article_to_related_articles(related_article_list):
     """returns a list of eLife manuscript IDs from the list returned by `related_articles` or an empty list."""
@@ -224,6 +238,8 @@ def discard_if_not_v1(ctx, ver):
     return EXCLUDE_ME
 
 def getvar(varname):
+    """pulls a named value out of the scraper's 'context',
+    a map of data passed to the `render` function."""
     @requires_context
     def fn(ctx, _):
         return ctx[varname]
@@ -612,7 +628,7 @@ VOR_SNIPPET.update(OrderedDict([
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
-    ('-related-articles-reviewed-preprints', [jats('related_article'), related_article_to_reviewed_preprint]),
+    ('-related-articles-reviewed-preprints', [(jats('pub_date'), jats('related_article')), related_article_to_reviewed_preprint]),
     ('-related-articles-internal', [jats('related_article'), related_article_to_related_articles]),
     ('-related-articles-external', [jats('mixed_citations'), mixed_citation_to_related_articles]),
     ('digest', [jats('digest_json')]),
