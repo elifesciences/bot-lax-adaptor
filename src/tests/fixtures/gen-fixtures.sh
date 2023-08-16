@@ -10,7 +10,7 @@ function scrape {
         do
             for path in ./article-xml/articles/$fname*; do
                 path=$(realpath "$path")
-                nom=${path##*/} # basename, ll: elife-09560.xml
+                nom=${path##*/} # basename, "elife-09560.xml"
                 xmllint "$path" --format > "$home/$nom"
                 ./scrape-article.sh "$path" > "$home/$nom.json"
            done

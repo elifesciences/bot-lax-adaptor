@@ -148,7 +148,7 @@ def run_script(args, user_input=None):
     return process.returncode, stdout.decode('utf-8')
 
 def version_from_path(path):
-    _, msid, ver = os.path.split(path)[-1].split('-') # ll: ['elife', '09560', 'v1.xml']
+    _, msid, ver = os.path.split(path)[-1].split('-') # ['elife', '09560', 'v1.xml']
     ver = int(ver[1]) # "v1.xml" -> 1
     return msid, ver
 

@@ -37,7 +37,7 @@ fi
 mustexist "$tmpdir"
 
 # where articles will be linked to/downloaded for backfill
-runpath="run-$(date +'%Y-%m-%d-%H-%M-%S')" # ll: run-2017-01-31-23-59-59
+runpath="run-$(date +'%Y-%m-%d-%H-%M-%S')" # "run-2017-01-31-23-59-59"
 
 if [ ! -z "$@" ]; then
     # args were provided to backfill.sh. 
@@ -46,8 +46,8 @@ if [ ! -z "$@" ]; then
     shift
 fi
 
-# ll: /tmp/run-2017-01-31-23-59-59 
-# or: /ext/tmp/run-2017-01-31-23-59-59
+# "/tmp/run-2017-01-31-23-59-59"
+# or: "/ext/tmp/run-2017-01-31-23-59-59"
 runpath="$tmpdir/$runpath" 
 
 # where to find lax
@@ -119,13 +119,13 @@ set +o nounset; . install.sh; set -o nounset;
     errcho "fetching articles from lax"
     $laxdir/manage.sh --skip-install output --report article_version_list_as_csv | while read msid version remotepath
     do
-        # ll: elife-00003-v1.xml
+        # "elife-00003-v1.xml"
         fname="elife-$msid-v$version.xml" 
 
-        # ll: /home/user/bot-lax/article-xml/articles/elife-00003-v1.xml
+        # "/home/user/bot-lax/article-xml/articles/elife-00003-v1.xml"
         xmlpath="$xmlrepodir/$fname"
         
-        # ll: /home/user/bot-lax/unpub-article-xml/elife-00003-v1.xml
+        # "/home/user/bot-lax/unpub-article-xml/elife-00003-v1.xml"
         xmlunpubpath="$unpubxmldir/$fname"
         
         # we look in both places for xml and if it's in neither, we download it

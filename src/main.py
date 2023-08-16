@@ -35,7 +35,7 @@ def to_datetime(time_struct):
     if not time_struct:
         return time_struct
     # time_struct: time.struct_time(tm_year=2015, tm_mon=9, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=253, tm_isdst=0)
-    ts = calendar.timegm(time_struct) # ll: 1441843200
+    ts = calendar.timegm(time_struct) # 1441843200
     return datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
 
 def to_isoformat(time_struct):
@@ -128,18 +128,17 @@ def related_article_to_reviewed_preprint(pub_date__related_article_list):
 
 def related_article_to_related_articles(related_article_list):
     """returns a list of eLife manuscript IDs from the list returned by `related_articles` or an empty list."""
-    # [{'xlink_href': u'10.7554/eLife.09561', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}]
+    # [{'xlink_href': '10.7554/eLife.09561', 'related_article_type': 'article-reference', 'ext_link_type': 'doi'}]
     # => ['09561']
     def et(struct):
         return utils.msid_from_elife_doi(struct.get('xlink_href'))
     return list(filter(None, map(et, related_article_list)))
 
 def mixed_citation_to_related_articles(mixed_citation_list):
-    # ll: [{'article': {'authorLine': 'R Straussman et al',
-    #                   'authors': [{'given': u'R', 'surname': u'Straussman'}, ...}],
-    #                   'doi': '10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': 'Foo-Bar'},
-    #                   'journal': {'volume': '487', 'lpage': '504', 'name': 'Nature', 'fpage': '500'}}]
-
+    # [{'article': {'authorLine': 'R Straussman et al',
+    #               'authors': [{'given': 'R', 'surname': 'Straussman'}, ...}],
+    #               'doi': '10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': 'Foo-Bar'},
+    #               'journal': {'volume': '487', 'lpage': '504', 'name': 'Nature', 'fpage': '500'}}]
     def et(struct):
         return OrderedDict([
             ('type', 'external-article'),
@@ -183,13 +182,13 @@ def pdf_uri(triple):
     content_type, msid, version = triple
     if content_type and any(lmap(lambda type: type in ['Correction', 'Retraction'], content_type)):
         return EXCLUDE_ME
-    filename = "elife-%s-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-v1.pdf
+    filename = "elife-%s-v%s.pdf" % (utils.pad_msid(msid), version) # "elife-09560-v1.pdf"
     return cdnlink(msid, filename)
 
 def xml_uri(params):
     """predict an article's xml url."""
     msid, version = params
-    filename = "elife-%s-v%s.xml" % (utils.pad_msid(msid), version) # ll: elife-09560-v1.xml
+    filename = "elife-%s-v%s.xml" % (utils.pad_msid(msid), version) # "elife-09560-v1.xml"
     return cdnlink(msid, filename)
 
 def figures_pdf_uri(triple):
@@ -198,7 +197,7 @@ def figures_pdf_uri(triple):
 
     if any(lmap(lambda graphic: graphic.get('xlink_href')
                 and filename_match in graphic.get('xlink_href'), graphics)):
-        filename = "elife-%s-figures-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-figures-v1.pdf
+        filename = "elife-%s-figures-v%s.pdf" % (utils.pad_msid(msid), version) # "elife-09560-figures-v1.pdf"
         figures_pdf_cdnlink = cdnlink(msid, filename)
         return cdn.url_exists(figures_pdf_cdnlink, msid)
     else:

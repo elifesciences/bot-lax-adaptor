@@ -10,7 +10,7 @@ if conf.REQUESTS_CACHING:
     install_cache_requests()
 
 def before_inception(pubdate):
-    "returns `True` if given `pubdate` datetime is before EPP's earliest article."
+    "returns `True` if given `pubdate` datetime is before EPP's inception."
     utils.ensure(isinstance(pubdate, datetime), "given pubdate must be a datetime instance")
     return pubdate < conf.EPP_INCEPTION
 

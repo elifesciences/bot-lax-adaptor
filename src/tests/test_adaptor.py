@@ -72,7 +72,7 @@ class Logic(base.BaseCase):
         xml_text = adaptor.http_download(test_url)
         # this is a crappy quick regex to extract the XML tags we need
         titles_of_appendices = re.findall('<title>Appendix[^<]*</title>', xml_text)
-        self.assertIn(u'<title>Appendix\xa01</title>', titles_of_appendices)
+        self.assertIn('<title>Appendix\xa01</title>', titles_of_appendices)
 
 class Main(base.BaseCase):
     def setUp(self):

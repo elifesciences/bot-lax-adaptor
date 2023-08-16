@@ -162,8 +162,8 @@ class Two(BaseCase):
         jsonobj = '''{"msid":16695,"version":1,"location":"https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}
 {"msid":1968,"version":1,"location":"no-location-stored"}'''
         self.expected[0].update({
-            'location': u'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
-            'id': u'16695'
+            'location': 'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
+            'id': '16695'
         })
         with mock.patch('src.adhoc_backfill.read_from_stdin', return_value=jsonobj.splitlines()):
             actual = bfup.main(['--dry-run'])

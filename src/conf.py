@@ -26,7 +26,7 @@ DYNCONFIG = configparser.ConfigParser(**{
     # these can be used like template variables
     # https://docs.python.org/2/library/configparser.html
     'defaults': {'dir': PROJECT_DIR}})
-DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # ll: /path/to/lax/app.cfg
+DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # "/path/to/lax/app.cfg"
 
 def cfg(path, default=0xDEADBEEF):
     lu = {'True': True, 'true': True, 'False': False, 'false': False} # cast any obvious booleans
