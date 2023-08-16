@@ -47,8 +47,14 @@ def snippet(msid):
 
     try:
         epp_data = utils.sortdict(resp.json())
+
         if 'indexContent' in epp_data:
             del epp_data['indexContent']
+
+        epp_data['type'] = 'reviewed-preprint'
+
+        utils.validate([epp_data], conf.RELATED_SCHEMA)
+
         return epp_data
     except BaseException:
         # clear cache, we don't want bad data hanging around

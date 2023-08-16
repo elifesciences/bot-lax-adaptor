@@ -92,6 +92,7 @@ def load(path):
 
 POA_SCHEMA = load('api-raml/dist/model/article-poa.v3.json')
 VOR_SCHEMA = load('api-raml/dist/model/article-vor.v7.json')
+RELATED_SCHEMA = load('api-raml/dist/model/article-related.v2.json')
 
 REQUEST_SCHEMA = load('request-schema.json')
 RESPONSE_SCHEMA = load('response-schema.json')

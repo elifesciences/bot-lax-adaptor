@@ -215,13 +215,13 @@ def requests_get(*args, **kwargs):
         # if caching enabled, log the key used to cache the response
         if hasattr(s, 'cache'): # test if requests_cache is enabled
             cache_key = requests_cache_create_key(prepared_request)
-            LOG.info("Requesting url %s (cache key '%s')", args[0], cache_key)
+            LOG.info("Requesting URL %s (cache key '%s')", args[0], cache_key)
         else:
-            LOG.info("Requesting url %s", args[0])
+            LOG.info("Requesting URL %s", args[0])
 
         response = s.send(prepared_request)
         if response.status_code >= 500:
-            raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
+            raise RemoteResponseTemporaryError("status code was %s" % response.status_code)
         return response
     num_attempts = 3
     resp = call_n_times(
