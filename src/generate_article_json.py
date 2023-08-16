@@ -35,7 +35,7 @@ def render(path, json_output_dir):
         log.info(strbuffer.getvalue())
 
 def pformat(d):
-    return json.dumps(d, indent=4)
+    return json.dumps(d, indent=4, default=str)
 
 def main(xml_dir, json_output_dir, num=None):
     paths = lmap(lambda fname: join(xml_dir, fname), os.listdir(xml_dir))
