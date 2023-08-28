@@ -126,23 +126,26 @@ def related_article_to_reviewed_preprint(pub_date__related_article_list__referen
     def fetch(msid):
         return epp.snippet(msid)
 
-    def msid_from_reference(ref):
-        val = ref['pages']
-        # may be a string, may be a dict
-        # todo: should we also check dicts?
-        if isinstance(val, str) and val.startswith('RP'):
-            return val[2:]
-
     def msid_from_relation(struct):
         return utils.msid_from_elife_doi(struct.get('xlink_href'))
 
+    msid_list = list(map(msid_from_relation, related_article_list))
+
     # brute force approach. check EPP for every related MSID.
-    # msid_list = map(msid_from_relations, related_article_list)
+    # return list(filter(None, map(fetch, reference_msid_list)))
 
-    # check references for anything prefixed with 'RP'.
-    msid_list = map(msid_from_reference, references)
+    # check each reference for any relation msid prefixed with an 'RP'
+    reference_msid_list = []
+    for ref in references:
+        val = ref['pages']
+        # may be a string, may be a dict
+        # todo: should we also check dicts?
+        if isinstance(val, str):
+            for msid in msid_list:
+                if val == "RP" + msid:
+                    reference_msid_list.append(msid)
 
-    return list(filter(None, map(fetch, msid_list)))
+    return list(filter(None, map(fetch, reference_msid_list)))
 
 def related_article_to_related_articles(related_article_list):
     """returns a list of eLife manuscript IDs from the list returned by `related_articles` or an empty list."""
