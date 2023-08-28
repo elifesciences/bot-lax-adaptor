@@ -112,19 +112,37 @@ LICENCE_TYPES = {
     "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
 }
 
-def related_article_to_reviewed_preprint(pub_date__related_article_list):
+def related_article_to_reviewed_preprint(pub_date__related_article_list__references):
     """returns a list of reviewed-preprint snippets for any related article that has one.
     """
-    pub_date, related_article_list = pub_date__related_article_list
+    pub_date, related_article_list, references = pub_date__related_article_list__references
     pub_date = to_datetime(pub_date)
     if not pub_date:
         return []
+
     if epp.before_inception(pub_date):
         return []
 
-    def et(struct):
-        return epp.snippet(utils.msid_from_elife_doi(struct.get('xlink_href')))
-    return list(filter(None, map(et, related_article_list)))
+    def fetch(msid):
+        return epp.snippet(msid)
+
+    def msid_from_reference(ref):
+        val = ref['pages']
+        # may be a string, may be a dict
+        # todo: should we also check dicts?
+        if isinstance(val, str) and val.startswith('RP'):
+            return val[2:]
+
+    def msid_from_relation(struct):
+        return utils.msid_from_elife_doi(struct.get('xlink_href'))
+
+    # brute force approach. check EPP for every related MSID.
+    # msid_list = map(msid_from_relations, related_article_list)
+
+    # check references for anything prefixed with 'RP'.
+    msid_list = map(msid_from_reference, references)
+
+    return list(filter(None, map(fetch, msid_list)))
 
 def related_article_to_related_articles(related_article_list):
     """returns a list of eLife manuscript IDs from the list returned by `related_articles` or an empty list."""
@@ -627,7 +645,7 @@ VOR_SNIPPET.update(OrderedDict([
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
-    ('-related-articles-reviewed-preprints', [(jats('pub_date'), jats('related_article')), related_article_to_reviewed_preprint]),
+    ('-related-articles-reviewed-preprints', [(jats('pub_date'), jats('related_article'), jats('references_json')), related_article_to_reviewed_preprint]),
     ('-related-articles-internal', [jats('related_article'), related_article_to_related_articles]),
     ('-related-articles-external', [jats('mixed_citations'), mixed_citation_to_related_articles]),
     ('digest', [jats('digest_json')]),
