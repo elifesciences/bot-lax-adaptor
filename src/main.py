@@ -33,7 +33,7 @@ def doi(item):
 
 def to_datetime(time_struct):
     if not time_struct:
-        return time_struct
+        return None
     # time_struct: time.struct_time(tm_year=2015, tm_mon=9, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=253, tm_isdst=0)
     ts = calendar.timegm(time_struct) # 1441843200
     return datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
@@ -41,7 +41,10 @@ def to_datetime(time_struct):
 def to_isoformat(time_struct):
     if not time_struct:
         return time_struct
-    return utils.ymdhms(to_datetime(time_struct))
+    # time_struct: time.struct_time(tm_year=2015, tm_mon=9, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=253, tm_isdst=0)
+    ts = calendar.timegm(time_struct) # ll: 1441843200
+    ts = datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
+    return utils.ymdhms(ts)
 
 def is_poa_to_status(is_poa):
     return "poa" if is_poa else "vor"
@@ -62,8 +65,16 @@ def jats(funcname, *args, **kwargs):
     if not actual_func:
         raise ValueError("you asked for %r from parseJATS but I couldn't find it!" % funcname)
 
+    # elifetools is modifying the soup as we access it.
+    # for the funcnames below, multiple accesses results in strange behaviour.
+    copy_these = [
+        'references_json', # lsh@2023-08-29: 24271 v1, ref 'bib38', 'date' disappears.
+    ]
+
     @wraps(actual_func)
     def fn(soup):
+        if funcname in copy_these:
+            soup = copy.copy(soup)
         return utils.sortdict(actual_func(soup, *args, **kwargs))
     return fn
 
@@ -137,10 +148,10 @@ def related_article_to_reviewed_preprint(pub_date__related_article_list__referen
     # check each reference for any relation msid prefixed with an 'RP'
     reference_msid_list = []
     for ref in references:
-        val = ref['pages']
+        val = ref.get('pages')
         # may be a string, may be a dict
         # todo: should we also check dicts?
-        if isinstance(val, str):
+        if val and isinstance(val, str):
             for msid in msid_list:
                 if val == "RP" + msid:
                     reference_msid_list.append(msid)
