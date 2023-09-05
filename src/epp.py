@@ -18,6 +18,7 @@ def epp_url(msid):
     return f"{conf.API_URL}/reviewed-preprints/{msid}"
 
 def clear_cache(msid):
+    "removes a /reviewed-preprint from the cache"
     requests_cache.core.get_cache().delete_url(epp_url(msid))
 
 def snippet(msid):

@@ -119,7 +119,8 @@ def identity(x):
     return x
 
 def related_article_to_reviewed_preprint(soup):
-    """returns a list of reviewed-preprint snippets for any related article that has one.
+    """returns a list of /reviewed-preprint snippets for any related article detected as using one.
+    detection involves inspecting article references for 'RP' prefixed manuscript ids.
     """
     pub_date = parseJATS.pub_date(soup)
     pub_date = to_datetime(pub_date)
@@ -144,19 +145,18 @@ def related_article_to_reviewed_preprint(soup):
     if not msid_list:
         return []
 
-    # elifetools is modifying the soup as we access it.
+    # `elifetools` is modifying the soup as we access it.
     # multiple accesses to `references_json` results in strange behaviour,
     # it's also hugely *slow*.
     # * 24271 v1, ref 'bib38': the 'date' disappears.
     # copy the soup before accessing `references_json`
     references = parseJATS.references_json(copy.copy(soup))
 
-    # check each reference for any relation msid prefixed with an 'RP'
+    # check each reference for any relation's msid prefixed with an 'RP'
     reference_msid_list = []
     for ref in references:
         val = ref.get('pages')
-        # may be a string, may be a dict
-        # todo: should we also check dicts?
+        # `val` may be a string or a dict. just check strings for now.
         if val and isinstance(val, str) and val[:2] == "RP":
             for msid in msid_list:
                 if val == "RP" + msid:
@@ -275,8 +275,9 @@ def discard_if_not_v1(ctx, ver):
     return EXCLUDE_ME
 
 def getvar(varname):
-    """pulls a named value out of the scraper's 'context',
-    a map of data passed to the `render` function."""
+    """pulls a named value out of the scraper's 'context'.
+    The 'context' is a map of extra data passed to the `render` function, separate
+    from the data to be rendered."""
     @requires_context
     def fn(ctx, _):
         return ctx[varname]

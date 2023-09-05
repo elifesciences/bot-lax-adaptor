@@ -147,4 +147,6 @@ REQUESTS_CACHE_CONFIG = {
 XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read().strip()
 
 JOURNAL_INCEPTION = 2012 # used to calculate volumes
-EPP_INCEPTION = datetime(year=2023, month=1, day=1) # TODO: make exact
+
+# `published` date of earliest article in EPP, 80494, "2022-10-20T03:00:00Z"
+EPP_INCEPTION = datetime(year=2022, month=10, day=20)
