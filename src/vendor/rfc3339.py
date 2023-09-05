@@ -131,7 +131,7 @@ def _format(timestamp, string_format, utc, use_system_timezone):
         # local time -> utc
         return string_format(timestamp - timedelta(seconds=utc_offset), 'Z')
     else:
-        return string_format(timestamp , _timezone(utc_offset))
+        return string_format(timestamp, _timezone(utc_offset))
 
 def format_millisecond(timestamp, utc=False, use_system_timezone=True):
     '''
@@ -145,6 +145,7 @@ def format_microsecond(timestamp, utc=False, use_system_timezone=True):
     '''
     return _format(timestamp, _string_microseconds, utc, use_system_timezone)
 
+# pylint: disable=W0622
 def format(timestamp, utc=False, use_system_timezone=True):
     '''
     Return a string formatted according to the :RFC:`3339`. If called with
@@ -185,4 +186,3 @@ def format(timestamp, utc=False, use_system_timezone=True):
     information before 1970.
     '''
     return _format(timestamp, _string, utc, use_system_timezone)
-
