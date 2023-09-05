@@ -65,16 +65,8 @@ def jats(funcname, *args, **kwargs):
     if not actual_func:
         raise ValueError("you asked for %r from parseJATS but I couldn't find it!" % funcname)
 
-    # elifetools is modifying the soup as we access it.
-    # for the funcnames below, multiple accesses results in strange behaviour.
-    copy_these = [
-        'references_json', # lsh@2023-08-29: 24271 v1, ref 'bib38', 'date' disappears.
-    ]
-
     @wraps(actual_func)
     def fn(soup):
-        if funcname in copy_these:
-            soup = copy.copy(soup)
         return utils.sortdict(actual_func(soup, *args, **kwargs))
     return fn
 
@@ -123,10 +115,13 @@ LICENCE_TYPES = {
     "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
 }
 
-def related_article_to_reviewed_preprint(pub_date__related_article_list__references):
+def identity(x):
+    return x
+
+def related_article_to_reviewed_preprint(soup):
     """returns a list of reviewed-preprint snippets for any related article that has one.
     """
-    pub_date, related_article_list, references = pub_date__related_article_list__references
+    pub_date = parseJATS.pub_date(soup)
     pub_date = to_datetime(pub_date)
     if not pub_date:
         return []
@@ -140,10 +135,21 @@ def related_article_to_reviewed_preprint(pub_date__related_article_list__referen
     def msid_from_relation(struct):
         return utils.msid_from_elife_doi(struct.get('xlink_href'))
 
+    related_article_list = parseJATS.related_article(soup)
     msid_list = list(map(msid_from_relation, related_article_list))
 
     # brute force approach. check EPP for every related MSID.
     # return list(filter(None, map(fetch, reference_msid_list)))
+
+    if not msid_list:
+        return []
+
+    # elifetools is modifying the soup as we access it.
+    # multiple accesses to `references_json` results in strange behaviour,
+    # it's also hugely *slow*.
+    # * 24271 v1, ref 'bib38': the 'date' disappears.
+    # copy the soup before accessing `references_json`
+    references = parseJATS.references_json(copy.copy(soup))
 
     # check each reference for any relation msid prefixed with an 'RP'
     reference_msid_list = []
@@ -151,7 +157,7 @@ def related_article_to_reviewed_preprint(pub_date__related_article_list__referen
         val = ref.get('pages')
         # may be a string, may be a dict
         # todo: should we also check dicts?
-        if val and isinstance(val, str):
+        if val and isinstance(val, str) and val[:2] == "RP":
             for msid in msid_list:
                 if val == "RP" + msid:
                     reference_msid_list.append(msid)
@@ -659,7 +665,7 @@ VOR_SNIPPET.update(OrderedDict([
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
-    ('-related-articles-reviewed-preprints', [(jats('pub_date'), jats('related_article'), jats('references_json')), related_article_to_reviewed_preprint]),
+    ('-related-articles-reviewed-preprints', [identity, related_article_to_reviewed_preprint]),
     ('-related-articles-internal', [jats('related_article'), related_article_to_related_articles]),
     ('-related-articles-external', [jats('mixed_citations'), mixed_citation_to_related_articles]),
     ('digest', [jats('digest_json')]),

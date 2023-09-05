@@ -53,8 +53,6 @@ def snippet(msid):
 
         epp_data['type'] = 'reviewed-preprint'
 
-        utils.validate([epp_data], conf.RELATED_SCHEMA)
-
         return epp_data
     except BaseException:
         # clear cache, we don't want bad data hanging around

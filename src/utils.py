@@ -1,3 +1,5 @@
+import sys
+from functools import wraps
 import re
 import copy
 import io
@@ -13,7 +15,7 @@ import requests
 import requests_cache
 from datetime import datetime
 import pytz
-from rfc3339 import rfc3339
+from vendor import rfc3339
 
 # import conf # don't do this, conf.py depends on utils.py
 
@@ -272,7 +274,7 @@ def ymdhms(dt):
     if not isinstance(dt, datetime):
         raise TypeError("given datetime value is not a datetime.datetime object: %r" % dt)
     dt = todt(dt) # convert to UTC, etc
-    return rfc3339(dt, utc=True)
+    return rfc3339.format(dt, utc=True)
 
 def sortdict(d):
     "imposes alphabetical ordering on a dictionary. returns an OrderedDict"
@@ -322,3 +324,15 @@ def validate(struct, schema):
         # json is incorrect
         LOG.error("struct failed to validate against schema: %s" % str(err))
         raise
+
+def timing(f):
+    @wraps(f)
+    def wrap(*args, **kw):
+        ts = time.time()
+        result = f(*args, **kw)
+        te = time.time()
+        ms = (te - ts) * 1000
+        sys.stderr.write('---\nfunc:%r args:[%r, %r] took: %dms\n---\n' % (f.__name__, args, kw, ms))
+        sys.stderr.flush()
+        return result
+    return wrap
