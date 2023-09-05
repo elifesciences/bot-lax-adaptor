@@ -6,14 +6,11 @@
 set -eu
 
 # a plain text file with one filename per line. should look similar to:
-#
 # elife-09419-v2.xml.json
 # elife-15192-v2.xml.json
 # elife-16019-v1.xml.json
 # elife-16937-v1.xml.json
-# elife-19375-v1.xml.json
-# elife-19375-v2.xml.json
-#
+
 scrape_file=${1:-scrape.txt}
 output_dir=${2:-.}
 if [ ! -f "$scrape_file" ]; then
@@ -40,7 +37,7 @@ xmlrepodir="$project_dir/article-xml/articles"
 
 source venv/bin/activate
 
-cat "$scrape_file" | while read line; do
+while IFS= read -r line; do 
     article="$xmlrepodir/$line"
     # skip whitespace
     if [[ -z "${line// }" ]]; then
@@ -52,4 +49,4 @@ cat "$scrape_file" | while read line; do
         continue
     fi
     python src/main.py "$article" > "$output_dir/$line.json"
-done
+done < "$scrape_file"
