@@ -10,16 +10,16 @@ if conf.REQUESTS_CACHING:
     install_cache_requests()
 
 def before_inception(pubdate):
-    "returns `True` if given `pubdate` datetime is before EPP's inception."
+    "returns `True` if given `pubdate` is before the inception of reviewed-preprints."
     utils.ensure(isinstance(pubdate, datetime), "given pubdate must be a datetime instance")
-    return pubdate < conf.EPP_INCEPTION
+    return pubdate < conf.RPP_INCEPTION
 
-def epp_url(msid):
+def rpp_url(msid):
     return f"{conf.API_URL}/reviewed-preprints/{msid}"
 
 def clear_cache(msid):
     "removes a /reviewed-preprint from the cache"
-    requests_cache.core.get_cache().delete_url(epp_url(msid))
+    requests_cache.core.get_cache().delete_url(rpp_url(msid))
 
 def snippet(msid):
     if not msid:
@@ -28,33 +28,33 @@ def snippet(msid):
         'msid': msid,
     }
     try:
-        url = epp_url(msid)
-        LOG.info("Loading EPP URL: %s", url)
+        url = rpp_url(msid)
+        LOG.info("Loading URL: %s", url)
         resp = utils.requests_get(url)
     except requests.RequestException as re:
-        LOG.debug("EPP request failed", extra=context, exc_info=re)
+        LOG.debug("request failed fetching RPP", extra=context, exc_info=re)
         return
 
     context['status-code'] = resp.status_code
 
     if resp.status_code == 404:
-        LOG.debug("EPP not found", extra=context)
+        LOG.debug("RPP not found", extra=context)
         return
 
     if resp.status_code != 200:
-        msg = "unhandled status code from EPP"
+        msg = "unhandled status code fetching RPP"
         LOG.warning(msg, extra=context)
         raise ValueError(msg + ": %s" % resp.status_code)
 
     try:
-        epp_data = utils.sortdict(resp.json())
+        rpp_data = utils.sortdict(resp.json())
 
-        if 'indexContent' in epp_data:
-            del epp_data['indexContent']
+        if 'indexContent' in rpp_data:
+            del rpp_data['indexContent']
 
-        epp_data['type'] = 'reviewed-preprint'
+        rpp_data['type'] = 'reviewed-preprint'
 
-        return epp_data
+        return rpp_data
     except BaseException:
         # clear cache, we don't want bad data hanging around
         clear_cache(msid)

@@ -15,7 +15,7 @@ from et3.utils import requires_context
 from isbnlib import mask, to_isbn13
 from slugify import slugify
 
-import conf, utils, glencoe, iiif, cdn, epp
+import conf, utils, glencoe, iiif, cdn, rpp
 from utils import ensure, is_file, lmap, first
 
 LOG = logging.getLogger(__name__)
@@ -127,11 +127,11 @@ def related_article_to_reviewed_preprint(soup):
     if not pub_date:
         return []
 
-    if epp.before_inception(pub_date):
+    if rpp.before_inception(pub_date):
         return []
 
     def fetch(msid):
-        return epp.snippet(msid)
+        return rpp.snippet(msid)
 
     def msid_from_relation(struct):
         return utils.msid_from_elife_doi(struct.get('xlink_href'))
@@ -139,7 +139,7 @@ def related_article_to_reviewed_preprint(soup):
     related_article_list = parseJATS.related_article(soup)
     msid_list = list(map(msid_from_relation, related_article_list))
 
-    # brute force approach. check EPP for every related MSID.
+    # brute force approach. check API for every related MSID.
     # return list(filter(None, map(fetch, reference_msid_list)))
 
     if not msid_list:
