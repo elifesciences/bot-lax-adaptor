@@ -18,8 +18,9 @@ def rpp_url(msid):
     return f"{conf.API_URL}/reviewed-preprints/{msid}"
 
 def clear_cache(msid):
-    "removes a /reviewed-preprint from the cache"
-    requests_cache.core.get_cache().delete_url(rpp_url(msid))
+    "removes a /reviewed-preprint from the requests cache, if requests caching is turned on."
+    if conf.REQUESTS_CACHING:
+        requests_cache.core.get_cache().delete_url(rpp_url(msid))
 
 def snippet(msid):
     if not msid:

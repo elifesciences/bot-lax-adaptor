@@ -1,3 +1,4 @@
+from unittest import mock
 import pytest
 import et3.render
 from elifetools import parseJATS
@@ -481,3 +482,55 @@ def test_doi_version__missing():
     expected = {}
     actual = next(main.render(description, [soup]))
     assert expected == actual
+
+def test_related_article_to_reviewed_preprint():
+    expected = [
+        OrderedDict([('authorLine', 'Zhipeng Wang, Cheng Jin ... Wei Song'),
+                     ('doi', '10.1101/2022.12.20.521179'),
+                     ('id', '85380'),
+                     ('pdf',
+                      'https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf'),
+                     ('published', '2023-03-24T03:00:00Z'),
+                     ('reviewedDate', '2023-03-24T03:00:00Z'),
+                     ('stage', 'published'),
+                     ('status', 'reviewed'),
+                     ('statusDate', '2023-06-28T03:00:00Z'),
+                     ('subjects',
+                      [OrderedDict([('id', 'developmental-biology'),
+                                    ('name', 'Developmental Biology')])]),
+                     ('title',
+                      'Identification of quiescent FOXC2<sup>+</sup> spermatogonial '
+                      'stem cells in adult mammals'),
+                     ('versionDate', '2023-06-28T03:00:00Z'),
+                     ('type', 'reviewed-preprint')])]
+
+    rpp_snippet = {
+        "id": "85380",
+        "doi": "10.1101/2022.12.20.521179",
+        "pdf": "https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf",
+        "status": "reviewed",
+        "authorLine": "Zhipeng Wang, Cheng Jin ... Wei Song",
+        "title": "Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals",
+        "published": "2023-03-24T03:00:00Z",
+        "reviewedDate": "2023-03-24T03:00:00Z",
+        "versionDate": "2023-06-28T03:00:00Z",
+        "statusDate": "2023-06-28T03:00:00Z",
+        "stage": "published",
+        "subjects": [
+            {
+                "id": "developmental-biology",
+                "name": "Developmental Biology"
+            }
+        ],
+        "indexContent": "foo"
+    }
+
+    with open(base.fixture_path("article-with-reviewed-preprint-relations.xml")) as fixture:
+        soup = parseJATS.parse_xml(fixture.read())
+
+    mock_response = mock.Mock
+    mock_response.status_code = 200
+    mock_response.json = lambda: rpp_snippet
+    with mock.patch('utils.requests_get', return_value=mock_response):
+        actual = main.related_article_to_reviewed_preprint(soup)
+    assert actual == expected
