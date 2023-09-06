@@ -6,10 +6,9 @@
 set -eu
 
 # a plain text file with one filename per line. should look similar to:
-# elife-09419-v2.xml.json
-# elife-15192-v2.xml.json
-# elife-16019-v1.xml.json
-# elife-16937-v1.xml.json
+# elife-09419-v2.xml
+# elife-15192-v2.xml
+# elife-16019-v1.xml
 
 scrape_file=${1:-scrape.txt}
 output_dir=${2:-.}
