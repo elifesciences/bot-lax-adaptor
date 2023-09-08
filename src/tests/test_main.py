@@ -1,3 +1,4 @@
+from unittest import mock
 import pytest
 import et3.render
 from elifetools import parseJATS
@@ -123,10 +124,10 @@ def test_category_codes():
 def test_related_article_to_related_articles():
     cases = [
         ([{'junk': 'not related'}], []),
-        ([{'xlink_href': '10.7554/eLife.09561', 'related_article_type': 'article-reference', 'ext_link_type': u'doi'}], ['09561']),
-        ([{'xlink_href': '10.7554/eLife.09560', 'related_article_type': 'article-reference', 'ext_link_type': u'doi'},
-          {'xlink_href': '10.7554/eLife.09561', 'related_article_type': 'article-reference', 'ext_link_type': u'doi'}], ['09560', '09561']),
-        ([{'xlink_href': 'foo', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}], [])
+        ([{'xlink_href': '10.7554/eLife.09561', 'related_article_type': 'article-reference', 'ext_link_type': 'doi'}], ['09561']),
+        ([{'xlink_href': '10.7554/eLife.09560', 'related_article_type': 'article-reference', 'ext_link_type': 'doi'},
+          {'xlink_href': '10.7554/eLife.09561', 'related_article_type': 'article-reference', 'ext_link_type': 'doi'}], ['09560', '09561']),
+        ([{'xlink_href': 'foo', 'related_article_type': 'article-reference', 'ext_link_type': 'doi'}], [])
     ]
     for given, expected in cases:
         assert expected == main.related_article_to_related_articles(given)
@@ -152,7 +153,7 @@ def test_licence_holder():
         ((None, 'CC-BY-4'), main.EXCLUDE_ME),
         (('John', 'CC-BY-4'), 'John'),
         (('John', 'CC0-1.0'), main.EXCLUDE_ME),
-        (('Jane', 'cC0-2.pants'), main.EXCLUDE_ME)
+        (('Jane', 'cC0-2.foo'), main.EXCLUDE_ME)
     ]
     for given, expected in cases:
         actual = main.discard_if_none_or_cc0(given)
@@ -288,11 +289,11 @@ def test_isbn():
         assert expected == actual
 
 def test_mixed_citation():
-    given = [{'article': {'authorLine': 'R Straussman et al', 'authors': [{'given': u'R', 'surname': u'Straussman'}, {'given': u'T', 'surname': u'Morikawa'}, {'given': u'K', 'surname': u'Shee'}, {'given': u'M', 'surname': u'Barzily-Rokni'}, {'given': u'ZR', 'surname': u'Qian'}, {'given': u'J', 'surname': u'Du'}, {'given': u'A', 'surname': u'Davis'}, {'given': u'MM', 'surname': u'Mongare'}, {'given': u'J', 'surname': u'Gould'}, {'given': u'DT', 'surname': u'Frederick'}, {'given': u'ZA', 'surname': u'Cooper'}, {'given': u'PB', 'surname': u'Chapman'}, {'given': u'DB', 'surname': u'Solit'}, {'given': u'A', 'surname': u'Ribas'}, {'given': u'RS', 'surname': u'Lo'}, {'given': u'KT', 'surname': u'Flaherty'}, {'given': u'S', 'surname': u'Ogino'}, {'given': u'JA', 'surname': u'Wargo'}, {'given': u'TR', 'surname': u'Golub'}], 'doi': u'10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': u'Tumour micro-environment elicits innate resistance to RAF inhibitors through HGF secretion'}, 'journal': {'volume': u'487', 'lpage': u'504', 'name': u'Nature', 'fpage': u'500'}}]
+    given = [{'article': {'authorLine': 'R Straussman et al', 'authors': [{'given': 'R', 'surname': 'Straussman'}, {'given': 'T', 'surname': 'Morikawa'}, {'given': 'K', 'surname': 'Shee'}, {'given': 'M', 'surname': 'Barzily-Rokni'}, {'given': 'ZR', 'surname': 'Qian'}, {'given': 'J', 'surname': 'Du'}, {'given': 'A', 'surname': 'Davis'}, {'given': 'MM', 'surname': 'Mongare'}, {'given': 'J', 'surname': 'Gould'}, {'given': 'DT', 'surname': 'Frederick'}, {'given': 'ZA', 'surname': 'Cooper'}, {'given': 'PB', 'surname': 'Chapman'}, {'given': 'DB', 'surname': 'Solit'}, {'given': 'A', 'surname': 'Ribas'}, {'given': 'RS', 'surname': 'Lo'}, {'given': 'KT', 'surname': 'Flaherty'}, {'given': 'S', 'surname': 'Ogino'}, {'given': 'JA', 'surname': 'Wargo'}, {'given': 'TR', 'surname': 'Golub'}], 'doi': '10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': 'Tumour micro-environment elicits innate resistance to RAF inhibitors through HGF secretion'}, 'journal': {'volume': '487', 'lpage': '504', 'name': 'Nature', 'fpage': '500'}}]
 
     expected = [{
         'type': 'external-article',
-        'articleTitle': u'Tumour micro-environment elicits innate resistance to RAF inhibitors through HGF secretion',
+        'articleTitle': 'Tumour micro-environment elicits innate resistance to RAF inhibitors through HGF secretion',
         'journal': 'Nature',
         'authorLine': 'R Straussman et al',
         'uri': 'https://doi.org/10.1038/nature11183',
@@ -481,3 +482,55 @@ def test_doi_version__missing():
     expected = {}
     actual = next(main.render(description, [soup]))
     assert expected == actual
+
+def test_related_article_to_reviewed_preprint():
+    expected = [
+        OrderedDict([('authorLine', 'Zhipeng Wang, Cheng Jin ... Wei Song'),
+                     ('doi', '10.1101/2022.12.20.521179'),
+                     ('id', '85380'),
+                     ('pdf',
+                      'https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf'),
+                     ('published', '2023-03-24T03:00:00Z'),
+                     ('reviewedDate', '2023-03-24T03:00:00Z'),
+                     ('stage', 'published'),
+                     ('status', 'reviewed'),
+                     ('statusDate', '2023-06-28T03:00:00Z'),
+                     ('subjects',
+                      [OrderedDict([('id', 'developmental-biology'),
+                                    ('name', 'Developmental Biology')])]),
+                     ('title',
+                      'Identification of quiescent FOXC2<sup>+</sup> spermatogonial '
+                      'stem cells in adult mammals'),
+                     ('versionDate', '2023-06-28T03:00:00Z'),
+                     ('type', 'reviewed-preprint')])]
+
+    rpp_snippet = {
+        "id": "85380",
+        "doi": "10.1101/2022.12.20.521179",
+        "pdf": "https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf",
+        "status": "reviewed",
+        "authorLine": "Zhipeng Wang, Cheng Jin ... Wei Song",
+        "title": "Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals",
+        "published": "2023-03-24T03:00:00Z",
+        "reviewedDate": "2023-03-24T03:00:00Z",
+        "versionDate": "2023-06-28T03:00:00Z",
+        "statusDate": "2023-06-28T03:00:00Z",
+        "stage": "published",
+        "subjects": [
+            {
+                "id": "developmental-biology",
+                "name": "Developmental Biology"
+            }
+        ],
+        "indexContent": "foo"
+    }
+
+    with open(base.fixture_path("article-with-reviewed-preprint-relations.xml")) as fixture:
+        soup = parseJATS.parse_xml(fixture.read())
+
+    mock_response = mock.Mock
+    mock_response.status_code = 200
+    mock_response.json = lambda: rpp_snippet
+    with mock.patch('utils.requests_get', return_value=mock_response):
+        actual = main.related_article_to_reviewed_preprint(soup)
+    assert actual == expected

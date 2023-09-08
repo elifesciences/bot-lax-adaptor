@@ -23,7 +23,7 @@ def render(path, json_output_dir):
         strbuffer.write("%s -> %s => " % (fname, fname + '.json'))
         json_result = scraper.main(path)
 
-        # ll: backfill-run-1234567890/ajson/elife-09560-v1.xml.ajson
+        # "backfill-run-1234567890/ajson/elife-09560-v1.xml.ajson"
         outfname = join(json_output_dir, fname + '.json')
 
         open(outfname, 'w').write(json_result)
@@ -35,7 +35,7 @@ def render(path, json_output_dir):
         log.info(strbuffer.getvalue())
 
 def pformat(d):
-    return json.dumps(d, indent=4)
+    return json.dumps(d, indent=4, default=str)
 
 def main(xml_dir, json_output_dir, num=None):
     paths = lmap(lambda fname: join(xml_dir, fname), os.listdir(xml_dir))

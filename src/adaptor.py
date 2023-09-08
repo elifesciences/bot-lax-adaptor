@@ -92,7 +92,7 @@ def call_lax(action, msid, version, token, article_json=None, force=False, dry_r
         find_lax(), # /srv/lax/manage.sh
         "--skip-install",
         "ingest",
-        "--" + action, # ll: --ingest+publish
+        "--" + action, # "--ingest+publish"
         "--serial",
         "--id", str(msid),
         "--version", str(version),
@@ -319,8 +319,8 @@ except ImportError:
 
 def read_from_sqs(env, **kwargs):
     "reads messages from an SQS queue, writes responses to another SQS queue"
-    incoming = sqs_adaptor.IncomingQueue('bot-lax-%s-inc' % env, **kwargs) # ll: bot-lax-end2end-inc
-    outgoing = sqs_adaptor.OutgoingQueue('bot-lax-%s-out' % env)           # ll: bot-lax-end2end-out
+    incoming = sqs_adaptor.IncomingQueue('bot-lax-%s-inc' % env, **kwargs) # "bot-lax-end2end-inc"
+    outgoing = sqs_adaptor.OutgoingQueue('bot-lax-%s-out' % env)           # "bot-lax-end2end-out"
     return incoming, outgoing
 
 def read_from_fs(path, **kwargs):

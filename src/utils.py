@@ -1,3 +1,5 @@
+import sys
+from functools import wraps
 import re
 import copy
 import io
@@ -13,7 +15,7 @@ import requests
 import requests_cache
 from datetime import datetime
 import pytz
-from rfc3339 import rfc3339
+from vendor import rfc3339
 
 # import conf # don't do this, conf.py depends on utils.py
 
@@ -148,7 +150,7 @@ def run_script(args, user_input=None):
     return process.returncode, stdout.decode('utf-8')
 
 def version_from_path(path):
-    _, msid, ver = os.path.split(path)[-1].split('-') # ll: ['elife', '09560', 'v1.xml']
+    _, msid, ver = os.path.split(path)[-1].split('-') # ['elife', '09560', 'v1.xml']
     ver = int(ver[1]) # "v1.xml" -> 1
     return msid, ver
 
@@ -215,13 +217,13 @@ def requests_get(*args, **kwargs):
         # if caching enabled, log the key used to cache the response
         if hasattr(s, 'cache'): # test if requests_cache is enabled
             cache_key = requests_cache_create_key(prepared_request)
-            LOG.info("Requesting url %s (cache key '%s')", args[0], cache_key)
+            LOG.info("Requesting URL %s (cache key '%s')", args[0], cache_key)
         else:
-            LOG.info("Requesting url %s", args[0])
+            LOG.info("Requesting URL %s", args[0])
 
         response = s.send(prepared_request)
         if response.status_code >= 500:
-            raise RemoteResponseTemporaryError("Status code was %s" % response.status_code)
+            raise RemoteResponseTemporaryError("status code was %s" % response.status_code)
         return response
     num_attempts = 3
     resp = call_n_times(
@@ -272,7 +274,7 @@ def ymdhms(dt):
     if not isinstance(dt, datetime):
         raise TypeError("given datetime value is not a datetime.datetime object: %r" % dt)
     dt = todt(dt) # convert to UTC, etc
-    return rfc3339(dt, utc=True)
+    return rfc3339.format(dt, utc=True)
 
 def sortdict(d):
     "imposes alphabetical ordering on a dictionary. returns an OrderedDict"
@@ -322,3 +324,15 @@ def validate(struct, schema):
         # json is incorrect
         LOG.error("struct failed to validate against schema: %s" % str(err))
         raise
+
+def timing(f):
+    @wraps(f)
+    def wrap(*args, **kw):
+        ts = time.time()
+        result = f(*args, **kw)
+        te = time.time()
+        ms = (te - ts) * 1000
+        sys.stderr.write('---\nfunc:%r args:[%r, %r] took: %dms\n---\n' % (f.__name__, args, kw, ms))
+        sys.stderr.flush()
+        return result
+    return wrap

@@ -15,7 +15,7 @@ from et3.utils import requires_context
 from isbnlib import mask, to_isbn13
 from slugify import slugify
 
-import conf, utils, glencoe, iiif, cdn
+import conf, utils, glencoe, iiif, cdn, rpp
 from utils import ensure, is_file, lmap, first
 
 LOG = logging.getLogger(__name__)
@@ -31,10 +31,17 @@ LOG.addHandler(_handler)
 def doi(item):
     return parseJATS.doi(item)
 
+def to_datetime(time_struct):
+    if not time_struct:
+        return None
+    # time_struct: time.struct_time(tm_year=2015, tm_mon=9, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=253, tm_isdst=0)
+    ts = calendar.timegm(time_struct) # 1441843200
+    return datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
+
 def to_isoformat(time_struct):
     if not time_struct:
         return time_struct
-    # time_struct ll: time.struct_time(tm_year=2015, tm_mon=9, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=253, tm_isdst=0)
+    # time_struct: time.struct_time(tm_year=2015, tm_mon=9, tm_mday=10, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=253, tm_isdst=0)
     ts = calendar.timegm(time_struct) # ll: 1441843200
     ts = datetime.utcfromtimestamp(ts) # datetime.datetime(2015, 9, 10, 0, 0)
     return utils.ymdhms(ts)
@@ -66,7 +73,6 @@ def jats(funcname, *args, **kwargs):
 #
 #
 #
-
 
 DISPLAY_CHANNEL_TYPES = {
     "Correction": "correction",
@@ -109,20 +115,69 @@ LICENCE_TYPES = {
     "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
 }
 
+def identity(x):
+    return x
+
+def related_article_to_reviewed_preprint(soup):
+    """returns a list of /reviewed-preprint snippets for any related article detected as using one.
+    detection involves inspecting article references for 'RP' prefixed manuscript ids.
+    """
+    pub_date = parseJATS.pub_date(soup)
+    pub_date = to_datetime(pub_date)
+    if not pub_date:
+        return []
+
+    if rpp.before_inception(pub_date):
+        return []
+
+    def fetch(msid):
+        return rpp.snippet(msid)
+
+    def msid_from_relation(struct):
+        return utils.msid_from_elife_doi(struct.get('xlink_href'))
+
+    related_article_list = parseJATS.related_article(soup)
+    msid_list = list(map(msid_from_relation, related_article_list))
+
+    # brute force approach. check API for every related MSID.
+    # return list(filter(None, map(fetch, reference_msid_list)))
+
+    if not msid_list:
+        return []
+
+    # `elifetools` is modifying the soup as we access it.
+    # multiple accesses to `references_json` results in strange behaviour,
+    # it's also hugely *slow*.
+    # * 24271 v1, ref 'bib38': the 'date' disappears.
+    # copy the soup before accessing `references_json`
+    references = parseJATS.references_json(copy.copy(soup))
+
+    # check each reference for any relation's msid prefixed with an 'RP'.
+    # note: a *non-eLife* article may also have an elocation-id starting with 'RP'.
+    reference_msid_list = []
+    for ref in references:
+        val = ref.get('pages')
+        # `val` may be a string or a dict. just check strings for now.
+        if val and isinstance(val, str) and val[:2] == "RP":
+            for msid in msid_list:
+                if val == "RP" + msid:
+                    reference_msid_list.append(msid)
+
+    return list(filter(None, map(fetch, reference_msid_list)))
+
 def related_article_to_related_articles(related_article_list):
     """returns a list of eLife manuscript IDs from the list returned by `related_articles` or an empty list."""
-    # [{'xlink_href': u'10.7554/eLife.09561', 'related_article_type': u'article-reference', 'ext_link_type': u'doi'}]
+    # [{'xlink_href': '10.7554/eLife.09561', 'related_article_type': 'article-reference', 'ext_link_type': 'doi'}]
     # => ['09561']
     def et(struct):
         return utils.msid_from_elife_doi(struct.get('xlink_href'))
     return list(filter(None, map(et, related_article_list)))
 
 def mixed_citation_to_related_articles(mixed_citation_list):
-    # ll: [{'article': {'authorLine': 'R Straussman et al',
-    #      'authors': [{'given': u'R', 'surname': u'Straussman'}, ...}],
-    #      'doi': u'10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': u'Pants-Party'},
-    #      'journal': {'volume': u'487', 'lpage': u'504', 'name': u'Nature', 'fpage': u'500'}}]
-
+    # [{'article': {'authorLine': 'R Straussman et al',
+    #               'authors': [{'given': 'R', 'surname': 'Straussman'}, ...}],
+    #               'doi': '10.1038/nature11183', 'pub-date': [2014, 2, 28], 'title': 'Foo-Bar'},
+    #               'journal': {'volume': '487', 'lpage': '504', 'name': 'Nature', 'fpage': '500'}}]
     def et(struct):
         return OrderedDict([
             ('type', 'external-article'),
@@ -166,13 +221,13 @@ def pdf_uri(triple):
     content_type, msid, version = triple
     if content_type and any(lmap(lambda type: type in ['Correction', 'Retraction'], content_type)):
         return EXCLUDE_ME
-    filename = "elife-%s-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-v1.pdf
+    filename = "elife-%s-v%s.pdf" % (utils.pad_msid(msid), version) # "elife-09560-v1.pdf"
     return cdnlink(msid, filename)
 
 def xml_uri(params):
     """predict an article's xml url."""
     msid, version = params
-    filename = "elife-%s-v%s.xml" % (utils.pad_msid(msid), version) # ll: elife-09560-v1.xml
+    filename = "elife-%s-v%s.xml" % (utils.pad_msid(msid), version) # "elife-09560-v1.xml"
     return cdnlink(msid, filename)
 
 def figures_pdf_uri(triple):
@@ -181,7 +236,7 @@ def figures_pdf_uri(triple):
 
     if any(lmap(lambda graphic: graphic.get('xlink_href')
                 and filename_match in graphic.get('xlink_href'), graphics)):
-        filename = "elife-%s-figures-v%s.pdf" % (utils.pad_msid(msid), version) # ll: elife-09560-figures-v1.pdf
+        filename = "elife-%s-figures-v%s.pdf" % (utils.pad_msid(msid), version) # "elife-09560-figures-v1.pdf"
         figures_pdf_cdnlink = cdnlink(msid, filename)
         return cdn.url_exists(figures_pdf_cdnlink, msid)
     else:
@@ -221,6 +276,9 @@ def discard_if_not_v1(ctx, ver):
     return EXCLUDE_ME
 
 def getvar(varname):
+    """pulls a named value out of the scraper's 'context'.
+    The 'context' is a map of extra data passed to the `render` function, separate
+    from the data to be rendered."""
     @requires_context
     def fn(ctx, _):
         return ctx[varname]
@@ -609,6 +667,7 @@ VOR_SNIPPET.update(OrderedDict([
 VOR = copy.deepcopy(VOR_SNIPPET)
 VOR.update(OrderedDict([
     ('keywords', [jats('keywords_json')]),
+    ('-related-articles-reviewed-preprints', [identity, related_article_to_reviewed_preprint]),
     ('-related-articles-internal', [jats('related_article'), related_article_to_related_articles]),
     ('-related-articles-external', [jats('mixed_citations'), mixed_citation_to_related_articles]),
     ('digest', [jats('digest_json')]),

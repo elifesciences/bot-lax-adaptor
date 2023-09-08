@@ -1,8 +1,6 @@
 from datetime import datetime
 from os.path import join
-
 from unittest import mock
-
 from src import conf, utils, adhoc_backfill as bfup
 from .base import BaseCase
 from src.utils import partial_match
@@ -23,7 +21,7 @@ class One(BaseCase):
             # "id": '09560',
             "id": "16695",
             "requested-action": 'ingest',
-            "token": 'pants-party', # set by fs-adaptor
+            "token": 'foobar', # set by fs-adaptor
             "status": conf.INGESTED,
             "message": '...?',
             "datetime": utils.ymdhms(datetime.now())
@@ -42,7 +40,7 @@ class One(BaseCase):
             # "id": '09560',
             "id": "16695",
             "requested-action": 'ingest',
-            "token": 'pants-party', # set by fs-adaptor
+            "token": 'foobar', # set by fs-adaptor
             "status": conf.INGESTED,
             "message": '...?',
             "datetime": utils.ymdhms(datetime.now())
@@ -85,7 +83,7 @@ class One(BaseCase):
         expected_lax_response = {
             "id": "16695",
             "requested-action": 'ingest',
-            "token": 'pants-party',
+            "token": 'foobar',
             "status": conf.INGESTED,
             "message": '...?',
             "datetime": utils.ymdhms(datetime.now())
@@ -113,7 +111,7 @@ class Two(BaseCase):
             {
                 "validate-only": False,
                 "force": True,
-                "token": "pants-party",
+                "token": "foobar",
                 "version": 1,
                 "location": "file://" + join(conf.PROJECT_DIR, self.path),
                 "action": "ingest",
@@ -164,8 +162,8 @@ class Two(BaseCase):
         jsonobj = '''{"msid":16695,"version":1,"location":"https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml"}
 {"msid":1968,"version":1,"location":"no-location-stored"}'''
         self.expected[0].update({
-            'location': u'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
-            'id': u'16695'
+            'location': 'https://s3-external-1.amazonaws.com/elife-publishing-expanded/16695.1/9c2cabd8-a25a-4d76-9f30-1c729755480b/elife-16695-v1.xml',
+            'id': '16695'
         })
         with mock.patch('src.adhoc_backfill.read_from_stdin', return_value=jsonobj.splitlines()):
             actual = bfup.main(['--dry-run'])

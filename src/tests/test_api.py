@@ -168,7 +168,7 @@ class Two(FlaskTestCase):
         xml_fname = 'elife-16695-v1.xml'
         xml_fixture = join(self.fixtures_dir, xml_fname)
 
-        bad_ext = '.pants'
+        bad_ext = '.foo'
         resp = self.client.post('/xml?id=16695&version=1', **{
             'buffered': True,
             'content_type': 'multipart/form-data',
@@ -329,11 +329,11 @@ class Two(FlaskTestCase):
         }
 
         mock_lax_resp = {
-            u'status': u'validated',
-            u'force': True,
-            u'dry-run': True,
-            u'id': 16695,
-            u'datetime': u'2017-07-04T07:37:24Z'
+            'status': 'validated',
+            'force': True,
+            'dry-run': True,
+            'id': 16695,
+            'datetime': '2017-07-04T07:37:24Z'
         }
         with patch('adaptor.call_lax', return_value=mock_lax_resp):
             resp = self.client.post('/xml?id=16695&version=1', **{
