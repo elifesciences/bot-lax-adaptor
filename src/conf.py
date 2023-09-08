@@ -26,7 +26,7 @@ DYNCONFIG = configparser.ConfigParser(**{
     # these can be used like template variables
     # https://docs.python.org/2/library/configparser.html
     'defaults': {'dir': PROJECT_DIR}})
-DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # "/path/to/lax/app.cfg"
+DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # "/path/to/bot-lax-adaptor/app.cfg"
 
 def cfg(path, default=0xDEADBEEF):
     lu = {'True': True, 'true': True, 'False': False, 'false': False} # cast any obvious booleans
@@ -47,9 +47,9 @@ if ENV == DEV and os.path.exists('/vagrant'):
 
 def multiprocess_log(filename, name=__name__):
     """Creates a shared log for name and the current process,
-    writing to filename with the append flag.
+    writing to `filename` with the append flag.
 
-    On Linux this should ensure that no log entries are lost, thanks to kernel-specific behavior"""
+    On Linux this should ensure that no log entries are lost, thanks to kernel-specific behavior."""
     log = logging.getLogger("%s.%d" % (name, os.getpid()))
     if not log.handlers:
         _handler = logging.FileHandler(filename)
@@ -149,4 +149,4 @@ XML_REV = open(join(PROJECT_DIR, 'elife-article-xml.sha1'), 'r').read().strip()
 JOURNAL_INCEPTION = 2012 # used to calculate volumes
 
 # `published` date of earliest reviewed-preprint, 80494, "2022-10-20T03:00:00Z"
-RPP_INCEPTION = datetime(year=2022, month=10, day=20)
+RPP_INCEPTION = datetime(year=2022, month=10, day=20, hour=3, minute=0, second=0)

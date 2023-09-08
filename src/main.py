@@ -152,7 +152,8 @@ def related_article_to_reviewed_preprint(soup):
     # copy the soup before accessing `references_json`
     references = parseJATS.references_json(copy.copy(soup))
 
-    # check each reference for any relation's msid prefixed with an 'RP'
+    # check each reference for any relation's msid prefixed with an 'RP'.
+    # note: a *non-eLife* article may also have an elocation-id starting with 'RP'.
     reference_msid_list = []
     for ref in references:
         val = ref.get('pages')

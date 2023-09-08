@@ -25,12 +25,13 @@ def clear_cache(msid):
 def snippet(msid):
     if not msid:
         return
+    url = rpp_url(msid)
     context = {
         'msid': msid,
+        'url': url,
     }
     try:
-        url = rpp_url(msid)
-        LOG.info("Loading URL: %s", url)
+        LOG.debug("Loading URL: %s", url, extra=context)
         resp = utils.requests_get(url)
     except requests.RequestException as re:
         LOG.debug("request failed fetching RPP", extra=context, exc_info=re)
@@ -43,9 +44,9 @@ def snippet(msid):
         return
 
     if resp.status_code != 200:
-        msg = "unhandled status code fetching RPP"
+        msg = "unhandled response fetching RPP article: %s" % resp.status_code
         LOG.warning(msg, extra=context)
-        raise ValueError(msg + ": %s" % resp.status_code)
+        raise ValueError(msg)
 
     try:
         rpp_data = utils.sortdict(resp.json())
