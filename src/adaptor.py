@@ -305,14 +305,6 @@ def handler(json_request, outgoing):
         # when lax fails, we fail
         raise
 
-# todo: why is this imported down here?
-# if the reason is 'circular reference', we need to do a better job
-try:
-    import newrelic.agent
-    handler = newrelic.agent.background_task()(handler)
-except ImportError:
-    pass
-
 #
 #
 #
