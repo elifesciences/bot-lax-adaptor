@@ -79,9 +79,6 @@ INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 # these values are mostly duplicated in schema/api.yaml
 # if you update here, update there.
 VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
-BAD_OVERRIDES, BAD_UPLOAD, BAD_SCRAPE = 'problem-overrides', 'problem-uploading-xml', 'problem-scraping-xml'
-ERROR_INVALID = 'invalid-article-json'
-ERROR_VALIDATING, ERROR_COMMUNICATING = 'error-validating-article-json', 'error-sending-article-json'
 
 XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')
 JSON_DIR = join(PROJECT_DIR, 'article-json')
@@ -100,15 +97,6 @@ RESPONSE_SCHEMA = load('response-schema.json')
 API_HOST = cfg("api.host", "elifesciences.org")
 API_URL = f"https://{ENV}--gateway.{API_HOST}" # https://continuumtest--gateway.elifesciences.org
 API_URL = cfg("api.url", API_URL)
-
-# can be overriden when creating an app
-API_UPLOAD_FOLDER = join(PROJECT_DIR, "uploads")
-if ENV != DEV:
-    API_UPLOAD_FOLDER = cfg('general.upload_path', API_UPLOAD_FOLDER)
-utils.writable_dir(API_UPLOAD_FOLDER)
-
-# pre-validate means 'validate with placeholders in bot-lax before proper validating on lax'
-API_PRE_VALIDATE = cfg('api.pre_validate', True)
 
 CDN1 = cfg('general.cdn1') + '%(padded-msid)s/%(fname)s'
 
