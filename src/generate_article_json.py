@@ -59,7 +59,7 @@ if __name__ == '__main__':
     ensure(os.path.exists(indir), "the path %r doesn't exist" % indir)
     ensure(os.path.exists(outdir), "the path %r doesn't exist" % outdir)
 
-    blacklist = ['DYNCONFIG', 'POA_SCHEMA', 'VOR_SCHEMA', 'REQUEST_SCHEMA', 'RESPONSE_SCHEMA', 'API_SCHEMA']
+    blacklist = ['DYNCONFIG', 'POA_SCHEMA', 'VOR_SCHEMA', 'REQUEST_SCHEMA', 'RESPONSE_SCHEMA']
     config = {k: v for k, v in conf.__dict__.items() if k.isupper() and k not in blacklist}
     config = dict(sorted(config.items(), key=lambda x: x[0]))
 
