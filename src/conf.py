@@ -92,9 +92,7 @@ RELATED_SCHEMA = load('api-raml/dist/model/article-related.v2.json')
 REQUEST_SCHEMA = load('request-schema.json')
 RESPONSE_SCHEMA = load('response-schema.json')
 
-API_HOST = cfg("api.host", "elifesciences.org")
-API_URL = f"https://{ENV}--gateway.{API_HOST}" # https://continuumtest--gateway.elifesciences.org
-API_URL = cfg("api.url") or API_URL
+API_URL = cfg("api.url") # "https://api.elifesciences.org", "http://prod--gateway.elife.internal"
 
 CDN1 = cfg('general.cdn1') + '%(padded-msid)s/%(fname)s'
 
