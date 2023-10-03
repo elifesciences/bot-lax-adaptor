@@ -3,6 +3,7 @@ import requests
 import requests_cache
 from cache_requests import install_cache_requests
 import conf, utils
+import logging
 
 LOG = logging.getLogger(__name__)
 
