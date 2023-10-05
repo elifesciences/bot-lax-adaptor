@@ -76,8 +76,6 @@ CACHE_PATH = cfg('general.cache_path', DEFAULT_CACHE_PATH)
 
 INGEST, PUBLISH, INGEST_PUBLISH = 'ingest', 'publish', 'ingest+publish'
 
-# these values are mostly duplicated in schema/api.yaml
-# if you update here, update there.
 VALIDATED, INGESTED, PUBLISHED, INVALID, ERROR = 'validated', 'ingested', 'published', 'invalid', 'error'
 
 XML_DIR = join(PROJECT_DIR, 'article-xml', 'articles')
@@ -94,9 +92,7 @@ RELATED_SCHEMA = load('api-raml/dist/model/article-related.v2.json')
 REQUEST_SCHEMA = load('request-schema.json')
 RESPONSE_SCHEMA = load('response-schema.json')
 
-API_HOST = cfg("api.host", "elifesciences.org")
-API_URL = f"https://{ENV}--gateway.{API_HOST}" # https://continuumtest--gateway.elifesciences.org
-API_URL = cfg("api.url", API_URL)
+API_URL = cfg("api.url") # "https://api.elifesciences.org", "http://prod--gateway.elife.internal"
 
 CDN1 = cfg('general.cdn1') + '%(padded-msid)s/%(fname)s'
 
