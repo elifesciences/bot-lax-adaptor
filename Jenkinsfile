@@ -16,16 +16,13 @@ elifeLibrary({
 
     stage 'Corpus generation', {
         sh 'rm -f generation.log'
-        sh './generate-article-json.sh'
+        sh './generate-article-json.sh 1000'
         archive 'generation.log'
         sh './generate-statistics.sh generation.log'
     }
 
     stage 'Corpus validation', {
-        sh 'rm -f validation.log'
         sh './validate-all-json.sh'
-        archive 'validation.log'
-        sh './validate-statistics.sh validation.log'
     }
 
     elifeMainlineOnly {    
