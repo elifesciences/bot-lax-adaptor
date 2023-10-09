@@ -16,7 +16,8 @@ rm -f validation.log validate.log
 rm -rf ./article-json/valid/ ./article-json/invalid/  ./article-json/patched/
 
 # fetch latest validator
-wget https://github.com/elifesciences/validate-article-json/releases/latest/download/linux-amd64
+wget https://github.com/elifesciences/validate-article-json/releases/latest/download/
+chmod +x linux-amd64
 mv linux-amd64 validate-article-json
 
 # validate
