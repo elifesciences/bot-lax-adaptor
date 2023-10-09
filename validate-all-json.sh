@@ -21,4 +21,4 @@ chmod +x linux-amd64
 mv linux-amd64 validate-article-json
 
 # validate
-./validate-article-json schema/api-raml/ article-json/
+time ./validate-article-json schema/api-raml/ article-json/

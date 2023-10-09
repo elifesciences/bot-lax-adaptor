@@ -18,7 +18,7 @@ num="$1"
 mkdir -p article-json
 
 if [ ! -z "$num" ]; then
-    venv/bin/python src/generate_article_json.py --num "$num"
+    time venv/bin/python src/generate_article_json.py --num "$num"
 else
-    venv/bin/python src/generate_article_json.py
+    time venv/bin/python src/generate_article_json.py
 fi
