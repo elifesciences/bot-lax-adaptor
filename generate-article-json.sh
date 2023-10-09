@@ -2,8 +2,8 @@
 # generates article-json from the contents of the `elife-article-xml` repo.
 set -e
 
-. install.sh
-. download-elife-xml.sh
+./install.sh
+./download-elife-xml.sh
 
 echo > scrape.log
 
@@ -18,7 +18,7 @@ num="$1"
 mkdir -p article-json
 
 if [ ! -z "$num" ]; then
-    time python src/generate_article_json.py --num "$num"
+    venv/bin/python src/generate_article_json.py --num "$num"
 else
-    time python src/generate_article_json.py
+    venv/bin/python src/generate_article_json.py
 fi
