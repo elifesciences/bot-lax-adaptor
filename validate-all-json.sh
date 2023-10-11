@@ -21,4 +21,6 @@ chmod +x linux-amd64
 mv linux-amd64 validate-article-json
 
 # validate
-time ./validate-article-json schema/api-raml/ article-json/
+sample="-1"      # 'all' articles (do not sample)
+num_workers="72" # 36 cores (elife-libraries--powerful3) * 2
+time ./validate-article-json schema/api-raml/ article-json/ "$sample" "$num_workers"
