@@ -1,4 +1,4 @@
-# file generated 2023-10-04 - see update-dependencies.sh
+# file generated 2023-10-19 - see update-dependencies.sh
 astroid==2.15.8
 attrs==23.1.0
 autopep8==2.0.4
@@ -47,6 +47,6 @@ tomli==2.0.1
 tomlkit==0.12.1
 typing_extensions==4.8.0
 Unidecode==1.3.7
-urllib3==1.26.17
+urllib3==1.26.18
 wrapt==1.15.0
 zipp==3.17.0
