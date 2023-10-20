@@ -1,6 +1,14 @@
 elifeUpdatePipeline(
     { commit ->
-        sh "./update-dependencies.sh ${params.package} ${params.tag} exact"
+        if (params.package && params.tag) {
+            sh "./update-dependencies.sh ${params.package} ${params.tag} exact"
+        } else {
+            if (params.package || params.tag) {
+                error "specify both 'package' and 'tag' build parameters or neither"
+                return
+            }
+            sh "./update-dependencies.sh"
+        }
         sh "git add Pipfile Pipfile.lock requirements.txt"
     },
     {
