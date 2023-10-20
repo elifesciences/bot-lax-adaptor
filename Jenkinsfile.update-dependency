@@ -12,7 +12,11 @@ elifeUpdatePipeline(
         sh "git add Pipfile Pipfile.lock requirements.txt"
     },
     {
-        return "Dependency `${params.package}` pinned to `${params.tag}`"
+        if (params.package && params.tag) {
+            return "Dependency `${params.package}` pinned to `${params.tag}`"
+        } else {
+            return "Dependency update"
+        }
     },
     "update_${params.package}/",
     library=true
