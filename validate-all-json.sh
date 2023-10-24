@@ -39,4 +39,5 @@ chmod +x validate-article-json
 
 # validate
 sample="-1"      # 'all' articles (do not sample)
-time ./validate-article-json schema/api-raml/ article-json/ "$sample"
+num_workers="96"
+time ./validate-article-json schema/api-raml/ article-json/ "$sample" "$num_workers"
