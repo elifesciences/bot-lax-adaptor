@@ -17,9 +17,9 @@ elifeLibrary({
 
     stage 'Corpus generation', {
         sh 'rm -f generation.log'
-        sh './generate-article-json.sh 1000'
+        sh './generate-article-json.sh'
         //archive 'generation.log'
-        //sh './generate-statistics.sh generation.log 1000'
+        //sh './generate-statistics.sh generation.log'
     }
 
     stage 'Corpus validation', {
