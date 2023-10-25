@@ -40,4 +40,5 @@ chmod +x validate-article-json
 # validate
 sample="-1"      # 'all' articles (do not sample)
 num_workers="96"
-time ./validate-article-json schema/api-raml/ article-json/ "$sample" "$num_workers"
+buffer_size="10000" # ~15GiB RAM
+time ./validate-article-json schema/api-raml/ article-json/ "$sample" "$num_workers" "$buffer_size"
