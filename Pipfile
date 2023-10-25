@@ -9,7 +9,7 @@ python_version = "3.8"
 [packages]
 boto3 = "~=1.8"
 et3 = "~=1.5"
-elifetools = "==0.33.0"
+elifetools = "==0.33.1"
 isbnlib = "~=3.9"
 joblib = "~=1.2"
 # lsh@2023-07-26: pinned to 4.17, not semver, breaking changes introduced in 4.18
