@@ -1,4 +1,4 @@
-# file generated 2023-10-20 - see update-dependencies.sh
+# file generated 2023-10-25 - see update-dependencies.sh
 astroid==2.15.8
 attrs==23.1.0
 autopep8==2.0.4
