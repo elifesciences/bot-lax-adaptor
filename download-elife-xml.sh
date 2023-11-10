@@ -10,12 +10,14 @@ set -e # everything must pass
 if [ ! -d article-xml ]; then
     if [ -d /home/elife/elife-article-xml ]; then
         # local copy on elife-libraries Jenkins node for faster cloning
+        echo "local article-xml found, cloning from that"
         git clone --origin cached-copy file:///home/elife/elife-article-xml article-xml
         cd article-xml
         git remote add origin https://github.com/elifesciences/elife-article-xml
         cd -
     else
         # article-xml respository doesn't exist, create it
+        echo "local article-xml not found, cloning from remote"
         git clone https://github.com/elifesciences/elife-article-xml article-xml
     fi
 fi

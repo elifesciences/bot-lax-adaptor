@@ -39,6 +39,6 @@ chmod +x validate-article-json
 
 # validate
 sample="-1"      # 'all' articles (do not sample)
-num_workers="96"
-buffer_size="10000" # ~15GiB RAM
+num_workers="-1" # '-1' is unbounded
+buffer_size="5000" # ~7.5GiB RAM
 time ./validate-article-json schema/api-raml/ article-json/ "$sample" "$num_workers" "$buffer_size"
