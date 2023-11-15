@@ -22,10 +22,7 @@ elifeLibrary({
     }
 
     stage 'Corpus validation', {
-        sh 'rm -f validation.log'
         sh './validate-all-json.sh'
-        archive 'validation.log'
-        sh './validate-statistics.sh validation.log'
     }
 
     elifeMainlineOnly {    

@@ -3,13 +3,18 @@
 set -e
 
 log=$1
+num="$2"
 maximum_not_generatable=0
 article_pattern='\- elife-[0-9]\+-v[0-9]\+\.xml ->'
 
 generated_green=$(grep "$article_pattern" "$log" | grep success | wc -l)
 generated_red=$(grep "$article_pattern" "$log" | grep -v success | wc -l)
 generated_total=$(grep "$article_pattern" "$log" | wc -l)
-input=$(ls -1 article-xml/articles/elife-*.xml | wc -l)
+if [ -z "$num" ]; then
+    input=$(ls -1 article-xml/articles/elife-*.xml | wc -l)
+else
+    input="$num"
+fi
 output=$(ls -1 article-json/elife-*.json | wc -l)
 echo "Input: ${input} XML articles"
 echo "Output: ${output} JSON articles"
