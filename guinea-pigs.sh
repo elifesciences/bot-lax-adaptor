@@ -26,15 +26,16 @@ mkdir -p guinea-pigs
 rm -f guinea-pigs/* guinea-pigs.log sums.md5
 for article in $guinea_pigs; do
     echo "Guinea pig ${article}"
-    ./scrape-article.sh article-xml/articles/$article > guinea-pigs/$article.json
-    ./validate-json.sh guinea-pigs/$article.json >> guinea-pigs.log
+    ./scrape-article.sh "article-xml/articles/$article" > "guinea-pigs/$article.json"
 done
+
+./validate-all-json.sh guinea-pigs >> guinea-pigs.log
 
 md5sum guinea-pigs/*.json > sums.md5
 
 for article in $guinea_pigs; do
     echo "Guinea pig (scrape two) ${article}"
-    ./scrape-article.sh article-xml/articles/$article > guinea-pigs/$article.json
+    ./scrape-article.sh "article-xml/articles/$article" > "guinea-pigs/$article.json"
 done
 
 echo "hash check ..."
