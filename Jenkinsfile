@@ -9,6 +9,10 @@ elifeLibrary({
         sh 'git diff --exit-code'
     }
 
+    stage 'Compilation', {
+        sh './compile.sh'
+    }
+
     stage 'Guinea pigs', {
         sh './download-elife-xml.sh'
         sh './guinea-pigs.sh'

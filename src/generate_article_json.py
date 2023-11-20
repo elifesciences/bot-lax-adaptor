@@ -47,13 +47,14 @@ def main(xml_dir, json_output_dir, num=None):
     Parallel(n_jobs=num_processes)(delayed(render)(path, json_output_dir) for path in paths)
     print('see scrape.log for errors')
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+def cli_args(parser):
     parser.add_argument('xml-dir', nargs='?', default=conf.XML_DIR)
     parser.add_argument('output-dir', nargs='?', default=conf.JSON_DIR)
     parser.add_argument('--num', type=int, nargs='?')
+    return parser
 
-    args = vars(parser.parse_args())
+def __main__(args):
+    args = vars(args)
     indir, outdir = [os.path.abspath(args[key]) for key in ['xml-dir', 'output-dir']]
 
     ensure(os.path.exists(indir), "the path %r doesn't exist" % indir)
@@ -67,3 +68,8 @@ if __name__ == '__main__':
     LOG.info("command line arguments: %s", pformat(args))
 
     main(indir, outdir, args['num'])
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    args = cli_args(parser).parse_args()
+    __main__(args)

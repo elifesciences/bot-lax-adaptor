@@ -18,4 +18,8 @@ if [ ! -e "$path_to_article_xml" ]; then
     exit 1
 fi
 
-python src/main.py "$path_to_article_xml"
+if [ -f manage.bin ]; then
+    ./manage.bin main "$path_to_article_xml"
+else
+    python src/main.py "$path_to_article_xml"
+fi

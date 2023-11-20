@@ -21,3 +21,5 @@ unpub-article-xml/
 .pytest_cache/
 backfill.txt
 scrape.txt
+manage.bin
+manage.build

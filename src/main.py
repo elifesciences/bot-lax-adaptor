@@ -1,3 +1,4 @@
+import argparse
 import calendar
 import copy
 from collections import OrderedDict
@@ -791,13 +792,19 @@ def main(doc, args=None):
         LOG.exception("failed to scrape article", extra=log_ctx)
         raise
 
-if __name__ == '__main__':
-    import argparse
-    parser = argparse.ArgumentParser()
+def cli_args(parser):
     parser.add_argument('infile', type=argparse.FileType('r'))
     parser.add_argument('--verbose', action="store_true", default=False)
     parser.add_argument('--override', nargs=2, action="append")
-    args = vars(parser.parse_args())
+    return parser
+
+def __main__(args):
+    args = vars(args)
     doc = args.pop('infile')
     args['override'] = deserialize_overrides(args['override'] or [])
     print(main(doc, args))
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    args = cli_args(parser).parse_args()
+    __main__(args)

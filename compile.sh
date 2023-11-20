@@ -11,9 +11,9 @@ fi
 # standalone disabled, we're compiling for testing, not for distribution
 
 time nuitka3 \
-    --main=src/main.py \
+    --main=src/manage.py \
     --follow-imports \
     --warn-unusual-code \
     --nofollow-import-to='*.tests,boto,boto3,botocore'
 
-test -f main.bin
+test -f manage.bin
