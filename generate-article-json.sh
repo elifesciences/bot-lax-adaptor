@@ -2,8 +2,8 @@
 # generates *all* article-json from the contents of the `elife-article-xml` repository.
 set -e
 
-#./install.sh
-#./download-elife-xml.sh
+./install.sh
+./download-elife-xml.sh
 
 echo > scrape.log
 
