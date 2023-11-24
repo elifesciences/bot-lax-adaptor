@@ -1,15 +1,15 @@
-# file generated 2023-11-22 - see update-dependencies.sh
+# file generated 2023-11-24 - see update-dependencies.sh
 astroid==2.15.8
 attrs==23.1.0
 autopep8==2.0.4
 beautifulsoup4==4.12.2
-boto3==1.29.5
-botocore==1.32.5
+boto3==1.29.6
+botocore==1.32.6
 certifi==2023.11.17
 charset-normalizer==3.3.2
 coverage==7.3.2
 dill==0.3.7
-elifetools @ git+https://github.com/elifesciences/elife-tools.git@4eda2d6bb03d77ae870a9cdb7baa3524e02e27ba
+elifetools @ git+https://github.com/elifesciences/elife-tools.git@ed1c2315cda4be6c975c42549c6aef07693ed576
 et3==1.5.2
 exceptiongroup==1.2.0
 idna==3.4
