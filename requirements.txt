@@ -1,18 +1,18 @@
-# file generated 2023-11-24 - see update-dependencies.sh
+# file generated 2023-11-28 - see update-dependencies.sh
 astroid==2.15.8
 attrs==23.1.0
 autopep8==2.0.4
 beautifulsoup4==4.12.2
-boto3==1.29.6
-botocore==1.32.6
+boto3==1.33.0
+botocore==1.33.0
 certifi==2023.11.17
 charset-normalizer==3.3.2
 coverage==7.3.2
 dill==0.3.7
-elifetools @ git+https://github.com/elifesciences/elife-tools.git@ed1c2315cda4be6c975c42549c6aef07693ed576
+elifetools @ git+https://github.com/elifesciences/elife-tools.git@0558e59c5f6d869d14d26a66affeb47fc7921c94
 et3==1.5.2
 exceptiongroup==1.2.0
-idna==3.4
+idna==3.6
 importlib-resources==6.1.1
 iniconfig==2.0.0
 isbnlib==3.10.14
@@ -40,7 +40,7 @@ pytz==2023.3.post1
 requests==2.31.0
 requests-aws4auth==1.2.3
 requests-cache==0.5.2
-s3transfer==0.7.0
+s3transfer==0.8.0
 six==1.16.0
 soupsieve==2.5
 tomli==2.0.1
