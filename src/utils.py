@@ -217,7 +217,7 @@ def requests_get(*args, **kwargs):
         # if caching enabled, log the key used to cache the response
         if hasattr(s, 'cache'): # test if requests_cache is enabled
             cache_key = requests_cache_create_key(prepared_request)
-            LOG.info("Requesting URL %s (cache key '%s')", args[0], cache_key)
+            LOG.debug("Requesting URL %s (cache key '%s')", args[0], cache_key)
         else:
             LOG.info("Requesting URL %s", args[0])
 

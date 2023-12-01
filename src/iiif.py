@@ -49,7 +49,7 @@ def iiif_info(msid, filename):
     }
     try:
         url = iiif_info_url(msid, filename)
-        LOG.info("Loading IIIF info URL: %s", url)
+        LOG.debug("Loading IIIF info URL: %s", url)
         resp = utils.requests_get(url)
     except requests.ConnectionError:
         LOG.debug("IIIF request failed", extra=context)
