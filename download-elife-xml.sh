@@ -8,7 +8,7 @@ set -e # everything must pass
 #rm -rf article-xml
 
 if [ ! -d article-xml ]; then
-    if [ -d /home/elife/elife-article-xml ]; then
+    if [ -e /home/elife/elife-article-xml ]; then
         # local copy on elife-libraries Jenkins node for faster cloning
         echo "local article-xml found, cloning from that"
         git clone --origin cached-copy file:///home/elife/elife-article-xml article-xml
