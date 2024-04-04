@@ -2,7 +2,7 @@
 # validates the article-json found in the `./article-json` directory.
 # this directory is populated by the `generate-article-json.sh` script.
 
-set -ex
+set -e
 
 article_json_path="${1:-article-json}" # no trailing slashes
 
@@ -39,6 +39,21 @@ if [ ! -e validate-article-json ]; then
         --quiet \
         --output-document=validate-article-json
     chmod +x validate-article-json
+else 
+    echo "validate-article-json found, checking"
+    wget "https://github.com/elifesciences/validate-article-json/releases/latest/download/$fname.sha256" \
+        --quiet \
+        --output-document=validate-article-json.sha256
+    sed -ie 's/linux-amd64/validate-article-json/' validate-article-json.sha256
+    sha256sum --check validate-article-json.sha256 || {
+        printf "updating validate-article-json ... "
+        rm validate-article-json
+        wget "https://github.com/elifesciences/validate-article-json/releases/latest/download/$fname" \
+            --quiet \
+            --output-document=validate-article-json
+        chmod +x validate-article-json
+        printf "done\n"
+    }
 fi
 
 # validate
