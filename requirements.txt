@@ -3,8 +3,8 @@ astroid==2.15.8
 attrs==23.2.0
 autopep8==2.1.0
 beautifulsoup4==4.12.3
-boto3==1.34.109
-botocore==1.34.109
+boto3==1.34.110
+botocore==1.34.110
 certifi==2024.2.2
 charset-normalizer==3.3.2
 coverage==7.5.1
