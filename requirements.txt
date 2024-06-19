@@ -1,13 +1,13 @@
-# file generated 2024-05-21 - see update-dependencies.sh
+# file generated 2024-06-19 - see update-dependencies.sh
 astroid==2.15.8
 attrs==23.2.0
-autopep8==2.1.0
+autopep8==2.3.0
 beautifulsoup4==4.12.3
-boto3==1.34.109
-botocore==1.34.109
-certifi==2024.2.2
+boto3==1.34.129
+botocore==1.34.129
+certifi==2024.6.2
 charset-normalizer==3.3.2
-coverage==7.5.1
+coverage==7.5.3
 dill==0.3.8
 elifetools==0.40.0
 et3==1.5.2
@@ -23,11 +23,11 @@ jsonschema==4.17.3
 lazy-object-proxy==1.10.0
 lxml==5.2.2
 mccabe==0.7.0
-packaging==24.0
+packaging==24.1
 pkgutil_resolve_name==1.3.10
 platformdirs==4.2.2
 pluggy==1.5.0
-pycodestyle==2.11.1
+pycodestyle==2.12.0
 pyflakes==3.2.0
 pylint==2.17.7
 pyrsistent==0.20.0
@@ -37,7 +37,7 @@ python-dateutil==2.9.0.post0
 python-json-logger==2.0.7
 python-slugify==1.2.6
 pytz==2024.1
-requests==2.32.2
+requests==2.32.3
 requests-aws4auth==1.2.3
 requests-cache==0.5.2
 s3transfer==0.10.1
@@ -45,8 +45,8 @@ six==1.16.0
 soupsieve==2.5
 tomli==2.0.1
 tomlkit==0.12.5
-typing_extensions==4.11.0
+typing_extensions==4.12.2
 Unidecode==1.3.8
-urllib3==1.26.18
+urllib3==1.26.19
 wrapt==1.16.0
-zipp==3.18.2
+zipp==3.19.2
