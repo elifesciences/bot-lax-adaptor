@@ -85,8 +85,8 @@ def load(path):
     path = join(PROJECT_DIR, 'schema', path)
     return json.load(open(path, 'r'))
 
-POA_SCHEMA = load('api-raml/dist/model/article-poa.v3.json')
-VOR_SCHEMA = load('api-raml/dist/model/article-vor.v7.json')
+POA_SCHEMA = load('api-raml/dist/model/article-poa.v4.json')
+VOR_SCHEMA = load('api-raml/dist/model/article-vor.v8.json')
 RELATED_SCHEMA = load('api-raml/dist/model/article-related.v2.json')
 
 REQUEST_SCHEMA = load('request-schema.json')
