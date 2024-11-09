@@ -1,4 +1,4 @@
-# file generated 2024-07-18 - see update-dependencies.sh
+# file generated 2024-11-09 - see update-dependencies.sh
 astroid==2.15.8
 attrs==23.2.0
 autopep8==2.3.1
@@ -9,7 +9,7 @@ certifi==2024.7.4
 charset-normalizer==3.3.2
 coverage==7.6.0
 dill==0.3.8
-elifetools==0.40.0
+elifetools==0.41.0
 et3==1.5.2
 exceptiongroup==1.2.2
 idna==3.7
