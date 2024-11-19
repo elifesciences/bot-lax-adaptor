@@ -431,6 +431,8 @@ def test_elife_assessment():
              {'text': 'This is an eLife assessment, which is a summary of the peer reviews provided by the BRE. It will only contain one or more paragraphs, no figures, tables or videos. It might say something like, "with respect to blah blah, this study is <b>noteworthy</b> backed up by data that is <b>compelling</b>, however the model design for blah is <b>flawed</b> and the evidence <b>incomplete</b>.', 'type': 'paragraph'}],
           'doi': '10.7554/eLife.1234567890.4.sa0',
           'id': 'sa0',
+          'significance': ['noteworthy', 'flawed'],
+          'strength': ['compelling', 'incomplete'],
           'title': 'eLife assessment'}}]
     soup = parseJATS.parse_xml(base.read_fixture("xml-snippets/elife-1234567890-v2.elife-assessment.xml"))
     description = {'elifeAssessment': main.VOR['elifeAssessment']}
