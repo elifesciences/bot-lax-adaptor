@@ -110,11 +110,16 @@ def display_channel_to_article_type(display_channel_list):
         LOG.warning("type: given value %r has no mention in idx: %s", display_channel, DISPLAY_CHANNEL_TYPES.keys())
     return retval
 
+
 LICENCE_TYPES = {
     "http://creativecommons.org/licenses/by/3.0/": "CC-BY-3.0",
+    "https://creativecommons.org/licenses/by/3.0/": "CC-BY-3.0",
     "http://creativecommons.org/licenses/by/4.0/": "CC-BY-4.0",
-    "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0"
+    "https://creativecommons.org/licenses/by/4.0/": "CC-BY-4.0",
+    "http://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0",
+    "https://creativecommons.org/publicdomain/zero/1.0/": "CC0-1.0",
 }
+
 
 def identity(x):
     return x
