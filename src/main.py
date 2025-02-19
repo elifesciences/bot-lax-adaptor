@@ -274,6 +274,29 @@ def to_volume(pair):
         volume = pub_year - (conf.JOURNAL_INCEPTION - 1) # 2011 for elife
     return int(volume)
 
+
+def normalise_authors(val):
+    "modify authors JSON"
+    # change a group within a group to be a person
+    if val is None:
+        return None
+    for group_author in [
+        author for author in val if author and author.get("type") == "group"
+    ]:
+        for group_group_author in [
+            author
+            for author in group_author.get("people", [])
+            if author and author.get("type") == "group"
+        ]:
+            group_group_author["type"] = "person"
+            original_name = group_group_author.get("name")
+            group_group_author["name"] = {
+                "index": original_name,
+                "preferred": original_name,
+            }
+    return val
+
+
 @requires_context
 def discard_if_not_v1(ctx, ver):
     "discards given value if the version of the article being worked on is not a v1"
@@ -652,7 +675,7 @@ POA.update(OrderedDict([
         ('holder', [(jats('copyright_holder_json'), jats('license')), discard_if_none_or_cc0]),
         ('statement', [jats('license_json')]),
     ])),
-    ('authors', [jats('authors_json'), discard_if_none_or_empty]),
+    ('authors', [jats('authors_json'), normalise_authors, discard_if_none_or_empty]),
     ('reviewers', [jats('editors_json'), discard_if_none_or_empty]),
     ('ethics', [jats('ethics_json')]),
     ('funding', OrderedDict([

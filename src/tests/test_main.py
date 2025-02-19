@@ -81,6 +81,58 @@ def test_to_volume():
         actual = main.to_volume(year_volume_pair)
         assert expected == actual, "given %r, I expected %r but got %r" % (year_volume_pair, expected, actual)
 
+
+def test_normalise_authors():
+    cases = [
+        (None, None),
+        ([], []),
+        (
+            [
+                OrderedDict(
+                    [
+                        ("type", "group"),
+                        (
+                            "people",
+                            [OrderedDict([("type", "group"), ("name", "Group name")])],
+                        ),
+                    ]
+                )
+            ],
+            [
+                OrderedDict(
+                    [
+                        ("type", "group"),
+                        (
+                            "people",
+                            [
+                                OrderedDict(
+                                    [
+                                        ("type", "person"),
+                                        (
+                                            "name",
+                                            {
+                                                "index": "Group name",
+                                                "preferred": "Group name",
+                                            },
+                                        ),
+                                    ]
+                                )
+                            ],
+                        ),
+                    ]
+                )
+            ],
+        ),
+    ]
+    for given, expected in cases:
+        actual = main.normalise_authors(given)
+        assert expected == actual, "given %r, I expected %r but got %r" % (
+            given,
+            expected,
+            actual,
+        )
+
+
 def test_main_bootstrap_failure():
     "ensure a great big exception occurs when given invalid input"
     # TODO: lets make this behaviour a bit nicer
