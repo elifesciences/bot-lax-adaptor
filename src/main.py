@@ -126,6 +126,7 @@ def identity(x):
 
 def related_article_to_reviewed_preprint(soup):
     """returns a list of /reviewed-preprint snippets for any related article detected as using one.
+    [previously as at April 2025 is used to do:]
     detection involves inspecting article references for 'RP' prefixed manuscript ids.
     """
     pub_date = parseJATS.pub_date(soup)
@@ -151,6 +152,10 @@ def related_article_to_reviewed_preprint(soup):
     if not msid_list:
         return []
 
+    return list(filter(None, map(fetch, msid_list)))
+
+    # April 2025: disable the below since it omits some related articles
+    """
     # `elifetools` is modifying the soup as we access it.
     # multiple accesses to `references_json` results in strange behaviour,
     # it's also hugely *slow*.
@@ -170,6 +175,7 @@ def related_article_to_reviewed_preprint(soup):
                     reference_msid_list.append(msid)
 
     return list(filter(None, map(fetch, reference_msid_list)))
+    """
 
 def related_article_to_related_articles(related_article_list):
     """returns a list of eLife manuscript IDs from the list returned by `related_articles` or an empty list."""
