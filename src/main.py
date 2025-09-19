@@ -303,6 +303,21 @@ def normalise_authors(val):
     return val
 
 
+def normalise_funding_awards(val):
+    "modify funding JSON"
+    # if funderId is a ror value then remove it for validation purposes
+    if val is None:
+        return None
+    for funding_award in [
+        award
+        for award in val
+        if award and award.get("source") and award.get("source").get("funderId")
+    ]:
+        if "ror.org" in funding_award.get("source").get("funderId"):
+            del funding_award["source"]["funderId"]
+    return val
+
+
 @requires_context
 def discard_if_not_v1(ctx, ver):
     "discards given value if the version of the article being worked on is not a v1"
@@ -685,7 +700,7 @@ POA.update(OrderedDict([
     ('reviewers', [jats('editors_json'), discard_if_none_or_empty]),
     ('ethics', [jats('ethics_json')]),
     ('funding', OrderedDict([
-        ('awards', [jats('funding_awards_json'), discard_if_none_or_empty]),
+        ('awards', [jats('funding_awards_json'), normalise_funding_awards, discard_if_none_or_empty]),
         ('statement', [jats('funding_statement_json'), discard_if_none_or_empty]),
     ])),
     ('additionalFiles', [jats('supplementary_files_json')]),
