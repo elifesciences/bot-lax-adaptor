@@ -388,6 +388,24 @@ def reviewed_preprint_events(struct):
         isinstance(event, dict) and
         event.get('event_type') == 'reviewed-preprint']
 
+
+def modify_preprint_event_description(struct):
+    "for compatibility with journal, modify review preprint history event description"
+    if not isinstance(struct, list):
+        return []
+    for event in struct:
+        if (
+            event
+            and event.get("description") is not None
+            and event.get("description").startswith("Reviewed preprint")
+        ):
+            # use lower case for this phrase
+            event["description"] = event["description"].replace(
+                "Reviewed preprint", "reviewed preprint"
+            )
+    return struct
+
+
 #
 # post processing
 #
@@ -659,7 +677,7 @@ SNIPPET = OrderedDict([
         ('location', [getvar('location')]),
     ])),
     ('-history', OrderedDict([
-        ('reviewed-preprint-list', [jats('pub_history'), reviewed_preprint_events, discard_if_none_or_empty]),
+        ('reviewed-preprint-list', [jats('pub_history'), reviewed_preprint_events, modify_preprint_event_description, discard_if_none_or_empty]),
         ('preprint', [jats('pub_history'), preprint_events, first, to_preprint, discard_if_none_or_empty]),
         ('received', [jats('history_date', date_type='received'), to_isoformat, discard_if_none_or_empty]),
         ('accepted', [jats('history_date', date_type='accepted'), to_isoformat, discard_if_none_or_empty]),
