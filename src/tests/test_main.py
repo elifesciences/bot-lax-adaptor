@@ -461,6 +461,37 @@ def test_reviewed_preprint_events():
     for given, expected in cases:
         assert expected == main.reviewed_preprint_events(given)
 
+def test_modify_preprint_event_description():
+    cases = [
+        (None, []),
+        ({}, []),
+        ([], []),
+        ('', []),
+        ([None], [None]),
+        ([{}], [{}]),
+        ([{'foo': 'bar'}], [{'foo': 'bar'}]),
+
+        ([{'status': 'reviewed-preprint',
+           'description': "This manuscript was published as a Reviewed preprint.",
+           'uri': "https://doi.org/10.7554/eLife.1234567890.1",
+           'date': '2023-04-15T00:00:00Z'}],
+         [{'status': 'reviewed-preprint',
+           'description': "This manuscript was published as a Reviewed preprint.",
+           'uri': "https://doi.org/10.7554/eLife.1234567890.1",
+           'date': '2023-04-15T00:00:00Z'}]),
+
+        ([{'status': 'reviewed-preprint',
+           'description': "Reviewed preprint v1",
+           'uri': "https://doi.org/10.7554/eLife.1234567890.1",
+           'date': '2023-04-15T00:00:00Z'}],
+         [{'status': 'reviewed-preprint',
+           'description': "reviewed preprint v1",
+           'uri': "https://doi.org/10.7554/eLife.1234567890.1",
+           'date': '2023-04-15T00:00:00Z'}]),
+    ]
+    for given, expected in cases:
+        assert expected == main.modify_preprint_event_description(given)
+
 def test_sent_for_peer_review():
     desc = {'sent-for-peer-review': main.SNIPPET['-history']['sent-for-peer-review']}
     desc['sent-for-peer-review'][0] = lambda v: v # patch the call to `main.jats`
