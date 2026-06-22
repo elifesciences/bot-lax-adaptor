@@ -492,17 +492,40 @@ def test_modify_preprint_event_description():
     for given, expected in cases:
         assert expected == main.modify_preprint_event_description(given)
 
+
 def test_sent_for_peer_review():
-    desc = {'sent-for-peer-review': main.SNIPPET['-history']['sent-for-peer-review']}
-    desc['sent-for-peer-review'][0] = lambda v: v # patch the call to `main.jats`
+    desc = {"sent-for-peer-review": main.SNIPPET["-history"]["sent-for-peer-review"]}
+    desc["sent-for-peer-review"][0] = lambda v: v  # patch the call to `main.jats`
     cases = [
         # empty values are elided
-        (None, [{}]),
-        ("", [{}]),
+        ((None, None), [{}]),
+        (("", ""), [{}]),
 
         # time structs are handled
-        (time.struct_time((2023, 12, 31, 1, 2, 3, 4, 56, 7)),
-         [{'sent-for-peer-review': '2023-12-31T01:02:03Z'}])
+        (
+            (time.struct_time((2023, 12, 31, 1, 2, 3, 4, 56, 7)), None),
+            [{"sent-for-peer-review": "2023-12-31T01:02:03Z"}],
+        ),
+
+        # empty pub-history dates
+        (
+            (None, []),
+            [{}],
+        ),
+
+        # date taken from pub-history dates
+        (
+            (
+                None,
+                [
+                    {
+                        "event_type": "sent-for-review",
+                        "date": time.struct_time((2023, 12, 31, 1, 2, 3, 4, 56, 7)),
+                    }
+                ],
+            ),
+            [{"sent-for-peer-review": "2023-12-31T01:02:03Z"}],
+        ),
     ]
     for given, expected in cases:
         assert expected == list(et3.render.render(desc, [given]))
