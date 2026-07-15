@@ -602,16 +602,31 @@ def non_nil_image_dimensions(ctx, data):
     return visit(data, pred, fix)
 
 
-def sent_for_peer_review_date(pair):
-    "use sent-for-review history date, otherwise look for one in the pub-history dates"
+def history_date_fallback_to_pub_history(pair, event_type):
+    "use history_date, otherwise look for a date of event_type in the pub-history dates"
     history_date, pub_history_dates = pair
     if history_date:
         return history_date
     if not pub_history_dates:
         return None
     for ph_date in pub_history_dates:
-        if ph_date.get("event_type") == "sent-for-review":
+        if ph_date.get("event_type") == event_type:
             return ph_date.get("date")
+
+
+def sent_for_peer_review_date(pair):
+    "use sent-for-review history date, otherwise look for one in the pub-history dates"
+    return history_date_fallback_to_pub_history(pair, "sent-for-review")
+
+
+def received_date(pair):
+    "use received history date, otherwise look for one in the pub-history dates"
+    return history_date_fallback_to_pub_history(pair, "received")
+
+
+def accepted_date(pair):
+    "use accepted history date, otherwise look for one in the pub-history dates"
+    return history_date_fallback_to_pub_history(pair, "accepted")
 
 
 DUMMY_DATE = '2099-01-01T00:00:00Z'
@@ -692,8 +707,8 @@ SNIPPET = OrderedDict([
     ('-history', OrderedDict([
         ('reviewed-preprint-list', [jats('pub_history'), reviewed_preprint_events, modify_preprint_event_description, discard_if_none_or_empty]),
         ('preprint', [jats('pub_history'), preprint_events, first, to_preprint, discard_if_none_or_empty]),
-        ('received', [jats('history_date', date_type='received'), to_isoformat, discard_if_none_or_empty]),
-        ('accepted', [jats('history_date', date_type='accepted'), to_isoformat, discard_if_none_or_empty]),
+        ('received', [(jats('history_date', date_type='received'), jats('pub_history')), received_date, to_isoformat, discard_if_none_or_empty]),
+        ('accepted', [(jats('history_date', date_type='accepted'), jats('pub_history')), accepted_date, to_isoformat, discard_if_none_or_empty]),
         ('sent-for-peer-review', [(jats('history_date', date_type='sent-for-review'), jats('pub_history')), sent_for_peer_review_date, to_isoformat, discard_if_none_or_empty]),
     ])),
     ('status', [jats('is_poa'), is_poa_to_status]),

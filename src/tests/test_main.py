@@ -642,3 +642,96 @@ def test_related_article_to_reviewed_preprint():
     with mock.patch('utils.requests_get', return_value=mock_response):
         actual = main.related_article_to_reviewed_preprint(soup)
     assert actual == expected
+
+
+# abbreviated pub_history data to use in tests
+PUB_HISTORY = [
+    OrderedDict(
+        [
+            ("event_type", "received"),
+            ("date", time.strptime("2019-02-12 UTC", "%Y-%m-%d %Z")),
+            ("iso-8601-date", "2019-02-12"),
+        ]
+    ),
+    OrderedDict(
+        [
+            ("event_type", "accepted"),
+            ("date", time.strptime("2019-02-13 UTC", "%Y-%m-%d %Z")),
+            ("iso-8601-date", "2019-02-13"),
+        ]
+    ),
+    OrderedDict(
+        [
+            ("event_type", "sent-for-review"),
+            ("date", time.strptime("2019-02-14 UTC", "%Y-%m-%d %Z")),
+            ("iso-8601-date", "2019-02-14"),
+        ]
+    ),
+    OrderedDict(
+        [
+            ("event_type", "preprint"),
+            ("date", time.strptime("2019-02-15 UTC", "%Y-%m-%d %Z")),
+            ("iso-8601-date", "2019-02-15"),
+        ]
+    ),
+]
+
+
+def test_sent_for_peer_review_date():
+    cases = [
+        (
+            (time.strptime("2012-12-31 UTC", "%Y-%m-%d %Z"), PUB_HISTORY),
+            time.strptime("2012-12-31 UTC", "%Y-%m-%d %Z"),
+        ),
+        ((None, PUB_HISTORY), time.strptime("2019-02-14 UTC", "%Y-%m-%d %Z")),
+        # various other empty values
+        ((None, None), None),
+        ((None, []), None),
+    ]
+    for date_pub_history_pair, expected in cases:
+        actual = main.sent_for_peer_review_date(date_pub_history_pair)
+        assert expected == actual, "given %r, I expected %r but got %r" % (
+            date_pub_history_pair,
+            expected,
+            actual,
+        )
+
+
+def test_received_date():
+    cases = [
+        (
+            (time.strptime("2012-12-31 UTC", "%Y-%m-%d %Z"), PUB_HISTORY),
+            time.strptime("2012-12-31 UTC", "%Y-%m-%d %Z"),
+        ),
+        ((None, PUB_HISTORY), time.strptime("2019-02-12 UTC", "%Y-%m-%d %Z")),
+        # various other empty values
+        ((None, None), None),
+        ((None, []), None),
+    ]
+    for date_pub_history_pair, expected in cases:
+        actual = main.received_date(date_pub_history_pair)
+        assert expected == actual, "given %r, I expected %r but got %r" % (
+            date_pub_history_pair,
+            expected,
+            actual,
+        )
+
+
+def test_accepted_date():
+    cases = [
+        (
+            (time.strptime("2012-12-31 UTC", "%Y-%m-%d %Z"), PUB_HISTORY),
+            time.strptime("2012-12-31 UTC", "%Y-%m-%d %Z"),
+        ),
+        ((None, PUB_HISTORY), time.strptime("2019-02-13 UTC", "%Y-%m-%d %Z")),
+        # various other empty values
+        ((None, None), None),
+        ((None, []), None),
+    ]
+    for date_pub_history_pair, expected in cases:
+        actual = main.accepted_date(date_pub_history_pair)
+        assert expected == actual, "given %r, I expected %r but got %r" % (
+            date_pub_history_pair,
+            expected,
+            actual,
+        )
